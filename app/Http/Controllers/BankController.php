@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
-class BankController extends Controller
+class BankController extends Controllers
 {
     private $bankrepo;
     public function __construct(BankInterface $bankInterface)

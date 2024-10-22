@@ -23,13 +23,13 @@
     /* Scroll bar Style  */
     /* width */
     ::-webkit-scrollbar {
-        width: 7px;
+        width: 5px !important;
     }
 
     /* Track */
     ::-webkit-scrollbar-track {
-        /* box-shadow: inset 0 0 5px grey;
-   */
+        /* box-shadow: inset 0 0 5px grey; */
+
 
         box-shadow: inset 0 0 5px transparent;
         border-radius: 10px;
@@ -38,7 +38,7 @@
     /* Handle */
     ::-webkit-scrollbar-thumb {
         background: #00a9f1;
-        border-radius: 10px;
+        /* border-radius: 10px; */
     }
 </style>
 <nav class="navbar">

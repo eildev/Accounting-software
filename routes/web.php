@@ -1,6 +1,8 @@
 <?php
 
-// use App\Http\Controllers\Bank\BankController;
+use App\Http\Controllers\Bank\BankAccountsController;
+use App\Http\Controllers\Bank\CashTransactionController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CustomerController;
@@ -82,26 +84,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/delete/{id}', 'destroy')->name('employee.delete');
     });
 
-    // // Banks related route
-    // Route::controller(BankController::class)->group(function () {
-    //     Route::get('/bank', 'index')->name('bank');
-    //     Route::post('/bank/store', 'store')->name('bank.store');
-    //     Route::get('/bank/view', 'view')->name('bank.view');
-    //     Route::get('/bank/edit/{id}', 'edit')->name('bank.edit');
-    //     Route::post('/bank/update/{id}', 'update')->name('bank.update');
-    //     Route::get('/bank/destroy/{id}', 'destroy')->name('bank.destroy');
-    //     Route::post('/add/bank/balance/{id}', 'BankBalanceAdd');
-    // });
-
     // Banks related route
-    Route::controller(BankController::class)->group(function () {
+    Route::controller(BankAccountsController::class)->group(function () {
         Route::get('/bank', 'index')->name('bank');
         Route::post('/bank/store', 'store')->name('bank.store');
         Route::get('/bank/view', 'view')->name('bank.view');
-        Route::get('/bank/edit/{id}', 'edit')->name('bank.edit');
-        Route::post('/bank/update/{id}', 'update')->name('bank.update');
-        Route::get('/bank/destroy/{id}', 'destroy')->name('bank.destroy');
-        Route::post('/add/bank/balance/{id}', 'BankBalanceAdd');
+        // Route::get('/bank/edit/{id}', 'edit')->name('bank.edit');
+        // Route::post('/bank/update/{id}', 'update')->name('bank.update');
+        // Route::get('/bank/destroy/{id}', 'destroy')->name('bank.destroy');
+        // Route::post('/add/bank/balance/{id}', 'BankBalanceAdd');
+    });
+
+    // Cash related route
+    Route::controller(CashTransactionController::class)->group(function () {
+        Route::post('/cash-account/store', 'store')->name('cash.account.store');
+        Route::get('/cash-account/view', 'view')->name('cash.account.view');
+        // Route::get('/bank/edit/{id}', 'edit')->name('bank.edit');
+        // Route::post('/bank/update/{id}', 'update')->name('bank.update');
+        // Route::get('/bank/destroy/{id}', 'destroy')->name('bank.destroy');
+        // Route::post('/add/bank/balance/{id}', 'BankBalanceAdd');
     });
 
 
