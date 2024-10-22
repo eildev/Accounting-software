@@ -4,7 +4,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeePayroll\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PaymentMethodController;
@@ -14,6 +14,7 @@ use App\Http\Controllers\EmployeeSalaryController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\CompanyBalanceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeePayroll\DepartmentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,12 +74,12 @@ Route::middleware('auth')->group(function () {
 
     // // Employee related route(n)
     Route::controller(EmployeeController::class)->group(function () {
-        Route::get('/employee/add', 'EmployeeAdd')->name('employee.add');
-        Route::post('/employee/store', 'EmployeeStore')->name('employee.store');
-        Route::get('/employee/view', 'EmployeeView')->name('employee.view');
-        Route::get('/employee/edit/{id}', 'EmployeeEdit')->name('employee.edit');
-        Route::post('/employee/update/{id}', 'EmployeeUpdate')->name('employee.update');
-        Route::get('/employee/delete/{id}', 'EmployeeDelete')->name('employee.delete');
+        Route::get('/employee', 'index')->name('employee');
+        Route::post('/employee/store', 'store')->name('employee.store');
+        Route::get('/employee/view', 'view')->name('employee.view');
+        Route::get('/employee/edit/{id}', 'edit')->name('employee.edit');
+        Route::post('/employee/update/{id}', 'update')->name('employee.update');
+        Route::get('/employee/delete/{id}', 'destroy')->name('employee.delete');
     });
 
     // // Banks related route
@@ -195,6 +196,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
     });
 
+// Departments related route(n)
+Route::controller(DepartmentsController::class)->group(function () {
+    Route::get('/departments', 'index')->name('departments');
+    Route::post('/departments/store', 'store');
+    Route::get('/depertments/view', 'view');
+    Route::get('/departments/edit/{id}', 'edit');
+    Route::post('/departments/update/{id}', 'update');
+    Route::get('/departments/destroy/{id}', 'destroy');
+
+});//End
 
     Route::controller(CompanyBalanceController::class)->group(function () {
         Route::group(['prefix' => 'daily'], function () {

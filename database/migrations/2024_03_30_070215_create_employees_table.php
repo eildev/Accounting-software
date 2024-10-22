@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->string('full_name',200);
+            $table->integer('department_id');
             $table->text('address')->nullable();
             $table->string('phone',20)->nullable();
             $table->string('email',200)->nullable();

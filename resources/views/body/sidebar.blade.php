@@ -270,6 +270,23 @@
                     </a>
                 </li>
             @endif
+            <li class="nav-item nav-category">HR</li>
+
+            <li class="nav-item">
+                <a href="{{ route('departments') }}"
+                    class="nav-link {{ request()->routeIs('departments') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Departments</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('employee') }}"
+                    class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Add Employee</span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}"
                     data-bs-toggle="collapse" href="#employee" role="button" aria-expanded="false"
@@ -281,11 +298,11 @@
                 <div class="collapse {{ request()->routeIs('employee*') ? 'show' : '' }}" id="employee">
                     <ul class="nav sub-menu">
                         @if (Auth::user()->can('employee.menu'))
-                            <li class="nav-item ">
+                            {{-- <li class="nav-item ">
                                 <a href="{{ route('employee.add') }}"
                                     class="nav-link {{ request()->routeIs('employee.add') ? 'nav_active' : '' }}">Add
                                     Employee</a>
-                            </li>
+                            </li> --}}
                         @endif
                         @if (Auth::user()->can('employee-salary.menu'))
                             <li class="nav-item">
