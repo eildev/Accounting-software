@@ -33,7 +33,7 @@ class TransactionController extends Controller
             $investors = Investor::where('branch_id', Auth::user()->branch_id)->latest()->get();
             $transaction = Transaction::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
-        return view('pos.transaction.transaction_add', compact('paymentMethod', 'supplier', 'customer', 'transaction', 'investors'));
+        return view('all_modules.transaction.transaction_add', compact('paymentMethod', 'supplier', 'customer', 'transaction', 'investors'));
     } //
     // public function TransactionView(){
     //     return view('pos.transaction.transaction_view');
@@ -305,12 +305,12 @@ class TransactionController extends Controller
                 return $query->whereBetween('date', [$request->startDate, $request->endDate]);
             })
             ->get();
-        return view('pos.transaction.transaction-filter-rander-table', compact('transaction'))->render();
+        return view('all_modules.transaction.transaction-filter-rander-table', compact('transaction'))->render();
     }
     public function TransactionInvoiceReceipt($id)
     {
         $transaction = Transaction::findOrFail($id);
-        return view('pos.transaction.invoice', compact('transaction'));
+        return view('all_modules.transaction.invoice', compact('transaction'));
     }
     public function InvestmentStore(Request $request)
     {
@@ -352,7 +352,7 @@ class TransactionController extends Controller
     public function InvestorInvoice($id)
     {
         $investors = Investor::findOrFail($id);
-        return view('pos.investor.investor-invoice', compact('investors'));
+        return view('all_modules.investor.investor-invoice', compact('investors'));
     }
 
 

@@ -19,7 +19,7 @@ class BankController extends Controllers
     }
     public function index()
     {
-        return view('pos.bank.bank');
+        return view('all_modules.bank.bank');
     }
     public function store(Request $request)
     {

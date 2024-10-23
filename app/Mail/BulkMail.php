@@ -14,7 +14,7 @@ class BulkMail extends Mailable
     public $content;
     public $subject;
 
-    public function __construct($content,$subject)
+    public function __construct($content, $subject)
     {
         $this->content = $content;
         $this->subject = $subject;
@@ -23,10 +23,9 @@ class BulkMail extends Mailable
     public function build()
     {
         return $this->subject($this->subject)
-                    ->view('pos.crm.email.compose')
-                    ->with([
-                        'content' => $this->content,
-                    ]);
+            ->view('all_modules.crm.email.compose')
+            ->with([
+                'content' => $this->content,
+            ]);
     }
 }
-

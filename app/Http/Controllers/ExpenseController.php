@@ -38,7 +38,7 @@ class ExpenseController extends Controller
             $bank = Bank::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
         $expenseCategory = ExpenseCategory::latest()->get();
-        return view('pos.expense.add_expanse', compact('expenseCategory', 'bank'));
+        return view('all_modules.expense.add_expanse', compact('expenseCategory', 'bank'));
     } //
     public function ExpenseStore(Request $request)
     {
@@ -104,7 +104,7 @@ class ExpenseController extends Controller
             $bank = Bank::where('branch_id', Auth::user()->branch_id)->latest()->get();
             $expense = Expense::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
-        return view('pos.expense.view_expense', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
+        return view('all_modules.expense.view_expense', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
     } //
 
     public function ExpenseEdit($id)
@@ -112,7 +112,7 @@ class ExpenseController extends Controller
         $expense = Expense::findOrFail($id);
         $bank = Bank::latest()->get();
         $expenseCategory = ExpenseCategory::latest()->get();
-        return view('pos.expense.edit_expense', compact('expense', 'expenseCategory', 'bank'));
+        return view('all_modules.expense.edit_expense', compact('expense', 'expenseCategory', 'bank'));
     } //
     public function ExpenseUpdate(Request $request, $id)
     {
@@ -242,6 +242,6 @@ class ExpenseController extends Controller
             return $query->whereBetween('expense_date', [$request->startDate, $request->endDate]);
         })->get();
 
-        return view('pos.expense.expense-filter-rander-table', compact('expense', 'expenseCat'))->render();
+        return view('all_modules.expense.expense-filter-rander-table', compact('expense', 'expenseCat'))->render();
     }
 }

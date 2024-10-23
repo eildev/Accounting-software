@@ -28,7 +28,7 @@ class CustomerSendEmail extends Mailable
     public function build()
     {
         $data = $this->data;
-        return $this->subject('This is Subject')->view('pos.crm.email.customer_mail_message',compact('data'));
+        return $this->subject('This is Subject')->view('all_modules.crm.email.customer_mail_message', compact('data'));
     }
     // public function envelope(): Envelope
     // {
