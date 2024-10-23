@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('cashes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->string('cash_account_name', 100)->nullable();
             $table->decimal('opening_balance', 15, 2)->nullable();
             $table->decimal('current_balance', 15, 2)->nullable();
