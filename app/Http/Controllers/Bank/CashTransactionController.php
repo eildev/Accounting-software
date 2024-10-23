@@ -13,6 +13,7 @@ class CashTransactionController extends Controller
 {
     public function store(Request $request)
     {
+
         try {
             // Validate the incoming request
             $validator = Validator::make($request->all(), [
@@ -29,6 +30,7 @@ class CashTransactionController extends Controller
 
             // If validation passes, proceed with saving the Cash details
             $cash = new Cash;
+            $cash->branch_id = Auth::user()->branch_id;
             $cash->cash_account_name = $request->cash_account_name;
             $cash->opening_balance = $request->opening_balance;
             $cash->current_balance = $request->opening_balance;
@@ -38,11 +40,11 @@ class CashTransactionController extends Controller
                 'message' => 'cash Account Saved Successfully',
             ]);
         } catch (\Exception $e) {
-            // Log the error message
-            Log::error('Error to saving cash details: ' . $e->getMessage());
-
-            // Return the errors.500 view for internal server errors
-            return response()->view('errors.500', [], 500);
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching Cash accounts.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
         }
     }
 
