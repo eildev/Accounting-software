@@ -4,7 +4,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Bank Managment</li>
+            <li class="breadcrumb-item active" aria-current="page">Transaction Management</li>
         </ol>
     </nav>
     <style>
@@ -20,11 +20,11 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                            aria-controls="home" aria-selected="true">Bank Account Managment</a>
+                            aria-controls="home" aria-selected="true">Cash Withdraw</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                            aria-controls="profile" aria-selected="false">Cash Management</a>
+                            aria-controls="profile" aria-selected="false">Cash Deposite</a>
                     </li>
                 </ul>
                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
@@ -393,8 +393,6 @@
             });
         });
     </script>
-
-
 
 
 @endsection
