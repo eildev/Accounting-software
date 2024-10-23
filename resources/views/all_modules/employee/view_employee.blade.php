@@ -6,14 +6,14 @@
     @if(Auth::user()->can('employee.add'))
 <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
     <div class="">
-        <h4 class="text-right"><a href="{{route('employee.add')}}" class="btn btn-info">Add New Employee</a></h4>
+        <h4 class="text-right"><a href="{{route('employee')}}" class="btn" style="background: #5660D9">Add New Employee</a></h4>
     </div>
 </div>
 @endif
 <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                <h6 class="card-title text-info">View Employee List</h6>
+                <h6 class="card-title " >View Employee List</h6>
 
                     <div id="" class="table-responsive">
                         <table class="table">
