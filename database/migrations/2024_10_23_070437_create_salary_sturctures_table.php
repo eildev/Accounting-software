@@ -18,10 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->decimal('base_salary',12,2);
-            $table->decimal('house_rent',12,2);
-            $table->decimal('transport_allowance',12,2);
-            $table->decimal('other_fixed_allowances',12,2);
-            $table->decimal('deductions',12,2);
+            $table->decimal('house_rent',12,2)->nullable();
+            $table->decimal('transport_allowance',12,2)->nullable();
+            $table->decimal('other_fixed_allowances',12,2)->nullable();
+            $table->decimal('deductions',12,2)->nullable();
             $table->timestamps();
         });
     }

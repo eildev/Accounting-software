@@ -286,6 +286,13 @@
                     <span class="link-title">Add Employee</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('salary.structure') }}"
+                    class="nav-link {{ request()->routeIs('salary.structure') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Salary Structure</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}"

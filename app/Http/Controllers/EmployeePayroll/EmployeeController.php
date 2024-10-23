@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\EmployeePayroll;
 
 use Illuminate\Http\Request;
-use App\Models\Employee;
+use App\Models\EmployeePayroll\Employee;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
