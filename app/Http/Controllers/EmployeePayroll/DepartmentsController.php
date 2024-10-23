@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Departments\Departments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 class DepartmentsController extends Controller
 {
     public function index(){
@@ -18,6 +19,7 @@ class DepartmentsController extends Controller
         if ($validator->passes()) {
             $departments = new Departments();
             $departments->name =  $request->name;
+            $departments->branch_id = Auth::user()->branch_id;
             $departments->save();
             return response()->json([
                 'status' => 200,
