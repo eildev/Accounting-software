@@ -188,7 +188,7 @@
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        console.log(res);
+                        // console.log(res);
                         if (res.status == 200) {
                             $('#exampleModalLongScollable').modal('hide');
                             $('.bankForm')[0].reset();
@@ -300,9 +300,9 @@
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        console.log(res);
+                        // console.log(res);
                         if (res.status == 200) {
-                            $('#exampleModalLongScollable').modal('hide');
+                            $('#cash_modal').modal('hide');
                             $('.cashForm')[0].reset();
                             cashView();
                             toastr.success(res.message);
@@ -321,7 +321,6 @@
 
             // Cash Info View Function 
             function cashView() {
-                // console.log('hello');
                 $.ajax({
                     url: '/cash-account/view',
                     method: 'GET',
@@ -368,7 +367,7 @@
                     }
                 });
             }
-            bankView();
+            cashView();
         })
 
 

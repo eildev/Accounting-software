@@ -15,14 +15,14 @@ class CompanyBalanceController extends Controller
     public function dailyBalance()
     {
         $company_balance = CompanyBalance::all();
-        return view('pos.balance.view', compact('company_balance'));
+        return view('all_modules.balance.view', compact('company_balance'));
     }
 
     public function purchase()
     {
         $purchase = Purchase::where('branch_id', Auth::user()->branch_id)->latest()->get();
         // return view('pos.purchase.view');
-        return view('pos.balance.view', compact('purchase'));
+        return view('all_modules.balance.view', compact('purchase'));
     }
     /**
      * Show the form for creating a new resource.

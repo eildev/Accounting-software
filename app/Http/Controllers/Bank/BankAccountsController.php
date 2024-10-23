@@ -16,7 +16,7 @@ class BankAccountsController extends Controller
     {
         try {
             // Attempt to return the view
-            return view('pos.bank.bank');
+            return view('all_modules.bank.bank');
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error loading the bank view: ' . $e->getMessage());

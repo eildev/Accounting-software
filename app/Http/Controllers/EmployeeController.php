@@ -21,11 +21,11 @@ class EmployeeController extends Controller
     public function EmployeeView()
     {
         $employees = $this->employee_repo->ViewAllEmployee();
-        return view('pos.employee.view_employee', compact('employees'));
+        return view('all_modules.employee.view_employee', compact('employees'));
     } //
     public function EmployeeAdd()
     {
-        return view('pos.employee.add_employee');
+        return view('all_modules.employee.add_employee');
     } //
     public function EmployeeStore(Request $request)
     {
@@ -58,7 +58,7 @@ class EmployeeController extends Controller
     public function EmployeeEdit($id)
     {
         $employees =  $this->employee_repo->EditEmployee($id);
-        return view('pos.employee.edit_employee', compact('employees'));
+        return view('all_modules.employee.edit_employee', compact('employees'));
     } //
     public function EmployeeUpdate(Request $request, $id)
     {
