@@ -23,7 +23,15 @@ class EmployeeController extends Controller
     } //
     public function store(Request $request)
     {
-
+        $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'department_id' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            // 'salary' => 'nullable|numeric|max:15',
+            // 'nid' => 'nullable|enumeric|max:15|',
+            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
         if ($request->image) {
             $employee = new Employee;
             $imageName = rand() . '.' . $request->image->extension();
@@ -40,7 +48,6 @@ class EmployeeController extends Controller
         $employee->salary = $request->salary;
         $employee->nid = $request->nid;
         $employee->designation = $request->designation;
-        $employee->status = 0;
         $employee->pic = $imageName ?? '';
         $employee->created_at = Carbon::now();
         $employee->save();
@@ -68,7 +75,6 @@ class EmployeeController extends Controller
         $employee->salary = $request->salary;
         $employee->nid = $request->nid;
         $employee->designation = $request->designation;
-        $employee->status = 0;
         if ($request->image) {
             $imageName = rand() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/employee'), $imageName);

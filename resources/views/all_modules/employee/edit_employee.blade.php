@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <h6 class="card-title ">Edit Employee</h6>
-                    <form id="myValidForm" action="{{ route('employee.update', $employees->id) }}" method="post"
+                    <form id="employeeEditValidForm" action="{{ route('employee.update', $employees->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -51,7 +51,7 @@
                             <div class="col-sm-6 ">
                                 <div class="mb-3 form-valid-groups">
                                     <label class="form-label">NID Number (Optional)</label>
-                                    <input type="integer" maxlength="15" class="form-control" name="nid" value="{{ $employees->nid }}"  placeholder="Enter NID Number">
+                                    <input type="number" maxlength="15" class="form-control" name="nid" value="{{ $employees->nid }}"  placeholder="Enter NID Number">
                                 </div>
                             </div><!-- Col -->
                             <div class="col-sm-6 ">
@@ -63,7 +63,7 @@
                             <div class="col-sm-6 ">
                                 <div class="mb-6 form-valid-groups">
                                     <label class="form-label">Basic Salary (Optional)</label>
-                                    <input type="integer" maxlength="25" class="form-control"  value="{{ $employees->salary }}" name="salary" placeholder="Enter Employee Salary">
+                                    <input type="number" maxlength="12" class="form-control"  value="{{ $employees->salary }}" name="salary" placeholder="Enter Employee Salary">
                                 </div>
                             </div><!-- Col -->
                             <div class="col-sm-6">
@@ -104,7 +104,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#employeeValidForm').validate({
+            $('#employeeEditValidForm').validate({
             rules: {
                 full_name: {
                     required : true,

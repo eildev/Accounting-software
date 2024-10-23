@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('nid',20)->nullable();
             $table->string('pic',50)->nullable();
             $table->string('designation',50)->nullable();
-            $table->decimal('salary',12,2)->nullable();
-            $table->string('status');
+            $table->decimal('salary',15,2)->nullable();
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

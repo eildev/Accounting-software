@@ -16,6 +16,7 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\CompanyBalanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeePayroll\DepartmentsController;
+use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -203,6 +204,15 @@ Route::middleware('auth')->group(function () {
 
     // Departments related route(n)
     Route::controller(DepartmentsController::class)->group(function () {
+        Route::get('/departments', 'index')->name('departments');
+        Route::post('/departments/store', 'store');
+        Route::get('/depertments/view', 'view');
+        Route::get('/departments/edit/{id}', 'edit');
+        Route::post('/departments/update/{id}', 'update');
+        Route::get('/departments/destroy/{id}', 'destroy');
+    }); //End
+    // Salary Structure related route(n)
+    Route::controller(SalaryStructureController::class)->group(function () {
         Route::get('/departments', 'index')->name('departments');
         Route::post('/departments/store', 'store');
         Route::get('/depertments/view', 'view');
