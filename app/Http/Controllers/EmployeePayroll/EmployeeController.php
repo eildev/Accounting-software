@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\EmployeePayroll;
+
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ class EmployeeController extends Controller
         $employee->nid = $request->nid;
         $employee->designation = $request->designation;
         $employee->status = 0;
-        $employee->pic = $imageName?? '';
+        $employee->pic = $imageName ?? '';
         $employee->created_at = Carbon::now();
         $employee->save();
         $notification = array(
@@ -50,13 +51,8 @@ class EmployeeController extends Controller
     } //
     public function edit($id)
     {
-<<<<<<< HEAD:app/Http/Controllers/EmployeeController.php
-        $employees =  $this->employee_repo->EditEmployee($id);
+        $employees = Employee::findOrFail($id);
         return view('all_modules.employee.edit_employee', compact('employees'));
-=======
-        $employees =  Employee::findOrFail($id);
-        return view('pos.employee.edit_employee', compact('employees'));
->>>>>>> 5a9b5461a8fec6cb607d5bb6b6d9cc88ffe51a83:app/Http/Controllers/EmployeePayroll/EmployeeController.php
     } //
     public function update(Request $request, $id)
     {
