@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class DepartmentsController extends Controller
 {
     public function index(){
-        return view('pos.departments.departments');
+        return view('all_modules.departments.departments');
     }//Method End
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
