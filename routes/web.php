@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Bank\BankAccountsController;
 use App\Http\Controllers\Bank\CashTransactionController;
-use App\Http\Controllers\BankController;
+use App\Http\Controllers\Bank\Transaction\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CustomerController;
@@ -10,7 +10,6 @@ use App\Http\Controllers\EmployeePayroll\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PaymentMethodController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PosSettingsController;
 use App\Http\Controllers\EmployeeSalaryController;
 use App\Http\Controllers\RolePermissionController;
@@ -163,6 +162,11 @@ Route::middleware('auth')->group(function () {
         //
         Route::post('/due/invoice/payment/transaction', 'invoicePaymentStore');
     });
+
+    // Transaction related route(n)
+    Route::controller(TransactionController::class)->group(function () {
+        Route::get('/transaction', 'transaction')->name('transaction');
+    });
     // pos setting related route
     Route::controller(PosSettingsController::class)->group(function () {
         Route::get('/pos/settings/add', 'PosSettingsAdd')->name('pos.settings.add');
@@ -197,16 +201,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
     });
 
-// Departments related route(n)
-Route::controller(DepartmentsController::class)->group(function () {
-    Route::get('/departments', 'index')->name('departments');
-    Route::post('/departments/store', 'store');
-    Route::get('/depertments/view', 'view');
-    Route::get('/departments/edit/{id}', 'edit');
-    Route::post('/departments/update/{id}', 'update');
-    Route::get('/departments/destroy/{id}', 'destroy');
-
-});//End
+    // Departments related route(n)
+    Route::controller(DepartmentsController::class)->group(function () {
+        Route::get('/departments', 'index')->name('departments');
+        Route::post('/departments/store', 'store');
+        Route::get('/depertments/view', 'view');
+        Route::get('/departments/edit/{id}', 'edit');
+        Route::post('/departments/update/{id}', 'update');
+        Route::get('/departments/destroy/{id}', 'destroy');
+    }); //End
 
     Route::controller(CompanyBalanceController::class)->group(function () {
         Route::group(['prefix' => 'daily'], function () {
