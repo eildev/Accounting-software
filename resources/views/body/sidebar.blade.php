@@ -6,7 +6,7 @@
             @else
                 EIL<span>POS</span>
             @endif --}}
-            <img src="{{ asset('/Logo-2.png') }}" alt="" height="40">
+        <img src="{{ asset('/Logo-2.png') }}" alt="" height="40">
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -235,8 +235,7 @@
             @endif --}}
             @if (Auth::user()->can('bank.menu'))
                 <li class="nav-item">
-                    <a href="{{ route('bank') }}"
-                        class="nav-link {{ request()->routeIs('bank') ? 'nav_active' : '' }}">
+                    <a href="{{ route('bank') }}" class="nav-link {{ request()->routeIs('bank') ? 'nav_active' : '' }}">
                         <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                         <span class="link-title">Bank</span>
                     </a>
@@ -253,8 +252,8 @@
             @endif
             @if (Auth::user()->can('transaction.menu'))
                 <li class="nav-item">
-                    <a href="{{ route('transaction.add') }}"
-                        class="nav-link {{ request()->routeIs('transaction.add') ? 'nav_active' : '' }}">
+                    <a href="{{ route('transaction') }}"
+                        class="nav-link {{ request()->routeIs('transaction') ? 'nav_active' : '' }}">
                         <i class="ms-2 fa-solid fa-receipt link-icon"></i>
                         <span class="link-title">Transaction</span>
                     </a>
@@ -295,9 +294,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}"
-                    data-bs-toggle="collapse" href="#employee" role="button" aria-expanded="false"
-                    aria-controls="emails">
+                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"
+                    href="#employee" role="button" aria-expanded="false" aria-controls="emails">
                     <i class="ms-2 link-icon" data-feather="mail"></i>
                     <span class="link-title">Employee</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
@@ -481,9 +479,8 @@
             <!---Role & Permission--->
             @if (Auth::user()->can('role-and-permission.menu'))
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('role*') ? 'collapsed' : '' }}"
-                        data-bs-toggle="collapse" href="#role_permission" role="button" aria-expanded="false"
-                        aria-controls="role_permission">
+                    <a class="nav-link {{ request()->routeIs('role*') ? 'collapsed' : '' }}" data-bs-toggle="collapse"
+                        href="#role_permission" role="button" aria-expanded="false" aria-controls="role_permission">
                         <i class="ms-2 fa-solid fa-users-gear link-icon"></i>
                         <span class="link-title">Role & Permission</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>

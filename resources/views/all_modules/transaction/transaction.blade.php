@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    @include('all_modules.bank.bank-account')
+                                    @include('all_modules.transaction.withdraw')
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="card">
                             <div class="card-body">
-                                @include('all_modules.bank.cash')
+                                @include('all_modules.transaction.deposite')
                             </div>
                         </div>
                     </div>
@@ -50,22 +50,27 @@
     </div>
 
 
-    <!-- Add Bank Account Modal -->
-    <div class="modal fade" id="exampleModalLongScollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    <!-- Cash Withdraw Modal -->
+    <div class="modal fade" id="cashWithdrawModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Bank Account Info</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Cash Withdraw</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="signupForm" class="bankForm row">
+                    <form class="withdrawForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Bank Name <span class="text-danger">*</span></label>
-                            <input class="form-control bank_name" name="bank_name" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger bank_name_error"></span>
+                            <label for="name" class="form-label">Select Account Type<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control currency_code" name="currency_code" onkeyup="errorRemove(this);">
+                                <option value="bdt">BDT</option>
+                                <option value="usd">USD</option>
+                                <option value="pkr">PKR</option>
+                                <option value="inr">INR</option>
+                            </select>
+                            <span class="text-danger currency_code_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Account Number <span
@@ -105,7 +110,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary save_bank">Save</button>
                 </div>
             </div>
@@ -371,8 +376,9 @@
         })
 
 
-        // tab active on the page reload 
+
         document.addEventListener("DOMContentLoaded", function() {
+            // tab active on the page reload 
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
 
@@ -390,6 +396,25 @@
                     let activeTabHref = event.target.getAttribute('href');
                     localStorage.setItem('activeTab', activeTabHref);
                 });
+            });
+
+
+            // // modal not close 
+            // // Get the modal element
+            const cashWithdrawModal = document.getElementById('cashWithdrawModal');
+
+            // Get the specific buttons that should allow the modal to close
+            const btnClose = cashWithdrawModal.querySelector('.btn-close'); // Top-right close button
+            const modalCloseButton = cashWithdrawModal.querySelector(
+                '.modal_close'); // Footer "Close" button
+
+            // Add event listener to prevent modal from closing unless certain buttons are clicked
+            cashWithdrawModal.addEventListener('hide.bs.modal', function(event) {
+                // Allow modal to close only if triggered by btn-close or modal_close button
+                if (!(event.relatedTarget === btnClose || event.relatedTarget ===
+                        modalCloseButton)) {
+                    event.preventDefault(); // Prevent modal from closing
+                }
             });
         });
     </script>
