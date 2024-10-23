@@ -18,7 +18,8 @@ class EmployeeController extends Controller
     } //
     public function index()
     {
-        return view('all_modules.employee.add_employee');
+        $departments = Departments::all();
+        return view('all_modules.employee.add_employee',compact('departments'));
     } //
     public function store(Request $request)
     {
@@ -51,8 +52,9 @@ class EmployeeController extends Controller
     } //
     public function edit($id)
     {
+        $departments = Departments::all();
         $employees = Employee::findOrFail($id);
-        return view('all_modules.employee.edit_employee', compact('employees'));
+        return view('all_modules.employee.edit_employee', compact('employees','departments'));
     } //
     public function update(Request $request, $id)
     {

@@ -19,7 +19,7 @@
 					<div class="col-sm-6">
 						<div class="mb-3 form-valid-groups">
 							<label class="form-label">Full Name <span class="text-danger">*</span></label>
-							<input type="text" name="full_name" class="form-control field_required" placeholder="Enter Employee name">
+							<input type="text"  maxlength="255" name="full_name" class="form-control field_required" placeholder="Enter Employee name">
 						</div>
 					</div><!-- Col -->
 					<div class="col-sm-6">
@@ -56,13 +56,13 @@
 					<div class="col-sm-6 ">
 						<div class="mb-3 form-valid-groups">
 							<label class="form-label">Designation (Optional)</label>
-							<input type="text" name="designation" class="form-control" placeholder="Enter Employee Designation">
+							<input type="text" name="designation"  maxlength="255" class="form-control" placeholder="Enter Employee Designation">
 						</div>
 					</div><!-- Col -->
 					<div class="col-sm-6 ">
 						<div class="mb-6 form-valid-groups">
 							<label class="form-label">Basic Salary (Optional)</label>
-							<input type="number" class="form-control" name="salary" placeholder="Enter Employee Salary">
+							<input type="integer" maxlength="25" class="form-control" name="salary" placeholder="Enter Employee Salary">
 						</div>
 					</div><!-- Col -->
                     <div class="col-sm-6">
