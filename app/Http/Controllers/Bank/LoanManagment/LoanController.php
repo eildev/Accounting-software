@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Bank\LoanManagment;
 use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
 use App\Models\Bank\LoanManagment\Loan;
+use App\Models\Branch;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -46,12 +48,13 @@ class LoanController extends Controller
             ];
 
             $validator = Validator::make($request->all(), [
+                'loan_name' => 'required|max:99',
+                'loan_duration' => 'required|integer|between:0,26',
                 'bank_loan_account_id' => 'required|integer',
                 'loan_principal' => 'required|numeric|between:0,999999999999.99',
                 'interest_rate' => 'required|numeric|between:0,99.99',
                 'repayment_schedule' => 'required|in:yearly,monthly,weekly,daily',
                 'start_date' => 'required|date',
-                'end_date' => 'required|date',
             ], $messages);
 
             if ($validator->fails()) {
@@ -65,11 +68,16 @@ class LoanController extends Controller
             $loan = new Loan;
             $loan->branch_id = Auth::user()->branch_id;
             $loan->bank_loan_account_id = $request->bank_loan_account_id;
+            $loan->loan_name = $request->loan_name;
+            $loan->loan_duration = $request->loan_duration;
             $loan->loan_principal = $request->loan_principal;
             $loan->interest_rate = $request->interest_rate;
+            $interestValue = $request->loan_principal * ($request->interest_rate / 100);
+            $TotalInterestValue = $interestValue * $request->loan_duration;
+            $loan->loan_balance = $loan->loan_principal + $TotalInterestValue;
             $loan->repayment_schedule = $request->repayment_schedule;
             $loan->start_date = $request->start_date;
-            $loan->end_date = $request->end_date;
+            $loan->end_date = Carbon::parse($request->start_date)->copy()->addYears($request->loan_duration);
             $loan->status = 'active';
             $loan->save();
             return response()->json([
@@ -106,6 +114,24 @@ class LoanController extends Controller
                 "message" => 'An error occurred while fetching Loans.',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
+        }
+    }
+    // view Loan Function 
+    public function viewLoan($id)
+    {
+        try {
+
+            $loan = Loan::findOrFail($id);  // Fetch only for the user's branch
+            $branch = Branch::findOrFail($loan->branch_id);
+            $banks = BankAccounts::latest()->get();
+
+            return view('all_modules.bank.loan.loan-profile', compact('loan', 'branch', 'banks'));
+        } catch (\Exception $e) {
+            // / Log the error
+            Log::error('Error loading the Loan view: ' . $e->getMessage());
+
+            // Optionally return a custom error view or a simple error message
+            return response()->view('errors.custom', [], 500);
         }
     }
 }

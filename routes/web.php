@@ -175,8 +175,9 @@ Route::middleware('auth')->group(function () {
     // Transaction related route(n)
     Route::controller(LoanController::class)->group(function () {
         Route::get('/loan', 'index')->name('loan');
-        Route::post('/loan/store', 'store')->name('loan.store');
-        Route::get('/loan/view', 'view')->name('loan.view');
+        Route::post('/loan/store', 'store');
+        Route::get('/loan/view', 'view');
+        Route::get('/loan/view/{id}', 'viewLoan');
     });
     // pos setting related route
     Route::controller(PosSettingsController::class)->group(function () {
