@@ -145,28 +145,30 @@ Route::middleware('auth')->group(function () {
     // Transaction related route(n)
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transaction/add', 'TransactionAdd')->name('transaction.add');
-        Route::post('/transaction/store', 'TransactionStore')->name('transaction.store');
-        // Route::get('/transaction/view', 'TransactionView')->name('transaction.view');
-        // Route::get('/transaction/edit/{id}', 'TransactionEdit')->name('transaction.edit');
-        Route::post('/transaction/update/{id}', 'TransactionUpdate')->name('transaction.update');
-        Route::get('/transaction/delete/{id}', 'TransactionDelete')->name('transaction.delete');
-        Route::get('/getDataForAccountId', 'getDataForAccountId');
-        /////Filer Transaction////
-        Route::get('/transaction/filter/rander', 'TransactionFilterView')->name('transaction.filter.view');
-        ////////Invoice///////////
-        Route::get('/transaction/invoice/receipt/{id}', 'TransactionInvoiceReceipt')->name('transaction.invoice.receipt');
-        ////////Investment Route ////
-        Route::post('/add/investor', 'InvestmentStore');
-        Route::get('/get/investor', 'GetInvestor');
-        Route::get('/get/invoice/{id}', 'InvestorInvoice')->name('investor.invoice');
+        // Route::post('/transaction/store', 'TransactionStore')->name('transaction.store');
+        // // Route::get('/transaction/view', 'TransactionView')->name('transaction.view');
+        // // Route::get('/transaction/edit/{id}', 'TransactionEdit')->name('transaction.edit');
+        // Route::post('/transaction/update/{id}', 'TransactionUpdate')->name('transaction.update');
+        // Route::get('/transaction/delete/{id}', 'TransactionDelete')->name('transaction.delete');
+        // Route::get('/getDataForAccountId', 'getDataForAccountId');
+        // /////Filer Transaction////
+        // Route::get('/transaction/filter/rander', 'TransactionFilterView')->name('transaction.filter.view');
+        // ////////Invoice///////////
+        // Route::get('/transaction/invoice/receipt/{id}', 'TransactionInvoiceReceipt')->name('transaction.invoice.receipt');
+        // ////////Investment Route ////
+        // Route::post('/add/investor', 'InvestmentStore');
+        // Route::get('/get/investor', 'GetInvestor');
+        // Route::get('/get/invoice/{id}', 'InvestorInvoice')->name('investor.invoice');
 
-        //
-        Route::post('/due/invoice/payment/transaction', 'invoicePaymentStore');
+        // //
+        // Route::post('/due/invoice/payment/transaction', 'invoicePaymentStore');
     });
 
     // Transaction related route(n)
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
+        Route::post('/transaction/store', 'storeTransaction')->name('transaction.store');
+        Route::get('/check-account-type', 'checkAccountType')->name('check.account.type');
     });
     // pos setting related route
     Route::controller(PosSettingsController::class)->group(function () {

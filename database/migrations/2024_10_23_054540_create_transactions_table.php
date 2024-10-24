@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->bigInteger('account_id');
-            $table->string('transaction_id', 30)->nullable();
-            $table->integer('invoice')->nullable();
-            $table->enum('account_type', ['bank', 'cash']);
-            $table->decimal('amount', 15, 2)->nullable();
-            $table->date('transaction_date')->nullable();
-            $table->enum('transaction_type', ['deposit', 'withdrawal', 'transfer', 'expense']);
+            $table->unsignedBigInteger('source_id');  // Reference to the originating record
+            $table->string('source_type');  // e.g., 'payroll', 'expense', 'vendor_payment'
+            $table->unsignedBigInteger('bank_account_id')->nullable();  // For bank-based transactions
+            $table->unsignedBigInteger('cash_account_id')->nullable();  // For cash-based transactions
+            $table->decimal('amount', 15, 2);
+            $table->enum('transaction_type', ['credit', 'debit']);  // Credit = incoming, Debit = outgoing
             $table->text('description')->nullable();
+            $table->string('transaction_id', 30)->nullable();
+            $table->integer('transaction_by');
             $table->timestamps();
         });
     }

@@ -63,11 +63,11 @@ class BankAccountsController extends Controller
                 'message' => 'Bank Account Saved Successfully',
             ]);
         } catch (\Exception $e) {
-            // Log the error message
-            Log::error('Error to saving bank details: ' . $e->getMessage());
-
-            // Return the errors.500 view for internal server errors
-            return response()->view('errors.500', [], 500);
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching bank accounts.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
         }
     }
 

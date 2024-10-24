@@ -62,56 +62,52 @@
                 <div class="modal-body">
                     <form class="withdrawForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Select Account Type<span
-                                    class="text-danger">*</span></label>
-                            <select class="form-control currency_code" name="currency_code" onkeyup="errorRemove(this);">
-                                <option value="bdt">BDT</option>
-                                <option value="usd">USD</option>
-                                <option value="pkr">PKR</option>
-                                <option value="inr">INR</option>
+                            <label for="name" class="form-label">Account Type<span class="text-danger">*</span></label>
+                            <select class="form-control account_type" name="account_type" onkeyup="errorRemove(this);"
+                                onchange="checkPaymentAccount(this);">
+                                <option value="">Select Account Type</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
                             </select>
-                            <span class="text-danger currency_code_error"></span>
+                            <span class="text-danger account_type_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Account Number <span
+                            <label for="name" class="form-label">Payment Account<span
                                     class="text-danger">*</span></label>
-                            <input class="form-control account_number" name="account_number" type="number"
+                            <select class="form-control payment_account_id" name="payment_account_id"
                                 onkeyup="errorRemove(this);">
-                            <span class="text-danger account_number_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Account Name </label>
-                            <input class="form-control account_name" name="account_name" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger account_name_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Bank Branch Name</label>
-                            <input class="form-control bank_branch_name" name="bank_branch_name" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger bank_branch_name_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Initial Balance</label>
-                            <input class="form-control initial_balance" name="initial_balance" type="number"
-                                onkeyup="errorRemove(this);" value="00.00">
-                            <span class="text-danger initial_balance_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Select Currency</label>
-                            <select class="form-control currency_code" name="currency_code" onkeyup="errorRemove(this);">
-                                <option value="bdt">BDT</option>
-                                <option value="usd">USD</option>
-                                <option value="pkr">PKR</option>
-                                <option value="inr">INR</option>
+                                <option value="">Select Payment Account</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
                             </select>
-                            <span class="text-danger currency_code_error"></span>
+                            <span class="text-danger payment_account_id_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Transaction Date<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group flatpickr" id="flatpickr-date">
+                                <input type="text" class="form-control" placeholder="Select date" data-input
+                                    name="transaction_date">
+                                <span class="input-group-text input-group-addon" data-toggle><i
+                                        data-feather="calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Amount</label>
+                            <input class="form-control amount" name="amount" type="number" onkeyup="errorRemove(this);">
+                            <span class="text-danger amount_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="name" class="form-label">Note/Comments</label>
+                            <input class="form-control description" name="description" type="text"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger description_error"></span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save_bank">Save</button>
+                    <button type="button" class="btn btn-primary save_withdraw">Save</button>
                 </div>
             </div>
         </div>
@@ -165,6 +161,38 @@
             }
         }
 
+        function checkPaymentAccount(element) {
+            const paymentType = $(element).val(); // 'element' is passed in from the onclick event
+            const paymentAccounts = $('.payment_account_id');
+            $.ajax({
+                url: '/check-account-type',
+                method: 'GET',
+                data: {
+                    payment_type: paymentType
+                },
+                success: function(res) {
+                    const accounts = res.data;
+                    // console.log(accounts);
+                    if (accounts.length > 0) {
+                        $('.payment_account_id').html(
+                            `<option selected disabled>Select Account</option>`
+                        ); // Clear and set default option
+                        $.each(accounts, function(account) {
+                            console.log(account);
+                            $('.payment_account_id').append(
+                                `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
+                            );
+                        });
+
+                    } else {
+                        $('.payment_account_id').html(
+                            `<option selected disabled>No Account Found</option>`
+                        ); // Clear and set default option
+                    }
+                }
+            });
+
+        }
 
         $(document).ready(function() {
 
@@ -176,11 +204,12 @@
             }
 
 
-            // save bank account information
-            const saveBank = document.querySelector('.save_bank');
-            saveBank.addEventListener('click', function(e) {
+
+            // save Withdraw information
+            const saveWithdraw = document.querySelector('.save_withdraw');
+            saveWithdraw.addEventListener('click', function(e) {
                 e.preventDefault();
-                let formData = new FormData($('.bankForm')[0]);
+                let formData = new FormData($('.withdrawForm')[0]);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -400,22 +429,22 @@
 
 
             // // modal not close 
-            // // Get the modal element
-            const cashWithdrawModal = document.getElementById('cashWithdrawModal');
+            // // // Get the modal element
+            // const cashWithdrawModal = document.getElementById('cashWithdrawModal');
 
-            // Get the specific buttons that should allow the modal to close
-            const btnClose = cashWithdrawModal.querySelector('.btn-close'); // Top-right close button
-            const modalCloseButton = cashWithdrawModal.querySelector(
-                '.modal_close'); // Footer "Close" button
+            // // Get the specific buttons that should allow the modal to close
+            // const btnClose = cashWithdrawModal.querySelector('.btn-close'); // Top-right close button
+            // const modalCloseButton = cashWithdrawModal.querySelector(
+            //     '.modal_close'); // Footer "Close" button
 
-            // Add event listener to prevent modal from closing unless certain buttons are clicked
-            cashWithdrawModal.addEventListener('hide.bs.modal', function(event) {
-                // Allow modal to close only if triggered by btn-close or modal_close button
-                if (!(event.relatedTarget === btnClose || event.relatedTarget ===
-                        modalCloseButton)) {
-                    event.preventDefault(); // Prevent modal from closing
-                }
-            });
+            // // Add event listener to prevent modal from closing unless certain buttons are clicked
+            // cashWithdrawModal.addEventListener('hide.bs.modal', function(event) {
+            //     // Allow modal to close only if triggered by btn-close or modal_close button
+            //     if (!(event.relatedTarget === btnClose || event.relatedTarget ===
+            //             modalCloseButton)) {
+            //         event.preventDefault(); // Prevent modal from closing
+            //     }
+            // });
         });
     </script>
 

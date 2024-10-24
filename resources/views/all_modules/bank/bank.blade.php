@@ -231,7 +231,7 @@
                         $('.show_bank_data').empty();
                         if (banks.length > 0) {
                             $.each(banks, function(index, bank) {
-                                console.log(bank);
+                                // console.log(bank);
                                 // Calculate the sum of account_transaction balances
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
@@ -254,15 +254,6 @@
                                     </td>
                                 `;
                                 $('.show_bank_data').append(tr);
-
-                                // Initialize DataTables after appending the data
-                                $('#bankTable').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "searching": true, // Enable search
-                                    "ordering": true, // Enable column sorting
-                                    "info": true, // Show table information (e.g. "Showing X to Y of Z entries")
-                                    "lengthChange": true // Allow the user to change the number of rows displayed
-                                });
                             });
                         } else {
                             $('.show_bank_data').html(`
@@ -358,7 +349,7 @@
                                 <td colspan='9'>
                                     <div class="text-center text-warning mb-2">Data Not Found</div>
                                     <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add Bank Info<i data-feather="plus"></i></button>
+                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#cash_modal">Add Cash Info<i data-feather="plus"></i></button>
                                     </div>
                                 </td>
                             </tr>
