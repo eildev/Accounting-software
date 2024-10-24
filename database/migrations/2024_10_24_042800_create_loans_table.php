@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->string('loan_name', 100)->nullable();
             $table->integer('bank_loan_account_id');
             $table->decimal('loan_principal', 15, 2)->nullable();
             $table->decimal('loan_balance', 15, 2)->nullable();
             $table->decimal('interest_rate', 5, 2)->nullable();
             $table->string('repayment_schedule', 20)->nullable();
+            $table->integer('loan_duration')->nullable()->check('loan_duration between 0 and 26');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->enum('status', ['active', 'closed', 'defaulted']);
@@ -33,5 +35,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('loans');
+    }
+
+    public function rules()
+    {
+        return [
+            'loan_duration' => 'nullable|integer|between:0,99',
+            // other validation rules
+        ];
     }
 };

@@ -16,33 +16,29 @@
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
-            <div class="example w-100">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                            aria-controls="home" aria-selected="true">Loan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                            aria-controls="profile" aria-selected="false">Loan Repayment</a>
-                    </li>
-                </ul>
-                <div class="tab-content border border-top-0 p-3" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    @include('all_modules.bank.loan.loan')
-                                </div>
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="card-title">Loan Table</h6>
+                        <button class="btn btn-rounded-primary btn-sm" data-bs-toggle="modal" data-bs-target="#loanModal"><i
+                                data-feather="plus"></i></button>
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="card">
-                            <div class="card-body">
-                                @include('all_modules.bank.loan.loan-repayments')
-                            </div>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Loan Name</th>
+                                    <th>Loan Duration</th>
+                                    <th>Loan Principal</th>
+                                    <th>Interest Rate</th>
+                                    <th>Loan Balance</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="loan_data">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -61,7 +57,13 @@
                 <div class="modal-body">
                     <form class="loanForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Loan Account<span class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Loan Name<span class="text-danger">*</span></label>
+                            <input class="form-control loan_name" name="loan_name" type="text"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger loan_name_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Bank Account<span class="text-danger">*</span></label>
                             <select class="form-control bank_loan_account_id" name="bank_loan_account_id"
                                 onchange="errorRemove(this);">
                                 @if ($banks->count() > 0)
@@ -89,6 +91,13 @@
                             <span class="text-danger interest_rate_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Loan Duration <span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control loan_duration" name="loan_duration" type="number"
+                                onkeyup="errorRemove(this);" placeholder="0.00">
+                            <span class="text-danger loan_duration_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Repayment Schedule<span
                                     class="text-danger">*</span></label>
                             <select class="form-control repayment_schedule" name="repayment_schedule"
@@ -101,7 +110,7 @@
                             </select>
                             <span class="text-danger repayment_schedule_error"></span>
                         </div>
-                        <div class="mb-3 col-md-6">
+                        <div class="mb-3 col-md-12">
                             <label for="name" class="form-label">Start Date<span class="text-danger">*</span></label>
                             <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
                                 <span class="input-group-text input-group-addon bg-transparent border-primary"
@@ -111,17 +120,6 @@
                                     placeholder="Select date" data-input>
                             </div>
                             <span class="text-danger start_date_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">End Date<span class="text-danger">*</span></label>
-                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
-                                <span class="input-group-text input-group-addon bg-transparent border-primary"
-                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
-                                <input type="text" name="end_date"
-                                    class="form-control bg-transparent border-primary end_date" placeholder="Select date"
-                                    data-input>
-                            </div>
-                            <span class="text-danger end_date_error"></span>
                         </div>
                     </form>
                 </div>
@@ -200,11 +198,9 @@
                 e.preventDefault();
                 // Convert the date inputs to YYYY-MM-DD format
                 let startDate = new Date($('.loanForm [name="start_date"]').val());
-                let endDate = new Date($('.loanForm [name="end_date"]').val());
 
                 // Set the dates in the form fields in the correct format
                 $('.loanForm [name="start_date"]').val(startDate.toISOString().slice(0, 10));
-                $('.loanForm [name="end_date"]').val(endDate.toISOString().slice(0, 10));
 
                 let formData = new FormData($('.loanForm')[0]);
                 $.ajaxSetup({
@@ -225,6 +221,9 @@
                             loanView();
                             toastr.success(res.message);
                         } else {
+                            if (res.error.loan_name) {
+                                showError('.loan_name', res.error.loan_name);
+                            }
                             if (res.error.bank_loan_account_id) {
                                 showError('.bank_loan_account_id', res.error
                                     .bank_loan_account_id);
@@ -241,10 +240,9 @@
                             if (res.error.start_date) {
                                 showError('.start_date', res.error.start_date);
                             }
-                            if (res.error.end_date) {
-                                showError('.end_date', res.error.end_date);
+                            if (res.error.loan_duration) {
+                                showError('.loan_duration', res.error.loan_duration);
                             }
-
                         }
                     },
                     error: function(xhr, status, error) {
@@ -265,15 +263,34 @@
                         if (loans.length > 0) {
                             $.each(loans, function(index, loan) {
                                 const tr = document.createElement('tr');
+                                let statusBadge = ''; // Initialize status badge variable
+
+                                // Check loan status and assign the correct badge
+                                if (loan.status === 'active') {
+                                    statusBadge =
+                                        '<span class="badge bg-success">Active</span>';
+                                } else if (loan.status === 'closed') {
+                                    statusBadge =
+                                        '<span class="badge bg-danger">Closed</span>';
+                                } else if (loan.status === 'defaulted') {
+                                    statusBadge =
+                                        '<span class="badge bg-warning">Defaulted</span>';
+                                }
                                 tr.innerHTML = `
-                                    <td>${loan.bank_loan_account_id ?? ""}</td>
+                                    <td>
+                                        <a href="/loan/view/${loan.id}">
+                                            ${loan.loan_name ?? ""}
+                                            </a>
+                                        </td>
+                                    <td>${loan.loan_duration ?? ""}</td>
                                     <td>${loan.loan_principal ?? ""}</td>
                                     <td>${loan.interest_rate ?? ""}</td>
                                     <td>${loan.loan_balance ?? 0}</td>
-                                    <td>${loan.initial_balance ?? 0}</td>
-                                    <td>${loan.current_balance ?? 0}</td>
                                     <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                        ${statusBadge}
+                                    </td>
+                                    <td>
+                                        <a href="/loan/view/${loan.id}" class="btn btn-icon btn-xs btn-primary">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         <a href="#" class="btn btn-icon btn-xs btn-success">
@@ -303,92 +320,6 @@
                 });
             }
             loanView();
-
-            //     // save cash information
-            //     const saveCash = document.querySelector('.save_cash');
-            //     saveCash.addEventListener('click', function(e) {
-            //         e.preventDefault();
-            //         let formData = new FormData($('.cashForm')[0]);
-            //         $.ajaxSetup({
-            //             headers: {
-            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //             }
-            //         });
-            //         $.ajax({
-            //             url: '/cash-account/store',
-            //             type: 'POST',
-            //             data: formData,
-            //             processData: false,
-            //             contentType: false,
-            //             success: function(res) {
-            //                 // console.log(res);
-            //                 if (res.status == 200) {
-            //                     $('#cash_modal').modal('hide');
-            //                     $('.cashForm')[0].reset();
-            //                     cashView();
-            //                     toastr.success(res.message);
-            //                 } else {
-            //                     if (res.error.cash_account_name) {
-            //                         showError('.cash_account_name', res.error.cash_account_name);
-            //                     }
-            //                     if (res.error.opening_balance) {
-            //                         showError('.opening_balance', res.error.opening_balance);
-            //                     }
-            //                 }
-            //             }
-            //         });
-            //     })
-
-
-            //     // Cash Info View Function 
-            //     function cashView() {
-            //         $.ajax({
-            //             url: '/cash-account/view',
-            //             method: 'GET',
-            //             success: function(res) {
-            //                 // console.log(res.data);
-            //                 const banks = res.data;
-            //                 // console.log(banks.account_transaction);
-            //                 $('.show_cash_data').empty();
-            //                 if (banks.length > 0) {
-            //                     $.each(banks, function(index, bank) {
-            //                         // console.log(bank);
-            //                         // Calculate the sum of account_transaction balances
-            //                         const tr = document.createElement('tr');
-            //                         tr.innerHTML = `
-        //                             <td>${bank.cash_account_name ?? ""}</td>
-        //                             <td>${bank.opening_balance	 ?? ""}</td>
-        //                             <td>${bank.current_balance ?? ""}</td>
-        //                             <td>
-        //                                 <a href="#" class="btn btn-icon btn-xs btn-primary">
-        //                                     <i class="fa-solid fa-eye"></i>
-        //                                 </a>
-        //                                 <a href="#" class="btn btn-icon btn-xs btn-success">
-        //                                     <i class="fa-solid fa-pen-to-square"></i>
-        //                                 </a>
-        //                                 <a href="#" class="btn btn-icon btn-xs btn-danger">
-        //                                     <i class="fa-solid fa-trash-can"></i>
-        //                                 </a>
-        //                             </td>
-        //                         `;
-            //                         $('.show_cash_data').append(tr);
-            //                     });
-            //                 } else {
-            //                     $('.show_cash_data').html(`
-        //                     <tr>
-        //                         <td colspan='9'>
-        //                             <div class="text-center text-warning mb-2">Data Not Found</div>
-        //                             <div class="text-center">
-        //                                 <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add Bank Info<i data-feather="plus"></i></button>
-        //                             </div>
-        //                         </td>
-        //                     </tr>
-        //                     `);
-            //                 }
-            //             }
-            //         });
-            //     }
-            //     cashView();
         })
 
 
