@@ -292,6 +292,13 @@
                     <span class="link-title">Salary Structure</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('audit') }}"
+                    class="nav-link {{ request()->routeIs('audit') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Audit</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"

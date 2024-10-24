@@ -210,6 +210,9 @@ Route::controller(DepartmentsController::class)->group(function () {
     Route::get('/departments/edit/{id}', 'edit');
     Route::post('/departments/update/{id}', 'update');
     Route::get('/departments/destroy/{id}', 'destroy');
+    Route::get('/audit', 'audit')->name('audit');
+    Route::get('/employees-by-department/{department_id}','getEmployeesByDepartment');
+    Route::post('audit/store','auditStore')->name('audit.store');
 
 });//End
 // Salary Structure related route(n)
