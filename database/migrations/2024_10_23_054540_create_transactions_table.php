@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->unsignedBigInteger('source_id');  // Reference to the originating record
             $table->string('source_type');  // e.g., 'payroll', 'expense', 'vendor_payment'
+            $table->date('transaction_date')->nullable();  // e.g., 'payroll', 'expense', 'vendor_payment'
             $table->unsignedBigInteger('bank_account_id')->nullable();  // For bank-based transactions
             $table->unsignedBigInteger('cash_account_id')->nullable();  // For cash-based transactions
             $table->decimal('amount', 15, 2);

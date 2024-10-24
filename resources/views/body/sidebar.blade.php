@@ -241,6 +241,12 @@
                     </a>
                 </li>
             @endif
+            <li class="nav-item">
+                <a href="{{ route('loan') }}" class="nav-link {{ request()->routeIs('loan') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Loan Managment</span>
+                </a>
+            </li>
             @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item">
                     <a href="{{ route('expense.view') }}"
@@ -480,7 +486,8 @@
             @if (Auth::user()->can('role-and-permission.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('role*') ? 'collapsed' : '' }}" data-bs-toggle="collapse"
-                        href="#role_permission" role="button" aria-expanded="false" aria-controls="role_permission">
+                        href="#role_permission" role="button" aria-expanded="false"
+                        aria-controls="role_permission">
                         <i class="ms-2 fa-solid fa-users-gear link-icon"></i>
                         <span class="link-title">Role & Permission</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>

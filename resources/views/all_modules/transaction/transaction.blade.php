@@ -77,23 +77,23 @@
                             <select class="form-control payment_account_id" name="payment_account_id"
                                 onkeyup="errorRemove(this);">
                                 <option value="">Select Payment Account</option>
-                                <option value="cash">Cash</option>
-                                <option value="bank">Bank</option>
                             </select>
                             <span class="text-danger payment_account_id_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Transaction Date<span
                                     class="text-danger">*</span></label>
-                            <div class="input-group flatpickr" id="flatpickr-date">
-                                <input type="text" class="form-control" placeholder="Select date" data-input
-                                    name="transaction_date">
-                                <span class="input-group-text input-group-addon" data-toggle><i
-                                        data-feather="calendar"></i></span>
+                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
+                                <span class="input-group-text input-group-addon bg-transparent border-primary"
+                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
+                                <input type="text" name="transaction_date"
+                                    class="form-control bg-transparent border-primary transaction_date"
+                                    placeholder="Select date" data-input>
                             </div>
+                            <span class="text-danger transaction_date_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Amount</label>
+                            <label for="name" class="form-label">Amount<span class="text-danger">*</span></label>
                             <input class="form-control amount" name="amount" type="number" onkeyup="errorRemove(this);">
                             <span class="text-danger amount_error"></span>
                         </div>
@@ -103,6 +103,8 @@
                                 onkeyup="errorRemove(this);">
                             <span class="text-danger description_error"></span>
                         </div>
+                        <input class="form-control transaction_type" name="transaction_type" type="hidden"
+                            value="withdrawal">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -177,8 +179,8 @@
                         $('.payment_account_id').html(
                             `<option selected disabled>Select Account</option>`
                         ); // Clear and set default option
-                        $.each(accounts, function(account) {
-                            console.log(account);
+                        $.each(accounts, function(index, account) {
+                            // console.log(account);
                             $('.payment_account_id').append(
                                 `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
                             );
@@ -216,36 +218,35 @@
                     }
                 });
                 $.ajax({
-                    url: '/bank/store',
+                    url: '/transaction/store',
                     type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        // console.log(res);
                         if (res.status == 200) {
-                            $('#exampleModalLongScollable').modal('hide');
-                            $('.bankForm')[0].reset();
-                            bankView();
+                            $('#cashWithdrawModal').modal('hide');
+                            $('.withdrawForm')[0].reset();
+                            // bankView();
                             toastr.success(res.message);
                         } else {
-                            if (res.error.account_name) {
-                                showError('.account_name', res.error.account_name);
+                            if (res.error.account_type) {
+                                showError('.account_type', res.error.account_type);
                             }
-                            if (res.error.account_number) {
-                                showError('.account_number', res.error.account_number);
+                            if (res.error.payment_account_id) {
+                                showError('.payment_account_id', res.error.payment_account_id);
                             }
-                            if (res.error.bank_name) {
-                                showError('.bank_name', res.error.bank_name);
+                            if (res.error.transaction_date) {
+                                showError('.transaction_date', res.error.transaction_date);
                             }
-                            if (res.error.bank_branch_name) {
-                                showError('.bank_branch_name', res.error.bank_branch_name);
+                            if (res.error.amount) {
+                                showError('.amount', res.error.amount);
                             }
-                            if (res.error.initial_balance) {
-                                showError('.initial_balance', res.error.initial_balance);
+                            if (res.error.transaction_type) {
+                                toastr.warning(res.error.transaction_type);
                             }
-                            if (res.error.currency_code) {
-                                showError('.currency_code', res.error.currency_code);
+                            if (res.error.description) {
+                                showError('.description', res.error.description);
                             }
                         }
                     }
@@ -253,7 +254,7 @@
             })
 
             // bankInfo View Function 
-            function bankView() {
+            function withdrawView() {
                 // console.log('hello');
                 $.ajax({
                     url: '/bank/view',
@@ -265,7 +266,7 @@
                         $('.show_bank_data').empty();
                         if (banks.length > 0) {
                             $.each(banks, function(index, bank) {
-                                console.log(bank);
+                                // console.log(bank);
                                 // Calculate the sum of account_transaction balances
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
@@ -315,7 +316,7 @@
                     }
                 });
             }
-            bankView();
+            withdrawView();
 
             // save cash information
             const saveCash = document.querySelector('.save_cash');

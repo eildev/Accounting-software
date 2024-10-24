@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bank\Transaction;
 use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
 use App\Models\Bank\Cash;
+use App\Models\Bank\Transaction\Transaction;
 use App\Models\Investor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,9 +42,56 @@ class TransactionController extends Controller
 
 
     // storeTransaction function 
-    public function storeTransaction()
+    public function storeTransaction(Request $request)
     {
+        // dd($request->all());
         try {
+            $messages = [
+                'payment_account_id.required' => 'The payment account is required.',
+                'payment_account_id.integer' => 'The payment account must be an integer.',
+                'transaction_type.required' => 'Something Went Wrong',
+                'transaction_type.in' => 'Something Went Wrong. Someone pass The wrong Value',
+                'description' => 'Note field must be a maximum of 99 characters long.',
+            ];
+
+            $validator = Validator::make($request->all(), [
+                'account_type' => 'required',
+                'payment_account_id' => 'required|integer',
+                'transaction_date' => 'required|date',
+                'amount' => 'required|numeric|between:0,999999999999.99',
+                'transaction_type' => 'required|in:deposit,withdrawal',
+                'description' => 'max:99',
+            ], $messages);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '500',
+                    'error' => $validator->messages()
+                ]);
+            }
+
+            // If validation passes, proceed with saving the Cash details
+            $transaction = new Transaction;
+            $transaction->branch_id = Auth::user()->branch_id;
+            if ($request->account_type > 'cash') {
+                $transaction->cash_account_id = $request->payment_account_id;
+            } else {
+                $transaction->bank_account_id = $request->payment_account_id;
+            }
+            $transaction->amount = $request->amount;
+            if ($request->transaction_type == 'withdrawal') {
+                $transaction->transaction_type = 'debit';
+            } else {
+                $transaction->transaction_type = 'credit';
+            }
+            $transaction->description = $request->description;
+            $transaction->transaction_id = $request->description;
+            $transaction->transaction_by = Auth::user()->id;
+            $transaction->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Transaction Saved Successfully',
+            ]);
         } catch (\Exception $e) {
         }
     } //

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Bank\BankAccountsController;
 use App\Http\Controllers\Bank\CashTransactionController;
+use App\Http\Controllers\Bank\LoanManagment\LoanController;
 use App\Http\Controllers\Bank\Transaction\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BranchController;
@@ -170,6 +171,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/transaction/store', 'storeTransaction')->name('transaction.store');
         Route::get('/check-account-type', 'checkAccountType')->name('check.account.type');
     });
+
+    // Transaction related route(n)
+    Route::controller(LoanController::class)->group(function () {
+        Route::get('/loan', 'index')->name('loan');
+        Route::post('/loan/store', 'store')->name('loan.store');
+        Route::get('/loan/view', 'view')->name('loan.view');
+    });
     // pos setting related route
     Route::controller(PosSettingsController::class)->group(function () {
         Route::get('/pos/settings/add', 'PosSettingsAdd')->name('pos.settings.add');
@@ -204,26 +212,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
     });
 
-// Departments related route(n)
-Route::controller(DepartmentsController::class)->group(function () {
-    Route::get('/departments', 'index')->name('departments');
-    Route::post('/departments/store', 'store');
-    Route::get('/depertments/view', 'view');
-    Route::get('/departments/edit/{id}', 'edit');
-    Route::post('/departments/update/{id}', 'update');
-    Route::get('/departments/destroy/{id}', 'destroy');
-
-});//End
-// Salary Structure related route(n)
-Route::controller(SalaryStructureController::class)->group(function () {
-    Route::get('/salary/structure', 'index')->name('salary.structure');
-    Route::post('/salary/structure/store', 'store');
-    Route::get('/salary/structure/view', 'view');
-    Route::get('/salary/structure/edit/{id}', 'edit');
-    Route::post('/salary/structure/update/{id}', 'update');
-    Route::get('/salary/structure/destroy/{id}', 'destroy');
-
-});//End
+    // Departments related route(n)
+    Route::controller(DepartmentsController::class)->group(function () {
+        Route::get('/departments', 'index')->name('departments');
+        Route::post('/departments/store', 'store');
+        Route::get('/depertments/view', 'view');
+        Route::get('/departments/edit/{id}', 'edit');
+        Route::post('/departments/update/{id}', 'update');
+        Route::get('/departments/destroy/{id}', 'destroy');
+    }); //End
+    // Salary Structure related route(n)
+    Route::controller(SalaryStructureController::class)->group(function () {
+        Route::get('/salary/structure', 'index')->name('salary.structure');
+        Route::post('/salary/structure/store', 'store');
+        Route::get('/salary/structure/view', 'view');
+        Route::get('/salary/structure/edit/{id}', 'edit');
+        Route::post('/salary/structure/update/{id}', 'update');
+        Route::get('/salary/structure/destroy/{id}', 'destroy');
+    }); //End
 
     Route::controller(CompanyBalanceController::class)->group(function () {
         Route::group(['prefix' => 'daily'], function () {
