@@ -79,17 +79,17 @@
                                                 <td>
                                                     <b><i>Loan Principal</i></b>
                                                 </td>
-                                                <td>{{ $loan->loan_principal ?? '' }}</td>
+                                                <td>{{ number_format($loan->loan_principal, 2) ?? 0 }}</td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <b><i>Loan Balance</i></b>
+                                                    <b><i>Total Loan Amount</i></b>
                                                 </td>
-                                                <td>{{ $loan->loan_balance ?? 00 }}</td>
+                                                <td>{{ number_format($loan->loan_balance, 2) ?? 00 }}</td>
                                                 <td>
                                                     <b><i>Interest Rate</i></b>
                                                 </td>
-                                                <td>{{ $loan->interest_rate ?? '' }}</td>
+                                                <td>{{ number_format($loan->interest_rate) ?? 0 }} %</td>
                                                 <td>
                                                     <b><i>Repayment Schedule</i></b>
                                                 </td>
@@ -99,7 +99,7 @@
                                                 <td>
                                                     <b><i>Loan Duration</i></b>
                                                 </td>
-                                                <td>{{ $loan->loan_duration ?? '' }}</td>
+                                                <td>{{ $loan->loan_duration ?? 0 }} Years</td>
                                                 <td>
                                                     <b><i>Start Date</i></b>
                                                 </td>
@@ -109,6 +109,25 @@
                                                 </td>
                                                 <td>{{ $loan->end_date ?? '' }}</td>
                                             </tr>
+                                            <tr>
+                                                <td>
+                                                    <b><i>Installments Amount</i></b>
+                                                </td>
+                                                @php
+                                                    $total_duration = $loan->loan_duration * 12;
+                                                    $repayment_amount = $loan->loan_balance / $total_duration;
+                                                @endphp
+                                                <td>{{ number_format($repayment_amount, 2) ?? 0 }}</td>
+                                                <td>
+                                                    <b><i>Total Installments</i></b>
+                                                </td>
+                                                <td>{{ $total_duration ?? 0 }}</td>
+                                                <td>
+                                                    <b><i></i></b>
+                                                </td>
+                                                <td>{{ $loan->end_date ?? '' }}</td>
+                                            </tr>
+
                                         </thead>
                                     </table>
                                 </div>
@@ -121,7 +140,52 @@
     </div>
     <iframe id="printFrame" src="" width="0" height="0"></iframe>
 
-
+    <!-- Modal add Payment -->
+    <div class="modal fade" id="duePayment" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Loan Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentForm" class="addPaymentForm row" method="POST">
+                        <input type="hidden" name="data_id" id="data_id" value="{{ $loan->id }}">
+                        <div>
+                            <label for="name" class="form-label">Installment Amount : <span id="due-amount">
+                                    {{ number_format($repayment_amount, 2) }}</span> ৳ </label> <br>
+                            <label for="remaining" class="form-label">Remaining Due:
+                                <span class="text-danger" id="remaining-due">
+                                    {{ number_format($repayment_amount, 2) }} </span>৳
+                            </label>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Balance Amount <span
+                                    class="text-danger">*</span></label>
+                            <input type="number" class="form-control add_amount payment_balance" name="payment_balance"
+                                onkeyup="dueShow()" onkeydown="errorRemove(this);">
+                            <span class="text-danger payment_balance_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Transaction Account <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control account" name="account" id=""
+                                onchange="errorRemove(this);">
+                                @foreach ($banks as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger account_error"></span>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-primary" id="add_payment">Payment</a>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <style>
         #printFrame {
@@ -198,18 +262,18 @@
             $(`${payment_balance}_error`).show().text(message);
         }
 
-        // // due Show 
-        // function dueShow() {
-        //     let dueAmountText = document.getElementById('due-amount').innerText.trim();
-        //     let dueAmount = parseFloat(dueAmountText.replace(/[^\d.-]/g, ''));
+        // due Show 
+        function dueShow() {
+            let dueAmountText = document.getElementById('due-amount').innerText.trim();
+            let dueAmount = parseFloat(dueAmountText.replace(/[^\d.-]/g, ''));
 
-        //     let paymentBalanceText = document.querySelector('.payment_balance').value.trim();
-        //     let paymentBalance = parseFloat(paymentBalanceText)
+            let paymentBalanceText = document.querySelector('.payment_balance').value.trim();
+            let paymentBalance = parseFloat(paymentBalanceText)
 
-        //     let remainingDue = dueAmount - (paymentBalance || 0);
-        //     document.getElementById('remaining-due').innerText = remainingDue.toFixed(2) ?? 0 + ' ৳';
+            let remainingDue = dueAmount - (paymentBalance || 0);
+            document.getElementById('remaining-due').innerText = remainingDue.toFixed(2) ?? 0 + ' ৳';
 
-        // }
+        }
 
 
         // const savePayment = document.getElementById('add_payment');
