@@ -4,6 +4,7 @@ namespace App\Http\Controllers\EmployeePayroll;
 
 use App\Http\Controllers\Controller;
 use App\Models\Departments\Departments;
+use App\Models\EmployeePayroll\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -85,4 +86,21 @@ class DepartmentsController extends Controller
             'message' => 'Departments Deleted Successfully',
         ]);
     }//Method End
+
+    //Audit
+    public function audit(){
+        $departments = Departments::all();
+       $employees =  Employee::all();
+        return view('all_modules.all_audit.audit',compact('departments','employees'));
+    }//Method End
+    public function getEmployeesByDepartment($department_id)
+        {
+
+            $employees = Employee::where('department_id', $department_id)->get();
+
+            return response()->json($employees);
+        }
+        public function auditStore(Request $request){
+            dd($request->all());
+        }
 }
