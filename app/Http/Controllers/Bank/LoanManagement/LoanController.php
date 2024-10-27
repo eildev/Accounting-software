@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Bank\LoanManagment;
+namespace App\Http\Controllers\Bank\LoanManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
-use App\Models\Bank\LoanManagment\Loan;
+use App\Models\Bank\LoanManagement\Loan;
 use App\Models\Branch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

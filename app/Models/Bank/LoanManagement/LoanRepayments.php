@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Bank\LoanManagment;
+namespace App\Models\Bank\LoanManagement;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
