@@ -93,7 +93,7 @@
                                                 <td>
                                                     <b><i>Repayment Schedule</i></b>
                                                 </td>
-                                                <td>{{ $loan->repayment_schedule ?? '' }}</td>
+                                                <td class="text-capitalize">{{ $loan->repayment_schedule ?? '' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -114,23 +114,105 @@
                                                     <b><i>Installments Amount</i></b>
                                                 </td>
                                                 @php
-                                                    $total_duration = $loan->loan_duration * 12;
-                                                    $repayment_amount = number_format(
-                                                        $loan->loan_balance / $total_duration,
-                                                        2,
-                                                    );
+                                                    // $repayment_amount = 0;
+                                                    $total_duration = 0;
+                                                    if ($loan->repayment_schedule == 'daily') {
+                                                        $total_duration = $loan->loan_duration * 365;
+                                                    } elseif ($loan->repayment_schedule == 'weekly') {
+                                                        $total_duration = $loan->loan_duration * 52;
+                                                    } elseif ($loan->repayment_schedule == 'monthly') {
+                                                        $total_duration = $loan->loan_duration * 12;
+                                                    } else {
+                                                        $total_duration = $loan->loan_duration;
+                                                    }
+                                                    $repayment_amount = $loan->loan_balance / $total_duration;
                                                 @endphp
-                                                <td>{{ $repayment_amount ?? 0 }}</td>
+
+                                                <td>{{ number_format($repayment_amount, 2) ?? 0 }}</td>
                                                 <td>
                                                     <b><i>Total Installments</i></b>
                                                 </td>
                                                 <td>{{ $total_duration ?? 0 }}</td>
                                                 <td>
-                                                    <b><i></i></b>
+                                                    <b><i>Paid Intallment</i></b>
                                                 </td>
-                                                <td>{{ $loan->end_date ?? '' }}</td>
+                                                <td>{{ $loan_repayments->count() ?? '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b><i>Remaining Installments</i></b>
+                                                </td>
+                                                <td>{{ $total_duration - $loan_repayments->count() ?? 0 }}</td>
+                                                <td>
+                                                    <b><i>Total Paid Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($repayment_amount * $loan_repayments->count(), 2) ?? 0 }}
+                                                </td>
+                                                <td>
+                                                    <b><i>Remaining Loan Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($loan->loan_balance - $repayment_amount * $loan_repayments->count(), 2) ?? 0 }}
+                                                </td>
                                             </tr>
                                         </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Instalment No.</th>
+                                                <th>Date</th>
+                                                <th>Payment Method</th>
+                                                <th>Principal Paid</th>
+                                                <th>Interest Paid</th>
+                                                <th>Total Paid</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($loan_repayments->count() > 0)
+                                                @php
+                                                    function ordinal($number)
+                                                    {
+                                                        $suffixes = ['th', 'st', 'nd', 'rd', 'th'];
+                                                        $remainder = $number % 100;
+                                                        return $number .
+                                                            ($suffixes[($remainder - 20) % 10] ??
+                                                                ($suffixes[$remainder] ?? $suffixes[0]));
+                                                    }
+                                                @endphp
+                                                @foreach ($loan_repayments as $index => $data)
+                                                    <tr>
+                                                        <td>{{ ordinal($index + 1) }} Installment</td>
+                                                        <td>{{ $data->repayment_date ?? '' }}</td>
+                                                        <td>
+                                                            @if ($data->bank_account_id)
+                                                                {{ $data->bankAccounts->account_name ?? '' }}
+                                                            @else
+                                                                {{ $data->cashAccount->cash_account_name ?? '' }}
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $data->principal_paid ?? 0 }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $data->interest_paid ?? 0 }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $data->total_paid ?? 0 }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Data Found</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -156,7 +238,7 @@
                         <input type="hidden" name="payment_balance" id="payment_balance" value="{{ $repayment_amount }}">
                         <div class="col-md-12">
                             <label for="name" class="form-label">Installment Amount : <span id="due-amount">
-                                    {{ $repayment_amount }}</span> ৳ </label> <br>
+                                    {{ number_format($repayment_amount, 2) }}</span> ৳ </label> <br>
                             {{-- <label for="remaining" class="form-label">Remaining Due:
                                 <span class="text-danger" id="remaining-due">
                                     {{$repayment_amount }} </span>৳
@@ -341,6 +423,8 @@
             e.preventDefault();
 
             let formData = new FormData($('.addPaymentForm')[0]);
+            let paymentBalance = parseFloat($('#payment_balance').val());
+
             // CSRF Token setup
             $.ajaxSetup({
                 headers: {
@@ -348,7 +432,7 @@
                 }
             });
 
-            // AJAX request
+            // // AJAX request
             $.ajax({
                 url: '/loan-repayments/store',
                 type: 'POST',
@@ -356,7 +440,7 @@
                 processData: false,
                 contentType: false,
                 success: function(res) {
-                    console.log(res);
+                    // console.log(res);
                     if (res.status == 200) {
                         // Hide the correct modal
                         $('#duePayment').modal('hide');
@@ -365,9 +449,12 @@
                         toastr.success(res.message);
                         window.location.reload();
                     } else if (res.status == 400) {
-                        showError('.account', res.message);
+                        toastr.warning(res.message);
                     } else {
-                        // console.log(res);
+                        // console.log(res.error);
+                        if (res.message) {
+                            toastr.error(res.error);
+                        }
                         if (res.error.data_id) {
                             toastr.error(res.error.data_id);
                         }

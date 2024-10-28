@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bank\LoanManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
 use App\Models\Bank\LoanManagement\Loan;
+use App\Models\Bank\LoanManagement\LoanRepayments;
 use App\Models\Branch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -124,8 +125,9 @@ class LoanController extends Controller
             $loan = Loan::findOrFail($id);  // Fetch only for the user's branch
             $branch = Branch::findOrFail($loan->branch_id);
             $banks = BankAccounts::latest()->get();
+            $loan_repayments = LoanRepayments::where('loan_id', $loan->id)->get();
 
-            return view('all_modules.bank.loan.loan-profile', compact('loan', 'branch', 'banks'));
+            return view('all_modules.bank.loan.loan-profile', compact('loan', 'branch', 'banks', 'loan_repayments'));
         } catch (\Exception $e) {
             // / Log the error
             Log::error('Error loading the Loan view: ' . $e->getMessage());
