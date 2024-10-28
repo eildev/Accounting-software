@@ -93,7 +93,7 @@
                                                 <td>
                                                     <b><i>Repayment Schedule</i></b>
                                                 </td>
-                                                <td>{{ $loan->repayment_schedule ?? '' }}</td>
+                                                <td class="text-capitalize">{{ $loan->repayment_schedule ?? '' }}</td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -114,21 +114,105 @@
                                                     <b><i>Installments Amount</i></b>
                                                 </td>
                                                 @php
-                                                    $total_duration = $loan->loan_duration * 12;
+                                                    // $repayment_amount = 0;
+                                                    $total_duration = 0;
+                                                    if ($loan->repayment_schedule == 'daily') {
+                                                        $total_duration = $loan->loan_duration * 365;
+                                                    } elseif ($loan->repayment_schedule == 'weekly') {
+                                                        $total_duration = $loan->loan_duration * 52;
+                                                    } elseif ($loan->repayment_schedule == 'monthly') {
+                                                        $total_duration = $loan->loan_duration * 12;
+                                                    } else {
+                                                        $total_duration = $loan->loan_duration;
+                                                    }
                                                     $repayment_amount = $loan->loan_balance / $total_duration;
                                                 @endphp
+
                                                 <td>{{ number_format($repayment_amount, 2) ?? 0 }}</td>
                                                 <td>
                                                     <b><i>Total Installments</i></b>
                                                 </td>
                                                 <td>{{ $total_duration ?? 0 }}</td>
                                                 <td>
-                                                    <b><i></i></b>
+                                                    <b><i>Paid Intallment</i></b>
                                                 </td>
-                                                <td>{{ $loan->end_date ?? '' }}</td>
+                                                <td>{{ $loan_repayments->count() ?? '' }}</td>
                                             </tr>
-
+                                            <tr>
+                                                <td>
+                                                    <b><i>Remaining Installments</i></b>
+                                                </td>
+                                                <td>{{ $total_duration - $loan_repayments->count() ?? 0 }}</td>
+                                                <td>
+                                                    <b><i>Total Paid Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($repayment_amount * $loan_repayments->count(), 2) ?? 0 }}
+                                                </td>
+                                                <td>
+                                                    <b><i>Remaining Loan Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($loan->loan_balance - $repayment_amount * $loan_repayments->count(), 2) ?? 0 }}
+                                                </td>
+                                            </tr>
                                         </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Instalment No.</th>
+                                                <th>Date</th>
+                                                <th>Payment Method</th>
+                                                <th>Principal Paid</th>
+                                                <th>Interest Paid</th>
+                                                <th>Total Paid</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($loan_repayments->count() > 0)
+                                                @php
+                                                    function ordinal($number)
+                                                    {
+                                                        $suffixes = ['th', 'st', 'nd', 'rd', 'th'];
+                                                        $remainder = $number % 100;
+                                                        return $number .
+                                                            ($suffixes[($remainder - 20) % 10] ??
+                                                                ($suffixes[$remainder] ?? $suffixes[0]));
+                                                    }
+                                                @endphp
+                                                @foreach ($loan_repayments as $index => $data)
+                                                    <tr>
+                                                        <td>{{ ordinal($index + 1) }} Installment</td>
+                                                        <td>{{ $data->repayment_date ?? '' }}</td>
+                                                        <td>
+                                                            @if ($data->bank_account_id)
+                                                                {{ $data->bankAccounts->account_name ?? '' }}
+                                                            @else
+                                                                {{ $data->cashAccount->cash_account_name ?? '' }}
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            {{ $data->principal_paid ?? 0 }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $data->interest_paid ?? 0 }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $data->total_paid ?? 0 }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No Data Found</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -151,38 +235,62 @@
                 <div class="modal-body">
                     <form id="addPaymentForm" class="addPaymentForm row" method="POST">
                         <input type="hidden" name="data_id" id="data_id" value="{{ $loan->id }}">
-                        <div>
+                        <input type="hidden" name="payment_balance" id="payment_balance" value="{{ $repayment_amount }}">
+                        <div class="col-md-12">
                             <label for="name" class="form-label">Installment Amount : <span id="due-amount">
                                     {{ number_format($repayment_amount, 2) }}</span> ৳ </label> <br>
-                            <label for="remaining" class="form-label">Remaining Due:
+                            {{-- <label for="remaining" class="form-label">Remaining Due:
                                 <span class="text-danger" id="remaining-due">
-                                    {{ number_format($repayment_amount, 2) }} </span>৳
-                            </label>
+                                    {{$repayment_amount }} </span>৳
+                            </label> --}}
                         </div>
                         <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Account Type<span class="text-danger">*</span></label>
+                            <select class="form-control account_type" name="account_type" onclick="errorRemove(this);"
+                                onchange="checkPaymentAccount(this);">
+                                <option value="">Select Account Type</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                            <span class="text-danger account_type_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Payment Account<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control payment_account_id" name="payment_account_id"
+                                onchange="errorRemove(this);">
+                                <option value="">Select Payment Account</option>
+                            </select>
+                            <span class="text-danger payment_account_id_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="name" class="form-label">Repayment Date<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
+                                <span class="input-group-text input-group-addon bg-transparent border-primary"
+                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
+                                <input type="text" name="repayment_date"
+                                    class="form-control bg-transparent border-primary repayment_date"
+                                    placeholder="Select date" data-input>
+                            </div>
+                            <span class="text-danger repayment_date_error"></span>
+                        </div>
+
+                        {{-- <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Balance Amount <span
                                     class="text-danger">*</span></label>
                             <input type="number" class="form-control add_amount payment_balance" name="payment_balance"
-                                onkeyup="dueShow()" onkeydown="errorRemove(this);">
+                                onkeyup="errorRemove(this);">
                             <span class="text-danger payment_balance_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Transaction Account <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-control account" name="account" id=""
-                                onchange="errorRemove(this);">
-                                @foreach ($banks as $bank)
-                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger account_error"></span>
-                        </div>
+                        </div> --}}
+
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <a type="button" class="btn btn-primary" id="add_payment">Payment</a>
                 </div>
-                </form>
+
             </div>
         </div>
     </div>
@@ -245,9 +353,9 @@
         function errorRemove(element) {
             tag = element.tagName.toLowerCase();
             if (element.value != '') {
-                // console.log('ok');
                 if (tag == 'select') {
-                    $(element).closest('.mb-3').find('.text-danger').hide();
+                    $(element).css('border-color', 'green');
+                    $(element).siblings('span').hide();
                 } else {
                     $(element).siblings('span').hide();
                     $(element).css('border-color', 'green');
@@ -275,53 +383,103 @@
 
         }
 
+        function checkPaymentAccount(element) {
+            const paymentType = $(element).val(); // 'element' is passed in from the onclick event
+            const paymentAccounts = $('.payment_account_id');
+            $.ajax({
+                url: '/check-account-type',
+                method: 'GET',
+                data: {
+                    payment_type: paymentType
+                },
+                success: function(res) {
+                    const accounts = res.data;
+                    // console.log(accounts);
+                    if (accounts.length > 0) {
+                        $('.payment_account_id').html(
+                            `<option selected disabled>Select Account</option>`
+                        ); // Clear and set default option
+                        $.each(accounts, function(index, account) {
+                            // console.log(account);
+                            $('.payment_account_id').append(
+                                `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
+                            );
+                        });
 
-        // const savePayment = document.getElementById('add_payment');
-        // savePayment.addEventListener('click', function(e) {
-        //     // console.log('Working on payment')
-        //     e.preventDefault();
+                    } else {
+                        $('.payment_account_id').html(
+                            `<option selected disabled>No Account Found</option>`
+                        ); // Clear and set default option
+                    }
+                }
+            });
 
-        //     let formData = new FormData($('.addPaymentForm')[0]);
-        //     // CSRF Token setup
-        //     $.ajaxSetup({
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         }
-        //     });
+        }
 
-        //     // AJAX request
-        //     $.ajax({
-        //         url: '/due/invoice/payment/transaction',
-        //         type: 'POST',
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         success: function(res) {
-        //             console.log(res);
-        //             if (res.status == 200) {
-        //                 // Hide the correct modal
-        //                 $('#duePayment').modal('hide');
-        //                 // Reset the form
-        //                 $('.addPaymentForm')[0].reset();
-        //                 toastr.success(res.message);
-        //                 window.location.reload();
-        //             } else if (res.status == 400) {
-        //                 showError('.account', res.message);
-        //             } else {
-        //                 // console.log(res);
-        //                 if (res.error.payment_balance) {
-        //                     showError('.payment_balance', res.error.payment_balance);
-        //                 }
-        //                 if (res.error.account) {
-        //                     showError('.account', res.error.account);
-        //                 }
-        //             }
-        //         },
-        //         error: function(err) {
-        //             toastr.error('An error occurred, Empty Feild Required.');
-        //         }
-        //     });
-        // });
+
+        const savePayment = document.getElementById('add_payment');
+        savePayment.addEventListener('click', function(e) {
+            // console.log('Working on payment')
+            e.preventDefault();
+
+            let formData = new FormData($('.addPaymentForm')[0]);
+            let paymentBalance = parseFloat($('#payment_balance').val());
+
+            // CSRF Token setup
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // // AJAX request
+            $.ajax({
+                url: '/loan-repayments/store',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    // console.log(res);
+                    if (res.status == 200) {
+                        // Hide the correct modal
+                        $('#duePayment').modal('hide');
+                        // Reset the form
+                        $('.addPaymentForm')[0].reset();
+                        toastr.success(res.message);
+                        window.location.reload();
+                    } else if (res.status == 400) {
+                        toastr.warning(res.message);
+                    } else {
+                        // console.log(res.error);
+                        if (res.message) {
+                            toastr.error(res.error);
+                        }
+                        if (res.error.data_id) {
+                            toastr.error(res.error.data_id);
+                        }
+                        if (res.error.account_type) {
+                            showError('.account_type', res.error.account_type);
+                        }
+                        if (res.error.account_type) {
+                            showError('.account_type', res.error.account_type);
+                        }
+                        if (res.error.payment_account_id) {
+                            showError('.payment_account_id', res.error.payment_account_id);
+                        }
+                        if (res.error.repayment_date) {
+                            showError('.repayment_date', res.error.repayment_date);
+                        }
+                        if (res.error.payment_balance) {
+                            toastr.error(res.error.payment_balance);
+                        }
+                    }
+                },
+                error: function(err) {
+                    toastr.error('An error occurred, Something Went Wrong.');
+                }
+            });
+        });
 
 
         // print

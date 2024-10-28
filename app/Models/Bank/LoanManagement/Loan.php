@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Bank\LoanManagment;
+namespace App\Models\Bank\LoanManagement;
 
 use App\Models\Bank\BankAccounts;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

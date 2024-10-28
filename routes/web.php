@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Bank\BankAccountsController;
 use App\Http\Controllers\Bank\CashTransactionController;
-use App\Http\Controllers\Bank\LoanManagment\LoanController;
+use App\Http\Controllers\Bank\LoanManagement\LoanController;
+use App\Http\Controllers\Bank\LoanManagement\LoanRepaymentsController;
 use App\Http\Controllers\Bank\Transaction\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BranchController;
@@ -179,6 +180,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/loan/view', 'view');
         Route::get('/loan/view/{id}', 'viewLoan');
     });
+
+
+    // Transaction related route(n)
+    Route::controller(LoanRepaymentsController::class)->group(function () {
+        Route::post('/loan-repayments/store', 'store');
+        // Route::get('/loan/view', 'view');
+        // Route::get('/loan/view/{id}', 'viewLoan');
+    });
+
     // pos setting related route
     Route::controller(PosSettingsController::class)->group(function () {
         Route::get('/pos/settings/add', 'PosSettingsAdd')->name('pos.settings.add');
