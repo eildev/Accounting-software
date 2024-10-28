@@ -103,4 +103,5 @@ class DepartmentsController extends Controller
         public function auditStore(Request $request){
             dd($request->all());
         }
+
 }
