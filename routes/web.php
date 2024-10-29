@@ -19,6 +19,7 @@ use App\Http\Controllers\CompanyBalanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeePayroll\DepartmentsController;
 use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
+use App\Http\Controllers\ConvenienceBill\ConvenienceBillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -225,9 +226,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/departments/edit/{id}', 'edit');
         Route::post('/departments/update/{id}', 'update');
         Route::get('/departments/destroy/{id}', 'destroy');
-        Route::get('/audit', 'audit')->name('audit');
-        Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
-        Route::post('audit/store', 'auditStore')->name('audit.store');
+
     }); //End
     // Salary Structure related route(n)
     Route::controller(SalaryStructureController::class)->group(function () {
@@ -237,6 +236,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/salary/structure/edit/{id}', 'edit');
         Route::post('/salary/structure/update/{id}', 'update');
         Route::get('/salary/structure/destroy/{id}', 'destroy');
+    }); //End
+    // Convenience Bill  related route(n)
+    Route::controller(ConvenienceBillController::class)->group(function () {
+        Route::get('/convenience', 'convenience')->name('convenience');
+        Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
+        Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
+
     }); //End
 
     Route::controller(CompanyBalanceController::class)->group(function () {

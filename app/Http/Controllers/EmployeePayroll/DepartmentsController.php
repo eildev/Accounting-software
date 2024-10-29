@@ -87,20 +87,6 @@ class DepartmentsController extends Controller
         ]);
     }//Method End
 
-    //Audit
-    public function audit(){
-        $departments = Departments::all();
-       $employees =  Employee::all();
-        return view('all_modules.all_audit.audit',compact('departments','employees'));
-    }//Method End
-    public function getEmployeesByDepartment($department_id)
-        {
 
-            $employees = Employee::where('department_id', $department_id)->get();
 
-            return response()->json($employees);
-        }
-        public function auditStore(Request $request){
-            dd($request->all());
-        }
 }
