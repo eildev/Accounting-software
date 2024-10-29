@@ -132,42 +132,6 @@
     </div>
 
 
-    <!-- Add Cash Modal -->
-    <div class="modal fade" id="cash_modal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Cash Info</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="signupForm" class="cashForm row">
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Cash Account Name <span
-                                    class="text-danger">*</span></label>
-                            <input class="form-control cash_account_name" name="cash_account_name" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger cash_account_name_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Opening Balance<span
-                                    class="text-danger">*</span></label>
-                            <input class="form-control opening_balance" name="opening_balance" type="number"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger opening_balance_error"></span>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save_cash">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 
 
     <script>
@@ -323,6 +287,27 @@
         })
 
 
+        function modalShowHide(element) {
+            var recurringExpanseModal = new bootstrap.Modal(document.getElementById(`${element}`), {
+                backdrop: 'static', // Prevent closing by clicking outside
+                keyboard: false // Prevent closing with Escape key
+            });
+
+            // Trigger modal open when the button is clicked
+            document.querySelector(`.btn[data-bs-target="#${element}"]`).addEventListener('click',
+                function() {
+                    recurringExpanseModal.show();
+                });
+
+            // Custom close functionality for specific buttons
+            document.querySelector('.modal_close').addEventListener('click', function() {
+                recurringExpanseModal.hide();
+            });
+            document.querySelector('.btn-close').addEventListener('click', function() {
+                recurringExpanseModal.hide();
+            });
+        }
+
 
         document.addEventListener("DOMContentLoaded", function() {
             // tab active on the page reload 
@@ -346,23 +331,10 @@
             });
 
 
-            // // modal not close 
-            // // // Get the modal element
-            // const cashWithdrawModal = document.getElementById('cashWithdrawModal');
 
-            // // Get the specific buttons that should allow the modal to close
-            // const btnClose = cashWithdrawModal.querySelector('.btn-close'); // Top-right close button
-            // const modalCloseButton = cashWithdrawModal.querySelector(
-            //     '.modal_close'); // Footer "Close" button
-
-            // // Add event listener to prevent modal from closing unless certain buttons are clicked
-            // cashWithdrawModal.addEventListener('hide.bs.modal', function(event) {
-            //     // Allow modal to close only if triggered by btn-close or modal_close button
-            //     if (!(event.relatedTarget === btnClose || event.relatedTarget ===
-            //             modalCloseButton)) {
-            //         event.preventDefault(); // Prevent modal from closing
-            //     }
-            // });
+            // modal on off 
+            // Initialize modal with backdrop and keyboard options
+            modalShowHide('loanModal');
         });
     </script>
 

@@ -20,6 +20,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeePayroll\DepartmentsController;
 use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
 use App\Http\Controllers\ConvenienceBill\ConvenienceBillController;
+use App\Http\Controllers\Expanse\RecurringExpanse\RecurringExpanseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -121,6 +122,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/expense/filter/rander', 'ExpenseFilterView')->name('expense.filter.view');
     });
 
+    Route::prefix('expense')->controller(RecurringExpanseController::class)->group(function () {
+        Route::get('/recurring', 'index')->name('expense.recurring');
+        Route::post('/recurring/store', 'store');
+        Route::get('/recurring/view', 'view');
+        Route::get('/category/view', 'viewExpenseCategory');
+    });
+
+
+
     // Tax related route(n)
     Route::controller(TaxController::class)->group(function () {
         Route::get('/tax/add', 'TaxAdd')->name('product.tax.add');
@@ -138,27 +148,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/payment/method/edit/{id}', 'PaymentMethodEdit')->name('payment.method.edit');
         Route::post('/payment/method/update/{id}', 'PaymentMethodUpdate')->name('payment.method.update');
         Route::get('/payment/method/delete/{id}', 'PaymentMethodDelete')->name('payment.method.delete');
-    });
-    // Transaction related route(n)
-    Route::controller(TransactionController::class)->group(function () {
-        Route::get('/transaction/add', 'TransactionAdd')->name('transaction.add');
-        // Route::post('/transaction/store', 'TransactionStore')->name('transaction.store');
-        // // Route::get('/transaction/view', 'TransactionView')->name('transaction.view');
-        // // Route::get('/transaction/edit/{id}', 'TransactionEdit')->name('transaction.edit');
-        // Route::post('/transaction/update/{id}', 'TransactionUpdate')->name('transaction.update');
-        // Route::get('/transaction/delete/{id}', 'TransactionDelete')->name('transaction.delete');
-        // Route::get('/getDataForAccountId', 'getDataForAccountId');
-        // /////Filer Transaction////
-        // Route::get('/transaction/filter/rander', 'TransactionFilterView')->name('transaction.filter.view');
-        // ////////Invoice///////////
-        // Route::get('/transaction/invoice/receipt/{id}', 'TransactionInvoiceReceipt')->name('transaction.invoice.receipt');
-        // ////////Investment Route ////
-        // Route::post('/add/investor', 'InvestmentStore');
-        // Route::get('/get/investor', 'GetInvestor');
-        // Route::get('/get/invoice/{id}', 'InvestorInvoice')->name('investor.invoice');
-
-        // //
-        // Route::post('/due/invoice/payment/transaction', 'invoicePaymentStore');
     });
 
     // Transaction related route(n)
@@ -180,8 +169,6 @@ Route::middleware('auth')->group(function () {
     // Transaction related route(n)
     Route::controller(LoanRepaymentsController::class)->group(function () {
         Route::post('/loan-repayments/store', 'store');
-        // Route::get('/loan/view', 'view');
-        // Route::get('/loan/view/{id}', 'viewLoan');
     });
 
     // pos setting related route
@@ -226,7 +213,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/departments/edit/{id}', 'edit');
         Route::post('/departments/update/{id}', 'update');
         Route::get('/departments/destroy/{id}', 'destroy');
-
     }); //End
     // Salary Structure related route(n)
     Route::controller(SalaryStructureController::class)->group(function () {
@@ -242,7 +228,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience', 'convenience')->name('convenience');
         Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
-
     }); //End
 
     Route::controller(CompanyBalanceController::class)->group(function () {

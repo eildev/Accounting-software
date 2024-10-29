@@ -26,11 +26,14 @@
         .nav-link.nav_active .link-title,
         .nav-link.nav_active {
             color: #ffffff !important;
-
         }
 
         .sub-menu .nav-item .nav-link {
             padding-left: 5px !important;
+        }
+
+        .nav-link.nav_active:hover {
+            color: #ffffff !important;
         }
     </style>
     <div class="sidebar-body">
@@ -274,7 +277,7 @@
                         <span class="link-title">Expense</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
-                    <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="employee">
+                    <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="expense">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
                                 <a href="{{ route('expense.view') }}"
@@ -282,8 +285,8 @@
                                     Expense Managment</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('expense.view') }}"
-                                    class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">Recurring
+                                <a href="{{ route('expense.recurring') }}"
+                                    class="nav-link {{ request()->routeIs('expense.recurring') ? 'nav_active' : '' }}">Recurring
                                     Expense</a>
                             </li>
                         </ul>
