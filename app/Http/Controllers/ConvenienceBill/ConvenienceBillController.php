@@ -65,6 +65,7 @@ class ConvenienceBillController extends Controller
                         'mode_of_transport' => $request->movementMode_of_Transport[$index],
                         'movement_amount' => $request->movementAmount[$index],
                         'movement_assigned' => $request->movementAssigned[$index],
+                        'movement_file' => $request->movementCostsFile ?? null,
                     ]);
                 }
                 return response()->json([

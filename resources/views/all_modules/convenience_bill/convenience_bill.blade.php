@@ -475,7 +475,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-
+                                        <input type="text"
+                                        class="input-group border-0 form-control movementCostsFileShow" name="movementCostsFile"   style="border: 0; background-color: transparent;" readonly
+                                            value="" >
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -496,6 +498,7 @@
                                         <tr>
 
                                         </tr>
+
                                     </tbody>
 
                                 </table>
@@ -633,8 +636,13 @@
             });
         });
         //First  Add row  Tab End
-
-        //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
+        /////////////////////////////////////////////movementCostsFile/////////////////////////////////////////////////
+            const movementCostsFile = document.querySelector('#movementCostsFile');
+              movementCostsFile.addEventListener('change', function(e) {
+              e.preventDefault();
+              document.querySelector('.movementCostsFileShow').value = this.value;
+            })
+            //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
         const movementCostsAdd = document.querySelector('.movementCostsAdd');
         movementCostsAdd.addEventListener('click', function(e) {
             e.preventDefault();
@@ -679,10 +687,10 @@
                 }
             });
 
-            // Show all error messages in a single toastr notification if any field is missing
+
             if (!allFieldsFilled) {
-                toastr.error(errorMessages.join('<br>')); // Join messages with line breaks
-                return; // Stop execution if any field is missing
+                toastr.error(errorMessages.join('<br>'));
+                return;
             }
             ///////////////Validation End /////////////
             // Check if <thead> is empty or doesn't exist, and add it if necessary
@@ -745,7 +753,8 @@
                    class="input-group border-0 form-control" name="movementAssigned[]"   style="border: 0; background-color: transparent;" readonly
                     value="${movementAssigned}"> </td>
                     <td><button class="deleteRowBtn form-control text-danger btn-xs btn-danger">Delete</button></td>
-                `;
+
+                    `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
                 // let imageUrl = URL.createObjectURL(file);
