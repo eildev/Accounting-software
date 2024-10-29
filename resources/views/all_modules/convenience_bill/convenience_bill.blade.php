@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', '| Audit Management')
+@section('title', '| Convenience Bill Management')
 @section('admin')
     @php
         $mode = App\models\PosSetting::all()->first();
@@ -98,7 +98,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="card-title">Audit Table</h6>
+                        <h6 class="card-title">Convenience Bill Table</h6>
                         {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                         data-bs-target="#exampleModalLongScollable">Add Departments</button> --}}
                     </div>
@@ -205,33 +205,32 @@
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
                                                                     class="input-group flatpickr form-control"
-                                                                    name="date[]" value="2024-10-21">
+                                                                    name="movementDate[]">
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" cols="30" rows="2" name="from[]" placeholder="From "></textarea>
+                                                                <textarea class="form-control" cols="30" rows="2" name="movementFrom[]" placeholder="From "></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="to[]" placeholder="To "></textarea>
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="movementTo[]" placeholder="To "></textarea>
                                                             </td>
                                                             <td>
 
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="purpose[]"
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="movementPurpose[]"
                                                                     placeholder="Enter Purpose "></textarea>
                                                             </td>
 
                                                             <td>
-                                                                <select class="form-control" name="Mode_of_Transport[]">
-                                                                    <option selected disabled>Select Transport</option>
+                                                                <select class="form-control" name="movementMode_of_Transport[]">
                                                                     <option value="bike">Bike</option>
                                                                     <option value="rickshaw">Rickshaw</option>
                                                                     <option value="cars"> Cars</option>
                                                                     <option value="buses"> Buses</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="number" class="form-control"name="amount[]"
-                                                                    value="150"></td>
+                                                            <td><input type="number" class="form-control"name="movementAmount[]"
+                                                                   ></td>
                                                             <td><input type="text" class="form-control"
-                                                                    name="assigned[]" value="Admin">
+                                                                    name="movementAssigned[]" >
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -282,7 +281,7 @@
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
-                                                                    class="input-group form-control" name="date2[]"
+                                                                    class="input-group form-control" name="foodingDate[]"
                                                                     value="2024-10-21">
                                                             </td>
                                                             <td>
@@ -429,7 +428,7 @@
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
                                                                     class="input-group form-control" name="date4[]"
-                                                                    value="2024-10-21">
+                                                                    >
                                                             </td>
 
                                                             <td>
@@ -437,9 +436,9 @@
                                                                     placeholder="Enter Purpose "></textarea>
                                                             </td>
 
-                                                            <td><input type="number" class="form-control"name="amount4[]"
+                                                            <td><input type="number" class="form-control" name="amount4[]"
                                                                     value=""></tdput type="text" clas>
-                                                            <td><ins="form-control"
+                                                            <td><input type="text" class="form-control"
                                                                     name="assigned4[]" value="">
                                                             </td>
                                                         </tr>
@@ -587,12 +586,12 @@
             newRow.innerHTML = `
               <td><button type="button" class="removeRowBtn form-control text-danger btn-xs btn-danger">
                 <i class="fa-solid fa-trash-can "></i></button></td>
-                <td> <input type="date" class="input-group flatpickr form-control" name="date[]" value=""></td>
-                <td><textarea class="form-control"  cols="30" rows="2" name="from[]" placeholder="From "></textarea></td>
-                <td> <textarea class="form-control" id="" cols="30" rows="2" name="to[]"  placeholder="To "></textarea></td>
-                <td> <textarea class="form-control" id="" cols="30" rows="2"  name="purpose[]" placeholder="Enter Purpose "></textarea></td>
+                <td> <input type="date" class="input-group flatpickr form-control" name="movementDate[]" value=""></td>
+                <td><textarea class="form-control"  cols="30" rows="2" name="movementFrom[]" placeholder="From "></textarea></td>
+                <td> <textarea class="form-control" id="" cols="30" rows="2" name="movementTo[]"  placeholder="To "></textarea></td>
+                <td> <textarea class="form-control" id="" cols="30" rows="2"  name="movementPurpose[]" placeholder="Enter Purpose "></textarea></td>
                 <td>
-                <select class="form-control" name="Mode_of_Transport[]">
+                <select class="form-control" name="movementMode_of_Transport[]">
                         <option selected disabled>Select Transport</option>
                         <option value="bike">Bike</option>
                         <option value="rickshaw">Rickshaw</option>
@@ -600,8 +599,8 @@
                         <option value="buses"> Buses</option>
                 </select>
                 </td>
-                <td><input type="number" class="form-control" name="amount[]" value=""></td>
-                <td><input type="text" class="form-control" name="assigned[]" value=""></td>
+                <td><input type="number" class="form-control" name="movementAmount[]" value=""></td>
+                <td><input type="text" class="form-control" name="movementAssigned[]" value=""></td>
 
             `;
             // Append the new row to the table body
@@ -613,7 +612,7 @@
                 calculateTotal1();
             });
             // Recalculate total after adding a new row
-            newRow.querySelector('input[name="amount[]"]').addEventListener('input', calculateTotal1);
+            newRow.querySelector('input[name="movementAmount[]"]').addEventListener('input', calculateTotal1);
             // Recalculate total after adding a new row
             calculateTotal1()
         });
@@ -621,12 +620,12 @@
         // Function to calculate total
         function calculateTotal1() {
             let total = 0;
-            document.querySelectorAll('input[name="amount[]"]').forEach(function(input) {
+            document.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
                 total += parseFloat(input.value) || 0;
             });
             document.getElementById('totalAmount').textContent = total;
         }
-        document.querySelectorAll('input[name="amount[]"]').forEach(function(input) {
+        document.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
             input.addEventListener('input', calculateTotal1);
         });
         // Event listener for removing a row
@@ -649,10 +648,46 @@
             let addedTableHead = addedTable.querySelector('thead');
             let tableTitle = document.querySelector('#movementCostData h4');
             let hrElement = document.querySelector('#movementCostData hr');
-            // let fileInput = document.querySelector('#movementCostsFile');
-            // let filepreview = document.querySelector('#movement');
-            // let file = fileInput.files[0];
+            let movementImageContainer = document.querySelector('#movement');
 
+            ///////////////Validation Start /////////////
+            let allFieldsFilled = true;
+            let errorMessages = []
+            rows.forEach(function(row) {
+                let movementDate = row.querySelector('input[name="movementDate[]"]').value;
+                let movementFrom = row.querySelector('textarea[name="movementFrom[]"]').value;
+                let movementTo = row.querySelector('textarea[name="movementTo[]"]').value;
+                let movementMode_of_Transport = row.querySelector('select[name="movementMode_of_Transport[]"]').value;
+                let movementAmount = row.querySelector('input[name="movementAmount[]"]').value;
+
+                if (!movementDate) {
+                    errorMessages.push('⚠️ Date field is required.');
+                    allFieldsFilled = false;
+                }
+                if (!movementFrom) {
+                    errorMessages.push('⚠️ From field is required.');
+                    allFieldsFilled = false;
+                }
+                if (!movementTo) {
+                    errorMessages.push('⚠️ To field is required.');
+                    allFieldsFilled = false;
+                }
+                if (!movementMode_of_Transport) {
+                    errorMessages.push('⚠️ Mode of Transport is required.');
+                    allFieldsFilled = false;
+                }
+                if (!movementAmount) {
+                    errorMessages.push('⚠️ Amount field is required.');
+                    allFieldsFilled = false;
+                }
+            });
+
+            // Show all error messages in a single toastr notification if any field is missing
+            if (!allFieldsFilled) {
+                toastr.error(errorMessages.join('<br>')); // Join messages with line breaks
+                return; // Stop execution if any field is missing
+            }
+            ///////////////Validation End /////////////
             // Check if <thead> is empty or doesn't exist, and add it if necessary
             if (!addedTable.querySelector('thead').innerHTML.trim()) {
                 addedTable.querySelector('thead').innerHTML = `
@@ -680,38 +715,38 @@
 
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
-                let date = row.querySelector('input[name="date[]"]').value;
-                let from = row.querySelector('textarea[name="from[]"]').value;
-                let to = row.querySelector('textarea[name="to[]"]').value;
-                let purpose = row.querySelector('textarea[name="purpose[]"]').value;
-                let modeOfTransport = row.querySelector('select[name="Mode_of_Transport[]"]').value;
-                let amount = row.querySelector('input[name="amount[]"]').value;
-                let assigned = row.querySelector('input[name="assigned[]"]').value;
-                // let imgfile = row.querySelector('input[name="movementCostsFile[]"]').value;
+                let movementDate = row.querySelector('input[name="movementDate[]"]').value;
+                let movementFrom = row.querySelector('textarea[name="movementFrom[]"]').value;
+                let movementTo = row.querySelector('textarea[name="movementTo[]"]').value;
+                let movementPurpose = row.querySelector('textarea[name="movementPurpose[]"]').value;
+                let movementMode_of_Transport = row.querySelector('select[name="movementMode_of_Transport[]"]').value;
+                let movementAmount = row.querySelector('input[name="movementAmount[]"]').value;
+                let movementAssigned = row.querySelector('input[name="movementAssigned[]"]').value;
+
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
                 newRow.innerHTML = `
                     <td><input id="flatpickr-date" type="date"
-                   class="input-group form-control border-0" name="date[]"   style="border: none; background-color: transparent;" readonly
-                    value="${date}"></td>
+                   class="input-group form-control border-0" name="movementDate[]"   style="border: none; background-color: transparent;" readonly
+                    value="${movementDate}"></td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="from[]"  style="border: 0; background-color: transparent;" readonly
-                    value="${from}"> </td>
+                   class="input-group border-0 form-control" name="movementFrom[]"  style="border: 0; background-color: transparent;" readonly
+                    value="${movementFrom}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="to[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${to}"> </td>
+                   class="input-group border-0 form-control" name="movementTo[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${movementTo}"> </td>
                     <td><input type="text"
-                   class="input-group border-0 form-control" name="purpose[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${purpose}"> </td>
+                   class="input-group border-0 form-control" name="movementPurpose[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${movementPurpose}"> </td>
                     <td><input type="text"
-                   class="input-group border-0 form-control" name="Mode_of_Transport[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${modeOfTransport}"> </td>
+                   class="input-group border-0 form-control" name="movementMode_of_Transport[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${movementMode_of_Transport}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="amount[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${amount}"> </td>
+                   class="input-group border-0 form-control" name="movementAmount[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${movementAmount}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="assigned[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${assigned}"> </td>
+                   class="input-group border-0 form-control" name="movementAssigned[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${movementAssigned}"> </td>
                     <td><button class="deleteRowBtn form-control text-danger btn-xs btn-danger">Delete</button></td>
                 `;
                 // Append the new row to the second table body
@@ -745,7 +780,7 @@
                             </button></td>
                         <td><input id="flatpickr-date" type="date"
                                 class="input-group form-control"
-                                name="date2[]">
+                                name="foodingDate[]">
                         </td>
                         <td>
                             <textarea class="form-control" id="" cols="30" rows="2" name="plceofvisit[]" placeholder="Place of visit "></textarea>
@@ -842,7 +877,7 @@
 
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
-                let date2 = row.querySelector('input[name="date2[]"]').value;
+                let foodingDate = row.querySelector('input[name="foodingDate[]"]').value;
                 let plceofvisit = row.querySelector('textarea[name="plceofvisit[]"]').value;
                 let purpose2 = row.querySelector('textarea[name="purpose2[]"]').value;
                 let foodingtime = row.querySelector('select[name="foodingtime[]"]').value;
@@ -853,8 +888,8 @@
                 let newRow = document.createElement('tr');
                 newRow.innerHTML = `
                     <td><input id="flatpickr-date" type="date"
-                   class="input-group form-control border-0" name="date2[]"   style="border: none; background-color: transparent;" readonly
-                    value="${date2}"></td>
+                   class="input-group form-control border-0" name="foodingDate[]"   style="border: none; background-color: transparent;" readonly
+                    value="${foodingDate}"></td>
                     <td> <input type="text"
                    class="input-group border-0 form-control" name="plceofvisit[]"  style="border: 0; background-color: transparent;" readonly
                     value="${plceofvisit}"> </td>
@@ -1197,7 +1232,7 @@
                 }
             });
                 $.ajax({
-                    url: "{{ route('audit.store') }}", // The route to handle form submission
+                    url: "{{ route('convenience.store') }}", // The route to handle form submission
                     type: "POST",
                     data: formData,
                     processData: false,

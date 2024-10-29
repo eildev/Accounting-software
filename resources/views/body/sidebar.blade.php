@@ -299,10 +299,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('audit') }}"
-                    class="nav-link {{ request()->routeIs('audit') ? 'nav_active' : '' }}">
+                <a href="{{ route('convenience') }}"
+                    class="nav-link {{ request()->routeIs('convenience') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Audit</span>
+                    <span class="link-title">Convenience Bill</span>
                 </a>
             </li>
 
