@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -82,13 +83,20 @@ class BankAccountsController extends Controller
             } else {
                 $banks = BankAccounts::where('branch_id', Auth::user()->branch_id)
                     ->latest()
-                    ->get();  // Fetch only for the user's branch
+                    ->get();
             }
+
+            $total_bank = $banks->count();
+            $total_initial_balance = $banks->sum('initial_balance');
+            $total_current_balance = $banks->sum('current_balance');
 
             // Return a successful response with data
             return response()->json([
                 "status" => 200,
-                "data" => $banks
+                "data" => $banks,
+                "total_bank" => $total_bank,
+                "total_initial_balance" => $total_initial_balance,
+                "total_current_balance" => $total_current_balance,
             ]);
         } catch (\Exception $e) {
             // Handle any exceptions that may occur
@@ -97,6 +105,22 @@ class BankAccountsController extends Controller
                 "message" => 'An error occurred while fetching bank accounts.',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
+        }
+    }
+    public function bankDetails($id)
+    {
+        try {
+
+            $data = BankAccounts::findOrFail($id);
+            $branch = Branch::findOrFail($data->branch_id);
+            $isBank = true;
+            return view('all_modules.bank.bank-details', compact('data', 'branch', 'isBank'));
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur
+            Log::error('Bank Details Error: ' . $e->getMessage());
+
+            // Redirect to custom 500 error page
+            return response()->view('errors.500', [], 500);
         }
     }
 }

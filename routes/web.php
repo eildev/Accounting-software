@@ -91,20 +91,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/bank', 'index')->name('bank');
         Route::post('/bank/store', 'store')->name('bank.store');
         Route::get('/bank/view', 'view')->name('bank.view');
-        // Route::get('/bank/edit/{id}', 'edit')->name('bank.edit');
-        // Route::post('/bank/update/{id}', 'update')->name('bank.update');
-        // Route::get('/bank/destroy/{id}', 'destroy')->name('bank.destroy');
-        // Route::post('/add/bank/balance/{id}', 'BankBalanceAdd');
+        Route::get('/bank/details/{id}', 'bankDetails')->name('bank.details');
     });
 
     // Cash related route
     Route::controller(CashTransactionController::class)->group(function () {
         Route::post('/cash-account/store', 'store')->name('cash.account.store');
         Route::get('/cash-account/view', 'view')->name('cash.account.view');
-        // Route::get('/bank/edit/{id}', 'edit')->name('bank.edit');
-        // Route::post('/bank/update/{id}', 'update')->name('bank.update');
-        // Route::get('/bank/destroy/{id}', 'destroy')->name('bank.destroy');
-        // Route::post('/add/bank/balance/{id}', 'BankBalanceAdd');
+        Route::get('/cash/details/{id}', 'cashDetails')->name('cash.details');
     });
 
 
