@@ -247,8 +247,7 @@
 
                                                 </table>
                                             </div>
-                                            <input type="file" name="movementCostsFile" id="movementCostsFile"
-                                                accept="image/*">
+                                            <input type="file" name="movementCostsFile" id="movementCostsFile">
                                             <a class="btn btn-md float-end movementCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
 
@@ -282,29 +281,28 @@
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
                                                                     class="input-group form-control" name="foodingDate[]"
-                                                                    value="2024-10-21">
+                                                                    >
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="plceofvisit[]"
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="foodingPlceofvisit[]"
                                                                     placeholder="Place of visit "></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="purpose2[]"
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="foodingPurpose[]"
                                                                     placeholder="Enter Purpose "></textarea>
                                                             </td>
                                                             <td>
                                                                 <select class="form-control" name="foodingtime[]">
-                                                                    <option selected disabled>Select Fooding Time</option>
                                                                     <option value="breakfast">Breakfast</option>
                                                                     <option value="lunch">Lunch</option>
                                                                     <option value="dinner">Dinner</option>
                                                                     <option value="snacks">Snacks</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="number" class="form-control"name="amount2[]"
+                                                            <td><input type="number" class="form-control"name="foodingAmount[]"
                                                                     value=""></td>
                                                             <td><input type="text" class="form-control"
-                                                                    name="assigned2[]" value="">
+                                                                    name="foodingAssigned[]" value="">
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -321,6 +319,7 @@
 
                                                 </table>
                                             </div>
+                                            <input type="file" name="foodingcostsFile" id="movementCostsFile">
                                             <a class="btn btn-md float-end foodingcostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -352,20 +351,19 @@
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
-                                                                    class="input-group form-control" name="date3[]"
-                                                                    value="2024-10-21">
+                                                                    class="input-group form-control" name="overnightDate[]"
+                                                                   >
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="plceofvisit3[]"
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="overnightPlceofvisit[]"
                                                                     placeholder="Place of visit "></textarea>
                                                             </td>
                                                             <td>
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="purpose3[]"
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="overnightPurpose[]"
                                                                     placeholder="Enter Purpose "></textarea>
                                                             </td>
                                                             <td>
-                                                                <select class="form-control" name="stayperiod[]">
-                                                                    <option selected disabled>Select Stay period</option>
+                                                                <select class="form-control" name="overnightStayperiod[]">
                                                                     <option value="1">1 Night</option>
                                                                     <option value="2">2 Night</option>
                                                                     <option value="3">3 Night</option>
@@ -379,10 +377,10 @@
                                                                     <option value="20"> 20 Night</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="number" class="form-control"name="amount3[]"
+                                                            <td><input type="number" class="form-control"name="overnightAmount[]"
                                                                     value=""></td>
                                                             <td><input type="text" class="form-control"
-                                                                    name="assigned3[]" value="">
+                                                                    name="overnightAssigned[]" value="">
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -399,6 +397,7 @@
 
                                                 </table>
                                             </div>
+                                            <input type="file" name="overnightStayFile" id="overnightStayFile">
                                             <a class="btn btn-md float-end overnightStayCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -427,19 +426,19 @@
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
-                                                                    class="input-group form-control" name="date4[]"
+                                                                    class="input-group form-control" name="otherExpensesDate[]"
                                                                     >
                                                             </td>
 
                                                             <td>
-                                                                <textarea class="form-control" id="" cols="30" rows="2" name="purpose4[]"
+                                                                <textarea class="form-control" id="" cols="30" rows="2" name="otherExpensesPurpose[]"
                                                                     placeholder="Enter Purpose "></textarea>
                                                             </td>
 
-                                                            <td><input type="number" class="form-control" name="amount4[]"
+                                                            <td><input type="number" class="form-control" name="otherExpensesAmount[]"
                                                                     value=""></tdput type="text" clas>
                                                             <td><input type="text" class="form-control"
-                                                                    name="assigned4[]" value="">
+                                                                    name="otherExpensesAssigned[]" value="">
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -453,21 +452,20 @@
                                                         </tr>
 
                                                     </tfoot>
-
                                                 </table>
                                             </div>
+                                            <input type="file" name="otherExpensesCostsFile" id="otherExpensesCostsFile">
                                             <a class="btn btn-md float-end otherExpensesCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
                                         <!--TFour Other Expenses  Tab End -->
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                         <!-- /////////Tabing End//// -->
 
-                            <form id="auditForm" method="POST">
+                            <form id="convenienceForm" method="POST">
                             <!---MOVEMENT list 1 --->
                             <div class="col-md-12" id="movementCostData">
                                   <h4> </h4>
@@ -477,7 +475,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-
+                                        <input type="text"
+                                        class="input-group border-0 form-control movementCostsFileShow" name="movementCostsFile"   style="border: 0; background-color: transparent;" readonly
+                                            value="" >
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -498,6 +498,7 @@
                                         <tr>
 
                                         </tr>
+
                                     </tbody>
 
                                 </table>
@@ -592,7 +593,6 @@
                 <td> <textarea class="form-control" id="" cols="30" rows="2"  name="movementPurpose[]" placeholder="Enter Purpose "></textarea></td>
                 <td>
                 <select class="form-control" name="movementMode_of_Transport[]">
-                        <option selected disabled>Select Transport</option>
                         <option value="bike">Bike</option>
                         <option value="rickshaw">Rickshaw</option>
                         <option value="cars"> Cars</option>
@@ -636,8 +636,13 @@
             });
         });
         //First  Add row  Tab End
-
-        //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
+        /////////////////////////////////////////////movementCostsFile/////////////////////////////////////////////////
+            const movementCostsFile = document.querySelector('#movementCostsFile');
+              movementCostsFile.addEventListener('change', function(e) {
+              e.preventDefault();
+              document.querySelector('.movementCostsFileShow').value = this.value;
+            })
+            //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
         const movementCostsAdd = document.querySelector('.movementCostsAdd');
         movementCostsAdd.addEventListener('click', function(e) {
             e.preventDefault();
@@ -682,10 +687,10 @@
                 }
             });
 
-            // Show all error messages in a single toastr notification if any field is missing
+
             if (!allFieldsFilled) {
-                toastr.error(errorMessages.join('<br>')); // Join messages with line breaks
-                return; // Stop execution if any field is missing
+                toastr.error(errorMessages.join('<br>'));
+                return;
             }
             ///////////////Validation End /////////////
             // Check if <thead> is empty or doesn't exist, and add it if necessary
@@ -748,7 +753,8 @@
                    class="input-group border-0 form-control" name="movementAssigned[]"   style="border: 0; background-color: transparent;" readonly
                     value="${movementAssigned}"> </td>
                     <td><button class="deleteRowBtn form-control text-danger btn-xs btn-danger">Delete</button></td>
-                `;
+
+                    `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
                 // let imageUrl = URL.createObjectURL(file);
@@ -783,27 +789,25 @@
                                 name="foodingDate[]">
                         </td>
                         <td>
-                            <textarea class="form-control" id="" cols="30" rows="2" name="plceofvisit[]" placeholder="Place of visit "></textarea>
+                            <textarea class="form-control" id="" cols="30" rows="2" name="foodingPlceofvisit[]" placeholder="Place of visit "></textarea>
                         </td>
                         <td>
-                            <textarea class="form-control" id="" cols="30" rows="2" name="purpose2[]"
+                            <textarea class="form-control" id="" cols="30" rows="2" name="foodingPurpose[]"
                                 placeholder="Enter Purpose "></textarea>
                         </td>
                         <td>
                             <select class="form-control" name="foodingtime[]">
-                                <option selected disabled>Select Fooding Time</option>
                                 <option value="breakfast">Breakfast</option>
                                 <option value="lunch">Lunch</option>
                                 <option value="dinner">Dinner</option>
                                 <option value="snacks">Snacks</option>
                             </select>
                         </td>
-                        <td><input type="number" class="form-control"name="amount2[]"
+                        <td><input type="number" class="form-control"name="foodingAmount[]"
                                 value=""></td>
-                        <td><input type="text" class="form-control" name="assigned2[]"
+                        <td><input type="text" class="form-control" name="foodingAssigned[]"
                                 value="">
                         </td>
-
             `;
             // Append the new row to the table body
             tableBody.appendChild(newRow);
@@ -814,7 +818,7 @@
                 calculateTotal2();
             });
             // Recalculate total after adding a new row
-            newRow.querySelector('input[name="amount2[]"]').addEventListener('input', calculateTotal2);
+            newRow.querySelector('input[name="foodingAmount[]"]').addEventListener('input', calculateTotal2);
             // Recalculate total after adding a new row
             calculateTotal2()
         }); //End
@@ -822,12 +826,12 @@
         // Function to calculate total
         function calculateTotal2() {
             let total = 0;
-            document.querySelectorAll('input[name="amount2[]"]').forEach(function(input) {
+            document.querySelectorAll('input[name="foodingAmount[]"]').forEach(function(input) {
                 total += parseFloat(input.value) || 0;
             });
             document.getElementById('totalAmount2').textContent = total;
         }
-        document.querySelectorAll('input[name="amount2[]"]').forEach(function(input) {
+        document.querySelectorAll('input[name="foodingAmount[]"]').forEach(function(input) {
             input.addEventListener('input', calculateTotal2);
         });
         // Event listener for removing a row
@@ -851,6 +855,42 @@
             let addedTableHead = addedTable.querySelector('thead');
             let tableTitle2 = document.querySelector('#foodingCostData h4');
             let hrElement2 = document.querySelector('#foodingCostData hr');
+            //VAlidation errors
+            let allFieldsFilled = true;
+            let errorMessages = []
+            rows.forEach(function(row) {
+
+                let foodingDate = row.querySelector('input[name="foodingDate[]"]').value;
+                let foodingPurpose = row.querySelector('textarea[name="foodingPurpose[]"]').value;
+                let foodingtime = row.querySelector('select[name="foodingtime[]"]').value;
+                let foodingAmount = row.querySelector('input[name="foodingAmount[]"]').value;
+
+                if (!foodingDate) {
+                    errorMessages.push('⚠️ Date field is required.');
+                    allFieldsFilled = false;
+                }
+
+                if (!foodingPurpose) {
+                    errorMessages.push('⚠️ Fooding Purpose is required.');
+                    allFieldsFilled = false;
+                }
+                if (!foodingtime) {
+                    errorMessages.push('⚠️ Fooding Time field is required.');
+                    allFieldsFilled = false;
+                }
+                if (!foodingAmount) {
+                    errorMessages.push('⚠️ Amount field is required.');
+                    allFieldsFilled = false;
+                }
+            });
+
+            // Show all error messages in a single toastr notification if any field is missing
+            if (!allFieldsFilled) {
+                toastr.error(errorMessages.join('<br>')); // Join messages with line breaks
+                return; // Stop execution if any field is missing
+            }
+
+
             // Check if <thead> is empty or doesn't exist, and add it if necessary
             if (!addedTable.querySelector('thead').innerHTML.trim()) {
                 addedTable.querySelector('thead').innerHTML = `
@@ -878,11 +918,11 @@
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let foodingDate = row.querySelector('input[name="foodingDate[]"]').value;
-                let plceofvisit = row.querySelector('textarea[name="plceofvisit[]"]').value;
-                let purpose2 = row.querySelector('textarea[name="purpose2[]"]').value;
+                let foodingPlceofvisit = row.querySelector('textarea[name="foodingPlceofvisit[]"]').value;
+                let foodingPurpose = row.querySelector('textarea[name="foodingPurpose[]"]').value;
                 let foodingtime = row.querySelector('select[name="foodingtime[]"]').value;
-                let amount2 = row.querySelector('input[name="amount2[]"]').value;
-                let assigned2 = row.querySelector('input[name="assigned2[]"]').value;
+                let foodingAmount = row.querySelector('input[name="foodingAmount[]"]').value;
+                let foodingAssigned = row.querySelector('input[name="foodingAssigned[]"]').value;
 
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
@@ -891,20 +931,20 @@
                    class="input-group form-control border-0" name="foodingDate[]"   style="border: none; background-color: transparent;" readonly
                     value="${foodingDate}"></td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="plceofvisit[]"  style="border: 0; background-color: transparent;" readonly
-                    value="${plceofvisit}"> </td>
+                   class="input-group border-0 form-control" name="foodingPlceofvisit[]"  style="border: 0; background-color: transparent;" readonly
+                    value="${foodingPlceofvisit}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="purpose2[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${purpose2}"> </td>
+                   class="input-group border-0 form-control" name="foodingPurpose[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${foodingPurpose}"> </td>
                     <td><input type="text"
                    class="input-group border-0 form-control" name="foodingtime[]"   style="border: 0; background-color: transparent;" readonly
                     value="${foodingtime}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="amount2[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${amount2}"> </td>
+                   class="input-group border-0 form-control" name="foodingAmount[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${foodingAmount}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="assigned2[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${assigned2}"> </td>
+                   class="input-group border-0 form-control" name="foodingAssigned[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${foodingAssigned}"> </td>
                   <td><button class="deleteRowBtn2 form-control text-danger btn-xs btn-danger">Delete</button></td>
          `;
                 // Append the new row to the second table body
@@ -934,18 +974,17 @@
                             </button></td>
                         <td><input id="flatpickr-date" type="date"
                                 class="input-group form-control"
-                                name="date3[]">
+                                name="overnightDate[]">
                         </td>
                         <td>
-                            <textarea class="form-control" id="" cols="30" rows="2" name="plceofvisit3[]" placeholder="Place of visit "></textarea>
+                            <textarea class="form-control" id="" cols="30" rows="2" name="overnightPlceofvisit[]" placeholder="Place of visit "></textarea>
                         </td>
                         <td>
-                            <textarea class="form-control" id="" cols="30" rows="2" name="purpose3[]"
+                            <textarea class="form-control" id="" cols="30" rows="2" name="overnightPurpose[]"
                                 placeholder="Enter Purpose "></textarea>
                         </td>
                         <td>
-                             <select class="form-control" name="stayperiod[]">
-                                <option selected disabled>Select Stay period</option>
+                             <select class="form-control" name="overnightStayperiod[]">
                                 <option value="1">1 Night</option>
                                 <option value="2">2 Night</option>
                                 <option value="3">3 Night</option>
@@ -959,9 +998,9 @@
                                 <option value="20"> 20 Night</option>
                             </select>
                         </td>
-                        <td><input type="number" class="form-control"name="amount3[]"
+                        <td><input type="number" class="form-control"name="overnightAmount[]"
                                 value=""></td>
-                        <td><input type="text" class="form-control" name="assigned3[]"
+                        <td><input type="text" class="form-control" name="overnightAssigned[]"
                                 value="">
                         </td>
 
@@ -975,7 +1014,7 @@
                 calculateTotal3();
             });
             // Recalculate total after adding a new row
-            newRow.querySelector('input[name="amount3[]"]').addEventListener('input', calculateTotal3);
+            newRow.querySelector('input[name="overnightAmount[]"]').addEventListener('input', calculateTotal3);
             // Recalculate total after adding a new row
             calculateTotal3()
         });
@@ -983,12 +1022,12 @@
         // Function to calculate total
         function calculateTotal3() {
             let total = 0;
-            document.querySelectorAll('input[name="amount3[]"]').forEach(function(input) {
+            document.querySelectorAll('input[name="overnightAmount[]"]').forEach(function(input) {
                 total += parseFloat(input.value) || 0;
             });
             document.getElementById('totalAmount3').textContent = total;
         }
-        document.querySelectorAll('input[name="amount3[]"]').forEach(function(input) {
+        document.querySelectorAll('input[name="overnightAmount[]"]').forEach(function(input) {
             input.addEventListener('input', calculateTotal3);
         });
         // Event listener for removing a row
@@ -1012,6 +1051,41 @@
             let addedTableHead = addedTable.querySelector('thead');
             let tableTitle3 = document.querySelector('#overnightStayCostsData h4');
             let hrElement3 = document.querySelector('#overnightStayCostsData hr');
+
+               //VAlidation errors
+               let allFieldsFilled = true;
+               let errorMessages = []
+                rows.forEach(function(row) {
+                let overnightDate = row.querySelector('input[name="overnightDate[]"]').value;
+                let overnightPlceofvisit = row.querySelector('textarea[name="overnightPlceofvisit[]"]').value;
+                let overnightStayperiod = row.querySelector('select[name="overnightStayperiod[]"]').value;
+                let overnightAmount = row.querySelector('input[name="overnightAmount[]"]').value;
+
+                if (!overnightDate) {
+                    errorMessages.push('⚠️ Date field is required!');
+                    allFieldsFilled = false;
+                }
+
+                if (!overnightPlceofvisit) {
+                    errorMessages.push('⚠️ Place of visit required!');
+                    allFieldsFilled = false;
+                }
+                if (!overnightStayperiod) {
+                    errorMessages.push('⚠️ Overnight Stay Period field is required!');
+                    allFieldsFilled = false;
+                }
+                if (!overnightAmount) {
+                    errorMessages.push('⚠️ Amount field is required!');
+                    allFieldsFilled = false;
+                }
+            });
+
+            // Show all error messages in a single toastr notification if any field is missing
+            if (!allFieldsFilled) {
+                toastr.error(errorMessages.join('<br>')); // Join messages with line breaks
+                return; // Stop execution if any field is missing
+            }
+
             // Check if <thead> is empty or doesn't exist, and add it if necessary
             if (!addedTable.querySelector('thead').innerHTML.trim()) {
                 addedTable.querySelector('thead').innerHTML = `
@@ -1038,35 +1112,35 @@
 
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
-                let date3 = row.querySelector('input[name="date3[]"]').value;
-                let plceofvisit3 = row.querySelector('textarea[name="plceofvisit3[]"]').value;
-                let purpose3 = row.querySelector('textarea[name="purpose3[]"]').value;
-                let stayperiod3 = row.querySelector('select[name="stayperiod[]"]').value;
-                let amount3 = row.querySelector('input[name="amount3[]"]').value;
-                let assigned3 = row.querySelector('input[name="assigned3[]"]').value;
+                let overnightDate = row.querySelector('input[name="overnightDate[]"]').value;
+                let overnightPlceofvisit = row.querySelector('textarea[name="overnightPlceofvisit[]"]').value;
+                let overnightPurpose = row.querySelector('textarea[name="overnightPurpose[]"]').value;
+                let overnightStayperiod = row.querySelector('select[name="overnightStayperiod[]"]').value;
+                let overnightAmount = row.querySelector('input[name="overnightAmount[]"]').value;
+                let overnightAssigned = row.querySelector('input[name="overnightAssigned[]"]').value;
 
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
                 newRow.innerHTML = `
 
                 <td><input id="flatpickr-date" type="date"
-                   class="input-group form-control border-0" name="date3[]"   style="border: none; background-color: transparent;" readonly
-                    value="${date3}"></td>
+                   class="input-group form-control border-0" name="overnightDate[]"   style="border: none; background-color: transparent;" readonly
+                    value="${overnightDate}"></td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="plceofvisit3[]"  style="border: 0; background-color: transparent;" readonly
-                    value="${plceofvisit3}"> </td>
+                   class="input-group border-0 form-control" name="overnightPlceofvisit[]"  style="border: 0; background-color: transparent;" readonly
+                    value="${overnightPlceofvisit}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="purpose3[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${purpose3}"> </td>
+                   class="input-group border-0 form-control" name="overnightPurpose[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${overnightPurpose}"> </td>
                     <td><input type="text"
-                   class="input-group border-0 form-control" name="stayperiod[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${stayperiod3}"> </td>
+                   class="input-group border-0 form-control" name="overnightStayperiod[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${overnightStayperiod}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="amount3[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${amount3}"> </td>
+                   class="input-group border-0 form-control" name="overnightAmount[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${overnightAmount}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="assigned3[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${assigned3}"> </td>
+                   class="input-group border-0 form-control" name="overnightAssigned[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${overnightAssigned}"> </td>
 
               <td><button class="deleteRowBtn3 form-control text-danger btn-xs btn-danger">Delete</button></td>
          `;
@@ -1100,15 +1174,15 @@
                         <td>
                             <input id="flatpickr-date" type="date"
                                 class="input-group form-control"
-                                name="date4[]">
+                                name="otherExpensesDate[]">
                         </td>
                         <td>
-                            <textarea class="form-control" id="" cols="20" rows="2" name="purpose4[]"
+                            <textarea class="form-control" id="" cols="20" rows="2" name="otherExpensesPurpose[]"
                                 placeholder="Enter Purpose "></textarea>
                         </td>
-                        <td><input type="number" class="form-control"name="amount4[]"
+                        <td><input type="number" class="form-control" name="otherExpensesAmount[]"
                                 value=""></td>
-                        <td><input type="text" class="form-control" name="assigned4[]"
+                        <td><input type="text" class="form-control" name="otherExpensesAssigned[]"
                                 value="">
                         </td>
 
@@ -1122,7 +1196,7 @@
                 calculateTotal4();
             });
             // Recalculate total after adding a new row
-            newRow.querySelector('input[name="amount4[]"]').addEventListener('input', calculateTotal4);
+            newRow.querySelector('input[name="otherExpensesAmount[]"]').addEventListener('input', calculateTotal4);
             // Recalculate total after adding a new row
             calculateTotal4()
         });
@@ -1130,12 +1204,12 @@
         // Function to calculate total//
         function calculateTotal4() {
             let total = 0;
-            document.querySelectorAll('input[name="amount4[]"]').forEach(function(input) {
+            document.querySelectorAll('input[name="otherExpensesAmount[]"]').forEach(function(input) {
                 total += parseFloat(input.value) || 0;
             });
             document.getElementById('totalAmount4').textContent = total;
         }
-        document.querySelectorAll('input[name="amount4[]"]').forEach(function(input) {
+        document.querySelectorAll('input[name="otherExpensesAmount[]"]').forEach(function(input) {
             input.addEventListener('input', calculateTotal4);
         });
         // Event listener for removing a row
@@ -1157,6 +1231,36 @@
             let addedTableHead = addedTable.querySelector('thead');
             let tableTitle4 = document.querySelector('#otherExpensesCostsData h4');
             let hrElement4 = document.querySelector('#otherExpensesCostsData hr');
+             //VAlidation errors
+             let allFieldsFilled = true;
+               let errorMessages = []
+
+                rows.forEach(function(row) {
+                let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
+                let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]').value;
+                let otherExpensesAmount = row.querySelector('input[name="otherExpensesAmount[]"]').value;
+
+                if (!otherExpensesDate) {
+                    errorMessages.push('⚠️ Date field is required!');
+                    allFieldsFilled = false;
+                }
+
+                if (!otherExpensesPurpose) {
+                    errorMessages.push('⚠️ Purpose field required!');
+                    allFieldsFilled = false;
+                }
+
+                if (!otherExpensesAmount) {
+                    errorMessages.push('⚠️ Amount field is required!');
+                    allFieldsFilled = false;
+                }
+            });
+
+            // Show all error messages in a single toastr notification if any field is missing
+            if (!allFieldsFilled) {
+                toastr.error(errorMessages.join('<br>')); // Join messages with line breaks
+                return; // Stop execution if any field is missing
+            }
             // Check if <thead> is empty or doesn't exist, and add it if necessary
             if (!addedTable.querySelector('thead').innerHTML.trim()) {
                 addedTable.querySelector('thead').innerHTML = `
@@ -1181,26 +1285,26 @@
 
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
-                let date4 = row.querySelector('input[name="date4[]"]').value;
-                let purpose4 = row.querySelector('textarea[name="purpose4[]"]').value;
-                let amount4 = row.querySelector('input[name="amount4[]"]').value;
-                let assigned4 = row.querySelector('input[name="assigned4[]"]').value;
+                let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
+                let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]').value;
+                let otherExpensesAmount = row.querySelector('input[name="otherExpensesAmount[]"]').value;
+                let otherExpensesAssigned = row.querySelector('input[name="otherExpensesAssigned[]"]').value;
 
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
                 newRow.innerHTML = `
              <td><input id="flatpickr-date" type="date"
-                   class="input-group form-control border-0" name="date4[]"   style="border: none; background-color: transparent;" readonly
-                    value="${date4}"></td>
+                   class="input-group form-control border-0" name="otherExpensesDate[]"   style="border: none; background-color: transparent;" readonly
+                    value="${otherExpensesDate}"></td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="purpose4[]"  style="border: 0; background-color: transparent;" readonly
-                    value="${purpose4}"> </td>
+                   class="input-group border-0 form-control" name="otherExpensesPurpose[]"  style="border: 0; background-color: transparent;" readonly
+                    value="${otherExpensesPurpose}"> </td>
                     <td> <input type="text"
-                   class="input-group border-0 form-control" name="amount4[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${amount4}"> </td>
+                   class="input-group border-0 form-control" name="otherExpensesAmount[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${otherExpensesAmount}"> </td>
                     <td><input type="text"
-                   class="input-group border-0 form-control" name="assigned4[]"   style="border: 0; background-color: transparent;" readonly
-                    value="${assigned4}"> </td>
+                   class="input-group border-0 form-control" name="otherExpensesAssigned[]"   style="border: 0; background-color: transparent;" readonly
+                    value="${otherExpensesAssigned}"> </td>
 
               <td><button class="deleteRowBtn4 form-control text-danger btn-xs btn-danger">Delete</button></td>
          `;
@@ -1222,7 +1326,7 @@
 
         ////////////////////////////Store////////////////////////////
         $(document).ready(function() {
-            $('#auditForm').on('submit', function(event) {
+            $('#convenienceForm').on('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
                 let formData = new FormData(this); // Get the form data
                 console.log(formData); //
@@ -1238,11 +1342,14 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        $('#auditForm')[0].reset();
-                        // $('#expenseTable tbody').empty(); // Clear table rows if needed
-                        calculateTotal(); //
-                        // Handle success - Display a success message, clear form, etc.
-                        alert("Form submitted successfully.");
+                      if(response.status == 200){
+                        $('#convenienceForm')[0].reset();
+                        toastr.success(response.message);
+                        window.location.reload();
+                      }else{
+                        toastr.error(response.error);
+                      }
+
                     },
                     error: function(xhr, status, error) {
                         // Handle error - Display error message, etc.
