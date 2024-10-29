@@ -247,8 +247,7 @@
 
                                                 </table>
                                             </div>
-                                            <input type="file" name="movementCostsFile" id="movementCostsFile"
-                                                accept="image/*">
+                                            <input type="file" name="movementCostsFile" id="movementCostsFile">
                                             <a class="btn btn-md float-end movementCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
 
@@ -320,6 +319,7 @@
 
                                                 </table>
                                             </div>
+                                            <input type="file" name="foodingcostsFile" id="movementCostsFile">
                                             <a class="btn btn-md float-end foodingcostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -397,6 +397,7 @@
 
                                                 </table>
                                             </div>
+                                            <input type="file" name="overnightStayFile" id="overnightStayFile">
                                             <a class="btn btn-md float-end overnightStayCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -453,18 +454,18 @@
                                                     </tfoot>
                                                 </table>
                                             </div>
+                                            <input type="file" name="otherExpensesCostsFile" id="otherExpensesCostsFile">
                                             <a class="btn btn-md float-end otherExpensesCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
                                         <!--TFour Other Expenses  Tab End -->
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                         <!-- /////////Tabing End//// -->
 
-                            <form id="auditForm" method="POST">
+                            <form id="convenienceForm" method="POST">
                             <!---MOVEMENT list 1 --->
                             <div class="col-md-12" id="movementCostData">
                                   <h4> </h4>
@@ -589,7 +590,6 @@
                 <td> <textarea class="form-control" id="" cols="30" rows="2"  name="movementPurpose[]" placeholder="Enter Purpose "></textarea></td>
                 <td>
                 <select class="form-control" name="movementMode_of_Transport[]">
-                        <option selected disabled>Select Transport</option>
                         <option value="bike">Bike</option>
                         <option value="rickshaw">Rickshaw</option>
                         <option value="cars"> Cars</option>
@@ -1317,7 +1317,7 @@
 
         ////////////////////////////Store////////////////////////////
         $(document).ready(function() {
-            $('#auditForm').on('submit', function(event) {
+            $('#convenienceForm').on('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
                 let formData = new FormData(this); // Get the form data
                 console.log(formData); //
@@ -1333,11 +1333,14 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        $('#auditForm')[0].reset();
-                        // $('#expenseTable tbody').empty(); // Clear table rows if needed
-                        calculateTotal(); //
-                        // Handle success - Display a success message, clear form, etc.
-                        alert("Form submitted successfully.");
+                      if(response.status == 200){
+                        $('#convenienceForm')[0].reset();
+                        toastr.success(response.message);
+                        window.location.reload();
+                      }else{
+                        toastr.error(response.error);
+                      }
+
                     },
                     error: function(xhr, status, error) {
                         // Handle error - Display error message, etc.

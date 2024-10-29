@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('fooding_costs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->date('fooding_date');
+            $table->string('fooding_place_of_visit')->nullable();
+            $table->string('fooding_purpose')->nullable();
+            $table->string('fooding_time');
+            $table->decimal('fooding_amount',15,2);
+            $table->string('fooding_assigned')->nullable();
+            $table->string('fooding_file')->nullable();
             $table->timestamps();
         });
     }
