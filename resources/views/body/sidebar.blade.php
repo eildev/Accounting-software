@@ -243,28 +243,55 @@
             @endif
             <li class="nav-item">
                 <a href="{{ route('loan') }}" class="nav-link {{ request()->routeIs('loan') ? 'nav_active' : '' }}">
-                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <i class="ms-2 fa-solid fa-hand-holding-dollar link-icon"></i>
                     <span class="link-title">Loan Managment</span>
                 </a>
             </li>
-            @if (Auth::user()->can('expense.menu'))
+            {{-- @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item">
                     <a href="{{ route('expense.view') }}"
                         class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
+                        <i class="ms-2 fa-solid fa-coins link-icon"></i>
                         <span class="link-title">Expense</span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
             @if (Auth::user()->can('transaction.menu'))
                 <li class="nav-item">
                     <a href="{{ route('transaction') }}"
                         class="nav-link {{ request()->routeIs('transaction') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-receipt link-icon"></i>
+                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
                         <span class="link-title">Transaction</span>
                     </a>
                 </li>
             @endif
+            @if (Auth::user()->can('expense.menu'))
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
+                        data-bs-toggle="collapse" href="#expense" role="button" aria-expanded="false"
+                        aria-controls="expense">
+                        <i class="ms-2 fa-solid fa-coins link-icon"></i>
+                        <span class="link-title">Expense</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="employee">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('expense.view') }}"
+                                    class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
+                                    Expense Managment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('expense.view') }}"
+                                    class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">Recurring
+                                    Expense</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+
+
             <li class="nav-item nav-category">PEOPLES</li>
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
@@ -492,8 +519,8 @@
             <!---Role & Permission--->
             @if (Auth::user()->can('role-and-permission.menu'))
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('role*') ? 'collapsed' : '' }}" data-bs-toggle="collapse"
-                        href="#role_permission" role="button" aria-expanded="false"
+                    <a class="nav-link {{ request()->routeIs('role*') ? 'collapsed' : '' }}"
+                        data-bs-toggle="collapse" href="#role_permission" role="button" aria-expanded="false"
                         aria-controls="role_permission">
                         <i class="ms-2 fa-solid fa-users-gear link-icon"></i>
                         <span class="link-title">Role & Permission</span>

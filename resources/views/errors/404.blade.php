@@ -45,7 +45,7 @@
                         <h4 class="mb-2">Page Not Found</h4>
                         <h6 class="text-muted mb-3 text-center">Oopps!! The page you were looking for doesn't exist.
                         </h6>
-                        <a href="{{ route('dashboard') }}">Back to home</a>
+                        <a href="{{ url()->previous() }}">Go Back</a>
                     </div>
                 </div>
 

@@ -230,19 +230,24 @@
                         // console.log(banks.account_transaction);
                         $('.show_bank_data').empty();
                         if (banks.length > 0) {
+                            $('.total_banks').text(res.total_bank);
+                            $('.total_initial_balance').text(res.total_initial_balance);
+                            $('.total_current_balance').text(res.total_current_balance);
                             $.each(banks, function(index, bank) {
                                 // console.log(bank);
                                 // Calculate the sum of account_transaction balances
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
-                                    <td>${bank.account_name ?? ""}</td>
+                                    <td>
+                                        <a href="/bank/details/${bank.id}" >${bank.account_name ?? ""}</a>
+                                    </td>
                                     <td>${bank.account_number ?? ""}</td>
                                     <td>${bank.bank_name ?? ""}</td>
                                     <td>${bank.bank_branch_name ?? 0}</td>
                                     <td>${bank.initial_balance ?? 0}</td>
                                     <td>${bank.current_balance ?? 0}</td>
                                     <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                        <a href="/bank/details/${bank.id}" class="btn btn-icon btn-xs btn-primary">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         <a href="#" class="btn btn-icon btn-xs btn-success">
@@ -321,16 +326,21 @@
                         // console.log(banks.account_transaction);
                         $('.show_cash_data').empty();
                         if (banks.length > 0) {
+                            $('.total_cash').text(res.total_cash);
+                            $('.total_opening_balance').text(res.total_initial_balance);
+                            $('.cash_current_balance').text(res.total_current_balance);
                             $.each(banks, function(index, bank) {
                                 // console.log(bank);
                                 // Calculate the sum of account_transaction balances
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
-                                    <td>${bank.cash_account_name ?? ""}</td>
+                                    <td>
+                                        <a href="/bank/details/${bank.id}" >${bank.cash_account_name ?? ""}</a>    
+                                    </td>
                                     <td>${bank.opening_balance	 ?? ""}</td>
                                     <td>${bank.current_balance ?? ""}</td>
                                     <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                        <a href="/cash/details/${bank.id}" class="btn btn-icon btn-xs btn-primary">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         <a href="#" class="btn btn-icon btn-xs btn-success">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank\Cash;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -62,10 +63,18 @@ class CashTransactionController extends Controller
                     ->get();  // Fetch only for the user's branch
             }
 
+            $total_cash = $cash->count();
+            $total_opening_balance = $cash->sum('opening_balance');
+            $total_current_balance = $cash->sum('current_balance');
+
+
             // Return a successful response with data
             return response()->json([
                 "status" => 200,
-                "data" => $cash
+                "data" => $cash,
+                "total_cash" => $total_cash,
+                "total_initial_balance" => number_format($total_opening_balance, 2),
+                "total_current_balance" => number_format($total_current_balance, 2),
             ]);
         } catch (\Exception $e) {
             // Handle any exceptions that may occur
@@ -74,6 +83,24 @@ class CashTransactionController extends Controller
                 "message" => 'An error occurred while fetching bank accounts.',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
+        }
+    }
+
+    // cash Details 
+    public function cashDetails($id)
+    {
+        try {
+
+            $data = Cash::findOrFail($id);
+            $branch = Branch::findOrFail($data->branch_id);
+            $isBank = false;
+            return view('all_modules.bank.bank-details', compact('data', 'branch', 'isBank'));
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur
+            Log::error('Cash Details Error: ' . $e->getMessage());
+
+            // Redirect to custom 500 error page
+            return response()->view('errors.500', [], 500);
         }
     }
 }
