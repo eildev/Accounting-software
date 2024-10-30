@@ -8,8 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class RecurringExpense extends Model
 {
-    use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'expense_category_id',
+        'amount',
+        'name',
+        'start_date',
+        'recurrence_period',
+        'next_due_date',
+        'status'
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'next_due_date' => 'date'
+    ];
 
 
     public function expenseCategory()

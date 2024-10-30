@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Expanse\RecurringExpense\RecurringExpense;
+use App\Observers\RecurringExpense\RecurringExpenseObserver;
 use App\Repositories\RepositoryClasses\BankRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\RepositoryInterfaces\CategoryInterface;
@@ -27,21 +29,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(CategoryInterface::class,CategoryRepository::class);
-        $this->app->bind(BrandInterface::class,BrandRepository::class);
-        $this->app->bind(SubCategoryInterface::class,SubCategoryRepository::class);
-        $this->app->bind(BankInterface::class,BankRepository::class);
-        $this->app->bind(BranchInterface::class,BranchRepository::class);
-        $this->app->bind(CustomerInterfaces::class,CustomerRepository::class);
-        $this->app->bind(EmployeeInterface::class,EmployeeRepository::class);
-        $this->app->bind(DamageInterface::class,DamageRepository::class);
+        $this->app->bind(CategoryInterface::class, CategoryRepository::class);
+        $this->app->bind(BrandInterface::class, BrandRepository::class);
+        $this->app->bind(SubCategoryInterface::class, SubCategoryRepository::class);
+        $this->app->bind(BankInterface::class, BankRepository::class);
+        $this->app->bind(BranchInterface::class, BranchRepository::class);
+        $this->app->bind(CustomerInterfaces::class, CustomerRepository::class);
+        $this->app->bind(EmployeeInterface::class, EmployeeRepository::class);
+        $this->app->bind(DamageInterface::class, DamageRepository::class);
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        RecurringExpense::observe(RecurringExpenseObserver::class);
     }
 }

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('spender')->nullable();
             $table->integer('bank_account_id')->nullable();
+            $table->integer('cash_account_id')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });

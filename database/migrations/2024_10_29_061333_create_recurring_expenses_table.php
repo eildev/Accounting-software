@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('expanse_category_id')->nullable();
             $table->decimal('amount', 15, 2)->nullable();
-            $table->text('description')->nullable();
+            $table->string('name', 99)->nullable();
             $table->date('start_date')->nullable();
             $table->enum('recurrence_period', ['monthly', 'quarterly', 'annually']);
             $table->date('next_due_date')->nullable();

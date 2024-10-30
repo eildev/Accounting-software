@@ -5,7 +5,7 @@
 </div>
 <div class="mb-2">
     <p class="">Total Cash Accounts: <span class="total_cash"></span></p>
-    <p class="">Total Open Balance: <span class="total_opening_balance"></span></p>
+    <p class="">Total Opening Balance: <span class="total_opening_balance"></span></p>
     <p class="">Total Current Balance: <span class="cash_current_balance"></span></p>
 </div>
 <div class="table-responsive">

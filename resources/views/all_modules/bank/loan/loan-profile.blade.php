@@ -492,6 +492,10 @@
         });
 
 
+        document.addEventListener("DOMContentLoaded", function() {
+            modalShowHide('duePayment');
+        });
+
         // $('.print').click(function(e) {
         //     e.preventDefault();
         //     let id = $(this).attr('data-id');

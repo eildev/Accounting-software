@@ -27,9 +27,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Expanse Name</th>
                                     <th>Expanse Category</th>
                                     <th>Amount</th>
-                                    <th>Description</th>
                                     <th>Start Date</th>
                                     <th>Recurrence Period</th>
                                     <th>Next Due Date</th>
@@ -59,20 +59,18 @@
                 <div class="modal-body">
                     <form class="recurringExpanseForm row">
                         <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Expanse Name<span class="text-danger">*</span></label>
+                            <input class="form-control expanse_name" name="name" type="text"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger expanse_name_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
                             <div class="row">
                                 <div class="col-md-10">
                                     <label for="name" class="form-label">Expanse Category<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control expanse_category_id" name="expanse_category_id"
                                         onchange="errorRemove(this);">
-                                        {{-- @if ($expenseCategory->count() > 0)
-                                            <option value="">Select Expanse Category</option>
-                                            @foreach ($expenseCategory as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name ?? '' }}</option>
-                                            @endforeach
-                                        @else
-                                            <option value="">No Account Found</option>
-                                        @endif --}}
                                     </select>
                                     <span class="text-danger expanse_category_id_error"></span>
                                 </div>
@@ -81,7 +79,6 @@
                                         data-bs-target="#expanseCategory"><i data-feather="plus"></i></a>
                                 </div>
                             </div>
-
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Amount<span class="text-danger">*</span></label>
@@ -122,12 +119,6 @@
                                 <option value="annually">Annually</option>
                             </select>
                             <span class="text-danger recurrence_period_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Description</label>
-                            <input class="form-control description" name="description" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger description_error"></span>
                         </div>
                     </form>
                 </div>
@@ -241,6 +232,9 @@
                             if (res.error.recurrence_period) {
                                 showError('.recurrence_period', res.error.recurrence_period);
                             }
+                            if (res.error.name) {
+                                showError('.expanse_name', res.error.name);
+                            }
                         }
                     },
                     error: function(xhr, status, error) {
@@ -273,11 +267,11 @@
                                         '<span class="badge bg-danger">Inactive</span>';
                                 }
                                 tr.innerHTML = `
+                                    <td>${expanse.name ?? ""}</td>
                                     <td>
                                         ${expanse?.expense_category?.name ?? ""}  
                                     </td>
                                     <td>${expanse.amount ?? 0}</td>
-                                    <td>${expanse.description ?? ""}</td>
                                     <td>${expanse.start_date ?? ""}</td>
                                     <td>${expanse.recurrence_period ?? 0}</td>
                                     <td>${expanse.next_due_date ?? 0}</td>
@@ -305,7 +299,7 @@
                                 <td colspan='9'>
                                     <div class="text-center text-warning mb-2">Data Not Found</div>
                                     <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">Add Loan Info<i data-feather="plus"></i></button>
+                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#recurringExpanse">Add Recurring Expanse<i data-feather="plus"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -360,7 +354,7 @@
                     method: 'GET',
                     success: function(res) {
                         const categories = res.data;
-                        console.log(categories);
+                        // console.log(categories);
                         if (categories.length > 0) {
                             $('.expanse_category_id').html(
                                 `<option selected disabled>Select Expanse Category</option>`
