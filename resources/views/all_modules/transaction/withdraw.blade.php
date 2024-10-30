@@ -7,13 +7,16 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Cash Account Name</th>
-                <th>Opening Balance</th>
-                <th>Current Balance</th>
+                <th>Ledger Name</th>
+                <th>Transaction Date</th>
+                <th>Transaction Account</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Transaction Id</th>
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody class="show_cash_data">
+        <tbody class="show_withdraw_data">
         </tbody>
     </table>
 </div>

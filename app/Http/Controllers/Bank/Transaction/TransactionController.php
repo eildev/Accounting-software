@@ -7,6 +7,7 @@ use App\Models\Bank\BankAccounts;
 use App\Models\Bank\Cash;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Investor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -44,7 +45,6 @@ class TransactionController extends Controller
     // storeTransaction function 
     public function storeTransaction(Request $request)
     {
-        // dd($request->all());
         try {
             $messages = [
                 'payment_account_id.required' => 'The payment account is required.',
@@ -52,6 +52,8 @@ class TransactionController extends Controller
                 'transaction_type.required' => 'Something Went Wrong',
                 'transaction_type.in' => 'Something Went Wrong. Someone pass The wrong Value',
                 'description' => 'Note field must be a maximum of 99 characters long.',
+                'source_type.string' => 'Purpose must be String Value',
+                'source_type.max' => 'Purpose must be 99 characters.',
             ];
 
             $validator = Validator::make($request->all(), [
@@ -60,7 +62,8 @@ class TransactionController extends Controller
                 'transaction_date' => 'required|date',
                 'amount' => 'required|numeric|between:0,999999999999.99',
                 'transaction_type' => 'required|in:deposit,withdrawal',
-                'description' => 'max:99',
+                'description' => 'string|max:99',
+                'source_type' => 'string|max:99',
             ], $messages);
 
             if ($validator->fails()) {
@@ -79,13 +82,19 @@ class TransactionController extends Controller
                 $transaction->bank_account_id = $request->payment_account_id;
             }
             $transaction->amount = $request->amount;
+            $transaction->transaction_date = Carbon::parse($request->transaction_date)->format('Y-m-d');
+            $transaction->source_type = $request->source_type;
             if ($request->transaction_type == 'withdrawal') {
                 $transaction->transaction_type = 'debit';
             } else {
                 $transaction->transaction_type = 'credit';
             }
             $transaction->description = $request->description;
-            $transaction->transaction_id = $request->description;
+            $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
+            do {
+                $transactionId = substr(bin2hex(random_bytes(4)), 0, 8);
+            } while (in_array($transactionId, $allTransactionIds));
+            $transaction->transaction_id = $transactionId;
             $transaction->transaction_by = Auth::user()->id;
             $transaction->save();
             return response()->json([
@@ -93,6 +102,11 @@ class TransactionController extends Controller
                 'message' => 'Transaction Saved Successfully',
             ]);
         } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching bank accounts.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
         }
     } //
 
@@ -132,4 +146,43 @@ class TransactionController extends Controller
             ]);
         }
     } //
+
+    public function view()
+    {
+        try {
+            if (Auth::user()->id == 1) {
+                $withdraw = Transaction::with(['bank', 'cash'])
+                    ->where('transaction_type', 'debit')
+                    ->latest()
+                    ->get();
+                $deposit = Transaction::with(['bank', 'cash'])
+                    ->where('transaction_type', 'credit')
+                    ->latest()
+                    ->get();
+            } else {
+                $withdraw = Transaction::with(['bank', 'cash'])
+                    ->where('branch_id', Auth::user()->branch_id)
+                    ->where('transaction_type', 'debit')
+                    ->latest()
+                    ->get();
+                $deposit = Transaction::with(['bank', 'cash'])
+                    ->where('branch_id', Auth::user()->branch_id)
+                    ->where('transaction_type', 'credit')
+                    ->latest()
+                    ->get();
+            }
+
+            return response()->json([
+                'status' => 200,
+                'withdraw' => $withdraw,
+                'deposit' => $deposit,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching Transaction Data.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
 }
