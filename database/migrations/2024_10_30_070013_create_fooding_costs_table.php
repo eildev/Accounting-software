@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('other_expense_costs', function (Blueprint $table) {
+        Schema::create('fooding_costs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->date('other_expense_date');
-            $table->string('other_expense_purpose');
-            $table->decimal('other_expense_amount',15,2);
-            $table->string('other_expense_assigned')->nullable();
-            $table->string('other_expense_file')->nullable();
+            $table->unsignedBigInteger('convenience_id')->unsigned();
+            $table->foreign('convenience_id')->references('id')->on('conveniences')->onDelete('cascade');
+            $table->string('image')->nullable();
+            $table->decimal('total_amount');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('other_expense_costs');
+        Schema::dropIfExists('fooding_costs');
     }
 };
