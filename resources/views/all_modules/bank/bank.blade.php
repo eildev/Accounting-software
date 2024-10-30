@@ -105,7 +105,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary save_bank">Save</button>
                 </div>
             </div>
@@ -141,7 +141,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary save_cash">Save</button>
                 </div>
             </div>
@@ -392,6 +392,11 @@
                     localStorage.setItem('activeTab', activeTabHref);
                 });
             });
+
+
+            // modal not close function 
+            modalShowHide('exampleModalLongScollable');
+            modalShowHide('cash_modal');
         });
     </script>
 

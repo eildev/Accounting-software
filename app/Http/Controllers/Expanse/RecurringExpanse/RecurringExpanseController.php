@@ -42,6 +42,7 @@ class RecurringExpanseController extends Controller
                 'start_date' => 'required|date',
                 'next_due_date' => 'required|date',
                 'recurrence_period' => 'required|in:monthly,quarterly,annually',
+                'name' => 'required|string',
             ]);
 
             if ($validator->fails()) {
@@ -55,7 +56,7 @@ class RecurringExpanseController extends Controller
             $expanse = new RecurringExpense;
             $expanse->expanse_category_id = $request->expanse_category_id;
             $expanse->amount = $request->amount;
-            $expanse->description = $request->description;
+            $expanse->name = $request->name;
             $expanse->start_date = $request->start_date;
             $expanse->recurrence_period = $request->recurrence_period;
             $expanse->next_due_date = $request->next_due_date;

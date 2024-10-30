@@ -7,8 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'branch_id',
+        'expense_date',
+        'expense_category_id',
+        'purpose',
+        'amount',
+        'image',
+        'spender',
+        'bank_account_id',
+        'cash_account_id',
+        'note'
+    ];
+
+    protected $casts = [
+        'expense_date' => 'date'
+    ];
+
     public function bank()
     {
         return $this->belongsTo(Bank::class, 'bank_account_id', 'id');
