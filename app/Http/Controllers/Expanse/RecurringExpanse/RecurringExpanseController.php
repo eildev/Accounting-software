@@ -41,7 +41,7 @@ class RecurringExpanseController extends Controller
                 'amount' => 'required|numeric|between:0,999999999999.99',
                 'start_date' => 'required|date',
                 'next_due_date' => 'required|date',
-                'recurrence_period' => 'required|in:monthly,quarterly,annually',
+                // 'recurrence_period' => 'required|in:monthly,quarterly,annually',
                 'name' => 'required|string',
             ]);
 

@@ -232,6 +232,9 @@
                             if (res.error.recurrence_period) {
                                 showError('.recurrence_period', res.error.recurrence_period);
                             }
+                            if (res.error.name) {
+                                showError('.expanse_name', res.error.name);
+                            }
                         }
                     },
                     error: function(xhr, status, error) {
@@ -351,7 +354,7 @@
                     method: 'GET',
                     success: function(res) {
                         const categories = res.data;
-                        console.log(categories);
+                        // console.log(categories);
                         if (categories.length > 0) {
                             $('.expanse_category_id').html(
                                 `<option selected disabled>Select Expanse Category</option>`

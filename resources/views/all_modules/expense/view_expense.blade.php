@@ -225,6 +225,10 @@
             </div>
             {{-- ///End Expense --}}
 
+
+            {{-- /////End Report --}}
+        </div>
+        <div class="tab-content border border-top-0 p-3" id="myTabContent">
             <div class="tab-pane fade show " id="expense" role="tabpanel" aria-labelledby="expense-tab">
                 {{-- /////Expensse Report Start --}}
                 <div class="row">
@@ -289,12 +293,10 @@
                     {{-- ////list// --}}
                     <div id="filter-rander">
                         @include('all_modules.expense.expense-filter-rander-table')
-
                     </div>
                 </div>
                 {{-- /////Expensse Report End --}}
             </div>
-            {{-- /////End Report --}}
         </div>
 
         <!-----Expense Categories Start---->
@@ -402,7 +404,6 @@
                 </div>
             </div>
         </div>
-
         <!-----Expense Categories End---->
     </div>
     {{-- ///////////tab//////////// --}}

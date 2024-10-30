@@ -19,15 +19,17 @@
                         </tr>
                     </thead>
                     <tbody class="showData">
+
                         @if ($expense->count() > 0)
                             @foreach ($expense as $key => $expenses)
+                                {{-- @dd($expenses->amount) --}}
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $expenses->purpose ?? '' }}</td>
                                     <td>{{ $expenses->amount ?? '' }}</td>
                                     <td>{{ $expenses->spender ?? '' }}</td>
                                     <td>
-                                     <img src="{{ $expenses->image ? asset('uploads/expense/' . $expenses->image) : asset('dummy/image.jpg') }}"
+                                        <img src="{{ $expenses->image ? asset('uploads/expense/' . $expenses->image) : asset('dummy/image.jpg') }}"
                                             alt="Receipt image">
                                     </td>
                                     <td>{{ $expenses['bank']['name'] ?? '-' }}</td>
@@ -37,17 +39,17 @@
 
                                     <td>
 
-                                        @if(Auth::user()->can('expense.edit'))
-                                        <a href="{{ route('expense.edit', $expenses->id) }}"
-                                            class="btn btn-sm btn-primary " title="Edit">
-                                            Edit
-                                        </a>
+                                        @if (Auth::user()->can('expense.edit'))
+                                            <a href="{{ route('expense.edit', $expenses->id) }}"
+                                                class="btn btn-sm btn-primary " title="Edit">
+                                                Edit
+                                            </a>
                                         @endif
-                                        @if(Auth::user()->can('expense.delete'))
-                                        <a href="{{ route('expense.delete', $expenses->id) }}" id="delete"
-                                            class="btn btn-sm btn-danger " title="Delete">
-                                            Delete
-                                        </a>
+                                        @if (Auth::user()->can('expense.delete'))
+                                            <a href="{{ route('expense.delete', $expenses->id) }}" id="delete"
+                                                class="btn btn-sm btn-danger " title="Delete">
+                                                Delete
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>
@@ -70,4 +72,3 @@
         </div>
     </div>
 </div>
-
