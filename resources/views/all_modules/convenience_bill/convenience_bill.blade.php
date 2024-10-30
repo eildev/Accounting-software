@@ -248,7 +248,7 @@
 
                                                 </table>
                                             </div>
-                                            <input type="file" name="movementCostsFile" id="movementCostsFile">
+                                            {{-- <input type="file" name="movementCostsFile" id="movementCostsFile"> --}}
                                             <a class="btn btn-md float-end movementCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
 
@@ -320,7 +320,7 @@
 
                                                 </table>
                                             </div>
-                                            <button id="movementCostsFile">Add File</button>
+
                                             <a class="btn btn-md float-end foodingcostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -399,7 +399,7 @@
 
                                                 </table>
                                             </div>
-                                            <input type="file" name="overnightStayFile" id="overnightStayFile">
+
                                             <a class="btn btn-md float-end overnightStayCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -457,8 +457,7 @@
                                                     </tfoot>
                                                 </table>
                                             </div>
-                                            <input type="file" name="otherExpensesCostsFile"
-                                                id="otherExpensesCostsFile">
+
                                             <a class="btn btn-md float-end otherExpensesCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -480,7 +479,7 @@
                                     <tbody>
                                         <tr>
                                             <input type="file"
-                                                class="input-group border-0 form-control movementCostsFileShow"
+                                                class="input-group d-none border-0 form-control mt-2" id="movementCostsFileId"
                                                 name="movementCostsFile" style="border: 0; background-color: transparent;"
                                                 readonly value="">
                                         </tr>
@@ -501,7 +500,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-
+                                            <input type="file"
+                                            class="input-group d-none border-0 form-control mt-2" id="foodingCostFileId"
+                                            name="foodingCostFile" style="border: 0; background-color: transparent;"
+                                            readonly value="">
                                         </tr>
 
                                     </tbody>
@@ -518,7 +520,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-
+                                            <input type="file"
+                                            class="input-group d-none border-0 form-control mt-2" id="overnightStayCostFileId"
+                                            name="overnightStayCostFile" style="border: 0; background-color: transparent;"
+                                            readonly value="">
                                         </tr>
                                     </tbody>
                                 </table>
@@ -534,7 +539,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-
+                                            <input type="file"
+                                            class="input-group d-none border-0 form-control mb-3" id="otherExpensesCostFileId"
+                                            name="otherExpensesCostFile" style="border: 0; background-color: transparent;"
+                                            readonly value="">
                                         </tr>
                                     </tbody>
                                 </table>
@@ -642,46 +650,7 @@
             });
         });
         //First  Add row  Tab End
-        /////////////////////////////////////////////movementCostsFile/////////////////////////////////////////////////
-        const movementCostsFile = document.querySelector('#movementCostsFile');
 
-        movementCostsFile.addEventListener('click', function(e) {
-            e.preventDefault();
-            const fileInput = document.querySelector('.movementCostsFileShow');
-
-            // Trigger the file input's click event
-            fileInput.click();
-
-            // Add a change event listener to the file input
-            // fileInput.addEventListener('change', function() {
-            //     alert('ok');
-            // }, {
-            //     once: true
-            // }); // Ensures the alert shows only once per file selection
-        });
-
-        // const movementCostsFile = document.querySelector('#movementCostsFile');
-        // movementCostsFile.addEventListener('click', function(e) {
-        //     e.preventDefault();
-        //     const fileInput = document.querySelector('.movementCostsFileShow');
-
-        //     fileInput.addEventListener('change', function() {
-        //         alert('ok');
-        //     })
-
-        // })
-        // Get the file object from the file input
-        // const file = this.files[0];
-        // alert('ok');
-
-        // if (file) {
-        //     // Display the file name in the read-only text input
-        //     document.querySelector('.movementCostsFileShow').value = file.name;
-        // } else {
-        //     // Clear the text input if no file is selected
-        //     document.querySelector('.movementCostsFileShow').value = '';
-        // }
-        //   document.querySelector('.movementCostsFileShow').value = this.value;
         //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
         const movementCostsAdd = document.querySelector('.movementCostsAdd');
         movementCostsAdd.addEventListener('click', function(e) {
@@ -727,7 +696,6 @@
                     allFieldsFilled = false;
                 }
             });
-
 
             if (!allFieldsFilled) {
                 toastr.error(errorMessages.join('<br>'));
@@ -799,10 +767,9 @@
                     `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
-                // let imageUrl = URL.createObjectURL(file);
-                // filepreview.innerHTML = ` <td><img src="${imageUrl}" alt="Uploaded Image" style="width: 50px; height: 50px;"></td>`
-                // filepreview.appendChild(filepreview);
-                // Add event listener for delete button to remove row on click
+
+                document.getElementById('movementCostsFileId').classList.remove('d-none');
+
                 newRow.querySelector('.deleteRowBtn').addEventListener('click', function() {
                     newRow.remove();
                     if (!addedTableBody.querySelector('tr')) {
@@ -991,7 +958,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
-
+                document.getElementById('foodingCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
                 newRow.querySelector('.deleteRowBtn2').addEventListener('click', function() {
                     newRow.remove();
@@ -1190,7 +1157,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
-
+                document.getElementById('overnightStayCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
                 newRow.querySelector('.deleteRowBtn3').addEventListener('click', function() {
                     newRow.remove();
@@ -1357,7 +1324,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
-
+                document.getElementById('otherExpensesCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
                 newRow.querySelector('.deleteRowBtn4').addEventListener('click', function() {
                     newRow.remove();

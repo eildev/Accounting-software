@@ -108,11 +108,11 @@ class ConvenienceBillController extends Controller
             if ($request->has('foodingDate') && !empty($request->foodingDate)) {
 
                 $imageName = null;
-                // if ($request->hasFile('foodingCostsFile')) {
-                //     $file = $request->file('foodingCostsFile');
-                //     $imageName = rand() . '.' . $file->getClientOriginalExtension();
-                //     $file->move(public_path('uploads/fooding_costs'), $imageName);
-                // }
+                if ($request->hasFile('foodingCostFile')) {
+                    $file = $request->file('foodingCostFile');
+                    $imageName = rand() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('uploads/fooding_costs'), $imageName);
+                }
                 $foodingCost =  FoodingCost::create([
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
@@ -136,11 +136,11 @@ class ConvenienceBillController extends Controller
 
             if ($request->has('overnightDate') && !empty($request->overnightDate)) {
                 $imageName = null;
-                // if ($request->hasFile('foodingCostsFile')) {
-                //     $file = $request->file('foodingCostsFile');
-                //     $imageName = rand() . '.' . $file->getClientOriginalExtension();
-                //     $file->move(public_path('uploads/fooding_costs'), $imageName);
-                // }
+                if ($request->hasFile('overnightStayCostFile')) {
+                    $file = $request->file('overnightStayCostFile');
+                    $imageName = rand() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('uploads/overnight_costs'), $imageName);
+                }
                 $overnightCost =  OvernightCost::create([
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
@@ -164,11 +164,11 @@ class ConvenienceBillController extends Controller
             }
             if ($request->has('otherExpensesDate') && !empty($request->otherExpensesDate)) {
                 $imageName = null;
-                // if ($request->hasFile('foodingCostsFile')) {
-                //     $file = $request->file('foodingCostsFile');
-                //     $imageName = rand() . '.' . $file->getClientOriginalExtension();
-                //     $file->move(public_path('uploads/fooding_costs'), $imageName);
-                // }
+                if ($request->hasFile('otherExpensesCostFile')) {
+                    $file = $request->file('otherExpensesCostFile');
+                    $imageName = rand() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('uploads/other_expense_costs'), $imageName);
+                }
                 $otherExpenseCost =  OtherExpenseCost::create([
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
