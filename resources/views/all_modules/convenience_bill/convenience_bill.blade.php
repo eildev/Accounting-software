@@ -465,7 +465,7 @@
                         </div>
                         <!-- /////////Tabing End//// -->
 
-                            <form id="convenienceForm" method="POST">
+                            <form id="convenienceForm" method="POST" enctype="multipart/form-data">
                             <!---MOVEMENT list 1 --->
                             <div class="col-md-12" id="movementCostData">
                                   <h4> </h4>
@@ -640,7 +640,17 @@
             const movementCostsFile = document.querySelector('#movementCostsFile');
               movementCostsFile.addEventListener('change', function(e) {
               e.preventDefault();
-              document.querySelector('.movementCostsFileShow').value = this.value;
+                    // Get the file object from the file input
+                    const file = this.files[0];
+
+                    if (file) {
+                        // Display the file name in the read-only text input
+                        document.querySelector('.movementCostsFileShow').value = file.name;
+                    } else {
+                        // Clear the text input if no file is selected
+                        document.querySelector('.movementCostsFileShow').value = '';
+                    }
+            //   document.querySelector('.movementCostsFileShow').value = this.value;
             })
             //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
         const movementCostsAdd = document.querySelector('.movementCostsAdd');
