@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movement_costs', function (Blueprint $table) {
+        Schema::create('conveniences', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->date('movement_date');
-            $table->text('movement_from');
-            $table->text('movement_to');
-            $table->string('mode_of_transport');
-            $table->string('movement_purpose')->nullable();;
-            $table->decimal('movement_amount',15,2);
-            $table->string('movement_assigned')->nullable();
-            $table->string('movement_file')->nullable();
+            $table->integer('bill_number');
+            $table->unsignedBigInteger('employee_id')->unsigned();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->string('entry_by')->nullable();
+            $table->text('note')->nullable();
+            $table->decimal('total_amount');
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movement_costs');
+        Schema::dropIfExists('conveniences');
     }
 };

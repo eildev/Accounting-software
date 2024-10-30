@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ConvenienceBill;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConvenienceBill\Convenience;
 use App\Models\ConvenienceBill\FoodingCost;
 use App\Models\ConvenienceBill\MovementCost;
 use App\Models\ConvenienceBill\OtherExpenseCost;
@@ -55,10 +56,20 @@ class ConvenienceBillController extends Controller
             // if ($validator->passes()) {
             $branchId = Auth::user()->branch_id;
             if ($request->has('movementDate') && !empty($request->movementDate)) {
+                $convenience =    Convenience::create([
+                    'branch_id' => $branchId,
+                    'bill_number' => 1,
+                    'employee_id' => 1,
+                    'entry_by' => $request->convenienceAssigned,
+                    'total_amount' =>  0,
+
+                ]);
+                $convenienceId = $convenience->id;
                 foreach ($request->movementDate as $index => $date) {
-                    MovementCost::create([
+                     MovementCost::create([
                         'branch_id' => $branchId,
                         'movement_date' => $date,
+                        'conveniences_id' =>  $convenienceId,
                         'movement_from' => $request->movementFrom[$index],
                         'movement_to' => $request->movementTo[$index],
                         'movement_purpose' => $request->movementPurpose[$index],
