@@ -19,11 +19,11 @@ class RolePermissionController extends Controller
     public function AllPermissionView()
     {
         $permission = Permission::all();
-        return view('pos.role_and_permission.permission.all_permission', compact('permission'));
+        return view('all_modules.role_and_permission.permission.all_permission', compact('permission'));
     }
     public function AddPermission()
     {
-        return view('pos.role_and_permission.permission.add_permission');
+        return view('all_modules.role_and_permission.permission.add_permission');
     }
     public function StorePermission(Request $request)
     {
@@ -45,7 +45,7 @@ class RolePermissionController extends Controller
     public function EditPermission($id)
     {
         $permissions = Permission::findOrFail($id);
-        return view('pos.role_and_permission.permission.edit_permission', compact('permissions'));
+        return view('all_modules.role_and_permission.permission.edit_permission', compact('permissions'));
     }
     public function updatePermission(Request $request)
     {
@@ -76,11 +76,11 @@ class RolePermissionController extends Controller
     public function AllRoleView()
     {
         $role = Role::all();
-        return view('pos.role_and_permission.role.all_role', compact('role'));
+        return view('all_modules.role_and_permission.role.all_role', compact('role'));
     } //
     public function AddRole()
     {
-        return view('pos.role_and_permission.role.add_role');
+        return view('all_modules.role_and_permission.role.add_role');
     } //
     public function StoreRole(Request $request)
     {
@@ -99,7 +99,7 @@ class RolePermissionController extends Controller
     public function EditRole($id)
     {
         $roles = Role::findOrFail($id);
-        return view('pos.role_and_permission.role.edit_role', compact('roles'));
+        return view('all_modules.role_and_permission.role.edit_role', compact('roles'));
     }
     public function updateRole(Request $request)
     {
@@ -128,7 +128,7 @@ class RolePermissionController extends Controller
         $role = Role::all();
         $permission = Permission::all();
         $permission_group = User::getPermissiongroup();
-        return view('pos.role_and_permission.role_permission.add_role_permission', compact('role', 'permission', 'permission_group'));
+        return view('all_modules.role_and_permission.role_permission.add_role_permission', compact('role', 'permission', 'permission_group'));
     } //
     public function StoreRolePermission(Request $request)
     {
@@ -148,14 +148,14 @@ class RolePermissionController extends Controller
     public function AllRolePermission()
     {
         $role = Role::all();
-        return view('pos.role_and_permission.role_permission.all_role_permission', compact('role'));
+        return view('all_modules.role_and_permission.role_permission.all_role_permission', compact('role'));
     } //
     public function AdminRoleEdit($id)
     {
         $role = Role::findOrFail($id);
         $permission = Permission::all();
         $permission_group = User::getPermissiongroup();
-        return view('pos.role_and_permission.role_permission.edit_role_permission', compact('role', 'permission', 'permission_group'));
+        return view('all_modules.role_and_permission.role_permission.edit_role_permission', compact('role', 'permission', 'permission_group'));
     }
     public function AdminRoleUpdate(Request $request, $id)
     {
@@ -199,13 +199,13 @@ class RolePermissionController extends Controller
     public function AllAdminView()
     {
         $user = User::all();
-        return view('pos.role_and_permission.admin_manage.all_admin_view', compact('user'));
+        return view('all_modules.role_and_permission.admin_manage.all_admin_view', compact('user'));
     }
     public function AddAdmin()
     {
         $role = Role::all();
         $branch = Branch::all();
-        return view('pos.role_and_permission.admin_manage.add_admin', compact('role', 'branch'));
+        return view('all_modules.role_and_permission.admin_manage.add_admin', compact('role', 'branch'));
     }
     public function AdminStore(Request $request)
     {
@@ -239,7 +239,7 @@ class RolePermissionController extends Controller
         $user = User::findOrFail($id);
         $role = Role::all();
         $branch = Branch::all();
-        return view('pos.role_and_permission.admin_manage.edit_admin', compact('user', 'role', 'branch'));
+        return view('all_modules.role_and_permission.admin_manage.edit_admin', compact('user', 'role', 'branch'));
     } //
     public function AdminManageUpdate(Request $request, $id)
     {

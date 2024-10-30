@@ -158,6 +158,29 @@
     global_search.addEventListener('blur', function() {
         search_result.style.display = 'none';
     });
+
+
+    ///////////////////////// Modal show and close function /////////////////// 
+    function modalShowHide(element) {
+        var recurringExpanseModal = new bootstrap.Modal(document.getElementById(`${element}`), {
+            backdrop: 'static', // Prevent closing by clicking outside
+            keyboard: false // Prevent closing with Escape key
+        });
+
+        // Trigger modal open when the button is clicked
+        document.querySelector(`.btn[data-bs-target="#${element}"]`).addEventListener('click',
+            function() {
+                recurringExpanseModal.show();
+            });
+
+        // Custom close functionality for specific buttons
+        document.querySelector('.modal_close').addEventListener('click', function() {
+            recurringExpanseModal.hide();
+        });
+        document.querySelector('.btn-close').addEventListener('click', function() {
+            recurringExpanseModal.hide();
+        });
+    }
 </script>
 
 </html>

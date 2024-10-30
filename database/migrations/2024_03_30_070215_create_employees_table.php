@@ -16,14 +16,15 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->string('full_name',200);
+            $table->integer('department_id');
             $table->text('address')->nullable();
             $table->string('phone',20)->nullable();
             $table->string('email',200)->nullable();
             $table->string('nid',20)->nullable();
             $table->string('pic',50)->nullable();
             $table->string('designation',50)->nullable();
-            $table->decimal('salary',12,2)->nullable();
-            $table->string('status');
+            $table->decimal('salary',15,2)->nullable();
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

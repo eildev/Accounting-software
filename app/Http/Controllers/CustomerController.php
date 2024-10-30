@@ -21,7 +21,7 @@ class CustomerController extends Controller
     }
     public function AddCustomer()
     {
-        return view('pos.customer.add_customer');
+        return view('all_modules.customer.add_customer');
     } //End Method
     public function CustomerStore(Request $request)
     {
@@ -61,12 +61,12 @@ class CustomerController extends Controller
     public function CustomerView()
     {
         $customers = $this->customer_repo->ViewAllCustomer();
-        return view('pos.customer.view_customer', compact('customers'));
+        return view('all_modules.customer.view_customer', compact('customers'));
     } //
     public function CustomerEdit($id)
     {
         $customer = $this->customer_repo->EditCustomer($id);
-        return view('pos.customer.edit_customer', compact('customer'));
+        return view('all_modules.customer.edit_customer', compact('customer'));
     } //
     public function CustomerUpdate(Request $request, $id)
     {
@@ -106,6 +106,6 @@ class CustomerController extends Controller
         $banks = Bank::latest()->get();
         $isCustomer = true;
 
-        return view('pos.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
+        return view('all_modules.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
     }
 }

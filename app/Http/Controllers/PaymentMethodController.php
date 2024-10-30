@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 // use Validator;
 use Illuminate\Support\Facades\Validator;
+
 class PaymentMethodController extends Controller
 {
-    public function PaymentMethodAdd(){
-        return view('pos.payment_method.payment_method_add');
+    public function PaymentMethodAdd()
+    {
+        return view('all_modules.payment_method.payment_method_add');
     }
-    public function PaymentMethodStore(Request $request){
+    public function PaymentMethodStore(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:39',
         ]);
@@ -30,15 +33,17 @@ class PaymentMethodController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-    }//
-    public function PaymentMethodView(){
+    } //
+    public function PaymentMethodView()
+    {
         $paymentMethod = PaymentMethod::get();
         return response()->json([
             "status" => 200,
             "data" => $paymentMethod
         ]);
-    }//
-    public function PaymentMethodEdit($id){
+    } //
+    public function PaymentMethodEdit($id)
+    {
         $paymentMethod = PaymentMethod::findOrFail($id);
         if ($paymentMethod) {
             return response()->json([
@@ -51,8 +56,9 @@ class PaymentMethodController extends Controller
                 'message' => "Data Not Found"
             ]);
         }
-    }//
-    public function PaymentMethodUpdate(Request $request, $id){
+    } //
+    public function PaymentMethodUpdate(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:39',
         ]);
@@ -70,8 +76,9 @@ class PaymentMethodController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-      }//
-      public function PaymentMethodDelete($id){
+    } //
+    public function PaymentMethodDelete($id)
+    {
         $paymentMethod = PaymentMethod::findOrFail($id);
         $paymentMethod->delete();
         return response()->json([

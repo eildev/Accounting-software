@@ -60,17 +60,20 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-    public function UserProfileEdit(){
+    public function UserProfileEdit()
+    {
         $branch = Branch::all();
         $user = Auth::user();
-        return view('pos.profile.profile-edit',compact('branch','user'));
+        return view('all_modules.profile.profile-edit', compact('branch', 'user'));
     }
-    public function UserProfile(){
+    public function UserProfile()
+    {
         $branch = Branch::all();
         $user = Auth::user();
-        return view('pos.profile.profile',compact('branch','user'));
-    }//
-    public function UserProfileUpdate(Request $request){
+        return view('all_modules.profile.profile', compact('branch', 'user'));
+    } //
+    public function UserProfileUpdate(Request $request)
+    {
         $userProfile = Auth::user();
         $user = User::findOrFail($userProfile->id); // Retrieve user by ID
 
@@ -85,10 +88,10 @@ class ProfileController extends Controller
 
         $previousImagePath = public_path('uploads/profile/') . $user->photo;
         if ($user->photo) {
-        if (file_exists($previousImagePath)) {
-            unlink($previousImagePath);
+            if (file_exists($previousImagePath)) {
+                unlink($previousImagePath);
+            }
         }
-         }
         if ($request->image) {
             $imageName = rand() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/profile/'), $imageName);
@@ -100,13 +103,14 @@ class ProfileController extends Controller
             'alert-type' => 'info'
         );
         return redirect()->route('user.profile')->with($notification);
-
     }
     //Change Passsword
-    public function ChangePassword(){
-        return view('pos.profile.change-password');
+    public function ChangePassword()
+    {
+        return view('all_modules.profile.change-password');
     }
-    public function updatePassword(Request $request){
+    public function updatePassword(Request $request)
+    {
         $validateData = $request->validate([
             'oldpassword' => 'required',
             'newpassword' => 'required',
@@ -115,15 +119,15 @@ class ProfileController extends Controller
         ]);
 
         $hashedPassword = Auth::user()->password;
-        if (Hash::check($request->oldpassword,$hashedPassword )) {
+        if (Hash::check($request->oldpassword, $hashedPassword)) {
             $users = User::find(Auth::id());
             $users->password = bcrypt($request->newpassword);
             $users->save();
 
-            session()->flash('message','Password Updated Successfully');
+            session()->flash('message', 'Password Updated Successfully');
             return redirect()->back();
-        } else{
-            session()->flash('error','Old password is not match');
+        } else {
+            session()->flash('error', 'Old password is not match');
             return redirect()->back();
         }
     }

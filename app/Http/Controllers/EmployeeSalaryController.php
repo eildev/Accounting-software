@@ -23,7 +23,7 @@ class EmployeeSalaryController extends Controller
         $employees = Employee::latest()->get();
         $bank = Bank::latest()->get();
         $branch = Branch::latest()->get();
-        return view('pos.employee_salary.add_employee_salary', compact('employees', 'branch', 'bank'));
+        return view('all_modules.employee_salary.add_employee_salary', compact('employees', 'branch', 'bank'));
     } //
     public function EmployeeSalaryStore(Request $request)
     {
@@ -145,7 +145,7 @@ class EmployeeSalaryController extends Controller
     public function EmployeeSalaryView()
     {
         $employeSalary = EmployeeSalary::all();
-        return view('pos.employee_salary.view_employee_salary', compact('employeSalary'));
+        return view('all_modules.employee_salary.view_employee_salary', compact('employeSalary'));
     } //
     public function EmployeeSalaryEdit($id)
     {
@@ -153,7 +153,7 @@ class EmployeeSalaryController extends Controller
         $employees = Employee::latest()->get();
         $bank = Bank::latest()->get();
         $branch = Branch::latest()->get();
-        return view('pos.employee_salary.edit_employee_salary', compact('employeeSalary', 'employees', 'branch', 'bank'));
+        return view('all_modules.employee_salary.edit_employee_salary', compact('employeeSalary', 'employees', 'branch', 'bank'));
     } //Employee Salary Edit
     public function EmployeeSalaryUpdate(Request $request, $id)
     {
@@ -211,7 +211,7 @@ class EmployeeSalaryController extends Controller
         $employees = Employee::latest()->get();
         $bank = Bank::latest()->get();
         $branch = Branch::latest()->get();
-        return view('pos.employee_salary.advanced_employee_salary_add', compact('employees', 'branch', 'bank'));
+        return view('all_modules.employee_salary.advanced_employee_salary_add', compact('employees', 'branch', 'bank'));
     } //End
 
     public function EmployeeSalaryAdvancedStore(Request $request)
@@ -301,7 +301,7 @@ class EmployeeSalaryController extends Controller
     public function EmployeeSalaryAdvancedView()
     {
         $employeSalary = EmployeeSalary::all();
-        return view('pos.employee_salary.view_advanced_employee_salary', compact('employeSalary'));
+        return view('all_modules.employee_salary.view_advanced_employee_salary', compact('employeSalary'));
     } //
     public function EmployeeSalaryAdvancedEdit($id)
     {
@@ -309,7 +309,7 @@ class EmployeeSalaryController extends Controller
         $employees = Employee::latest()->get();
         $bank = Bank::latest()->get();
         $branch = Branch::latest()->get();
-        return view('pos.employee_salary.edit_advanced_employee_salary', compact('employeeSalary', 'employees', 'branch', 'bank'));
+        return view('all_modules.employee_salary.edit_advanced_employee_salary', compact('employeeSalary', 'employees', 'branch', 'bank'));
     }
     public function EmployeeSalaryAdvancedUpdate(Request $request, $id)
     {

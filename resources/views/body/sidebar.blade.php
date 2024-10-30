@@ -6,7 +6,7 @@
             @else
                 EIL<span>POS</span>
             @endif --}}
-            <img src="{{ asset('/Logo-2.png') }}" alt="" height="40">
+        <img src="{{ asset('/Logo-2.png') }}" alt="" height="40">
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -26,11 +26,14 @@
         .nav-link.nav_active .link-title,
         .nav-link.nav_active {
             color: #ffffff !important;
-
         }
 
         .sub-menu .nav-item .nav-link {
             padding-left: 5px !important;
+        }
+
+        .nav-link.nav_active:hover {
+            color: #ffffff !important;
         }
     </style>
     <div class="sidebar-body">
@@ -235,31 +238,63 @@
             @endif --}}
             @if (Auth::user()->can('bank.menu'))
                 <li class="nav-item">
-                    <a href="{{ route('bank') }}"
-                        class="nav-link {{ request()->routeIs('bank') ? 'nav_active' : '' }}">
+                    <a href="{{ route('bank') }}" class="nav-link {{ request()->routeIs('bank') ? 'nav_active' : '' }}">
                         <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                         <span class="link-title">Bank</span>
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->can('expense.menu'))
+            <li class="nav-item">
+                <a href="{{ route('loan') }}" class="nav-link {{ request()->routeIs('loan') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-hand-holding-dollar link-icon"></i>
+                    <span class="link-title">Loan Managment</span>
+                </a>
+            </li>
+            {{-- @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item">
                     <a href="{{ route('expense.view') }}"
                         class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
+                        <i class="ms-2 fa-solid fa-coins link-icon"></i>
                         <span class="link-title">Expense</span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
             @if (Auth::user()->can('transaction.menu'))
                 <li class="nav-item">
-                    <a href="{{ route('transaction.add') }}"
-                        class="nav-link {{ request()->routeIs('transaction.add') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-receipt link-icon"></i>
+                    <a href="{{ route('transaction') }}"
+                        class="nav-link {{ request()->routeIs('transaction') ? 'nav_active' : '' }}">
+                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
                         <span class="link-title">Transaction</span>
                     </a>
                 </li>
             @endif
+            @if (Auth::user()->can('expense.menu'))
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
+                        data-bs-toggle="collapse" href="#expense" role="button" aria-expanded="false"
+                        aria-controls="expense">
+                        <i class="ms-2 fa-solid fa-coins link-icon"></i>
+                        <span class="link-title">Expense</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="expense">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('expense.view') }}"
+                                    class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
+                                    Expense Managment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('expense.recurring') }}"
+                                    class="nav-link {{ request()->routeIs('expense.recurring') ? 'nav_active' : '' }}">Recurring
+                                    Expense</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+
+
             <li class="nav-item nav-category">PEOPLES</li>
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
@@ -270,10 +305,40 @@
                     </a>
                 </li>
             @endif
+            <li class="nav-item nav-category">HR</li>
+
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}"
-                    data-bs-toggle="collapse" href="#employee" role="button" aria-expanded="false"
-                    aria-controls="emails">
+                <a href="{{ route('departments') }}"
+                    class="nav-link {{ request()->routeIs('departments') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Departments</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('employee') }}"
+                    class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Add Employee</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('salary.structure') }}"
+                    class="nav-link {{ request()->routeIs('salary.structure') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Salary Structure</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('convenience') }}"
+                    class="nav-link {{ request()->routeIs('convenience') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Convenience Bill</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"
+                    href="#employee" role="button" aria-expanded="false" aria-controls="emails">
                     <i class="ms-2 link-icon" data-feather="mail"></i>
                     <span class="link-title">Employee</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
@@ -281,11 +346,11 @@
                 <div class="collapse {{ request()->routeIs('employee*') ? 'show' : '' }}" id="employee">
                     <ul class="nav sub-menu">
                         @if (Auth::user()->can('employee.menu'))
-                            <li class="nav-item ">
+                            {{-- <li class="nav-item ">
                                 <a href="{{ route('employee.add') }}"
                                     class="nav-link {{ request()->routeIs('employee.add') ? 'nav_active' : '' }}">Add
                                     Employee</a>
-                            </li>
+                            </li> --}}
                         @endif
                         @if (Auth::user()->can('employee-salary.menu'))
                             <li class="nav-item">

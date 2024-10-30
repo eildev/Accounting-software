@@ -8,12 +8,14 @@ use Illuminate\Http\Request;
 
 class TaxController extends Controller
 {
-    public function TaxAdd(){
-        return view('pos.products.tax.tax');
+    public function TaxAdd()
+    {
+        return view('all_modules.products.tax.tax');
     }
-    public function TaxStore(Request $request){
-          // dd($request->all());
-          $validator = Validator::make($request->all(), [
+    public function TaxStore(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:39',
             'percentage' => 'required|max:39',
         ]);
@@ -34,15 +36,17 @@ class TaxController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-    }//
-    public function TaxView(){
+    } //
+    public function TaxView()
+    {
         $tax = Tax::get();
         return response()->json([
             "status" => 200,
             "data" => $tax
         ]);
-    }//
-    public function TaxEdit($id){
+    } //
+    public function TaxEdit($id)
+    {
         $tax = Tax::findOrFail($id);
         if ($tax) {
             return response()->json([
@@ -55,8 +59,9 @@ class TaxController extends Controller
                 'message' => "Data Not Found"
             ]);
         }
-    }//
-    public function TaxUpdate(Request $request, $id){
+    } //
+    public function TaxUpdate(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:39',
             'percentage' => 'required|max:39',
@@ -77,8 +82,9 @@ class TaxController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-    }//
-    public function TaxDelete($id){
+    } //
+    public function TaxDelete($id)
+    {
         $tax = Tax::findOrFail($id);
         $tax->delete();
         return response()->json([

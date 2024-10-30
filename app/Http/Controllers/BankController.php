@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
-class BankController extends Controller
+class BankController extends Controllers
 {
     private $bankrepo;
     public function __construct(BankInterface $bankInterface)
@@ -19,7 +19,7 @@ class BankController extends Controller
     }
     public function index()
     {
-        return view('pos.bank.bank');
+        return view('all_modules.bank.bank');
     }
     public function store(Request $request)
     {

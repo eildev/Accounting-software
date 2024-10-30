@@ -15,15 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->string('name', 100);
-            $table->string('branch_name', 150)->nullable();;
-            $table->string('manager_name', 150)->nullable();
-            $table->string('phone_number', 20)->nullable();;
-            $table->string('account')->nullable();;
-            $table->string('email', 200)->nullable();
-            $table->decimal('opening_balance', 12, 2)->default(0);
-            $table->decimal('update_balance', 12, 2)->default(0);
-            $table->string('purpose')->nullable();
+            $table->string('account_name', 100)->nullable();
+            $table->string('account_number', 50)->nullable();
+            $table->string('bank_name', 100)->nullable();
+            $table->string('branch_name', 100)->nullable();
+            $table->decimal('initial_balance', 15, 2)->nullable();
+            $table->decimal('current_balance', 15, 2)->nullable();
+            $table->string('currency_code', 3)->nullable();
             $table->timestamps();
         });
     }
