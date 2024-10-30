@@ -23,7 +23,7 @@ class BankAccountsController extends Controller
             Log::error('Error loading the bank view: ' . $e->getMessage());
 
             // Optionally return a custom error view or a simple error message
-            return response()->view('errors.custom', [], 500);
+            return response()->view('errors.500', [], 500);
         }
     }
 
