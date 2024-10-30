@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone',20)->nullable();
             $table->string('email',200)->nullable();
             $table->string('nid',20)->nullable();
-            $table->string('pic',50)->nullable();
+            $table->string('pic')->nullable();
             $table->string('designation')->nullable();
             $table->decimal('salary',15,2)->nullable();
             $table->string('status')->default(1);
