@@ -220,17 +220,18 @@
                                                             </td>
 
                                                             <td>
-                                                                <select class="form-control" name="movementMode_of_Transport[]">
+                                                                <select class="form-control"
+                                                                    name="movementMode_of_Transport[]">
                                                                     <option value="bike">Bike</option>
                                                                     <option value="rickshaw">Rickshaw</option>
                                                                     <option value="cars"> Cars</option>
                                                                     <option value="buses"> Buses</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="number" class="form-control"name="movementAmount[]"
-                                                                   ></td>
+                                                            <td><input type="number"
+                                                                    class="form-control"name="movementAmount[]"></td>
                                                             <td><input type="text" class="form-control"
-                                                                    name="movementAssigned[]" >
+                                                                    name="movementAssigned[]">
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -280,8 +281,7 @@
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
-                                                                    class="input-group form-control" name="foodingDate[]"
-                                                                    >
+                                                                    class="input-group form-control" name="foodingDate[]">
                                                             </td>
                                                             <td>
                                                                 <textarea class="form-control" id="" cols="30" rows="2" name="foodingPlceofvisit[]"
@@ -299,7 +299,8 @@
                                                                     <option value="snacks">Snacks</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="number" class="form-control"name="foodingAmount[]"
+                                                            <td><input type="number"
+                                                                    class="form-control"name="foodingAmount[]"
                                                                     value=""></td>
                                                             <td><input type="text" class="form-control"
                                                                     name="foodingAssigned[]" value="">
@@ -319,7 +320,7 @@
 
                                                 </table>
                                             </div>
-                                            <input type="file" name="foodingcostsFile" id="movementCostsFile">
+                                            <button id="movementCostsFile">Add File</button>
                                             <a class="btn btn-md float-end foodingcostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -351,8 +352,8 @@
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
-                                                                    class="input-group form-control" name="overnightDate[]"
-                                                                   >
+                                                                    class="input-group form-control"
+                                                                    name="overnightDate[]">
                                                             </td>
                                                             <td>
                                                                 <textarea class="form-control" id="" cols="30" rows="2" name="overnightPlceofvisit[]"
@@ -377,7 +378,8 @@
                                                                     <option value="20"> 20 Night</option>
                                                                 </select>
                                                             </td>
-                                                            <td><input type="number" class="form-control"name="overnightAmount[]"
+                                                            <td><input type="number"
+                                                                    class="form-control"name="overnightAmount[]"
                                                                     value=""></td>
                                                             <td><input type="text" class="form-control"
                                                                     name="overnightAssigned[]" value="">
@@ -426,8 +428,8 @@
                                                                     <i class="fa-solid fa-trash-can"></i>
                                                                 </button></td>
                                                             <td><input id="flatpickr-date" type="date"
-                                                                    class="input-group form-control" name="otherExpensesDate[]"
-                                                                    >
+                                                                    class="input-group form-control"
+                                                                    name="otherExpensesDate[]">
                                                             </td>
 
                                                             <td>
@@ -435,8 +437,9 @@
                                                                     placeholder="Enter Purpose "></textarea>
                                                             </td>
 
-                                                            <td><input type="number" class="form-control" name="otherExpensesAmount[]"
-                                                                    value=""></tdput type="text" clas>
+                                                            <td><input type="number" class="form-control"
+                                                                    name="otherExpensesAmount[]" value=""></tdput
+                                                                    type="text" clas>
                                                             <td><input type="text" class="form-control"
                                                                     name="otherExpensesAssigned[]" value="">
                                                             </td>
@@ -454,7 +457,8 @@
                                                     </tfoot>
                                                 </table>
                                             </div>
-                                            <input type="file" name="otherExpensesCostsFile" id="otherExpensesCostsFile">
+                                            <input type="file" name="otherExpensesCostsFile"
+                                                id="otherExpensesCostsFile">
                                             <a class="btn btn-md float-end otherExpensesCostsAdd"
                                                 style="border:1px solid #6587ff ">Add</a>
                                         </div>
@@ -465,19 +469,20 @@
                         </div>
                         <!-- /////////Tabing End//// -->
 
-                            <form id="convenienceForm" method="POST" enctype="multipart/form-data">
+                        <form id="convenienceForm" method="POST" enctype="multipart/form-data">
                             <!---MOVEMENT list 1 --->
                             <div class="col-md-12" id="movementCostData">
-                                  <h4> </h4>
+                                <h4> </h4>
                                 <table id="expenseTable">
                                     <thead>
                                         {{-- <h2>Movement Table:</h2> --}}
                                     </thead>
                                     <tbody>
                                         <tr>
-                                        <input type="text"
-                                        class="input-group border-0 form-control movementCostsFileShow" name="movementCostsFile"   style="border: 0; background-color: transparent;" readonly
-                                            value="" >
+                                            <input type="file"
+                                                class="input-group border-0 form-control movementCostsFileShow"
+                                                name="movementCostsFile" style="border: 0; background-color: transparent;"
+                                                readonly value="">
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -535,7 +540,8 @@
                                 </table>
                             </div>
                             <!-- Four Other Expenses costs End -->
-                            <button class="btn btn-md float-end mb-2" style="border:1px solid #6587ff " type="submit">Submit</button>
+                            <button class="btn btn-md float-end mb-2" style="border:1px solid #6587ff "
+                                type="submit">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -637,22 +643,46 @@
         });
         //First  Add row  Tab End
         /////////////////////////////////////////////movementCostsFile/////////////////////////////////////////////////
-            const movementCostsFile = document.querySelector('#movementCostsFile');
-              movementCostsFile.addEventListener('change', function(e) {
-              e.preventDefault();
-                    // Get the file object from the file input
-                    const file = this.files[0];
+        const movementCostsFile = document.querySelector('#movementCostsFile');
 
-                    if (file) {
-                        // Display the file name in the read-only text input
-                        document.querySelector('.movementCostsFileShow').value = file.name;
-                    } else {
-                        // Clear the text input if no file is selected
-                        document.querySelector('.movementCostsFileShow').value = '';
-                    }
-            //   document.querySelector('.movementCostsFileShow').value = this.value;
-            })
-            //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
+        movementCostsFile.addEventListener('click', function(e) {
+            e.preventDefault();
+            const fileInput = document.querySelector('.movementCostsFileShow');
+
+            // Trigger the file input's click event
+            fileInput.click();
+
+            // Add a change event listener to the file input
+            // fileInput.addEventListener('change', function() {
+            //     alert('ok');
+            // }, {
+            //     once: true
+            // }); // Ensures the alert shows only once per file selection
+        });
+
+        // const movementCostsFile = document.querySelector('#movementCostsFile');
+        // movementCostsFile.addEventListener('click', function(e) {
+        //     e.preventDefault();
+        //     const fileInput = document.querySelector('.movementCostsFileShow');
+
+        //     fileInput.addEventListener('change', function() {
+        //         alert('ok');
+        //     })
+
+        // })
+        // Get the file object from the file input
+        // const file = this.files[0];
+        // alert('ok');
+
+        // if (file) {
+        //     // Display the file name in the read-only text input
+        //     document.querySelector('.movementCostsFileShow').value = file.name;
+        // } else {
+        //     // Clear the text input if no file is selected
+        //     document.querySelector('.movementCostsFileShow').value = '';
+        // }
+        //   document.querySelector('.movementCostsFileShow').value = this.value;
+        //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
         const movementCostsAdd = document.querySelector('.movementCostsAdd');
         movementCostsAdd.addEventListener('click', function(e) {
             e.preventDefault();
@@ -672,7 +702,8 @@
                 let movementDate = row.querySelector('input[name="movementDate[]"]').value;
                 let movementFrom = row.querySelector('textarea[name="movementFrom[]"]').value;
                 let movementTo = row.querySelector('textarea[name="movementTo[]"]').value;
-                let movementMode_of_Transport = row.querySelector('select[name="movementMode_of_Transport[]"]').value;
+                let movementMode_of_Transport = row.querySelector(
+                    'select[name="movementMode_of_Transport[]"]').value;
                 let movementAmount = row.querySelector('input[name="movementAmount[]"]').value;
 
                 if (!movementDate) {
@@ -734,7 +765,8 @@
                 let movementFrom = row.querySelector('textarea[name="movementFrom[]"]').value;
                 let movementTo = row.querySelector('textarea[name="movementTo[]"]').value;
                 let movementPurpose = row.querySelector('textarea[name="movementPurpose[]"]').value;
-                let movementMode_of_Transport = row.querySelector('select[name="movementMode_of_Transport[]"]').value;
+                let movementMode_of_Transport = row.querySelector(
+                    'select[name="movementMode_of_Transport[]"]').value;
                 let movementAmount = row.querySelector('input[name="movementAmount[]"]').value;
                 let movementAssigned = row.querySelector('input[name="movementAssigned[]"]').value;
 
@@ -1062,12 +1094,13 @@
             let tableTitle3 = document.querySelector('#overnightStayCostsData h4');
             let hrElement3 = document.querySelector('#overnightStayCostsData hr');
 
-               //VAlidation errors
-               let allFieldsFilled = true;
-               let errorMessages = []
-                rows.forEach(function(row) {
+            //VAlidation errors
+            let allFieldsFilled = true;
+            let errorMessages = []
+            rows.forEach(function(row) {
                 let overnightDate = row.querySelector('input[name="overnightDate[]"]').value;
-                let overnightPlceofvisit = row.querySelector('textarea[name="overnightPlceofvisit[]"]').value;
+                let overnightPlceofvisit = row.querySelector('textarea[name="overnightPlceofvisit[]"]')
+                    .value;
                 let overnightStayperiod = row.querySelector('select[name="overnightStayperiod[]"]').value;
                 let overnightAmount = row.querySelector('input[name="overnightAmount[]"]').value;
 
@@ -1123,7 +1156,8 @@
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let overnightDate = row.querySelector('input[name="overnightDate[]"]').value;
-                let overnightPlceofvisit = row.querySelector('textarea[name="overnightPlceofvisit[]"]').value;
+                let overnightPlceofvisit = row.querySelector('textarea[name="overnightPlceofvisit[]"]')
+                    .value;
                 let overnightPurpose = row.querySelector('textarea[name="overnightPurpose[]"]').value;
                 let overnightStayperiod = row.querySelector('select[name="overnightStayperiod[]"]').value;
                 let overnightAmount = row.querySelector('input[name="overnightAmount[]"]').value;
@@ -1241,13 +1275,14 @@
             let addedTableHead = addedTable.querySelector('thead');
             let tableTitle4 = document.querySelector('#otherExpensesCostsData h4');
             let hrElement4 = document.querySelector('#otherExpensesCostsData hr');
-             //VAlidation errors
-             let allFieldsFilled = true;
-               let errorMessages = []
+            //VAlidation errors
+            let allFieldsFilled = true;
+            let errorMessages = []
 
-                rows.forEach(function(row) {
+            rows.forEach(function(row) {
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
-                let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]').value;
+                let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]')
+                    .value;
                 let otherExpensesAmount = row.querySelector('input[name="otherExpensesAmount[]"]').value;
 
                 if (!otherExpensesDate) {
@@ -1296,9 +1331,11 @@
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
-                let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]').value;
+                let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]')
+                    .value;
                 let otherExpensesAmount = row.querySelector('input[name="otherExpensesAmount[]"]').value;
-                let otherExpensesAssigned = row.querySelector('input[name="otherExpensesAssigned[]"]').value;
+                let otherExpensesAssigned = row.querySelector('input[name="otherExpensesAssigned[]"]')
+                    .value;
 
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
@@ -1341,10 +1378,10 @@
                 let formData = new FormData(this); // Get the form data
                 console.log(formData); //
                 $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
                     url: "{{ route('convenience.store') }}", // The route to handle form submission
                     type: "POST",
@@ -1352,13 +1389,13 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                      if(response.status == 200){
-                        $('#convenienceForm')[0].reset();
-                        toastr.success(response.message);
-                        window.location.reload();
-                      }else{
-                        toastr.error(response.error);
-                      }
+                        if (response.status == 200) {
+                            $('#convenienceForm')[0].reset();
+                            toastr.success(response.message);
+                            window.location.reload();
+                        } else {
+                            toastr.error(response.error);
+                        }
 
                     },
                     error: function(xhr, status, error) {
