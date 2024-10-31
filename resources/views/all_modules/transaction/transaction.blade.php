@@ -62,6 +62,24 @@
                 <div class="modal-body">
                     <form class="withdrawForm row">
                         <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Purpuse<span class="text-danger">*</span></label>
+                            <input class="form-control source_type" name="source_type" type="text"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger source_type_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Transaction Date<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
+                                <span class="input-group-text input-group-addon bg-transparent border-primary"
+                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
+                                <input type="text" name="transaction_date"
+                                    class="form-control bg-transparent border-primary transaction_date"
+                                    placeholder="Select date" data-input>
+                            </div>
+                            <span class="text-danger transaction_date_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Account Type<span class="text-danger">*</span></label>
                             <select class="form-control account_type" name="account_type" onkeyup="errorRemove(this);"
                                 onchange="checkPaymentAccount(this);">
@@ -80,24 +98,14 @@
                             </select>
                             <span class="text-danger payment_account_id_error"></span>
                         </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Transaction Date<span
-                                    class="text-danger">*</span></label>
-                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
-                                <span class="input-group-text input-group-addon bg-transparent border-primary"
-                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
-                                <input type="text" name="transaction_date"
-                                    class="form-control bg-transparent border-primary transaction_date"
-                                    placeholder="Select date" data-input>
-                            </div>
-                            <span class="text-danger transaction_date_error"></span>
-                        </div>
+
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Amount<span class="text-danger">*</span></label>
-                            <input class="form-control amount" name="amount" type="number" onkeyup="errorRemove(this);">
+                            <input class="form-control amount" name="amount" type="number"
+                                onkeyup="errorRemove(this);">
                             <span class="text-danger amount_error"></span>
                         </div>
-                        <div class="mb-3 col-md-12">
+                        <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Note/Comments</label>
                             <input class="form-control description" name="description" type="text"
                                 onkeyup="errorRemove(this);">
@@ -115,41 +123,80 @@
         </div>
     </div>
 
-
-    <!-- Add Cash Modal -->
-    <div class="modal fade" id="cash_modal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    <!-- Cash Deposite Modal -->
+    <div class="modal fade" id="cashDepositeModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Cash Info</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Cash Deposite</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="signupForm" class="cashForm row">
+                    <form class="depositeForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Cash Account Name <span
-                                    class="text-danger">*</span></label>
-                            <input class="form-control cash_account_name" name="cash_account_name" type="text"
+                            <label for="name" class="form-label">Purpuse<span class="text-danger">*</span></label>
+                            <input class="form-control source_type" name="source_type" type="text"
                                 onkeyup="errorRemove(this);">
-                            <span class="text-danger cash_account_name_error"></span>
+                            <span class="text-danger source_type_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Opening Balance<span
+                            <label for="name" class="form-label">Transaction Date<span
                                     class="text-danger">*</span></label>
-                            <input class="form-control opening_balance" name="opening_balance" type="number"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger opening_balance_error"></span>
+                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
+                                <span class="input-group-text input-group-addon bg-transparent border-primary"
+                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
+                                <input type="text" name="transaction_date"
+                                    class="form-control bg-transparent border-primary transaction_date"
+                                    placeholder="Select date" data-input>
+                            </div>
+                            <span class="text-danger transaction_date_error"></span>
                         </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Account Type<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control account_type" name="account_type" onkeyup="errorRemove(this);"
+                                onchange="checkPaymentAccount(this);">
+                                <option value="">Select Account Type</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                            <span class="text-danger account_type_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Payment Account<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control payment_account_id" name="payment_account_id"
+                                onkeyup="errorRemove(this);">
+                                <option value="">Select Payment Account</option>
+                            </select>
+                            <span class="text-danger payment_account_id_error"></span>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Amount<span class="text-danger">*</span></label>
+                            <input class="form-control amount" name="amount" type="number"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger amount_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Note/Comments</label>
+                            <input class="form-control description" name="description" type="text"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger description_error"></span>
+                        </div>
+                        <input class="form-control transaction_type" name="transaction_type" type="hidden"
+                            value="deposit">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save_cash">Save</button>
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary save_deposite">Save</button>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -193,7 +240,6 @@
                     }
                 }
             });
-
         }
 
         $(document).ready(function() {
@@ -206,12 +252,7 @@
             }
 
 
-
-            // save Withdraw information
-            const saveWithdraw = document.querySelector('.save_withdraw');
-            saveWithdraw.addEventListener('click', function(e) {
-                e.preventDefault();
-                let formData = new FormData($('.withdrawForm')[0]);
+            function saveData(formData, modalName, formName) {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -225,9 +266,9 @@
                     contentType: false,
                     success: function(res) {
                         if (res.status == 200) {
-                            $('#cashWithdrawModal').modal('hide');
-                            $('.withdrawForm')[0].reset();
-                            // bankView();
+                            $(`#${modalName}`).modal('hide');
+                            $(`.${formName}`)[0].reset();
+                            withdrawView();
                             toastr.success(res.message);
                         } else {
                             if (res.error.account_type) {
@@ -248,161 +289,94 @@
                             if (res.error.description) {
                                 showError('.description', res.error.description);
                             }
+                            if (res.error.source_type) {
+                                showError('.source_type', res.error.source_type);
+                            }
                         }
-                    }
-                });
-            })
-
-            // bankInfo View Function 
-            function withdrawView() {
-                // console.log('hello');
-                $.ajax({
-                    url: '/bank/view',
-                    method: 'GET',
-                    success: function(res) {
-                        // console.log(res.data);
-                        const banks = res.data;
-                        // console.log(banks.account_transaction);
-                        $('.show_bank_data').empty();
-                        if (banks.length > 0) {
-                            $.each(banks, function(index, bank) {
-                                // console.log(bank);
-                                // Calculate the sum of account_transaction balances
-                                const tr = document.createElement('tr');
-                                tr.innerHTML = `
-                                    <td>${bank.account_name ?? ""}</td>
-                                    <td>${bank.account_number ?? ""}</td>
-                                    <td>${bank.bank_name ?? ""}</td>
-                                    <td>${bank.bank_branch_name ?? 0}</td>
-                                    <td>${bank.initial_balance ?? 0}</td>
-                                    <td>${bank.current_balance ?? 0}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-success">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-danger">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                `;
-                                $('.show_bank_data').append(tr);
-
-                                // Initialize DataTables after appending the data
-                                $('#bankTable').DataTable({
-                                    "paging": true, // Enable pagination
-                                    "searching": true, // Enable search
-                                    "ordering": true, // Enable column sorting
-                                    "info": true, // Show table information (e.g. "Showing X to Y of Z entries")
-                                    "lengthChange": true // Allow the user to change the number of rows displayed
-                                });
-                            });
-                        } else {
-                            $('.show_bank_data').html(`
-                            <tr>
-                                <td colspan='9'>
-                                    <div class="text-center text-warning mb-2">Data Not Found</div>
-                                    <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add Bank Info<i data-feather="plus"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            `);
-                        }
-                        // Initialize DataTables after table data is populated
-                        $('#dataTableExample').DataTable();
                     }
                 });
             }
+
+
+            // save Withdraw information
+            const saveWithdraw = document.querySelector('.save_withdraw');
+            saveWithdraw.addEventListener('click', function(e) {
+                e.preventDefault();
+                let formData = new FormData($('.withdrawForm')[0]);
+                saveData(formData, 'cashWithdrawModal', 'withdrawForm');
+            })
+
+            // save Deposite information
+            const saveDeposite = document.querySelector('.save_deposite');
+            saveDeposite.addEventListener('click', function(e) {
+                e.preventDefault();
+                let formData = new FormData($('.depositeForm')[0]);
+                saveData(formData, 'cashDepositeModal', 'depositeForm');
+            })
+
+
+
+            function withdrawView() {
+                $.ajax({
+                    url: '/transaction/view',
+                    method: 'GET',
+                    success: function(res) {
+                        if (res.status == 200) {
+                            const withdrawal = res.withdraw;
+                            const deposit = res.deposit;
+                            $('.show_withdraw_data').empty();
+                            if (transactions.length > 0) {
+                                $.each(transactions, function(index, transaction) {
+                                    // Generate the table row using viewDataOnTable
+                                    const tr = viewDataOnTable(transaction);
+                                    // Append the generated row to the table
+                                    $('.show_withdraw_data').append(tr);
+                                });
+                            } else {
+                                $('.show_withdraw_data').html(`
+                                    <tr>
+                                        <td colspan='9'>
+                                            <div class="text-center text-warning mb-2">Data Not Found</div>
+                                            <div class="text-center">
+                                                <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add Transaction Info<i data-feather="plus"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `);
+                            }
+                        } else {
+                            toastr.error(res.message);
+                        }
+                    }
+                });
+            }
+
+            function viewDataOnTable(transaction) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${transaction.source_type ?? ""}</td>
+                    <td>${transaction.transaction_date ?? ""}</td>
+                    <td>${transaction.bank?.bank_name ?? (transaction.cash?.cash_account_name ?? "")}</td>
+                    <td>${transaction.amount ?? 0}</td>
+                    <td>${transaction.description ?? 0}</td>
+                    <td>${transaction.transaction_id ?? 0}</td>
+                    <td>
+                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                        <a href="#" class="btn btn-icon btn-xs btn-success">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a href="#" class="btn btn-icon btn-xs btn-danger">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </td>
+                `;
+                return tr;
+            }
+
             withdrawView();
 
-            // save cash information
-            const saveCash = document.querySelector('.save_cash');
-            saveCash.addEventListener('click', function(e) {
-                e.preventDefault();
-                let formData = new FormData($('.cashForm')[0]);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/cash-account/store',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        // console.log(res);
-                        if (res.status == 200) {
-                            $('#cash_modal').modal('hide');
-                            $('.cashForm')[0].reset();
-                            cashView();
-                            toastr.success(res.message);
-                        } else {
-                            if (res.error.cash_account_name) {
-                                showError('.cash_account_name', res.error.cash_account_name);
-                            }
-                            if (res.error.opening_balance) {
-                                showError('.opening_balance', res.error.opening_balance);
-                            }
-                        }
-                    }
-                });
-            })
-
-
-            // Cash Info View Function 
-            function cashView() {
-                $.ajax({
-                    url: '/cash-account/view',
-                    method: 'GET',
-                    success: function(res) {
-                        // console.log(res.data);
-                        const banks = res.data;
-                        // console.log(banks.account_transaction);
-                        $('.show_cash_data').empty();
-                        if (banks.length > 0) {
-                            $.each(banks, function(index, bank) {
-                                // console.log(bank);
-                                // Calculate the sum of account_transaction balances
-                                const tr = document.createElement('tr');
-                                tr.innerHTML = `
-                                    <td>${bank.cash_account_name ?? ""}</td>
-                                    <td>${bank.opening_balance	 ?? ""}</td>
-                                    <td>${bank.current_balance ?? ""}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-success">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-danger">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                `;
-                                $('.show_cash_data').append(tr);
-                            });
-                        } else {
-                            $('.show_cash_data').html(`
-                            <tr>
-                                <td colspan='9'>
-                                    <div class="text-center text-warning mb-2">Data Not Found</div>
-                                    <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add Bank Info<i data-feather="plus"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            `);
-                        }
-                    }
-                });
-            }
-            cashView();
         })
 
 
@@ -427,6 +401,12 @@
                     localStorage.setItem('activeTab', activeTabHref);
                 });
             });
+
+
+            ///////////////////////// Modal show and close related code /////////////////// 
+            // modal not close function 
+            modalShowHide('cashWithdrawModal');
+            modalShowHide('cashDepositeModal');
 
 
             // // modal not close 

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('fooding_cost_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('fooding_cost_id')->unsigned();
-            $table->foreign('fooding_cost_id')->references('id')->on('fooding_costs')->onDelete('cascade');
+            $table->foreign('fooding_cost_id')->references('id')->on('fooding_costs');
             $table->date('fooding_date');
             $table->string('fooding_place_of_visit')->nullable();
             $table->string('fooding_purpose')->nullable();
