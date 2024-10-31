@@ -153,8 +153,9 @@ Route::middleware('auth')->group(function () {
     // Transaction related route(n)
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
-        Route::post('/transaction/store', 'storeTransaction')->name('transaction.store');
-        Route::get('/check-account-type', 'checkAccountType')->name('check.account.type');
+        Route::post('/transaction/store', 'storeTransaction');
+        Route::get('/transaction/view', 'view');
+        Route::get('/check-account-type', 'checkAccountType');
     });
 
     // Transaction related route(n)
