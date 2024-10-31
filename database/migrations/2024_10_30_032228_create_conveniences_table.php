@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->string('entry_by')->nullable();
-            $table->decimal('total_amount');
+            $table->decimal('total_amount',15,2);
             $table->string('status')->default(1);
             $table->timestamps();
         });

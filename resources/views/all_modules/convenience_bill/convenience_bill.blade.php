@@ -134,6 +134,11 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="ms-5">
+                                        <h3>Total Amount :</h3>
+                                    </div>
+                                </div>
                             </div>
                             </p>
                             {{-- <p><strong>Bill Entry Number (Admin):</strong></p> --}}
@@ -599,14 +604,14 @@
         let today = new Date();
         let formattedDate = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
         document.getElementById('current-date').textContent = formattedDate;
-  //////////////////////////////////////////////////////Passs Employee ID /////////////////////////////////
+        //////////////////////////////////////////////////////Passs Employee ID /////////////////////////////////
 
-          $(document).ready(function() {
-                $('.employee-selectid').on('change', function() {
-                     let employeeSelectId = $(this).val();
-                    $('#selected_employee_id').val(employeeSelectId);
-                });
-                });
+        $(document).ready(function() {
+            $('.employee-selectid').on('change', function() {
+                let employeeSelectId = $(this).val();
+                $('#selected_employee_id').val(employeeSelectId);
+            });
+        });
 
         ////////////////////////////////////////////////////First MOVEMENT costs Cost Add New row  Start//////////////////////////////////////////////
         document.getElementById('addRowBtn').addEventListener('click', function() {
@@ -1368,14 +1373,26 @@
             document.querySelector('#otherExpensesCostsTotal').value = parseFloat(totalAmountOtherExpense);
         }); //End
 
+        //////////////////////////////////////All Sum //////////////////////////
+        function calculateTotalConvinence() {
+            // Get values from each input
+            const otherExpensesCostsTotal = parseFloat(document.getElementById('otherExpensesCostsTotal').value) || 0;
+            const overnightStayCostTotal = parseFloat(document.getElementById('overnightStayCostTotal').value) || 0;
+            const foodingCostsTotal = parseFloat(document.getElementById('foodingCostsTotal').value) || 0;
+            const movementCostsTotal = parseFloat(document.getElementById('movementCostsTotal').value) || 0;
 
+            // Calculate the total
+            const total = otherExpensesCostsTotal + overnightStayCostTotal + foodingCostsTotal + movementCostsTotal;
+            console.log(total)
+            // return total;
+        }
         ////////////////////////////Store////////////////////////////
         $(document).ready(function() {
             $('#convenienceForm').on('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
 
                 if ($('#employee-select').val() === null) {
-                        toastr.error("Please select an Employee ");
+                    toastr.error("Please select an Employee ");
                 }
                 let formData = new FormData(this); // Get the form data
                 // console.log(formData); //
