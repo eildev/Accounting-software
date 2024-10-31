@@ -126,7 +126,7 @@
                                     <strong>Name:</strong>
                                 </div>
                                 <div class="col-md-4">
-                                    <select class="form-control js-example-basic-single " name="empoyee"
+                                    <select class="form-control js-example-basic-single  employee-selectid" name="empoyee"
                                         id="employee-select">
                                         <option selected disabled>Select Name</option>
                                         @foreach ($employees as $employee)
@@ -469,6 +469,7 @@
                         <!-- /////////Tabing End//// -->
 
                         <form id="convenienceForm" method="POST" enctype="multipart/form-data">
+                            <input class="d-none" type="number" name="employee_id" id="selected_employee_id">
                             <!---MOVEMENT list 1 --->
                             <div class="col-md-12" id="movementCostData">
                                 <h4> </h4>
@@ -478,11 +479,12 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <input type="file"
-                                                class="input-group d-none border-0 form-control mt-2" id="movementCostsFileId"
-                                                name="movementCostsFile" style="border: 0; background-color: transparent;"
-                                                readonly value="">
-                                                <input class="d-none"  type="number" name="movementCostsTotal" id="movementCostsTotal"  style="border: 0; background-color: transparent;">
+                                            <input type="file" class="input-group d-none border-0 form-control mt-2"
+                                                id="movementCostsFileId" name="movementCostsFile"
+                                                style="border: 0; background-color: transparent;" readonly value="">
+                                            <input class="d-none" type="number" name="movementCostsTotal"
+                                                id="movementCostsTotal" style="border: 0; background-color: transparent;">
+
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -501,11 +503,11 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <input type="file"
-                                            class="input-group d-none border-0 form-control mt-2" id="foodingCostFileId"
-                                            name="foodingCostFile" style="border: 0; background-color: transparent;"
-                                            readonly value="">
-                                            <input class="d-none"  type="number" name="foodingCostsTotal" id="foodingCostsTotal"  style="border: 0; background-color: transparent;">
+                                            <input type="file" class="input-group d-none border-0 form-control mt-2"
+                                                id="foodingCostFileId" name="foodingCostFile"
+                                                style="border: 0; background-color: transparent;" readonly value="">
+                                            <input class="d-none" type="number" name="foodingCostsTotal"
+                                                id="foodingCostsTotal" style="border: 0; background-color: transparent;">
                                         </tr>
 
                                     </tbody>
@@ -522,11 +524,12 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <input type="file"
-                                            class="input-group d-none border-0 form-control mt-2" id="overnightStayCostFileId"
-                                            name="overnightStayCostFile" style="border: 0; background-color: transparent;"
-                                            readonly value="">
-                                            <input class="d-none"  type="number" name="overnightStayCostTotal" id="overnightStayCostTotal"  style="border: 0; background-color: transparent;">
+                                            <input type="file" class="input-group d-none border-0 form-control mt-2"
+                                                id="overnightStayCostFileId" name="overnightStayCostFile"
+                                                style="border: 0; background-color: transparent;" readonly value="">
+                                            <input class="d-none" type="number" name="overnightStayCostTotal"
+                                                id="overnightStayCostTotal"
+                                                style="border: 0; background-color: transparent;">
                                         </tr>
                                     </tbody>
                                 </table>
@@ -542,11 +545,12 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <input type="file"
-                                            class="input-group d-none border-0 form-control mb-3" id="otherExpensesCostFileId"
-                                            name="otherExpensesCostFile" style="border: 0; background-color: transparent;"
-                                            readonly value="">
-                                         <input class="d-none" type="number" name="otherExpensesCostsTotal" id="otherExpensesCostsTotal"  style="border: 0; background-color: transparent;">
+                                            <input type="file" class="input-group d-none border-0 form-control mb-3"
+                                                id="otherExpensesCostFileId" name="otherExpensesCostFile"
+                                                style="border: 0; background-color: transparent;" readonly value="">
+                                            <input class="d-none" type="number" name="otherExpensesCostsTotal"
+                                                id="otherExpensesCostsTotal"
+                                                style="border: 0; background-color: transparent;">
                                         </tr>
                                     </tbody>
                                 </table>
@@ -595,6 +599,14 @@
         let today = new Date();
         let formattedDate = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
         document.getElementById('current-date').textContent = formattedDate;
+  //////////////////////////////////////////////////////Passs Employee ID /////////////////////////////////
+
+          $(document).ready(function() {
+                $('.employee-selectid').on('change', function() {
+                     let employeeSelectId = $(this).val();
+                    $('#selected_employee_id').val(employeeSelectId);
+                });
+                });
 
         ////////////////////////////////////////////////////First MOVEMENT costs Cost Add New row  Start//////////////////////////////////////////////
         document.getElementById('addRowBtn').addEventListener('click', function() {
@@ -739,7 +751,8 @@
                 let movementPurpose = row.querySelector('textarea[name="movementPurpose[]"]').value;
                 let movementMode_of_Transport = row.querySelector(
                     'select[name="movementMode_of_Transport[]"]').value;
-                let movementAmount = parseFloat(row.querySelector('input[name="movementAmount[]"]').value) || 0;
+                let movementAmount = parseFloat(row.querySelector('input[name="movementAmount[]"]')
+                    .value) || 0;
                 let movementAssigned = row.querySelector('input[name="movementAssigned[]"]').value;
 
                 // Create a new row for the second table
@@ -771,7 +784,7 @@
                     `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
-                 totalAmountMovement += movementAmount;
+                totalAmountMovement += movementAmount;
                 document.getElementById('movementCostsFileId').classList.remove('d-none');
 
                 newRow.querySelector('.deleteRowBtn').addEventListener('click', function() {
@@ -784,7 +797,7 @@
                 });
 
             });
-            document.querySelector('#movementCostsTotal').value =  parseFloat(totalAmountMovement);
+            document.querySelector('#movementCostsTotal').value = parseFloat(totalAmountMovement);
         });
 
         ////////////////////////////////////////////////////Second tab FOODING cost Add row Start//////////////////////////////////////////////
@@ -935,7 +948,8 @@
                 let foodingPlceofvisit = row.querySelector('textarea[name="foodingPlceofvisit[]"]').value;
                 let foodingPurpose = row.querySelector('textarea[name="foodingPurpose[]"]').value;
                 let foodingtime = row.querySelector('select[name="foodingtime[]"]').value;
-                let foodingAmount = parseFloat(row.querySelector('input[name="foodingAmount[]"]').value) || 0;
+                let foodingAmount = parseFloat(row.querySelector('input[name="foodingAmount[]"]').value) ||
+                    0;
                 let foodingAssigned = row.querySelector('input[name="foodingAssigned[]"]').value;
 
                 // Create a new row for the second table
@@ -975,7 +989,7 @@
                     }
                 });
             });
-            document.querySelector('#foodingCostsTotal').value =  parseFloat(totalAmountFooding);
+            document.querySelector('#foodingCostsTotal').value = parseFloat(totalAmountFooding);
         }); //End
         //////////////////////////////////////////////////// Third Overnight Stay Costs row  Add   Start//////////////////////////////////////////////
         document.getElementById('addRowBtn3').addEventListener('click', function() {
@@ -1133,7 +1147,8 @@
                     .value;
                 let overnightPurpose = row.querySelector('textarea[name="overnightPurpose[]"]').value;
                 let overnightStayperiod = row.querySelector('select[name="overnightStayperiod[]"]').value;
-                let overnightAmount = parseFloat(row.querySelector('input[name="overnightAmount[]"]').value) || 0;
+                let overnightAmount = parseFloat(row.querySelector('input[name="overnightAmount[]"]')
+                    .value) || 0;
                 let overnightAssigned = row.querySelector('input[name="overnightAssigned[]"]').value;
 
 
@@ -1178,7 +1193,7 @@
                     }
                 });
             });
-            document.querySelector('#overnightStayCostTotal').value =  parseFloat(totalAmountOvernight);
+            document.querySelector('#overnightStayCostTotal').value = parseFloat(totalAmountOvernight);
             // console.log( document.querySelector('#overnightStayCostTotal').value)
             // console.log("Total Amount:", totalAmount);
         }); //End
@@ -1313,7 +1328,8 @@
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
                 let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]')
                     .value;
-                let otherExpensesAmount = parseFloat(row.querySelector('input[name="otherExpensesAmount[]"]').value) || 0;
+                let otherExpensesAmount = parseFloat(row.querySelector(
+                    'input[name="otherExpensesAmount[]"]').value) || 0;
                 let otherExpensesAssigned = row.querySelector('input[name="otherExpensesAssigned[]"]')
                     .value;
 
@@ -1349,7 +1365,7 @@
                     }
                 });
             });
-            document.querySelector('#otherExpensesCostsTotal').value =  parseFloat(totalAmountOtherExpense);
+            document.querySelector('#otherExpensesCostsTotal').value = parseFloat(totalAmountOtherExpense);
         }); //End
 
 
@@ -1357,8 +1373,12 @@
         $(document).ready(function() {
             $('#convenienceForm').on('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
+
+                if ($('#employee-select').val() === null) {
+                        toastr.error("Please select an Employee ");
+                }
                 let formData = new FormData(this); // Get the form data
-                console.log(formData); //
+                // console.log(formData); //
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1371,6 +1391,7 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        console.log(response);
                         if (response.status == 200) {
                             $('#convenienceForm')[0].reset();
                             toastr.success(response.message);
@@ -1382,6 +1403,7 @@
                     },
                     error: function(xhr, status, error) {
                         // Handle error - Display error message, etc.
+                        console.log(xhr, status, error)
                         alert("An error occurred while submitting the form.");
                     }
                 });

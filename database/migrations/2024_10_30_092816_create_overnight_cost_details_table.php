@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('overnight_cost_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('overnight_cost_id')->unsigned();
-            $table->foreign('overnight_cost_id')->references('id')->on('overnight_costs')->onDelete('cascade');
+            $table->foreign('overnight_cost_id')->references('id')->on('overnight_costs');
             $table->date('overnight_date');
             $table->string('overnight_place_of_visit');
             $table->string('overnight_purpose')->nullable();
