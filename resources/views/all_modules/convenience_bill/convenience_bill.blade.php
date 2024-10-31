@@ -482,6 +482,7 @@
                                                 class="input-group d-none border-0 form-control mt-2" id="movementCostsFileId"
                                                 name="movementCostsFile" style="border: 0; background-color: transparent;"
                                                 readonly value="">
+                                                <input class="d-none"  type="number" name="movementCostsTotal" id="movementCostsTotal"  style="border: 0; background-color: transparent;">
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -504,6 +505,7 @@
                                             class="input-group d-none border-0 form-control mt-2" id="foodingCostFileId"
                                             name="foodingCostFile" style="border: 0; background-color: transparent;"
                                             readonly value="">
+                                            <input class="d-none"  type="number" name="foodingCostsTotal" id="foodingCostsTotal"  style="border: 0; background-color: transparent;">
                                         </tr>
 
                                     </tbody>
@@ -524,6 +526,7 @@
                                             class="input-group d-none border-0 form-control mt-2" id="overnightStayCostFileId"
                                             name="overnightStayCostFile" style="border: 0; background-color: transparent;"
                                             readonly value="">
+                                            <input class="d-none"  type="number" name="overnightStayCostTotal" id="overnightStayCostTotal"  style="border: 0; background-color: transparent;">
                                         </tr>
                                     </tbody>
                                 </table>
@@ -543,6 +546,7 @@
                                             class="input-group d-none border-0 form-control mb-3" id="otherExpensesCostFileId"
                                             name="otherExpensesCostFile" style="border: 0; background-color: transparent;"
                                             readonly value="">
+                                         <input class="d-none" type="number" name="otherExpensesCostsTotal" id="otherExpensesCostsTotal"  style="border: 0; background-color: transparent;">
                                         </tr>
                                     </tbody>
                                 </table>
@@ -726,7 +730,7 @@
             }
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
-
+            let totalAmountMovement = 0;
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let movementDate = row.querySelector('input[name="movementDate[]"]').value;
@@ -735,7 +739,7 @@
                 let movementPurpose = row.querySelector('textarea[name="movementPurpose[]"]').value;
                 let movementMode_of_Transport = row.querySelector(
                     'select[name="movementMode_of_Transport[]"]').value;
-                let movementAmount = row.querySelector('input[name="movementAmount[]"]').value;
+                let movementAmount = parseFloat(row.querySelector('input[name="movementAmount[]"]').value) || 0;
                 let movementAssigned = row.querySelector('input[name="movementAssigned[]"]').value;
 
                 // Create a new row for the second table
@@ -767,7 +771,7 @@
                     `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
-
+                 totalAmountMovement += movementAmount;
                 document.getElementById('movementCostsFileId').classList.remove('d-none');
 
                 newRow.querySelector('.deleteRowBtn').addEventListener('click', function() {
@@ -780,6 +784,7 @@
                 });
 
             });
+            document.querySelector('#movementCostsTotal').value =  parseFloat(totalAmountMovement);
         });
 
         ////////////////////////////////////////////////////Second tab FOODING cost Add row Start//////////////////////////////////////////////
@@ -923,14 +928,14 @@
             }
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
-
+            let totalAmountFooding = 0;
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let foodingDate = row.querySelector('input[name="foodingDate[]"]').value;
                 let foodingPlceofvisit = row.querySelector('textarea[name="foodingPlceofvisit[]"]').value;
                 let foodingPurpose = row.querySelector('textarea[name="foodingPurpose[]"]').value;
                 let foodingtime = row.querySelector('select[name="foodingtime[]"]').value;
-                let foodingAmount = row.querySelector('input[name="foodingAmount[]"]').value;
+                let foodingAmount = parseFloat(row.querySelector('input[name="foodingAmount[]"]').value) || 0;
                 let foodingAssigned = row.querySelector('input[name="foodingAssigned[]"]').value;
 
                 // Create a new row for the second table
@@ -958,6 +963,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                totalAmountFooding += foodingAmount;
                 document.getElementById('foodingCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
                 newRow.querySelector('.deleteRowBtn2').addEventListener('click', function() {
@@ -969,6 +975,7 @@
                     }
                 });
             });
+            document.querySelector('#foodingCostsTotal').value =  parseFloat(totalAmountFooding);
         }); //End
         //////////////////////////////////////////////////// Third Overnight Stay Costs row  Add   Start//////////////////////////////////////////////
         document.getElementById('addRowBtn3').addEventListener('click', function() {
@@ -1075,7 +1082,6 @@
                     errorMessages.push('⚠️ Date field is required!');
                     allFieldsFilled = false;
                 }
-
                 if (!overnightPlceofvisit) {
                     errorMessages.push('⚠️ Place of visit required!');
                     allFieldsFilled = false;
@@ -1119,7 +1125,7 @@
             }
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
-
+            let totalAmountOvernight = 0;
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let overnightDate = row.querySelector('input[name="overnightDate[]"]').value;
@@ -1127,8 +1133,10 @@
                     .value;
                 let overnightPurpose = row.querySelector('textarea[name="overnightPurpose[]"]').value;
                 let overnightStayperiod = row.querySelector('select[name="overnightStayperiod[]"]').value;
-                let overnightAmount = row.querySelector('input[name="overnightAmount[]"]').value;
+                let overnightAmount = parseFloat(row.querySelector('input[name="overnightAmount[]"]').value) || 0;
                 let overnightAssigned = row.querySelector('input[name="overnightAssigned[]"]').value;
+
+
 
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
@@ -1155,8 +1163,10 @@
 
               <td><button class="deleteRowBtn3 form-control text-danger btn-xs btn-danger">Delete</button></td>
          `;
+
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                totalAmountOvernight += overnightAmount;
                 document.getElementById('overnightStayCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
                 newRow.querySelector('.deleteRowBtn3').addEventListener('click', function() {
@@ -1168,6 +1178,9 @@
                     }
                 });
             });
+            document.querySelector('#overnightStayCostTotal').value =  parseFloat(totalAmountOvernight);
+            // console.log( document.querySelector('#overnightStayCostTotal').value)
+            // console.log("Total Amount:", totalAmount);
         }); //End
 
 
@@ -1245,7 +1258,7 @@
             //VAlidation errors
             let allFieldsFilled = true;
             let errorMessages = []
-
+            let totalAmountOtherExpense = 0;
             rows.forEach(function(row) {
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
                 let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]')
@@ -1300,7 +1313,7 @@
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
                 let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]')
                     .value;
-                let otherExpensesAmount = row.querySelector('input[name="otherExpensesAmount[]"]').value;
+                let otherExpensesAmount = parseFloat(row.querySelector('input[name="otherExpensesAmount[]"]').value) || 0;
                 let otherExpensesAssigned = row.querySelector('input[name="otherExpensesAssigned[]"]')
                     .value;
 
@@ -1324,6 +1337,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                totalAmountOtherExpense += otherExpensesAmount;
                 document.getElementById('otherExpensesCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
                 newRow.querySelector('.deleteRowBtn4').addEventListener('click', function() {
@@ -1335,6 +1349,7 @@
                     }
                 });
             });
+            document.querySelector('#otherExpensesCostsTotal').value =  parseFloat(totalAmountOtherExpense);
         }); //End
 
 

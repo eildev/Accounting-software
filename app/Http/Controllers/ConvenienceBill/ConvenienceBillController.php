@@ -60,15 +60,22 @@ class ConvenienceBillController extends Controller
         // ]);
 
         // Check if validation fails
-        $branchId = Auth::user()->branch_id;
-        // if ($validator->passes()) {
+            $branchId = Auth::user()->branch_id;
+          // if ($validator->passes()) {
+            $moveTotal = floatval($request->movementCostsTotal) ?? 0;
+
+            $foodTotal = floatval($request->foodingCostsTotal) ?? 0;
+            $overnightTotal = floatval($request->overnightStayCostTotal) ?? 0;
+
+            $otherTotal = floatval($request->otherExpensesCostsTotal) ?? 0;
+            $sumTotal = $moveTotal + $foodTotal + $overnightTotal + $otherTotal;
         if ($request->movementDate || $request->foodingDate || $request->overnightDate || $request->otherExpensesDate) {
             $convenience =  Convenience::create([
                 'branch_id' => $branchId,
                 'bill_number' => rand(100000, 999999),
                 'employee_id' => 1,
                 'entry_by' => Auth::user()->name,
-                'total_amount' =>  0,
+                'total_amount' =>  $sumTotal,
             ]);
             $convenienceId = $convenience->id;
 
@@ -87,7 +94,7 @@ class ConvenienceBillController extends Controller
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
                     'image' =>  $imageName,
-                    'total_amount' =>  0,
+                    'total_amount' =>  floatval($request->movementCostsTotal),
                 ]);
                 $movementCostId = $movementCost->id;
                 foreach ($request->movementDate as $index => $date) {
@@ -117,7 +124,7 @@ class ConvenienceBillController extends Controller
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
                     'image' =>  $imageName,
-                    'total_amount' =>  0,
+                    'total_amount' => floatval($request->foodingCostsTotal),
                 ]);
                 $foodingCostId = $foodingCost->id;
                 foreach ($request->foodingDate as $index => $date) {
@@ -145,7 +152,7 @@ class ConvenienceBillController extends Controller
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
                     'image' =>  $imageName,
-                    'total_amount' =>  0,
+                    'total_amount' => floatval($request->overnightStayCostTotal),
                 ]);
                 $overnightCostId = $overnightCost->id;
 
@@ -173,7 +180,7 @@ class ConvenienceBillController extends Controller
                     'branch_id' => $branchId,
                     'convenience_id' => $convenienceId,
                     'image' =>  $imageName,
-                    'total_amount' =>  0,
+                    'total_amount' =>  floatval($request->otherExpensesCostsTotal),
                 ]);
                 $otherExpenseCostId = $otherExpenseCost->id;
 
