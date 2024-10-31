@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('conveniences', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches');
             $table->integer('bill_number');
             $table->unsignedBigInteger('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees');
             $table->string('entry_by')->nullable();
-            $table->decimal('total_amount');
+            $table->decimal('total_amount',15,2);
             $table->string('status')->default(1);
             $table->timestamps();
         });

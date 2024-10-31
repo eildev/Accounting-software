@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('overnight_costs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('convenience_id')->unsigned();
-            $table->foreign('convenience_id')->references('id')->on('conveniences')->onDelete('cascade');
+            $table->foreign('convenience_id')->references('id')->on('conveniences');
             $table->string('image')->nullable();
-            $table->decimal('total_amount');
+            $table->decimal('total_amount',15,2);
             $table->timestamps();
         });
     }

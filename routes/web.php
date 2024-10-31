@@ -230,6 +230,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience', 'convenience')->name('convenience');
         Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
+        Route::get('/convenience/view', 'convenienceView')->name('convenience.view');
+        Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
     }); //End
 
     Route::controller(CompanyBalanceController::class)->group(function () {

@@ -335,6 +335,14 @@
                     <span class="link-title">Convenience Bill</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('convenience.view') }}"
+                    class="nav-link {{ request()->routeIs('convenience.view') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Convenience Report</span>
+                </a>
+            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"
