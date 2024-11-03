@@ -155,6 +155,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
         Route::post('/transaction/store', 'storeTransaction');
         Route::get('/transaction/view', 'view');
+        Route::get('/transaction/view-details/{id}', 'viewDetails');
         Route::get('/check-account-type', 'checkAccountType');
     });
 
