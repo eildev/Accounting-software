@@ -985,8 +985,10 @@
                 totalAmountFooding += foodingAmount;
                 document.getElementById('foodingCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
+
                 newRow.querySelector('.deleteRowBtn2').addEventListener('click', function() {
                     newRow.remove();
+
                     if (!addedTableBody.querySelector('tr')) {
                         addedTableHead.innerHTML = '';
                         tableTitle2.innerHTML = '';
@@ -994,6 +996,7 @@
                     }
                 });
             });
+
             document.querySelector('#foodingCostsTotal').value = parseFloat(totalAmountFooding);
         }); //End
         //////////////////////////////////////////////////// Third Overnight Stay Costs row  Add   Start//////////////////////////////////////////////
@@ -1426,5 +1429,79 @@
                 });
             });
         });
+        /////////////////////////////////////////////////Grand Total Amount show //////////////////////////////////////////////////
+        // Function to calculate the total foodingAmount
+                // function calculateTotalFoodingAmount() {
+                //     let totalFoodingAmount = 0;
+                //     document.querySelectorAll('input[name="foodingAmount[]"]').forEach(input => {
+                //         totalFoodingAmount += parseFloat(input.value) || 0;
+                //     });
+                //     return totalFoodingAmount;
+                // }
+
+                // // Function to calculate the total movementAmount
+                // function calculateTotalMovementAmount() {
+                //     let totalMovementAmount = 0;
+                //     document.querySelectorAll('input[name="movementAmount[]"]').forEach(input => {
+                //         totalMovementAmount += parseFloat(input.value) || 0;
+                //     });
+                //     return totalMovementAmount;
+                // }
+
+                // // Function to calculate the total overnightAmount
+                // function calculateTotalOvernightAmount() {
+                //     let totalOvernightAmount = 0;
+                //     document.querySelectorAll('input[name="overnightAmount[]"]').forEach(input => {
+                //         totalOvernightAmount += parseFloat(input.value) || 0;
+                //     });
+                //     return totalOvernightAmount;
+                // }
+
+                // // Function to calculate the total otherExpensesAmount
+                // function calculateTotalOtherExpensesAmount() {
+                //     let totalOtherExpensesAmount = 0;
+                //     document.querySelectorAll('input[name="otherExpensesAmount[]"]').forEach(input => {
+                //         totalOtherExpensesAmount += parseFloat(input.value) || 0;
+                //     });
+                //     return totalOtherExpensesAmount;
+                // }
+
+                // // Function to calculate and display combined total for all tables
+                // function displayTotalAmounts() {
+                //     const totalFooding = calculateTotalFoodingAmount();
+                //     const totalMovement = calculateTotalMovementAmount();
+                //     const totalOvernight = calculateTotalOvernightAmount();
+                //     const totalOtherExpenses = calculateTotalOtherExpensesAmount();
+                //     const grandTotal = totalFooding + totalMovement + totalOvernight + totalOtherExpenses;
+
+                //     // Display the totals
+                //     // document.getElementById('totalFoodingAmount').textContent = totalFooding.toFixed(2);
+                //     // document.getElementById('totalMovementAmount').textContent = totalMovement.toFixed(2);
+                //     // document.getElementById('totalOvernightAmount').textContent = totalOvernight.toFixed(2);
+                //     // document.getElementById('totalOtherExpensesAmount').textContent = totalOtherExpenses.toFixed(2);
+                //     // document.getElementById('grandTotalAmount').textContent = grandTotal.toFixed(2);
+
+                // }
+
+                // // Call displayTotalAmounts when a new row is added or deleted
+                // document.getElementById('addRowButton').addEventListener('click', function() {
+                //     displayTotalAmounts();
+                // });
+
+                // document.addEventListener('click', function(event) {
+                //     if (
+                //         event.target.classList.contains('deleteRowBtn') ||
+                //         event.target.classList.contains('deleteRowBtn2') ||
+                //         event.target.classList.contains('deleteRowBtn3') ||
+                //         event.target.classList.contains('deleteRowBtn4')
+                //     ) {
+                //         event.target.closest('tr').remove();
+                //         displayTotalAmounts();
+                //     }
+                // });
+
+                // // Initial calculation when the page loads
+                // displayTotalAmounts();
+
     </script>
 @endsection

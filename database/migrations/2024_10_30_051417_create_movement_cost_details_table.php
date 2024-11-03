@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('movement_cost_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
-            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');;
             $table->unsignedBigInteger('movement_cost_id')->unsigned();
             $table->foreign('movement_cost_id')->references('id')->on('movement_costs');
             $table->date('movement_date');
