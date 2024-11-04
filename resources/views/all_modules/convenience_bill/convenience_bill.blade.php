@@ -351,7 +351,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td><button type="button"
                                                                     class="removeRowBtn2 form-control text-danger btn-xs btn-danger">
                                                                     <i class="fa-solid fa-trash-can"></i>
@@ -389,7 +389,7 @@
                                                             <td><input type="text" class="form-control"
                                                                     name="overnightAssigned[]" value="">
                                                             </td>
-                                                        </tr>
+                                                        </tr> --}}
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
@@ -427,7 +427,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td><button type="button"
                                                                     class="removeRowBtn4 form-control text-danger btn-xs btn-danger">
                                                                     <i class="fa-solid fa-trash-can"></i>
@@ -448,7 +448,7 @@
                                                             <td><input type="text" class="form-control"
                                                                     name="otherExpensesAssigned[]" value="">
                                                             </td>
-                                                        </tr>
+                                                        </tr> --}}
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
@@ -640,39 +640,23 @@
             `;
             // Append the new row to the table body
             tableBody.appendChild(newRow);
-
-            // Attach event listener to remove button of new row
-            newRow.querySelector('.removeRowBtn').addEventListener('click', function() {
-                    newRow.remove();
-                    calculateTotal1();
-                });
-
-                // Attach event listener for input in amount field to recalculate total
                 newRow.querySelector('input[name="movementAmount[]"]').addEventListener('input', calculateTotal1);
 
-                // Recalculate total after adding a new row
-                calculateTotal1();
-            });
-
-            // Function to calculate total
-            function calculateTotal1() {
+                function calculateTotal1() {
                 let total = 0;
                 document.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
                     total += parseFloat(input.value) || 0;
                 });
 
                 // Display the total amount in the element with ID 'totalAmount'
-                document.getElementById('totalAmount').textContent = total.toFixed(2); // Ensure two decimal places
+                document.getElementById('totalAmount').textContent = total.toFixed(2);
             }
-
-            // Attach event listeners to existing remove buttons
-            document.querySelectorAll('.removeRowBtn').forEach(function(button) {
-                button.addEventListener('click', function() {
-                    this.closest('tr').remove();
+              // Attach event listener to remove button of new row
+              newRow.querySelector('.removeRowBtn').addEventListener('click', function() {
+                    newRow.remove();
                     calculateTotal1();
                 });
-        });
-
+            });
 
         //First  Add row  Tab End
 
