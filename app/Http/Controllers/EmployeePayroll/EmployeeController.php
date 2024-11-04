@@ -27,10 +27,10 @@ class EmployeeController extends Controller
             'full_name' => 'required|string|max:255',
             'department_id' => 'required',
             'email' => 'required',
-            'phone' => 'required',
-            // 'salary' => 'nullable|numeric|max:15',
-            // 'nid' => 'nullable|enumeric|max:15|',
-            // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'phone' => 'required|min:0|max:9999999999999',
+            'salary' => 'nullable|numeric|min:0|max:9999999999999',
+            'nid' => 'nullable|numeric|min:0|max:9999999999999',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         if ($request->image) {
             $employee = new Employee;
@@ -66,6 +66,7 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
+
         $employee = Employee::findOrFail($id);
         $employee->branch_id = Auth::user()->branch_id;
         $employee->full_name = $request->full_name;

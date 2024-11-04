@@ -44,7 +44,7 @@
 					<div class="col-sm-6">
 						<div class="mb-3 form-valid-groups">
 							<label class="form-label">Phone<span class="text-danger">*</span></label>
-							<input type="integer"  maxlength="13"  name="phone" class="form-control" placeholder="Enter Employee Number">
+                            <input type="number" min="0" max="9999999999999" name="phone" class="form-control" placeholder="Enter Employee Number" oninput="if(this.value.length > 13) this.value = this.value.slice(0, 13)">
 						</div>
 					</div>
 					<div class="col-sm-6 ">
@@ -59,7 +59,7 @@
 					<div class="col-sm-6 ">
 						<div class="mb-3 form-valid-groups">
 							<label class="form-label">NID Number (Optional)</label>
-							<input type="number" maxlength="15" class="form-control" name="nid" placeholder="Enter NID Number">
+							<input type="number" min="0" max="9999999999999" class="form-control" name="nid" placeholder="Enter NID Number" oninput="if(this.value.length > 13) this.value = this.value.slice(0, 13)">
                             @error('nid')
                             <span class="text-danger">{{ $message }}</span>
                            @enderror

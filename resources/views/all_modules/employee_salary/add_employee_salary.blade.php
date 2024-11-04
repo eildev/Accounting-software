@@ -27,7 +27,7 @@
 					<div class="col-sm-6">
 						<div class="mb-3 form-valid-groups">
 							<label class="form-label">Select Branch <span class="text-danger">*</span></label>
-                            <select class="form-select mb-3 js-example-basic-single"  name="branch_id">
+                            <select class="form-select mb-3 js-example-basic-single"  name="branch_id" >
                                 <option selected="" value="">Select Branch</option>
                                 @foreach ($branch as $branchs)
                                 <option value="{{$branchs ->id}}">{{$branchs->name}}</option>
@@ -56,7 +56,7 @@
 					<div class="col-sm-6 form-valid-groups">
 						<div class="mb-3">
 							<label class="form-label">Select Bank Acoount <span class="text-danger">*</span></label>
-                            <select class="form-select js-example-basic-single" name="payment_method">
+                            <select class="form-select js-example-basic-single" name="payment_method" >
                                  <option selected="" disabled>Select Bank Name</option>
                                  @foreach ($bank as $item)
                                 <option value="{{$item->id}}">{{$item->name}}</option>

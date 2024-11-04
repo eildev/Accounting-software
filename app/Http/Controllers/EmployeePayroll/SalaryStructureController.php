@@ -11,17 +11,22 @@ use Illuminate\Support\Facades\Auth;
 class SalaryStructureController extends Controller
 {
     public function index(){
-        $employees = Employee::all();
-        return view('all_modules.salary_structure.salary_structure',compact('employees'));
+        // $existingEmployeeIds = SalarySturcture::pluck('employee_id');
+        // $employees = Employee::whereNotIn('id', $existingEmployeeIds)->get();
+           $employees = Employee::all();
+            return view('all_modules.salary_structure.salary_structure',compact('employees'));
     }//Method End
+    public function getEmployeesWithoutSalaryStructure()
+        {
+            $existingEmployeeIds = SalarySturcture::pluck('employee_id');
+            $employees = Employee::whereNotIn('id', $existingEmployeeIds)->get();
+
+            return response()->json($employees);
+        }
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'employee_id' => 'required',
             'base_salary' => 'required|numeric|between:0,999999999999.99',
-            // 'house_rent' => 'numeric|between:0,999999999999.99',
-            // 'transport_allowance' => 'numeric|between:0,999999999999.99',
-            // 'other_fixed_allowances' => 'between:0,999999999999.99',
-            // 'deductions' => 'numeric|between:0,999999999999.99',
         ]);
         if ($validator->passes()) {
             $salaryStructure = new SalarySturcture();
@@ -70,10 +75,10 @@ class SalaryStructureController extends Controller
         $validator = Validator::make($request->all(), [
             'employee_id' => 'required',
             'base_salary' => 'required|numeric|between:0,999999999999.99',
-            // 'house_rent' => 'required|numeric|between:0,999999999999.99',
-            // 'transport_allowance' => 'required|numeric|between:0,999999999999.99',
-            // 'other_fixed_allowances' => 'required|between:0,999999999999.99',
-            // 'deductions' => 'required|numeric|between:0,999999999999.99',
+            'house_rent' => 'nullable|numeric|between:0,999999999999.99',
+            'transport_allowance' => 'nullable|numeric|between:0,999999999999.99',
+            'other_fixed_allowances' => 'nullable|numeric|between:0,999999999999.99',
+            'deductions' => 'nullable|numeric|between:0,999999999999.99',
         ]);
         if ($validator->passes()) {
             $salaryStructure = SalarySturcture::findOrFail($id);
