@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');;
             $table->unsignedBigInteger('convenience_id')->unsigned();
-            $table->foreign('convenience_id')->references('id')->on('conveniences');
+            $table->foreign('convenience_id')->references('id')->on('conveniences')->onDelete('cascade');
             $table->string('image')->nullable();
             $table->decimal('total_amount',15,2);
             $table->timestamps();

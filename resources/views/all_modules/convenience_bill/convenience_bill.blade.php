@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="ms-5">
-                                        <h3>Total Amount :</h3>
+                                        <h3 class="grandTotal">Total Amount: <span id="grandTotalDisplay">0</span></h3>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td><button type="button"
                                                                     class="removeRowBtn form-control text-danger btn-xs btn-danger">
                                                                     <i class="fa-solid fa-trash-can"></i>
@@ -238,7 +238,7 @@
                                                             <td><input type="text" class="form-control"
                                                                     name="movementAssigned[]">
                                                             </td>
-                                                        </tr>
+                                                        </tr> --}}
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
@@ -280,7 +280,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        {{-- <tr>
                                                             <td><button type="button"
                                                                     class="removeRowBtn2 form-control text-danger btn-xs btn-danger">
                                                                     <i class="fa-solid fa-trash-can"></i>
@@ -310,7 +310,7 @@
                                                             <td><input type="text" class="form-control"
                                                                     name="foodingAssigned[]" value="">
                                                             </td>
-                                                        </tr>
+                                                        </tr> --}}
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
@@ -643,33 +643,37 @@
 
             // Attach event listener to remove button of new row
             newRow.querySelector('.removeRowBtn').addEventListener('click', function() {
-                newRow.remove();
+                    newRow.remove();
+                    calculateTotal1();
+                });
+
+                // Attach event listener for input in amount field to recalculate total
+                newRow.querySelector('input[name="movementAmount[]"]').addEventListener('input', calculateTotal1);
+
+                // Recalculate total after adding a new row
                 calculateTotal1();
             });
-            // Recalculate total after adding a new row
-            newRow.querySelector('input[name="movementAmount[]"]').addEventListener('input', calculateTotal1);
-            // Recalculate total after adding a new row
-            calculateTotal1()
+
+            // Function to calculate total
+            function calculateTotal1() {
+                let total = 0;
+                document.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
+                    total += parseFloat(input.value) || 0;
+                });
+
+                // Display the total amount in the element with ID 'totalAmount'
+                document.getElementById('totalAmount').textContent = total.toFixed(2); // Ensure two decimal places
+            }
+
+            // Attach event listeners to existing remove buttons
+            document.querySelectorAll('.removeRowBtn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    this.closest('tr').remove();
+                    calculateTotal1();
+                });
         });
 
-        // Function to calculate total
-        function calculateTotal1() {
-            let total = 0;
-            document.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
-                total += parseFloat(input.value) || 0;
-            });
-            document.getElementById('totalAmount').textContent = total;
-        }
-        document.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
-            input.addEventListener('input', calculateTotal1);
-        });
-        // Event listener for removing a row
-        document.querySelectorAll('.removeRowBtn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                this.closest('tr').remove();
-                calculateTotal1();
-            });
-        });
+
         //First  Add row  Tab End
 
         //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
@@ -748,6 +752,14 @@
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
             let totalAmountMovement = 0;
+            function updateTotalAmountMovement() {
+            totalAmountMovement = 0;
+            addedTableBody.querySelectorAll('input[name="movementAmount[]"]').forEach(function(input) {
+                totalAmountMovement += parseFloat(input.value) || 0;
+            });
+            document.querySelector('#movementCostsTotal').value = parseFloat(totalAmountMovement);
+            updateGrandTotal();
+        }
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let movementDate = row.querySelector('input[name="movementDate[]"]').value;
@@ -799,10 +811,13 @@
                         tableTitle.innerHTML = '';
                         if (hrElement) hrElement.remove();
                     }
+                    updateTotalAmountMovement();
+                    updateGrandTotal();
                 });
 
             });
             document.querySelector('#movementCostsTotal').value = parseFloat(totalAmountMovement);
+            updateGrandTotal();
         });
 
         ////////////////////////////////////////////////////Second tab FOODING cost Add row Start//////////////////////////////////////////////
@@ -935,7 +950,7 @@
                 <th>Assigned</th>
                 <th>Actions</th>
             </tr>
-         `;
+            `;
             }
             if (!tableTitle2.innerHTML.trim()) {
                 tableTitle2.innerHTML = 'Fooding Cost:';
@@ -947,6 +962,15 @@
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
             let totalAmountFooding = 0;
+            function updateTotalAmountFooding() {
+                totalAmountFooding = 0;
+                addedTableBody.querySelectorAll('input[name="foodingAmount[]"]').forEach(function(input) {
+                    totalAmountFooding += parseFloat(input.value) || 0;
+                });
+                document.querySelector('#foodingCostsTotal').value = parseFloat(totalAmountFooding);
+                updateGrandTotal();
+            }//
+
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let foodingDate = row.querySelector('input[name="foodingDate[]"]').value;
@@ -994,10 +1018,13 @@
                         tableTitle2.innerHTML = '';
                         if (hrElement2) hrElement2.remove();
                     }
+                    updateTotalAmountFooding()
+                    updateGrandTotal();
                 });
             });
 
             document.querySelector('#foodingCostsTotal').value = parseFloat(totalAmountFooding);
+            updateGrandTotal();
         }); //End
         //////////////////////////////////////////////////// Third Overnight Stay Costs row  Add   Start//////////////////////////////////////////////
         document.getElementById('addRowBtn3').addEventListener('click', function() {
@@ -1148,6 +1175,14 @@
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
             let totalAmountOvernight = 0;
+            function updateTotalAmountOvernight() {
+            totalAmountOvernight = 0;
+            addedTableBody.querySelectorAll('input[name="overnightAmount[]"]').forEach(function(input) {
+                totalAmountOvernight += parseFloat(input.value) || 0;
+            });
+            document.querySelector('#overnightStayCostTotal').value = parseFloat(totalAmountOvernight);
+            updateGrandTotal();
+        }
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let overnightDate = row.querySelector('input[name="overnightDate[]"]').value;
@@ -1199,11 +1234,13 @@
                         tableTitle3.innerHTML = '';
                         if (hrElement3) hrElement3.remove();
                     }
+                    updateTotalAmountOvernight();
+                    updateGrandTotal();
                 });
             });
             document.querySelector('#overnightStayCostTotal').value = parseFloat(totalAmountOvernight);
-            // console.log( document.querySelector('#overnightStayCostTotal').value)
-            // console.log("Total Amount:", totalAmount);
+            updateGrandTotal();
+
         }); //End
 
 
@@ -1281,7 +1318,7 @@
             //VAlidation errors
             let allFieldsFilled = true;
             let errorMessages = []
-            let totalAmountOtherExpense = 0;
+
             rows.forEach(function(row) {
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
                 let otherExpensesPurpose = row.querySelector('textarea[name="otherExpensesPurpose[]"]')
@@ -1330,7 +1367,15 @@
             }
             // Clear previous data from the second table body
             addedTableBody.innerHTML = '';
-
+            let totalAmountOtherExpense = 0;
+            function updateTotalAmountOtherExpense() {
+            totalAmountOtherExpense = 0;
+            addedTableBody.querySelectorAll('input[name="otherExpensesAmount[]"]').forEach(function(input) {
+                totalAmountOtherExpense += parseFloat(input.value) || 0;
+            });
+            document.querySelector('#otherExpensesCostsTotal').value = parseFloat(totalAmountOtherExpense);
+            updateGrandTotal();
+        }
             // Loop through all rows in the first table and get the data
             rows.forEach(function(row) {
                 let otherExpensesDate = row.querySelector('input[name="otherExpensesDate[]"]').value;
@@ -1340,7 +1385,6 @@
                     'input[name="otherExpensesAmount[]"]').value) || 0;
                 let otherExpensesAssigned = row.querySelector('input[name="otherExpensesAssigned[]"]')
                     .value;
-
                 // Create a new row for the second table
                 let newRow = document.createElement('tr');
                 newRow.innerHTML = `
@@ -1371,24 +1415,15 @@
                         tableTitle4.innerHTML = '';
                         if (hrElement4) hrElement4.remove();
                     }
+                    updateTotalAmountOtherExpense();
+                    updateGrandTotal();
                 });
             });
             document.querySelector('#otherExpensesCostsTotal').value = parseFloat(totalAmountOtherExpense);
+            updateGrandTotal();
         }); //End
 
-        //////////////////////////////////////All Sum //////////////////////////
-        function calculateTotalConvinence() {
-            // Get values from each input
-            const otherExpensesCostsTotal = parseFloat(document.getElementById('otherExpensesCostsTotal').value) || 0;
-            const overnightStayCostTotal = parseFloat(document.getElementById('overnightStayCostTotal').value) || 0;
-            const foodingCostsTotal = parseFloat(document.getElementById('foodingCostsTotal').value) || 0;
-            const movementCostsTotal = parseFloat(document.getElementById('movementCostsTotal').value) || 0;
 
-            // Calculate the total
-            const total = otherExpensesCostsTotal + overnightStayCostTotal + foodingCostsTotal + movementCostsTotal;
-            console.log(total)
-            // return total;
-        }
         ////////////////////////////Store////////////////////////////
         $(document).ready(function() {
             $('#convenienceForm').on('submit', function(event) {
@@ -1429,79 +1464,20 @@
                 });
             });
         });
-        /////////////////////////////////////////////////Grand Total Amount show //////////////////////////////////////////////////
-        // Function to calculate the total foodingAmount
-                // function calculateTotalFoodingAmount() {
-                //     let totalFoodingAmount = 0;
-                //     document.querySelectorAll('input[name="foodingAmount[]"]').forEach(input => {
-                //         totalFoodingAmount += parseFloat(input.value) || 0;
-                //     });
-                //     return totalFoodingAmount;
-                // }
 
-                // // Function to calculate the total movementAmount
-                // function calculateTotalMovementAmount() {
-                //     let totalMovementAmount = 0;
-                //     document.querySelectorAll('input[name="movementAmount[]"]').forEach(input => {
-                //         totalMovementAmount += parseFloat(input.value) || 0;
-                //     });
-                //     return totalMovementAmount;
-                // }
+/////////////////////////////////////////////Grand Sum /////////////////////////////////////////////////////////////
+function updateGrandTotal() {
+    const foodingTotal = parseFloat(document.querySelector('#foodingCostsTotal').value) || 0;
+    const movementTotal = parseFloat(document.querySelector('#movementCostsTotal').value) || 0;
+    const overnightTotal = parseFloat(document.querySelector('#overnightStayCostTotal').value) || 0;
+    const otherExpenseTotal = parseFloat(document.querySelector('#otherExpensesCostsTotal').value) || 0;
 
-                // // Function to calculate the total overnightAmount
-                // function calculateTotalOvernightAmount() {
-                //     let totalOvernightAmount = 0;
-                //     document.querySelectorAll('input[name="overnightAmount[]"]').forEach(input => {
-                //         totalOvernightAmount += parseFloat(input.value) || 0;
-                //     });
-                //     return totalOvernightAmount;
-                // }
+    const grandTotal = foodingTotal + movementTotal + overnightTotal + otherExpenseTotal;
 
-                // // Function to calculate the total otherExpensesAmount
-                // function calculateTotalOtherExpensesAmount() {
-                //     let totalOtherExpensesAmount = 0;
-                //     document.querySelectorAll('input[name="otherExpensesAmount[]"]').forEach(input => {
-                //         totalOtherExpensesAmount += parseFloat(input.value) || 0;
-                //     });
-                //     return totalOtherExpensesAmount;
-                // }
+    // Update the grand total display
+    document.querySelector('#grandTotalDisplay').textContent = grandTotal.toFixed(2);
+}
 
-                // // Function to calculate and display combined total for all tables
-                // function displayTotalAmounts() {
-                //     const totalFooding = calculateTotalFoodingAmount();
-                //     const totalMovement = calculateTotalMovementAmount();
-                //     const totalOvernight = calculateTotalOvernightAmount();
-                //     const totalOtherExpenses = calculateTotalOtherExpensesAmount();
-                //     const grandTotal = totalFooding + totalMovement + totalOvernight + totalOtherExpenses;
-
-                //     // Display the totals
-                //     // document.getElementById('totalFoodingAmount').textContent = totalFooding.toFixed(2);
-                //     // document.getElementById('totalMovementAmount').textContent = totalMovement.toFixed(2);
-                //     // document.getElementById('totalOvernightAmount').textContent = totalOvernight.toFixed(2);
-                //     // document.getElementById('totalOtherExpensesAmount').textContent = totalOtherExpenses.toFixed(2);
-                //     // document.getElementById('grandTotalAmount').textContent = grandTotal.toFixed(2);
-
-                // }
-
-                // // Call displayTotalAmounts when a new row is added or deleted
-                // document.getElementById('addRowButton').addEventListener('click', function() {
-                //     displayTotalAmounts();
-                // });
-
-                // document.addEventListener('click', function(event) {
-                //     if (
-                //         event.target.classList.contains('deleteRowBtn') ||
-                //         event.target.classList.contains('deleteRowBtn2') ||
-                //         event.target.classList.contains('deleteRowBtn3') ||
-                //         event.target.classList.contains('deleteRowBtn4')
-                //     ) {
-                //         event.target.closest('tr').remove();
-                //         displayTotalAmounts();
-                //     }
-                // });
-
-                // // Initial calculation when the page loads
-                // displayTotalAmounts();
 
     </script>
 @endsection

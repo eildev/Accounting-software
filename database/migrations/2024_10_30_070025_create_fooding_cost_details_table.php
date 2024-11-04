@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');;
             $table->unsignedBigInteger('fooding_cost_id')->unsigned();
-            $table->foreign('fooding_cost_id')->references('id')->on('fooding_costs');
+            $table->foreign('fooding_cost_id')->references('id')->on('fooding_costs')->onDelete('cascade');;
             $table->date('fooding_date');
             $table->string('fooding_place_of_visit')->nullable();
             $table->string('fooding_purpose')->nullable();

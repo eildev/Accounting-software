@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');;
             $table->unsignedBigInteger('overnight_cost_id')->unsigned();
-            $table->foreign('overnight_cost_id')->references('id')->on('overnight_costs');
+            $table->foreign('overnight_cost_id')->references('id')->on('overnight_costs')->onDelete('cascade');;
             $table->date('overnight_date');
             $table->string('overnight_place_of_visit');
             $table->string('overnight_purpose')->nullable();

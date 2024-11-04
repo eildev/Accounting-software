@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');;
             $table->unsignedBigInteger('movement_cost_id')->unsigned();
-            $table->foreign('movement_cost_id')->references('id')->on('movement_costs');
+            $table->foreign('movement_cost_id')->references('id')->on('movement_costs')->onDelete('cascade');;
             $table->date('movement_date');
             $table->text('movement_from');
             $table->text('movement_to');
