@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\ConvenienceBill;
+namespace App\Models\Bank;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FoodingCostDetails extends Model
+class CashTransaction extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
 }

@@ -50,6 +50,7 @@ class ConvenienceBillController extends Controller
 
         $otherTotal = floatval($request->otherExpensesCostsTotal) ?? 0;
         $sumTotal = $moveTotal + $foodTotal + $overnightTotal + $otherTotal;
+        // dd($sumTotal);
         if ($validator->passes()) {
             if ($request->movementDate || $request->foodingDate || $request->overnightDate || $request->otherExpensesDate) {
                 $convenience =  Convenience::create([
@@ -191,5 +192,16 @@ class ConvenienceBillController extends Controller
                 'error' => 'Convenience Fail to Added',
             ]);
         }
+    }
+    public function convenienceView(){
+        $convenience = Convenience::all();
+        return view('all_modules.convenience_bill.convenience_bill_report',compact('convenience'));
+    }
+    public function convenienceInvoice($id){
+        $movementCosts = MovementCost::where('convenience_id', $id)->get();
+        $foodingCosts = FoodingCost::where('convenience_id', $id)->get();
+        $overnightCosts = OvernightCost::where('convenience_id', $id)->get();
+        $otherExpenseCosts = OtherExpenseCost::where('convenience_id', $id)->get();
+        return view('all_modules.convenience_bill.all_bill_report',compact('movementCosts','foodingCosts','overnightCosts','otherExpenseCosts'));
     }
 }

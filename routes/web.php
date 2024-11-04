@@ -155,6 +155,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
         Route::post('/transaction/store', 'storeTransaction');
         Route::get('/transaction/view', 'view');
+        Route::get('/transaction/view-details/{id}', 'viewDetails');
         Route::get('/check-account-type', 'checkAccountType');
     });
 
@@ -229,6 +230,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience', 'convenience')->name('convenience');
         Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
+        Route::get('/convenience/view', 'convenienceView')->name('convenience.view');
+        Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
     }); //End
 
     Route::controller(CompanyBalanceController::class)->group(function () {

@@ -203,6 +203,7 @@
 
     <script>
         // error remove
+        ///////////////////////// error remove function Using for validation is ok then remove all error ///////////////////
         function errorRemove(element) {
             if (element.value != '') {
                 $(element).siblings('span').hide();
@@ -210,6 +211,7 @@
             }
         }
 
+        ///////////////////////// Check payment Account Using for check payment type ///////////////////
         function checkPaymentAccount(element) {
             const paymentType = $(element).val(); // 'element' is passed in from the onclick event
             const paymentAccounts = $('.payment_account_id');
@@ -243,8 +245,7 @@
         }
 
         $(document).ready(function() {
-
-            // show error
+            ///////////////////////// show error function using validation ///////////////////
             function showError(name, message) {
                 $(name).css('border-color', 'red'); // Highlight input with red border
                 $(name).focus(); // Set focus to the input field
@@ -252,6 +253,7 @@
             }
 
 
+            ///////////////////////// Save Dynamic data function ///////////////////
             function saveData(formData, modalName, formName) {
                 $.ajaxSetup({
                     headers: {
@@ -270,6 +272,8 @@
                             $(`.${formName}`)[0].reset();
                             withdrawView();
                             toastr.success(res.message);
+                        } else if (res.status == 400) {
+                            toastr.warning(res.message);
                         } else {
                             if (res.error.account_type) {
                                 showError('.account_type', res.error.account_type);
@@ -297,8 +301,7 @@
                 });
             }
 
-
-            // save Withdraw information
+            ///////////////////////// saveWithdraw button triggerd for save Withdraw Data ///////////////////
             const saveWithdraw = document.querySelector('.save_withdraw');
             saveWithdraw.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -306,7 +309,7 @@
                 saveData(formData, 'cashWithdrawModal', 'withdrawForm');
             })
 
-            // save Deposite information
+            ///////////////////////// savedeposite button triggerd for save deposit Data ///////////////////
             const saveDeposite = document.querySelector('.save_deposite');
             saveDeposite.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -315,7 +318,7 @@
             })
 
 
-
+            ///////////////////////// Fetching Data from Transaction Module ///////////////////
             function withdrawView() {
                 $.ajax({
                     url: '/transaction/view',
@@ -324,26 +327,10 @@
                         if (res.status == 200) {
                             const withdrawal = res.withdraw;
                             const deposit = res.deposit;
-                            $('.show_withdraw_data').empty();
-                            if (transactions.length > 0) {
-                                $.each(transactions, function(index, transaction) {
-                                    // Generate the table row using viewDataOnTable
-                                    const tr = viewDataOnTable(transaction);
-                                    // Append the generated row to the table
-                                    $('.show_withdraw_data').append(tr);
-                                });
-                            } else {
-                                $('.show_withdraw_data').html(`
-                                    <tr>
-                                        <td colspan='9'>
-                                            <div class="text-center text-warning mb-2">Data Not Found</div>
-                                            <div class="text-center">
-                                                <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add Transaction Info<i data-feather="plus"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                `);
-                            }
+
+                            dynamicView('show_withdraw_data', withdrawal, 'cashWithdrawModal');
+                            dynamicView('show_deposit_data', deposit, 'cashDepositeModal');
+
                         } else {
                             toastr.error(res.message);
                         }
@@ -351,6 +338,34 @@
                 });
             }
 
+
+            ///////////////////////// Dynamic function for view dynamic Data /////////////////// 
+            function dynamicView(tbody, transactions, modalName) {
+                $(`.${tbody}`).empty();
+                if (transactions.length > 0) {
+                    $.each(transactions, function(index, transaction) {
+                        // Generate the table row using viewDataOnTable
+                        const tr = viewDataOnTable(transaction);
+                        // Append the generated row to the table
+                        $(`.${tbody}`).append(tr);
+                    });
+                } else {
+                    $(`.${tbody}`).html(`
+                        <tr>
+                            <td colspan='9'>
+                                <div class="text-center text-warning mb-2">Data Not Found</div>
+                                <div class="text-center">
+                                    <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#${modalName}">
+                                        Add Transaction Info <i data-feather="plus"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                }
+            }
+
+            ///////////////////////// viewDataOnTable function for view Data /////////////////// 
             function viewDataOnTable(transaction) {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -361,7 +376,7 @@
                     <td>${transaction.description ?? 0}</td>
                     <td>${transaction.transaction_id ?? 0}</td>
                     <td>
-                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                        <a href="/transaction/view-details/${transaction.id}" class="btn btn-icon btn-xs btn-primary">
                             <i class="fa-solid fa-eye"></i>
                         </a>
                         <a href="#" class="btn btn-icon btn-xs btn-success">
@@ -374,13 +389,11 @@
                 `;
                 return tr;
             }
-
             withdrawView();
-
         })
 
 
-
+        ///////////////////////// Tab active and inactive related code /////////////////// 
         document.addEventListener("DOMContentLoaded", function() {
             // tab active on the page reload 
             // Get the last active tab from localStorage
@@ -407,25 +420,6 @@
             // modal not close function 
             modalShowHide('cashWithdrawModal');
             modalShowHide('cashDepositeModal');
-
-
-            // // modal not close 
-            // // // Get the modal element
-            // const cashWithdrawModal = document.getElementById('cashWithdrawModal');
-
-            // // Get the specific buttons that should allow the modal to close
-            // const btnClose = cashWithdrawModal.querySelector('.btn-close'); // Top-right close button
-            // const modalCloseButton = cashWithdrawModal.querySelector(
-            //     '.modal_close'); // Footer "Close" button
-
-            // // Add event listener to prevent modal from closing unless certain buttons are clicked
-            // cashWithdrawModal.addEventListener('hide.bs.modal', function(event) {
-            //     // Allow modal to close only if triggered by btn-close or modal_close button
-            //     if (!(event.relatedTarget === btnClose || event.relatedTarget ===
-            //             modalCloseButton)) {
-            //         event.preventDefault(); // Prevent modal from closing
-            //     }
-            // });
         });
     </script>
 
