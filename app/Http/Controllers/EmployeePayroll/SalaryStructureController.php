@@ -8,20 +8,28 @@ use App\Models\EmployeePayroll\SalarySturcture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+
 class SalaryStructureController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        // $existingEmployeeIds = SalarySturcture::pluck('employee_id');
+        // $employees = Employee::whereNotIn('id', $existingEmployeeIds)->get();
         $employees = Employee::all();
-        return view('all_modules.salary_structure.salary_structure',compact('employees'));
-    }//Method End
-    public function store(Request $request){
+        return view('all_modules.salary_structure.salary_structure', compact('employees'));
+    } //Method End
+    public function getEmployeesWithoutSalaryStructure()
+    {
+        $existingEmployeeIds = SalarySturcture::pluck('employee_id');
+        $employees = Employee::whereNotIn('id', $existingEmployeeIds)->get();
+
+        return response()->json($employees);
+    }
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'employee_id' => 'required',
             'base_salary' => 'required|numeric|between:0,999999999999.99',
-            // 'house_rent' => 'numeric|between:0,999999999999.99',
-            // 'transport_allowance' => 'numeric|between:0,999999999999.99',
-            // 'other_fixed_allowances' => 'between:0,999999999999.99',
-            // 'deductions' => 'numeric|between:0,999999999999.99',
         ]);
         if ($validator->passes()) {
             $salaryStructure = new SalarySturcture();
@@ -43,37 +51,54 @@ class SalaryStructureController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-    }//
-    public function view(){
+    } //
+    public function view()
+    {
         // $salaryStructure = SalarySturcture::all();
         $salaryStructure = SalarySturcture::with('employee')->get();
         return response()->json([
             "status" => 200,
             "data" => $salaryStructure,
         ]);
-    }//
-    public function edit($id){
-        $salarySturcture = SalarySturcture::findOrFail($id);
-        if ($salarySturcture) {
+    } //+
+    public function edit($id)
+    {
+        $salaryStructure = SalarySturcture::findOrFail($id);
+
+        if ($salaryStructure) {
+            // Get the employee ID linked to this SalaryStructure
+            $selectedEmployeeId = $salaryStructure->employee_id;
+            $existingEmployeeIds = SalarySturcture::where('employee_id', '!=', $selectedEmployeeId)
+                ->pluck('employee_id');
+
+            $employees = Employee::whereNotIn('id', $existingEmployeeIds)
+                ->orWhere('id', $selectedEmployeeId)
+                ->get();
+
             return response()->json([
                 'status' => 200,
-                'salarySturcture' => $salarySturcture
+                'salarySturcture' => $salaryStructure,
+                'employees' => $employees,
+                'selectedEmployeeId' => $selectedEmployeeId,
             ]);
         } else {
+            // Return a 500 status if the SalaryStructure is not found (though findOrFail already handles 404)
             return response()->json([
                 'status' => 500,
-                'message' => "Data Not Found"
+                'message' => "Data Not Found",
             ]);
         }
-    }//
-    public function update(Request $request,$id){
+    }
+
+    public function update(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'employee_id' => 'required',
             'base_salary' => 'required|numeric|between:0,999999999999.99',
-            // 'house_rent' => 'required|numeric|between:0,999999999999.99',
-            // 'transport_allowance' => 'required|numeric|between:0,999999999999.99',
-            // 'other_fixed_allowances' => 'required|between:0,999999999999.99',
-            // 'deductions' => 'required|numeric|between:0,999999999999.99',
+            'house_rent' => 'nullable|numeric|between:0,999999999999.99',
+            'transport_allowance' => 'nullable|numeric|between:0,999999999999.99',
+            'other_fixed_allowances' => 'nullable|numeric|between:0,999999999999.99',
+            'deductions' => 'nullable|numeric|between:0,999999999999.99',
         ]);
         if ($validator->passes()) {
             $salaryStructure = SalarySturcture::findOrFail($id);
@@ -94,7 +119,7 @@ class SalaryStructureController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-    }//
+    } //
     public function destroy($id)
     {
         $salarySturcture = SalarySturcture::findOrFail($id);
@@ -103,5 +128,5 @@ class SalaryStructureController extends Controller
             'status' => 200,
             'message' => 'Salary Sturcture Deleted Successfully',
         ]);
-    }//Method End
+    } //Method End
 }
