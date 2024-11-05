@@ -225,6 +225,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/salary/structure/update/{id}', 'update');
         Route::get('/salary/structure/destroy/{id}', 'destroy');
         Route::get('/employees-without-salary-structure', 'getEmployeesWithoutSalaryStructure');
+        Route::get('/employees-without-salary-structure-edit', 'getEmployeesWithoutSalaryStructureEdit');
     }); //End
     // Convenience Bill  related route(n)
     Route::controller(ConvenienceBillController::class)->group(function () {

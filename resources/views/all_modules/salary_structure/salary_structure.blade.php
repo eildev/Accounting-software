@@ -365,36 +365,79 @@
             }
             SalaryStructureView();
 
-            // // edit salary Structures
+            // // // edit salary Structures
+            // $(document).on('click', '.salaryStructures_edit', function(e) {
+            //     e.preventDefault();
+            //     // console.log('0k');
+            //     let id = this.getAttribute('data-id');
+            //     $.ajaxSetup({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         }
+            //     });
+            //     $.ajax({
+            //         url: `/salary/structure/edit/${id}`,
+            //         type: 'GET',
+            //         success: function(res) {
+            //             if (res.status == 200) {
+            //                 $('.employee_id').val(res.salarySturcture.employee_id);
+            //                 $('.basic_salary_name').val(res.salarySturcture.base_salary);
+            //                 $('.house_rent').val(res.salarySturcture.house_rent);
+            //                 $('.transport_allowance').val(res.salarySturcture
+            //                     .transport_allowance);
+            //                 $('.other_fixed_allowances').val(res.salarySturcture
+            //                     .other_fixed_allowances);
+            //                 $('.deductions').val(res.salarySturcture.deductions);
+            //                 $('.update_salaryStructure').val(res.salarySturcture.id);
+            //             } else {
+            //                 toastr.warning("No Data Found");
+            //             }
+            //         }
+            //     });
+            // })
+            // Edit salary structures
             $(document).on('click', '.salaryStructures_edit', function(e) {
                 e.preventDefault();
-                // console.log('0k');
                 let id = this.getAttribute('data-id');
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
                 $.ajax({
                     url: `/salary/structure/edit/${id}`,
                     type: 'GET',
                     success: function(res) {
                         if (res.status == 200) {
-                            $('.employee_id').val(res.salarySturcture.employee_id);
+                            // Populate employee dropdown
+                            let employeeDropdown = $('.employee_id');
+                            employeeDropdown.empty(); // Clear existing options
+                            employeeDropdown.append('<option selected disabled>Select Employee</option>');
+
+                            res.employees.forEach(function(employee) {
+                                let isSelected = (employee.id === res.selectedEmployeeId) ? 'selected' : '';
+                                employeeDropdown.append(`<option value="${employee.id}" ${isSelected}>${employee.full_name}</option>`);
+                            });
+
+                            // Populate other form fields with salary structure data
                             $('.basic_salary_name').val(res.salarySturcture.base_salary);
                             $('.house_rent').val(res.salarySturcture.house_rent);
-                            $('.transport_allowance').val(res.salarySturcture
-                                .transport_allowance);
-                            $('.other_fixed_allowances').val(res.salarySturcture
-                                .other_fixed_allowances);
+                            $('.transport_allowance').val(res.salarySturcture.transport_allowance);
+                            $('.other_fixed_allowances').val(res.salarySturcture.other_fixed_allowances);
                             $('.deductions').val(res.salarySturcture.deductions);
                             $('.update_salaryStructure').val(res.salarySturcture.id);
                         } else {
                             toastr.warning("No Data Found");
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                        toastr.error("An error occurred while fetching data.");
                     }
                 });
-            })
+            });
 
             // // update departments
             $('.update_salaryStructure').click(function(e) {
@@ -495,7 +538,7 @@
         });
 
 
-////////////////////////////////////////////////dropdown LAready not exist check///////////
+////////////////////////////////////////////////dropdown Already not exist check///////////
         $(document).ready(function() {
             $('#employeeDropdown').on('focus', function() {
                 // Check if the dropdown already has options loaded (optional)
