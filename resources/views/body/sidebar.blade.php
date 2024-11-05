@@ -295,6 +295,23 @@
             @endif
 
 
+            <li class="nav-item nav-category">Ledgers</li>
+            {{-- @if (Auth::user()->can('ledgers.menu')) --}}
+                <li class="nav-item">
+                    <a href="{{ route('ledger') }}" class="nav-link {{ request()->routeIs('ledger') ? 'nav_active' : '' }}">
+                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                        <span class="link-title">All Ledgers</span>
+                    </a>
+                </li>
+            {{-- @endif --}}
+
+
+            <li class="nav-item">
+                <a href="{{ route('loan') }}" class="nav-link {{ request()->routeIs('loan') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-hand-holding-dollar link-icon"></i>
+                    <span class="link-title">Loan Managment</span>
+                </a>
+            </li>
             <li class="nav-item nav-category">PEOPLES</li>
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
