@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Departments\Departments;
+use App\Models\EmployeePayroll\SalarySturcture;
 
 class EmployeeController extends Controller
 {
@@ -102,5 +103,10 @@ class EmployeeController extends Controller
             'alert-type' => 'info'
         );
         return redirect()->route('employee.view')->with($notification);
+    }
+    public function profile($id){
+        $employee = Employee::findOrFail($id);
+        $salaryStructure = SalarySturcture::where('employee_id', $employee->id)->first();
+        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure'));
     }
 }
