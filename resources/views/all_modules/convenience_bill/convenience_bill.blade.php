@@ -632,14 +632,25 @@
                         <option value="rickshaw">Rickshaw</option>
                         <option value="cars"> Cars</option>
                         <option value="buses"> Buses</option>
+                        <option value="airplane"> Airplane</option>
+                        <option value="train"> Train</option>
                 </select>
                 </td>
-                <td><input type="number" class="form-control" name="movementAmount[]" value=""></td>
+                <td><input type="number" class="form-control" name="movementAmount[]" value="" ></td>
                 <td><input type="text" class="form-control" name="movementAssigned[]" value=""></td>
 
             `;
             // Append the new row to the table body
             tableBody.appendChild(newRow);
+            //validation neg value input
+            let amountInput = newRow.querySelector('input[name="movementAmount[]"]');
+            amountInput.addEventListener('input', function() {
+                if (parseFloat(amountInput.value) < 0) {
+                    toastr.warning("Amount cannot be negative!");
+                    amountInput.value = "";
+                }
+                calculateTotal1();
+            });
             newRow.querySelector('input[name="movementAmount[]"]').addEventListener('input', calculateTotal1);
             // Calculate total amount in the main table
             function calculateTotal1() {
@@ -712,8 +723,9 @@
             }
             ///////////////Validation End /////////////
             // Check if <thead> is empty or doesn't exist, and add it if necessary
-            if (!addedTable.querySelector('thead').innerHTML.trim()) {
-                addedTable.querySelector('thead').innerHTML = `
+            if (rows.length > 0) {
+                if (!addedTable.querySelector('thead').innerHTML.trim()) {
+                    addedTable.querySelector('thead').innerHTML = `
             <tr>
                 <th>Date</th>
                 <th>From</th>
@@ -725,16 +737,19 @@
                 <th>Actions</th>
             </tr>
           `;
+                }
+                if (!tableTitle.innerHTML.trim()) {
+                    tableTitle.innerHTML = 'Movement Cost :';
+                }
+                if (!hrElement) {
+                    hrElement = document.createElement('hr');
+                    document.querySelector('#movementCostData').insertBefore(hrElement, addedTable);
+                }
+                // Clear previous data from the second table body
+                addedTableBody.innerHTML = '';
             }
-            if (!tableTitle.innerHTML.trim()) {
-                tableTitle.innerHTML = 'Movement Cost :';
-            }
-            if (!hrElement) {
-                hrElement = document.createElement('hr');
-                document.querySelector('#movementCostData').insertBefore(hrElement, addedTable);
-            }
-            // Clear previous data from the second table body
-            addedTableBody.innerHTML = '';
+
+
             let totalAmountMovement = 0;
 
             function updateTotalAmountMovement() {
@@ -787,6 +802,7 @@
                     `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                toastr.info("Successfully added!");
                 totalAmountMovement += movementAmount;
                 document.getElementById('movementCostsFileId').classList.remove('d-none');
 
@@ -844,6 +860,16 @@
             `;
             // Append the new row to the table body
             tableBody.appendChild(newRow);
+            //validation neg value input
+            let amountInput2 = newRow.querySelector('input[name="foodingAmount[]"]');
+            amountInput2.addEventListener('input', function() {
+                if (parseFloat(amountInput2.value) < 0) {
+                    toastr.warning("Amount cannot be negative!");
+                    amountInput2.value = "";
+                }
+                calculateTotal2();
+            });
+
             newRow.querySelector('input[name="foodingAmount[]"]').addEventListener('input', calculateTotal2);
             // Calculate total amount in the main table
             function calculateTotal2() {
@@ -864,7 +890,6 @@
 
 
         ////////////////////////////////////////////////////Second tab FOODING cost Add (Table**)  Start//////////////////////////////////////////////
-
         const foodingcostsAdd = document.querySelector('.foodingcostsAdd');
         foodingcostsAdd.addEventListener('click', function(e) {
             e.preventDefault();
@@ -912,8 +937,9 @@
 
 
             // Check if <thead> is empty or doesn't exist, and add it if necessary
-            if (!addedTable.querySelector('thead').innerHTML.trim()) {
-                addedTable.querySelector('thead').innerHTML = `
+            if (rows.length > 0) {
+                if (!addedTable.querySelector('thead').innerHTML.trim()) {
+                    addedTable.querySelector('thead').innerHTML = `
             <tr>
                 <th>Date</th>
                 <th>Place of Visit</th>
@@ -924,16 +950,18 @@
                 <th>Actions</th>
             </tr>
             `;
+                }
+                if (!tableTitle2.innerHTML.trim()) {
+                    tableTitle2.innerHTML = 'Fooding Cost:';
+                }
+                if (!hrElement2) {
+                    hrElement2 = document.createElement('hr');
+                    document.querySelector('#foodingCostData').insertBefore(hrElement2, addedTable);
+                }
+                // Clear previous data from the second table body
+                addedTableBody.innerHTML = '';
+
             }
-            if (!tableTitle2.innerHTML.trim()) {
-                tableTitle2.innerHTML = 'Fooding Cost:';
-            }
-            if (!hrElement2) {
-                hrElement2 = document.createElement('hr');
-                document.querySelector('#foodingCostData').insertBefore(hrElement2, addedTable);
-            }
-            // Clear previous data from the second table body
-            addedTableBody.innerHTML = '';
             let totalAmountFooding = 0;
 
             function updateTotalAmountFooding() {
@@ -980,6 +1008,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                toastr.info("Successfully added!");
                 totalAmountFooding += foodingAmount;
                 document.getElementById('foodingCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
@@ -1046,14 +1075,24 @@
             `;
             // Append the new row to the table body
             tableBody.appendChild(newRow);
+            //validation neg value input
+            let amountInput3 = newRow.querySelector('input[name="overnightAmount[]"]');
+            amountInput3.addEventListener('input', function() {
+                if (parseFloat(amountInput3.value) < 0) {
+                    toastr.warning("Amount cannot be negative!");
+                    amountInput3.value = "";
+                }
+                calculateTotal3();
+            }); //End validation
             newRow.querySelector('input[name="overnightAmount[]"]').addEventListener('input', calculateTotal3);
             // Calculate total amount in the main table
             function calculateTotal3() {
                 let total = 0;
-                document.querySelectorAll('#overnightStayCostsTable input[name="overnightAmount[]"]').forEach(function(
-                    input) {
-                    total += parseFloat(input.value) || 0;
-                });
+                document.querySelectorAll('#overnightStayCostsTable input[name="overnightAmount[]"]').forEach(
+                    function(
+                        input) {
+                        total += parseFloat(input.value) || 0;
+                    });
                 // Display the total amount in the element with ID 'totalAmount'
                 document.getElementById('totalAmount3').textContent = total.toFixed(2);
             }
@@ -1114,8 +1153,9 @@
             }
 
             // Check if <thead> is empty or doesn't exist, and add it if necessary
-            if (!addedTable.querySelector('thead').innerHTML.trim()) {
-                addedTable.querySelector('thead').innerHTML = `
+            if (rows.length > 0) {
+                if (!addedTable.querySelector('thead').innerHTML.trim()) {
+                    addedTable.querySelector('thead').innerHTML = `
             <tr>
                 <th>Date</th>
                 <th>Place of Visit</th>
@@ -1126,16 +1166,17 @@
                 <th>Actions</th>
             </tr>
          `;
+                }
+                if (!tableTitle3.innerHTML.trim()) {
+                    tableTitle3.innerHTML = 'Overnight Stay Cost :';
+                }
+                if (!hrElement3) {
+                    hrElement3 = document.createElement('hr');
+                    document.querySelector('#overnightStayCostsData').insertBefore(hrElement3, addedTable);
+                }
+                // Clear previous data from the second table body
+                addedTableBody.innerHTML = '';
             }
-            if (!tableTitle3.innerHTML.trim()) {
-                tableTitle3.innerHTML = 'Overnight Stay Cost :';
-            }
-            if (!hrElement3) {
-                hrElement3 = document.createElement('hr');
-                document.querySelector('#overnightStayCostsData').insertBefore(hrElement3, addedTable);
-            }
-            // Clear previous data from the second table body
-            addedTableBody.innerHTML = '';
             let totalAmountOvernight = 0;
 
             function updateTotalAmountOvernight() {
@@ -1187,6 +1228,7 @@
 
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                toastr.info("Successfully added!");
                 totalAmountOvernight += overnightAmount;
                 document.getElementById('overnightStayCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
@@ -1205,7 +1247,6 @@
             updateGrandTotal();
 
         }); //End
-
 
         //////////////////////////////////////////////////// Four other Expenses Costs Add  (ROW**)  Start//////////////////////////////////////////////
         document.getElementById('addRowBtn4').addEventListener('click', function() {
@@ -1236,14 +1277,24 @@
             `;
             // Append the new row to the table body
             tableBody.appendChild(newRow);
+
+            let amountInput4 = newRow.querySelector('input[name="otherExpensesAmount[]"]');
+            amountInput4.addEventListener('input', function() {
+                if (parseFloat(amountInput4.value) < 0) {
+                    toastr.warning("Amount cannot be negative!");
+                    amountInput4.value = "";
+                }
+                calculateTotal4();
+            }); //End validation
             newRow.querySelector('input[name="otherExpensesAmount[]"]').addEventListener('input', calculateTotal4);
             // Calculate total amount in the main table
             function calculateTotal4() {
                 let total = 0;
-                document.querySelectorAll('#otherExpensesCostsTable input[name="otherExpensesAmount[]"]').forEach(function(
-                    input) {
-                    total += parseFloat(input.value) || 0;
-                });
+                document.querySelectorAll('#otherExpensesCostsTable input[name="otherExpensesAmount[]"]').forEach(
+                    function(
+                        input) {
+                        total += parseFloat(input.value) || 0;
+                    });
                 // Display the total amount in the element with ID 'totalAmount'
                 document.getElementById('totalAmount4').textContent = total.toFixed(2);
             }
@@ -1257,9 +1308,6 @@
 
         });
 
-        // Function to calculate total//
-
-        //First  Add row  Tab End
         ////////////////////////////////////////////////////Four Other Expenses Costs Add (Table**) Start//////////////////////////////////////////////
         const otherExpensesCostsAdd = document.querySelector('.otherExpensesCostsAdd');
         otherExpensesCostsAdd.addEventListener('click', function(e) {
@@ -1303,8 +1351,9 @@
                 return; // Stop execution if any field is missing
             }
             // Check if <thead> is empty or doesn't exist, and add it if necessary
-            if (!addedTable.querySelector('thead').innerHTML.trim()) {
-                addedTable.querySelector('thead').innerHTML = `
+            if (rows.length > 0) {
+                if (!addedTable.querySelector('thead').innerHTML.trim()) {
+                    addedTable.querySelector('thead').innerHTML = `
             <tr>
                 <th>Date</th>
                 <th>Purpose</th>
@@ -1313,16 +1362,17 @@
                 <th>Actions</th>
             </tr>
          `;
+                }
+                if (!tableTitle4.innerHTML.trim()) {
+                    tableTitle4.innerHTML = 'Other Expenses Costs :';
+                }
+                if (!hrElement4) {
+                    hrElement4 = document.createElement('hr');
+                    document.querySelector('#otherExpensesCostsData').insertBefore(hrElement4, addedTable);
+                }
+                // Clear previous data from the second table body
+                addedTableBody.innerHTML = '';
             }
-            if (!tableTitle4.innerHTML.trim()) {
-                tableTitle4.innerHTML = 'Other Expenses Costs :';
-            }
-            if (!hrElement4) {
-                hrElement4 = document.createElement('hr');
-                document.querySelector('#otherExpensesCostsData').insertBefore(hrElement4, addedTable);
-            }
-            // Clear previous data from the second table body
-            addedTableBody.innerHTML = '';
             let totalAmountOtherExpense = 0;
 
             function updateTotalAmountOtherExpense() {
@@ -1362,6 +1412,7 @@
          `;
                 // Append the new row to the second table body
                 addedTableBody.appendChild(newRow);
+                toastr.info("Successfully added!");
                 totalAmountOtherExpense += otherExpensesAmount;
                 document.getElementById('otherExpensesCostFileId').classList.remove('d-none');
                 // Add event listener for delete button to remove row on click
