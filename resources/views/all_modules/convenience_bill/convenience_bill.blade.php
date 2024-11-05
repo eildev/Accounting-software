@@ -613,7 +613,7 @@
             });
         });
 
-        ////////////////////////////////////////////////////First MOVEMENT costs Cost Add New row  Start//////////////////////////////////////////////
+        ////////////////////////////////////////////////////First MOVEMENT costs Cost Add New (ROW**)  Start//////////////////////////////////////////////
         document.getElementById('addRowBtn').addEventListener('click', function() {
             let tableBody = document.querySelector('#movementcostsTable tbody');
             let newRow = document.createElement('tr');
@@ -660,7 +660,7 @@
 
         //First  Add row  Tab End
 
-        //////////////////////////////////MOVEMENT Costs Added New Table//////////////////////////////////////
+        //////////////////////////////////MOVEMENT Costs Added New (Table**)//////////////////////////////////////
         const movementCostsAdd = document.querySelector('.movementCostsAdd');
         movementCostsAdd.addEventListener('click', function(e) {
             e.preventDefault();
@@ -804,7 +804,7 @@
             updateGrandTotal();
         });
 
-        ////////////////////////////////////////////////////Second tab FOODING cost Add row Start//////////////////////////////////////////////
+        ////////////////////////////////////////////////////Second tab FOODING cost Add (ROW**) Start//////////////////////////////////////////////
         document.getElementById('addRowBtn2').addEventListener('click', function() {
             let tableBody = document.querySelector('#foodingcostsTable tbody');
             let newRow = document.createElement('tr');
@@ -874,7 +874,7 @@
         });
         //First  Add row  Tab End
 
-        ////////////////////////////////////////////////////Second tab FOODING cost Add Table  Start//////////////////////////////////////////////
+        ////////////////////////////////////////////////////Second tab FOODING cost Add (Table**)  Start//////////////////////////////////////////////
 
         const foodingcostsAdd = document.querySelector('.foodingcostsAdd');
         foodingcostsAdd.addEventListener('click', function(e) {
@@ -1010,7 +1010,7 @@
             document.querySelector('#foodingCostsTotal').value = parseFloat(totalAmountFooding);
             updateGrandTotal();
         }); //End
-        //////////////////////////////////////////////////// Third Overnight Stay Costs row  Add   Start//////////////////////////////////////////////
+        //////////////////////////////////////////////////// Third Overnight Stay Costs (ROW**)  Add   Start//////////////////////////////////////////////
         document.getElementById('addRowBtn3').addEventListener('click', function() {
             let tableBody = document.querySelector('#overnightStayCostsTable tbody');
             let newRow = document.createElement('tr');
@@ -1088,7 +1088,7 @@
         });
         //First  Add row  Tab End
 
-        ////////////////////////////////////////////////////Third Overnight Stay Costs Add Table Start//////////////////////////////////////////////
+        ////////////////////////////////////////////////////Third Overnight Stay Costs Add (Table**) Start//////////////////////////////////////////////
 
         const overnightStayCostsAdd = document.querySelector('.overnightStayCostsAdd');
         overnightStayCostsAdd.addEventListener('click', function(e) {
@@ -1228,7 +1228,7 @@
         }); //End
 
 
-        //////////////////////////////////////////////////// Four other Expenses Costs Add  row  Start//////////////////////////////////////////////
+        //////////////////////////////////////////////////// Four other Expenses Costs Add  (ROW**)  Start//////////////////////////////////////////////
         document.getElementById('addRowBtn4').addEventListener('click', function() {
             let tableBody = document.querySelector('#otherExpensesCostsTable tbody');
             let newRow = document.createElement('tr');
@@ -1288,7 +1288,7 @@
             });
         });
         //First  Add row  Tab End
-        ////////////////////////////////////////////////////Four Other Expenses Costs Add Table Start//////////////////////////////////////////////
+        ////////////////////////////////////////////////////Four Other Expenses Costs Add (Table**) Start//////////////////////////////////////////////
         const otherExpensesCostsAdd = document.querySelector('.otherExpensesCostsAdd');
         otherExpensesCostsAdd.addEventListener('click', function(e) {
             e.preventDefault();
@@ -1407,8 +1407,19 @@
             updateGrandTotal();
         }); //End
 
+        /////////////////////////////////////////////Grand Sum Show  //////////////////////////////////////////////
+        function updateGrandTotal() {
+            const foodingTotal = parseFloat(document.querySelector('#foodingCostsTotal').value) || 0;
+            const movementTotal = parseFloat(document.querySelector('#movementCostsTotal').value) || 0;
+            const overnightTotal = parseFloat(document.querySelector('#overnightStayCostTotal').value) || 0;
+            const otherExpenseTotal = parseFloat(document.querySelector('#otherExpensesCostsTotal').value) || 0;
 
-        ////////////////////////////Store////////////////////////////
+            const grandTotal = foodingTotal + movementTotal + overnightTotal + otherExpenseTotal;
+
+            // Update the grand total display
+            document.querySelector('#grandTotalDisplay').textContent = grandTotal.toFixed(2);
+        }
+        ////////////////////////////Convenience Store////////////////////////////
         $(document).ready(function() {
             $('#convenienceForm').on('submit', function(event) {
                 event.preventDefault(); // Prevent the default form submission
@@ -1441,7 +1452,6 @@
 
                     },
                     error: function(xhr, status, error) {
-                        // Handle error - Display error message, etc.
                         console.log(xhr, status, error)
                         alert("An error occurred while submitting the form.");
                     }
@@ -1449,18 +1459,7 @@
             });
         });
 
-/////////////////////////////////////////////Grand Sum /////////////////////////////////////////////////////////////
-function updateGrandTotal() {
-    const foodingTotal = parseFloat(document.querySelector('#foodingCostsTotal').value) || 0;
-    const movementTotal = parseFloat(document.querySelector('#movementCostsTotal').value) || 0;
-    const overnightTotal = parseFloat(document.querySelector('#overnightStayCostTotal').value) || 0;
-    const otherExpenseTotal = parseFloat(document.querySelector('#otherExpensesCostsTotal').value) || 0;
 
-    const grandTotal = foodingTotal + movementTotal + overnightTotal + otherExpenseTotal;
-
-    // Update the grand total display
-    document.querySelector('#grandTotalDisplay').textContent = grandTotal.toFixed(2);
-}
 
 
     </script>
