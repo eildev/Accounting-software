@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/edit/{id}', 'edit')->name('employee.edit');
         Route::post('/employee/update/{id}', 'update')->name('employee.update');
         Route::get('/employee/delete/{id}', 'destroy')->name('employee.delete');
+        Route::get('/employee/profile/{id}', 'profile')->name('employee.profile');
     });
 
     // Banks related route
@@ -224,6 +225,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/salary/structure/edit/{id}', 'edit');
         Route::post('/salary/structure/update/{id}', 'update');
         Route::get('/salary/structure/destroy/{id}', 'destroy');
+        Route::get('/employees-without-salary-structure', 'getEmployeesWithoutSalaryStructure');
+        Route::get('/employees-without-salary-structure-edit', 'getEmployeesWithoutSalaryStructureEdit');
     }); //End
     // Convenience Bill  related route(n)
     Route::controller(ConvenienceBillController::class)->group(function () {

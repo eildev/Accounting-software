@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->unsignedBigInteger('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->decimal('base_salary',12,2);
-            $table->decimal('house_rent',12,2)->nullable();
-            $table->decimal('transport_allowance',12,2)->nullable();
-            $table->decimal('other_fixed_allowances',12,2)->nullable();
-            $table->decimal('deductions',12,2)->nullable();
+            $table->foreign('employee_id')->references('id')->on('employees');
+            $table->decimal('base_salary',16,2);
+            $table->decimal('house_rent',16,2)->nullable();
+            $table->decimal('transport_allowance',16,2)->nullable();
+            $table->decimal('other_fixed_allowances',16,2)->nullable();
+            $table->decimal('deductions',16,2)->nullable();
             $table->timestamps();
         });
     }

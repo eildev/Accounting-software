@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('conveniences', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
-            $table->foreign('branch_id')->references('id')->on('branches');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');;
             $table->integer('bill_number');
             $table->unsignedBigInteger('employee_id')->unsigned();
             $table->foreign('employee_id')->references('id')->on('employees');

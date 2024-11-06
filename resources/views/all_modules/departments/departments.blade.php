@@ -111,9 +111,15 @@
                 }
                 // save Departments
                 const saveDepartment = document.querySelector('.save_departments');
-
+                const departmentsForm = document.querySelector('.departmentsForm');
+                departmentsForm.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                    }
+                });
                 saveDepartment.addEventListener('click', function(e) {
                     // console.log('ok');
+
                     e.preventDefault();
                     let formData = new FormData($('.departmentsForm')[0]);
                     $.ajaxSetup({
