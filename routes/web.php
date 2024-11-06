@@ -20,6 +20,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeePayroll\DepartmentsController;
 use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
 use App\Http\Controllers\ConvenienceBill\ConvenienceBillController;
+use App\Http\Controllers\ledgers\LedgerController;
 use App\Http\Controllers\Expanse\RecurringExpanse\RecurringExpanseController;
 use Illuminate\Support\Facades\Route;
 
@@ -278,6 +279,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/manage/edit/{id}', 'AdminManageEdit')->name('admin.manage.edit');
         Route::get('/admin/manage/delete/{id}', 'AdminManageDelete')->name('admin.manage.delete');
         Route::post('/admin/manage/update/{id}', 'AdminManageUpdate')->name('update.admin.manage');
+    });
+
+    // Banks related route
+    Route::controller(LedgerController::class)->group(function () {
+        Route::get('/ledger', 'index')->name('ledger');
+        // Route::post('/ledger/store', 'store')->name('ledger.store');
+        // Route::get('/ledger/view', 'view')->name('ledger.view');
+        // Route::get('/ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
     });
 });
 

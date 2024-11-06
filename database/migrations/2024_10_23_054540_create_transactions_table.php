@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('source_type');  // e.g., 'payroll', 'expense', 'vendor_payment'
             $table->date('transaction_date')->nullable();  // e.g., 'payroll', 'expense', 'vendor_payment'
             $table->unsignedBigInteger('bank_account_id')->nullable();  // For bank-based transactions
+            $table->foreign('bank_account_id')->references('id')->on('banks');
             $table->unsignedBigInteger('cash_account_id')->nullable();  // For cash-based transactions
+            $table->foreign('cash_account_id')->references('id')->on('cashes');
             $table->decimal('amount', 15, 2);
             $table->enum('transaction_type', ['credit', 'debit']);  // Credit = incoming, Debit = outgoing
             $table->text('description')->nullable();
