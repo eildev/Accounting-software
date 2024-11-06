@@ -17,7 +17,7 @@
 
     <style>
         .nav_active {
-            background: #00a9f1;
+            background: #00a9f1 !important;
             border-radius: 5px;
             color: #fff !important;
         }
@@ -33,6 +33,10 @@
         }
 
         .nav-link.nav_active:hover {
+            color: #ffffff !important;
+        }
+
+        .nav-item:hover .nav-link {
             color: #ffffff !important;
         }
     </style>
@@ -295,6 +299,24 @@
             @endif
 
 
+            <li class="nav-item nav-category">Ledgers</li>
+            {{-- @if (Auth::user()->can('ledgers.menu')) --}}
+            <li class="nav-item">
+                <a href="{{ route('ledger') }}"
+                    class="nav-link {{ request()->routeIs('ledger') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">All Ledgers</span>
+                </a>
+            </li>
+            {{-- @endif --}}
+
+
+            <li class="nav-item">
+                <a href="{{ route('loan') }}" class="nav-link {{ request()->routeIs('loan') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-hand-holding-dollar link-icon"></i>
+                    <span class="link-title">Loan Managment</span>
+                </a>
+            </li>
             <li class="nav-item nav-category">PEOPLES</li>
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
@@ -338,8 +360,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"
-                    href="#employee" role="button" aria-expanded="false" aria-controls="emails">
+                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}"
+                    data-bs-toggle="collapse" href="#employee" role="button" aria-expanded="false"
+                    aria-controls="emails">
                     <i class="ms-2 link-icon" data-feather="mail"></i>
                     <span class="link-title">Employee</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>

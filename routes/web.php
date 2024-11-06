@@ -10,17 +10,15 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeePayroll\EmployeeController;
 use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\TaxController;
-use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PosSettingsController;
 use App\Http\Controllers\EmployeeSalaryController;
 use App\Http\Controllers\RolePermissionController;
-use App\Http\Controllers\CompanyBalanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeePayroll\DepartmentsController;
 use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
 use App\Http\Controllers\ConvenienceBill\ConvenienceBillController;
 use App\Http\Controllers\Expanse\RecurringExpanse\RecurringExpanseController;
+use App\Http\Controllers\Ledgers\LedgerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -139,24 +137,8 @@ Route::middleware('auth')->group(function () {
 
 
 
-    // Tax related route(n)
-    Route::controller(TaxController::class)->group(function () {
-        Route::get('/tax/add', 'TaxAdd')->name('product.tax.add');
-        Route::post('/tax/store', 'TaxStore')->name('tax.store');
-        Route::get('/tax/view', 'TaxView')->name('tax.view');
-        Route::get('/tax/edit/{id}', 'TaxEdit')->name('tax.edit');
-        Route::post('/tax/update/{id}', 'TaxUpdate')->name('tax.update');
-        Route::get('/tax/delete/{id}', 'TaxDelete')->name('tax.delete');
-    });
-    // Payment Method related route(n)
-    Route::controller(PaymentMethodController::class)->group(function () {
-        Route::get('/payment/method/add', 'PaymentMethodAdd')->name('payment.method.add');
-        Route::post('/payment/method/store', 'PaymentMethodStore')->name('payment.method.store');
-        Route::get('/payment/method/view', 'PaymentMethodView')->name('payment.method.view');
-        Route::get('/payment/method/edit/{id}', 'PaymentMethodEdit')->name('payment.method.edit');
-        Route::post('/payment/method/update/{id}', 'PaymentMethodUpdate')->name('payment.method.update');
-        Route::get('/payment/method/delete/{id}', 'PaymentMethodDelete')->name('payment.method.delete');
-    });
+
+
 
     // Transaction related route(n)
     Route::controller(TransactionController::class)->group(function () {
@@ -244,12 +226,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
     }); //End
 
-    Route::controller(CompanyBalanceController::class)->group(function () {
-        Route::group(['prefix' => 'daily'], function () {
-            Route::get('/balance', 'dailyBalance')->name('balance');
-        });
-    });
-
     ////////////////////Role And Permission Route /////////////////
     Route::controller(RolePermissionController::class)->group(function () {
         ///Permission///
@@ -285,6 +261,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/manage/edit/{id}', 'AdminManageEdit')->name('admin.manage.edit');
         Route::get('/admin/manage/delete/{id}', 'AdminManageDelete')->name('admin.manage.delete');
         Route::post('/admin/manage/update/{id}', 'AdminManageUpdate')->name('update.admin.manage');
+    });
+
+    // Banks related route
+    Route::controller(LedgerController::class)->group(function () {
+        Route::get('/ledger', 'index')->name('ledger');
+        // Route::post('/ledger/store', 'store')->name('ledger.store');
+        // Route::get('/ledger/view', 'view')->name('ledger.view');
+        // Route::get('/ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
     });
 });
 
