@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Ledger\LedgerEntries;
+namespace App\Models\Ledger\LedgerAccounts;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LedgerEntries extends Model
+class LedgerAccounts extends Model
 {
     use HasFactory;
 }

@@ -20,8 +20,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeePayroll\DepartmentsController;
 use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
 use App\Http\Controllers\ConvenienceBill\ConvenienceBillController;
-use App\Http\Controllers\ledgers\LedgerController;
 use App\Http\Controllers\Expanse\RecurringExpanse\RecurringExpanseController;
+use App\Http\Controllers\Ledgers\LedgerController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ledgers;
+namespace App\Http\Controllers\Ledgers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
