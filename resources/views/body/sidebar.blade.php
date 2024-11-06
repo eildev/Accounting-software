@@ -36,7 +36,7 @@
             color: #ffffff !important;
         }
 
-        .nav_active:hover .nav-link {
+        .nav-item:hover .nav-link {
             color: #ffffff !important;
         }
     </style>

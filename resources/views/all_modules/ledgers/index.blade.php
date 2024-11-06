@@ -9,7 +9,7 @@
     </nav>
     <style>
         .nav-link:hover,
-        .nav-link.active {
+        .nav-link.active:hover {
             color: #6587ff !important;
         }
     </style>
@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    @include('all_modules.bank.bank-account')
+                                    @include('all_modules.ledgers.primary')
                                 </div>
                             </div>
                         </div>
@@ -125,8 +125,7 @@
                 <div class="modal-body">
                     <form id="signupForm" class="cashForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Name <span
-                                    class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                             <input class="form-control pr_ledger_name" name="pr_ledger_name" type="text"
                                 onkeyup="errorRemove(this);">
                             <span class="text-danger pr_ledger_name_error"></span>
