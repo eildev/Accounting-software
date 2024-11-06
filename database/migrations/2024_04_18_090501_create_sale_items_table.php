@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('sale_id')->unsigned();
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
-            $table->unsignedBigInteger('product_id');
+            $table->integer('product_id');
             $table->decimal('rate', 10, 2);
             $table->integer('discount')->nullable();
             $table->enum('wa_status', ['yes', 'no'])->nullable();
