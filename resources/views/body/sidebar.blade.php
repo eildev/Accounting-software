@@ -17,7 +17,7 @@
 
     <style>
         .nav_active {
-            background: #00a9f1;
+            background: #00a9f1 !important;
             border-radius: 5px;
             color: #fff !important;
         }
@@ -33,6 +33,10 @@
         }
 
         .nav-link.nav_active:hover {
+            color: #ffffff !important;
+        }
+
+        .nav_active:hover .nav-link {
             color: #ffffff !important;
         }
     </style>
@@ -297,12 +301,13 @@
 
             <li class="nav-item nav-category">Ledgers</li>
             {{-- @if (Auth::user()->can('ledgers.menu')) --}}
-                <li class="nav-item">
-                    <a href="{{ route('ledger') }}" class="nav-link {{ request()->routeIs('ledger') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">All Ledgers</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="{{ route('ledger') }}"
+                    class="nav-link {{ request()->routeIs('ledger') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">All Ledgers</span>
+                </a>
+            </li>
             {{-- @endif --}}
 
 
@@ -355,33 +360,34 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"
-                    href="#employee" role="button" aria-expanded="false" aria-controls="emails">
+                <a class="nav-link {{ request()->routeIs('employee*') ? '' : 'collapsed' }}"
+                    data-bs-toggle="collapse" href="#employee" role="button" aria-expanded="false"
+                    aria-controls="emails">
                     <i class="ms-2 link-icon" data-feather="mail"></i>
                     <span class="link-title">Employee</span>
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 @if (Auth::user()->can('employee.menu'))
-                <div class="collapse {{ request()->routeIs('employee*') ? 'show' : '' }}" id="employee">
-                    <ul class="nav sub-menu">
+                    <div class="collapse {{ request()->routeIs('employee*') ? 'show' : '' }}" id="employee">
+                        <ul class="nav sub-menu">
 
 
-                        <li class="nav-item">
-                            <a href="{{ route('employee') }}"
-                                class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
-                                <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                <span class="link-title">Add Employee</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employee.view') }}"
-                                class="nav-link {{ request()->routeIs('employee.view') ? 'nav_active' : '' }}">
-                                <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                <span class="link-title">Employee list</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                            <li class="nav-item">
+                                <a href="{{ route('employee') }}"
+                                    class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Add Employee</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('employee.view') }}"
+                                    class="nav-link {{ request()->routeIs('employee.view') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Employee list</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 @endif
             </li>
 
