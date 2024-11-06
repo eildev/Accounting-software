@@ -7,9 +7,11 @@ use App\Models\EmployeePayroll\Employee;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use App\Models\ConvenienceBill\Convenience;
 use App\Models\Departments\Departments;
+use App\Models\EmployeePayroll\EmployeeBonuse;
 use App\Models\EmployeePayroll\SalarySturcture;
-
+use Illuminate\Support\Facades\Validator;
 class EmployeeController extends Controller
 {
     public function view()
@@ -107,6 +109,86 @@ class EmployeeController extends Controller
     public function profile($id){
         $employee = Employee::findOrFail($id);
         $salaryStructure = SalarySturcture::where('employee_id', $employee->id)->first();
-        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure'));
+        $conveniences = Convenience::where('employee_id', $employee->id)->get();
+        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences'));
+    }
+    //////////////////////////////////////////////// Employee Bonuse /////////////////////////////////
+    public function indexBonus(){
+        $departments = Departments::all();
+        $employees =  Employee::all();
+        return view('all_modules.employee.employee_bonuse.add_employee_bonuse',compact('employees','departments'));
+    }
+    public function bonusStore(Request $request){
+        $validator = Validator::make($request->all(), [
+            'employee_id' => 'required',
+            'bonus_type' => 'required',
+            'bonus_amount' => 'required|numeric|between:0,999999999999.99',
+        ]);
+        if ($validator->passes()) {
+            $employeeBomus = new EmployeeBonuse;
+            $employeeBomus->employee_id  = $request->employee_id;
+            $employeeBomus->bonus_type  = $request->bonus_type;
+            $employeeBomus->bonus_amount  = $request->bonus_amount;
+            $employeeBomus->bonus_reason  = $request->bonus_reason;
+            $employeeBomus->bonus_date  = Carbon::now();
+            $employeeBomus->status  = 'pending';
+            $employeeBomus->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Bonus Submited Successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => '500',
+                'error' => $validator->messages()
+            ]);
+        }
+    }
+    public function bonusView(){
+        $bonuses = EmployeeBonuse::with('employee')->get();
+        return response()->json([
+            "status" => 200,
+            "data" => $bonuses,
+        ]);
+    }
+    public function bonusEdit($id){
+        $employeeBonus = EmployeeBonuse::findOrFail($id);
+            return response()->json([
+                'status' => 200,
+                'employeeBonus' => $employeeBonus,
+            ]);
+    }
+
+    public function bonusUpdate(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'employee_id' => 'required',
+            'bonus_type' => 'required',
+            'bonus_amount' => 'required|numeric|between:0,999999999999.99',
+        ]);
+        if ($validator->passes()) {
+        $employeeBomus = EmployeeBonuse::findOrFail($id);
+        $employeeBomus->employee_id  = $request->employee_id;
+        $employeeBomus->bonus_type  = $request->bonus_type;
+        $employeeBomus->bonus_amount  = $request->bonus_amount;
+        $employeeBomus->bonus_reason  = $request->bonus_reason;
+        $employeeBomus->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Bonus Updated Successfully',
+        ]);
+    } else {
+        return response()->json([
+            'status' => '500',
+            'error' => $validator->messages()
+        ]);
+    }
+    }
+    public function bonusDelete($id){
+        $employeeBonuse = EmployeeBonuse::findOrFail($id);
+        $employeeBonuse->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Employee Bonus Deleted Successfully',
+        ]);
     }
 }

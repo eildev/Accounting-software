@@ -345,26 +345,33 @@
                     <i class="link-arrow" data-feather="chevron-down"></i>
                 </a>
                 @if (Auth::user()->can('employee.menu'))
-                <div class="collapse {{ request()->routeIs('employee*') ? 'show' : '' }}" id="employee">
-                    <ul class="nav sub-menu">
+                    <div class="collapse {{ request()->routeIs('employee*') ? 'show' : '' }}" id="employee">
+                        <ul class="nav sub-menu">
 
 
-                        <li class="nav-item">
-                            <a href="{{ route('employee') }}"
-                                class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
-                                <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                <span class="link-title">Add Employee</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('employee.view') }}"
-                                class="nav-link {{ request()->routeIs('employee.view') ? 'nav_active' : '' }}">
-                                <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                <span class="link-title">Employee list</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                            <li class="nav-item">
+                                <a href="{{ route('employee') }}"
+                                    class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Add Employee</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('employee.view') }}"
+                                    class="nav-link {{ request()->routeIs('employee.view') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Employee list</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('employee.bonus') }}"
+                                    class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Employee Bonuses</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 @endif
             </li>
 

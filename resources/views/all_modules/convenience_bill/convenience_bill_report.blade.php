@@ -30,10 +30,10 @@
                                      <td>{{$item->employee->full_name }}</td>
                                      <td>{{$item->total_amount }}</td>
                                      <td>
-                                        @if ($item->status  == 1)
-                                        <a href="" class="btn btn-sm bg-success">Active </a>
+                                        @if ($item->status  == 'pending')
+                                        <a href="#" class="badge bg-warning text-dark" style="font-weight: bold;">Pending</a>
                                         @else
-                                        <a href="" class="btn btn-sm bg-warning">Inctive</a>
+                                        <a href="#" class="badge  bg-success text-dark" style="font-weight: bold;">Apprved</a>
                                         @endif
                                     </td>
                                     </tr>
