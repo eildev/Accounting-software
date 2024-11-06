@@ -36,7 +36,7 @@
                             @foreach ($employees as $key => $employe)
                                 <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $employe->full_name ?? ''}}</td>
+                                <td><a href="{{route('employee.profile',$employe->id)}}">{{ $employe->full_name ?? ''}}</a></td>
                                 <td>{{ $employe->email ?? ''}}</td>
                                 <td>{{ $employe->phone ?? ''}}</td>
                                 <td>{{ $employe->address ?? ''}}</td>

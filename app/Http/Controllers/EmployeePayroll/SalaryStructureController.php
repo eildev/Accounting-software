@@ -41,6 +41,9 @@ class SalaryStructureController extends Controller
             $salaryStructure->other_fixed_allowances =  $request->other_fixed_allowances;
             $salaryStructure->deductions =  $request->deductions;
             $salaryStructure->save();
+            $EmployeeSalary = Employee::findOrFail($request->employee_id);
+            $EmployeeSalary->salary =  $request->base_salary;
+            $EmployeeSalary->save();
             return response()->json([
                 'status' => 200,
                 'message' => 'Salary Structure Save Successfully',
@@ -109,6 +112,9 @@ class SalaryStructureController extends Controller
             $salaryStructure->other_fixed_allowances =  $request->other_fixed_allowances;
             $salaryStructure->deductions =  $request->deductions;
             $salaryStructure->save();
+            $EmployeeSalary = Employee::findOrFail($request->employee_id);
+            $EmployeeSalary->salary =  $request->base_salary;
+            $EmployeeSalary->save();
             return response()->json([
                 'status' => 200,
                 'message' => 'Salary Structure Update Successfully',
