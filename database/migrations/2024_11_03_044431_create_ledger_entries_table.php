@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('ledger_entries', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->unsignedBigInteger('transaction_id')->unsigned(); //  Foreign key linking each sub-ledger to a ledger account.
-            $table->foreign('account_id')->references('id')->on('ledger_accounts');
+            $table->foreign('transaction_id')->references('id')->on('ledger_accounts');
             $table->timestamps();
         });
     }
