@@ -59,6 +59,7 @@ class ConvenienceBillController extends Controller
                     'employee_id' => $request->employee_id,
                     'entry_by' => Auth::user()->name,
                     'total_amount' =>  $sumTotal,
+                    'status' =>  'pending',
                 ]); //
                 $convenienceId = $convenience->id;
 

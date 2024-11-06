@@ -6,12 +6,12 @@
             <div class="card">
                 <div class="position-relative">
                     <figure class="overflow-hidden mb-0 d-flex justify-content-center">
-                        <img src="{{ asset('uploads/employee/958481809.jpg') }}" class="rounded-top" alt="profile cover">
+                        <img src="{{ asset('uploads/employee/default-cover.jpeg') }}" height="390" width="1560" class="rounded-top" alt="profile cover">
                     </figure>
                     <div
                         class="d-flex justify-content-between align-items-center position-absolute top-90 w-100 px-2 px-md-4 mt-n4">
                         <div>
-                            <img class="wd-70 rounded-circle" src="{{ asset('uploads/employee/' . $employee->pic) }}"
+                            <img class="wd-70 rounded-circle" src="{{ $employee->pic ? asset('uploads/employee/' . $employee->pic) : asset('uploads/employee/dafault-profile.jpg') }}"
                                 alt="profile">
                             <span class="h4 ms-3 text-dark">{{ $employee->full_name }}</span>
                         </div>
@@ -26,8 +26,8 @@
                         </li>
                         <li class="ms-3 ps-3 border-start d-flex align-items-center">
                             <i class="me-1 icon-md" data-feather="user"></i>
-                            <a class="pt-1px d-none d-md-block text-body nav-link" id="about-tab" data-bs-toggle="tab"
-                                href="#about" role="tab" aria-controls="about" aria-selected="false">About</a>
+                            <a class="pt-1px d-none d-md-block text-body nav-link" id="convenience-tab" data-bs-toggle="tab"
+                                href="#convenience" role="tab" aria-controls="convenience" aria-selected="false">Convenience Bill</a>
                         </li>
                         <li class="ms-3 ps-3 border-start d-flex align-items-center">
                             <i class="me-1 icon-md" data-feather="users"></i>
@@ -100,10 +100,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade " id="about" role="tabpanel" aria-labelledby="about-tab">
+                        <div class="tab-pane fade " id="convenience" role="tabpanel" aria-labelledby="convenience-tab">
                             <div class="card rounded">
                                 <div class="card-body">
-                                    <p class="mb-3 tx-14">About</p>
+                                    <p class="mb-3 tx-14">Convenience Bill</p>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Invoice No</th>
+                                                <th>Total Amount</th>
+                                                <th>Create Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                @foreach ($conveniences as $convenience)
+                                                <tr>
+                                                <td><a href="{{route('convenience.invoice', $convenience->id)}}">{{ $convenience->bill_number ?? '-' }}</a></td>
+                                                <td>{{ $convenience->total_amount ?? '-' }}</td>
+                                                <td>{{ $convenience->created_at ? $convenience->created_at->format('d F Y') : '-' }}</td>
+                                               </tr>
+                                                @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

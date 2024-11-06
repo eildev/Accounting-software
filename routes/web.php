@@ -85,6 +85,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/employee/update/{id}', 'update')->name('employee.update');
         Route::get('/employee/delete/{id}', 'destroy')->name('employee.delete');
         Route::get('/employee/profile/{id}', 'profile')->name('employee.profile');
+        ///////////////////////Employee Bonuse////////////////////////
+        Route::get('/employee/bonus', 'indexBonus')->name('employee.bonus');
+        Route::post('/employee/bonus/store', 'bonusStore');
+        Route::get('/employee/bonus/view', 'bonusView');
+        Route::get('/employee/bonuses/edit/{id}', 'bonusEdit');
+        Route::post('/employee/bonus/update/{id}', 'bonusUpdate');
+        Route::get('/employee/bonus/destroy/{id}', 'bonusDelete');
     });
 
     // Banks related route

@@ -382,6 +382,13 @@
                                     <span class="link-title">Employee list</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('employee.bonus') }}"
+                                    class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Employee Bonuses</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 @endif
