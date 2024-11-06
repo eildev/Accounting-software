@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('primary_ledger_groups', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // INT AUTO_INCREMENT PRIMARY KEY,
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->string('group_name', 50);
+            $table->string('group_name', 50);  // NOT NULL -- E.g., 'Assets', 'Liabilities', 'Income', 'Expenses'
             $table->timestamps();
         });
     }
