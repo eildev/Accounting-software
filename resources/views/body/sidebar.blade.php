@@ -35,10 +35,6 @@
         .nav-link.nav_active:hover {
             color: #ffffff !important;
         }
-
-        .nav-item:hover .nav-link {
-            color: #ffffff !important;
-        }
     </style>
     <div class="sidebar-body">
         <ul class="nav">

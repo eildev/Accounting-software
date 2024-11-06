@@ -259,9 +259,12 @@ Route::middleware('auth')->group(function () {
     // Banks related route
     Route::controller(LedgerController::class)->group(function () {
         Route::get('/ledger', 'index')->name('ledger');
-        // Route::post('/ledger/store', 'store')->name('ledger.store');
-        // Route::get('/ledger/view', 'view')->name('ledger.view');
+        Route::post('/ledger/store', 'store')->name('ledger.store');
+        Route::get('/ledger/view', 'view')->name('ledger.view');
         // Route::get('/ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
+
+        // all-ledger related route 
+        Route::post('/all-ledger/store', 'storeAllLedger');
     });
 });
 
