@@ -110,7 +110,19 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $salaryStructure = SalarySturcture::where('employee_id', $employee->id)->first();
         $conveniences = Convenience::where('employee_id', $employee->id)->get();
-        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences'));
+
+        $bonuses = EmployeeBonuse::where('employee_id', $employee->id)
+        ->whereMonth('bonus_date', Carbon::now()->month)
+        ->whereYear('bonus_date', Carbon::now()->year)
+        ->where('status', 'approved')
+        ->get();
+        $totalBonusAmount = $bonuses->sum('bonus_amount');
+
+        $conveniencesAmount = Convenience::where('employee_id', $employee->id)
+        ->whereMonth('bonus_date', Carbon::now()->month)
+        ->where('status', 'approved')
+        ->get();
+        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount'));
     }
     //////////////////////////////////////////////// Employee Bonuse /////////////////////////////////
     public function indexBonus(){
