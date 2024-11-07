@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Ledgers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
 use App\Models\Ledger\PrimaryLedger\PrimaryLedgerGroup;
+use App\Models\Ledger\SubLedger\SubLedger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -114,7 +116,7 @@ class LedgerController extends Controller
             }
 
             // If validation passes, proceed with saving the Primary Ledger details
-            $ledger = new LedgerAccounts();
+            $ledger = new LedgerAccounts;
             $ledger->branch_id = Auth::user()->branch_id;
             $ledger->group_id = $request->group_id;
             $ledger->account_name = $request->account_name;
@@ -129,6 +131,55 @@ class LedgerController extends Controller
                 "message" => 'An error occurred while fetching Ledger',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
+        }
+    }
+
+    /** 
+     * View a Primary Ledger Information.
+     */
+    public function viewAllLedger()
+    {
+        try {
+            // Fetch the bank accounts based on user type (admin or branch)
+            if (Auth::user()->id == 1) {
+                $ledgers = LedgerAccounts::with('ledgerGroup')->latest()->get();  // Fetch all for admin
+            } else {
+                $ledgers = LedgerAccounts::with('ledgerGroup')->where('branch_id', Auth::user()->branch_id)
+                    ->latest()
+                    ->get();
+            }
+            // Return a successful response with data
+            return response()->json([
+                "status" => 200,
+                "data" => $ledgers,
+            ]);
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching Ledger Info.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
+
+
+    public function allLedgerDetails($id)
+    {
+        try {
+            // Fetch the bank accounts based on user type (admin or branch)
+            $ledger = LedgerAccounts::findOrFail($id);
+            $branch = Branch::findOrFail($ledger->branch_id);
+            $subLedgers = SubLedger::where('account_id', $id)->get();
+            // Return a successful response with data
+            // Attempt to return the view
+            return view('all_modules.ledgers.ledger-details', compact('ledger', 'branch', 'subLedgers'));
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error loading the Ledger details: ' . $e->getMessage());
+
+            // Optionally return a custom error view or a simple error message
+            return response()->view('errors.500', [], 500);
         }
     }
 }

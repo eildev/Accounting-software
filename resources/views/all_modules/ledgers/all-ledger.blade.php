@@ -4,11 +4,12 @@
             data-feather="plus"></i></button>
 </div>
 <div class="table-responsive">
-    <table class="table">
+    <table id="myDataTable" class="table">
         <thead>
             <tr>
                 <th>SL</th>
                 <th>Ledger Name</th>
+                <th>Primary Ledger Group</th>
                 <th>Action</th>
             </tr>
         </thead>

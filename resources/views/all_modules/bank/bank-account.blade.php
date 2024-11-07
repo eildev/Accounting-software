@@ -9,7 +9,7 @@
     <p class="">Total Current Balance: <span class="total_current_balance"></span></p>
 </div>
 <div class="table-responsive">
-    <table id="dataTableExample" class="table">
+    <table id="myTableExample" class="table">
         <thead>
             <tr>
                 <th>Account Name</th>

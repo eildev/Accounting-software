@@ -273,7 +273,7 @@
                             `);
                         }
                         // Initialize DataTables after table data is populated
-                        $('#dataTableExample').DataTable();
+                        dynamicDataTableFunc('myTableExample');
                     }
                 });
             }
@@ -365,6 +365,9 @@
                             </tr>
                             `);
                         }
+
+                        // Reinitialize DataTable
+                        dynamicDataTableFunc('cashTableExample');
                     }
                 });
             }

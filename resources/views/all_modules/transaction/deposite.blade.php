@@ -4,7 +4,7 @@
             data-feather="plus"></i></button>
 </div>
 <div class="table-responsive">
-    <table class="table">
+    <table id="depositTable" class="table">
         <thead>
             <tr>
                 <th>Ledger Name</th>

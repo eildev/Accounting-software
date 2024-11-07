@@ -1,10 +1,10 @@
 @extends('master')
-@section('title', '| Ledger Management')
+@section('title', '| Sub Ledgers Management')
 @section('admin')
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ledgers</li>
+            <li class="breadcrumb-item active" aria-current="page">Sub Ledgers</li>
         </ol>
     </nav>
     <style>
@@ -16,11 +16,16 @@
 
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
-            <div class="example w-100">
+            <div class="card">
+                <div class="card-body">
+                    @include('all_modules.ledgers.sub-ledgers.sub-ledger-table')
+                </div>
+            </div>
+            {{-- <div class="example w-100">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                            aria-controls="home" aria-selected="true">All Ledgers</a>
+                            aria-controls="home" aria-selected="true">Sub Ledgers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
@@ -32,7 +37,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    @include('all_modules.ledgers.all-ledger')
+                                    @include('all_modules.ledgers.sub-ledgers.sub-ledger-table')
                                 </div>
                             </div>
                         </div>
@@ -45,13 +50,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
 
-    <!-- Add All Ledger Modal -->
-    <div class="modal fade" id="ledgerModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    <!-- Add Sub Ledger Modal -->
+    <div class="modal fade" id="subLedgerModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
@@ -60,27 +65,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="signupForm" class="ledgerForm row">
+                    <form id="signupForm" class="subLedgerForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Ledger Name<span class="text-danger">*</span></label>
-                            <input class="form-control account_name" name="account_name" type="text"
+                            <label for="name" class="form-label">Sub Ledger Name<span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control sub_ledger_name" name="sub_ledger_name" type="text"
                                 onkeyup="errorRemove(this);">
-                            <span class="text-danger account_name_error"></span>
+                            <span class="text-danger sub_ledger_name_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Primary Ledger<span
                                     class="text-danger">*</span></label>
-                            <select class="form-control group_id" name="group_id" onchange="errorRemove(this);">
+                            <select class="form-control account_id" name="account_id" onchange="errorRemove(this);">
                                 <option value="">Select Primary Ledger</option>
 
                             </select>
-                            <span class="text-danger group_id_error"></span>
+                            <span class="text-danger account_id_error"></span>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save_ledger">Save</button>
+                    <button type="button" class="btn btn-primary save_sub_ledger">Save</button>
                 </div>
             </div>
         </div>
@@ -142,60 +148,59 @@
 
 
             // select primaryLedgerViewOnSelectTag function 
-            function primaryLedgerViewOnSelectTag() {
+            function ledgerViewOnSelectTag() {
                 $.ajax({
-                    url: '/ledger/view',
+                    url: '/all-ledger/view',
                     method: 'GET',
                     success: function(res) {
-
                         const primaryLedgers = res.data;
                         if (primaryLedgers.length > 0) {
-                            $('.group_id').html(
-                                `<option selected disabled>Select Primary Ledger</option>`
+                            $('.account_id').html(
+                                `<option selected disabled>Select Ledger</option>`
                             ); // Clear and set default option
                             $.each(primaryLedgers, function(index, ledger) {
-                                $('.group_id').append(
-                                    `<option value="${ledger.id}">${ledger.group_name ?? "" }</option>`
+                                $('.account_id').append(
+                                    `<option value="${ledger.id}">${ledger.account_name ?? "" }</option>`
                                 );
                             });
                         } else {
                             $('.group_id').html(
-                                `<option selected disabled>No Primary Ledger Found</option>`
+                                `<option selected disabled>No Ledger Found</option>`
                             ); // Clear and set default option
                         }
                     }
                 })
             }
-            primaryLedgerViewOnSelectTag();
+            ledgerViewOnSelectTag();
 
             // save all Ledger information
-            const saveLedger = document.querySelector('.save_ledger');
-            saveLedger.addEventListener('click', function(e) {
+            const saveSubLedger = document.querySelector('.save_sub_ledger');
+            saveSubLedger.addEventListener('click', function(e) {
                 e.preventDefault();
-                let formData = new FormData($('.ledgerForm')[0]);
+                let formData = new FormData($('.subLedgerForm')[0]);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 $.ajax({
-                    url: '/all-ledger/store',
+                    url: '/sub-ledger/store',
                     type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(res) {
                         if (res.status == 200) {
-                            $('#ledgerModal').modal('hide');
-                            $('.ledgerForm')[0].reset();
-                            allLedgerView();
+                            $('#subLedgerModal').modal('hide');
+                            $('.subLedgerForm')[0].reset();
+                            subLedgerView();
                             toastr.success(res.message);
                         } else {
-                            if (res.error.account_name) {
-                                showError('.account_name', res.error.account_name);
+                            if (res.error.sub_ledger_name) {
+                                showError('.sub_ledger_name', res.error.sub_ledger_name);
                             }
-                            if (res.error.group_id) {
-                                showError('.group_id', res.error.group_id);
+                            if (res.error.account_id) {
+                                showError('.account_id', res.error.account_id);
                             }
                         }
                     }
@@ -203,15 +208,15 @@
             })
 
 
-            // all Ledger View Function
-            function allLedgerView() {
+            // Sub Ledger View Function
+            function subLedgerView() {
                 $.ajax({
-                    url: '/all-ledger/view',
+                    url: '/sub-ledger/view',
                     method: 'GET',
                     success: function(res) {
-                        // console.log(res);
+                        console.log(res);
                         const ledgers = res.data;
-                        $('.show_ledger_data').empty();
+                        $('.show_sub_ledger_data').empty();
                         if (ledgers.length > 0) {
                             $.each(ledgers, function(index, ledger) {
                                 // Calculate the sum of account_transaction balances
@@ -221,93 +226,9 @@
                                         ${index+1}
                                     </td>
                                     <td>
-                                        <a href="/all-ledger/details/${ledger.id}" >${ledger.account_name ?? ""}</a>
+                                        <a href="#" >${ledger.sub_ledger_name ?? ""}</a>
                                     </td>
-                                    <td>${ledger?.ledger_group?.group_name ?? "" }</td>
-                                    <td>
-                                        <a href="/all-ledger/details/${ledger.id}" class="btn btn-icon btn-xs btn-primary">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-success">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-danger">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                `;
-                                $('.show_ledger_data').append(tr);
-                            });
-                        } else {
-                            $('.show_ledger_data').html(`
-                                <tr>
-                                    <td colspan='9'>
-                                        <div class="text-center text-warning mb-2">Data Not Found</div>
-                                        <div class="text-center">
-                                            <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#ledgerModal">Add Al Ledger Info<i data-feather="plus"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            `);
-                        }
-                        dynamicDataTableFunc('myDataTable');
-                    }
-                });
-            }
-            allLedgerView();
-
-
-            // save Primary Ledger information
-            const savePrimaryLedger = document.querySelector('.save_primary_ledger');
-            savePrimaryLedger.addEventListener('click', function(e) {
-                e.preventDefault();
-                let formData = new FormData($('.primaryLedgerForm')[0]);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/ledger/store',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if (res.status == 200) {
-                            $('#primaryLedgerModal').modal('hide');
-                            $('.primaryLedgerForm')[0].reset();
-                            primaryLedgerView();
-                            primaryLedgerViewOnSelectTag();
-                            toastr.success(res.message);
-                        } else {
-                            if (res.error.group_name) {
-                                showError('.group_name', res.error.group_name);
-                            }
-                        }
-                    }
-                });
-            })
-
-            // Primary Ledger View Function
-            function primaryLedgerView() {
-                $.ajax({
-                    url: '/ledger/view',
-                    method: 'GET',
-                    success: function(res) {
-                        const primaryLedgers = res.data;
-                        $('.show_primary_ledger_data').empty();
-                        if (primaryLedgers.length > 0) {
-                            $.each(primaryLedgers, function(index, ledger) {
-                                // Calculate the sum of account_transaction balances
-                                const tr = document.createElement('tr');
-                                tr.innerHTML = `
-                                    <td>
-                                        ${index+1}
-                                    </td>
-                                    <td>
-                                        <a href="#" >${ledger.group_name ?? ""}</a>
-                                    </td>
+                                    <td>${ledger?.ledger?.account_name ?? "" }</td>
                                     <td>
                                         <a href="#" class="btn btn-icon btn-xs btn-primary">
                                             <i class="fa-solid fa-eye"></i>
@@ -320,27 +241,25 @@
                                         </a>
                                     </td>
                                 `;
-                                $('.show_primary_ledger_data').append(tr);
+                                $('.show_sub_ledger_data').append(tr);
                             });
                         } else {
-                            $('.show_primary_ledger_data').html(`
-                            <tr>
-                                <td colspan='9'>
-                                    <div class="text-center text-warning mb-2">Data Not Found</div>
-                                    <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#primaryLedgerModal">Add Primary Ledger<i data-feather="plus"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            $('.show_sub_ledger_data').html(`
+                                <tr>
+                                    <td colspan='9'>
+                                        <div class="text-center text-warning mb-2">Data Not Found</div>
+                                        <div class="text-center">
+                                            <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#subLedgerModal">Add Sub Ledger Info<i data-feather="plus"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             `);
                         }
-                        dynamicDataTableFunc('primaryLedgerTable');
+                        dynamicDataTableFunc('subLedgerTable');
                     }
                 });
             }
-            primaryLedgerView();
-
-
+            subLedgerView();
 
         })
 
