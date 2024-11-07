@@ -190,6 +190,10 @@
                                                     <td>Total Employee Bonus</td>
                                                        <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
                                                   </tr>
+                                                  <tr>
+                                                    <td>Total Convenience Amount</td>
+                                                       <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
+                                                  </tr>
                                                     <tr style="font-size: 20px;font-weignt:bold">
                                                         <td>Total Gross </td>
                                                         <td>{{ $totalEarnings ?? 0 }}<span>.00</span></td>

@@ -270,7 +270,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/ledger/view', 'view')->name('ledger.view');
         // Route::get('/ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
 
-        // all-ledger related route 
+        // all-ledger related route
         Route::post('/all-ledger/store', 'storeAllLedger');
         Route::get('/all-ledger/view', 'viewAllLedger');
         Route::get('/all-ledger/details/{id}', 'allLedgerDetails');
