@@ -21,36 +21,6 @@
                     @include('all_modules.ledgers.sub-ledgers.sub-ledger-table')
                 </div>
             </div>
-            {{-- <div class="example w-100">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                            aria-controls="home" aria-selected="true">Sub Ledgers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                            aria-controls="profile" aria-selected="false">Primary Ledgers</a>
-                    </li>
-                </ul>
-                <div class="tab-content border border-top-0 p-3" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    @include('all_modules.ledgers.sub-ledgers.sub-ledger-table')
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="card">
-                            <div class="card-body">
-                                @include('all_modules.ledgers.primary')
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
 
@@ -91,40 +61,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Add Primary Ledgers Modal -->
-    <div class="modal fade" id="primaryLedgerModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Primary Ledger Info</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="signupForm" class="primaryLedgerForm row">
-                        <div class="mb-3 col-md-12">
-                            <label for="name" class="form-label">Primary Ledger Name <span
-                                    class="text-danger">*</span></label>
-                            <input class="form-control group_name" name="group_name" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger group_name_error"></span>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary save_primary_ledger">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
 
     <script>
         // error remove
@@ -226,11 +162,11 @@
                                         ${index+1}
                                     </td>
                                     <td>
-                                        <a href="#" >${ledger.sub_ledger_name ?? ""}</a>
+                                        <a href="/sub-ledger/details/${ledger.id}" >${ledger.sub_ledger_name ?? ""}</a>
                                     </td>
                                     <td>${ledger?.ledger?.account_name ?? "" }</td>
                                     <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                        <a href="/sub-ledger/details/${ledger.id}" class="btn btn-icon btn-xs btn-primary">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         <a href="#" class="btn btn-icon btn-xs btn-success">
