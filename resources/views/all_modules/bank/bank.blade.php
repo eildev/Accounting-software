@@ -218,7 +218,7 @@
                 });
             })
 
-            // bankInfo View Function 
+            // bankInfo View Function
             function bankView() {
                 // console.log('hello');
                 $.ajax({
@@ -229,6 +229,9 @@
                         const banks = res.data;
                         // console.log(banks.account_transaction);
                         $('.show_bank_data').empty();
+                        if ($.fn.DataTable.isDataTable('#myTableExample')) {
+                            $('#myTableExample').DataTable().clear().destroy();
+                        }
                         if (banks.length > 0) {
                             $('.total_banks').text(res.total_bank);
                             $('.total_initial_balance').text(res.total_initial_balance);
@@ -315,7 +318,7 @@
             })
 
 
-            // Cash Info View Function 
+            // Cash Info View Function
             function cashView() {
                 $.ajax({
                     url: '/cash-account/view',
@@ -335,7 +338,7 @@
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
                                     <td>
-                                        <a href="/bank/details/${bank.id}" >${bank.cash_account_name ?? ""}</a>    
+                                        <a href="/bank/details/${bank.id}" >${bank.cash_account_name ?? ""}</a>
                                     </td>
                                     <td>${bank.opening_balance	 ?? ""}</td>
                                     <td>${bank.current_balance ?? ""}</td>
@@ -375,7 +378,7 @@
         })
 
 
-        // tab active on the page reload 
+        // tab active on the page reload
         document.addEventListener("DOMContentLoaded", function() {
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
@@ -397,7 +400,7 @@
             });
 
 
-            // modal not close function 
+            // modal not close function
             modalShowHide('exampleModalLongScollable');
             modalShowHide('cash_modal');
         });

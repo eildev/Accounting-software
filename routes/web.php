@@ -103,13 +103,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/bank/details/{id}', 'bankDetails')->name('bank.details');
     });
 
-    // Cash related route
+    // Cash related route//
     Route::controller(CashTransactionController::class)->group(function () {
         Route::post('/cash-account/store', 'store')->name('cash.account.store');
         Route::get('/cash-account/view', 'view')->name('cash.account.view');
         Route::get('/cash/details/{id}', 'cashDetails')->name('cash.details');
     });
-
 
     // Expense related route(n)
     Route::controller(ExpenseController::class)->group(function () {

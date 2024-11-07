@@ -23,7 +23,7 @@
                         <button class="btn btn-rounded-primary btn-sm" data-bs-toggle="modal" data-bs-target="#loanModal"><i
                                 data-feather="plus"></i></button>
                     </div>
-                    <div class="table-responsive">
+                    <div id="" class="table-responsive">
                         <table id="loanTable" class="table">
                             <thead>
                                 <tr>
@@ -70,7 +70,7 @@
                                 @if ($banks->count() > 0)
                                     <option value="">Select Loan Account</option>
                                     @foreach ($banks as $account)
-                                        <option value="{{ $account->id }}">{{ $account->account_name ?? '' }}</option>
+                                        <option value="{{ $account->id }}">{{ $account->bank_name ?? '' }}</option>
                                     @endforeach
                                 @else
                                     <option value="">No Account Found</option>
@@ -145,7 +145,7 @@
         }
 
 
-        // ready function 
+        // ready function
         $(document).ready(function() {
 
             // show error
@@ -217,7 +217,7 @@
                 });
             })
 
-            // // Loan Info View Function 
+            // // Loan Info View Function
             function LoanView() {
                 $.ajax({
                     url: '/loan/view',
@@ -225,6 +225,9 @@
                     success: function(res) {
                         const loans = res.data;
                         $('.loan_data').empty();
+                        if ($.fn.DataTable.isDataTable('#loanTable')) {
+                            $('#loanTable').DataTable().clear().destroy();
+                        }
                         if (loans.length > 0) {
                             $.each(loans, function(index, loan) {
                                 const tr = document.createElement('tr');
@@ -249,7 +252,7 @@
                                     <a href="/loan/view/${loan.id}">
                                         ${loan.loan_name ?? ""}
                                         </a>
-                                    </td>
+                                </td>
                                 <td>${loan.loan_duration ?? ""}</td>
                                 <td>${loan.loan_principal ?? ""}</td>
                                 <td>${loan.interest_rate ?? ""}</td>
@@ -348,11 +351,11 @@
             }
             LoanView();
 
-        })
+        }); //
 
 
         document.addEventListener("DOMContentLoaded", function() {
-            // tab active on the page reload 
+            // tab active on the page reload
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
 
@@ -374,7 +377,7 @@
 
 
 
-            // modal on off 
+            // modal on off
             // Initialize modal with backdrop and keyboard options
             modalShowHide('loanModal');
         });
