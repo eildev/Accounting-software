@@ -79,7 +79,7 @@ class LoanController extends Controller
             $loan->repayment_schedule = $request->repayment_schedule;
             $loan->start_date = $request->start_date;
             $loan->end_date = Carbon::parse($request->start_date)->copy()->addYears($request->loan_duration);
-            $loan->status = 'active';
+            $loan->status = 'defaulted';
             $loan->save();
             return response()->json([
                 'status' => 200,

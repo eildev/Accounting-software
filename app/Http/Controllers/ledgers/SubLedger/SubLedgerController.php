@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Ledgers\SubLedger;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
+use App\Models\Ledger\PrimaryLedger\PrimaryLedgerGroup;
 use App\Models\Ledger\SubLedger\SubLedger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +88,24 @@ class SubLedgerController extends Controller
                 "message" => 'An error occurred while fetching Sub Ledger.',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
+        }
+    }
+
+
+    public function details($id)
+    {
+        try {
+            $subLedger = SubLedger::findOrFail($id);
+            $primaryLedger = PrimaryLedgerGroup::findOrFail($subLedger->ledger->group_id);
+            $branch = Branch::findOrFail($subLedger->branch_id);
+            // Attempt to return the view
+            return view('all_modules.ledgers.sub-ledgers.details', compact('subLedger', 'branch', 'primaryLedger'));
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error loading the bank view: ' . $e->getMessage());
+
+            // Optionally return a custom error view or a simple error message
+            return response()->view('errors.500', [], 500);
         }
     }
 }

@@ -281,7 +281,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/sub-ledger/store', 'store');
         Route::get('/sub-ledger/view', 'view');
         // Route::get('/all-ledger/view/select-tag', 'view');
-        // Route::get('/sub-ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
+        Route::get('/sub-ledger/details/{id}', 'details');
     });
 });
 
