@@ -24,7 +24,7 @@
                             data-bs-target="#recurringExpanse"><i data-feather="plus"></i></button>
                     </div>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table id="myDataTable" class="table">
                             <thead>
                                 <tr>
                                     <th>Expanse Name</th>
@@ -254,7 +254,6 @@
                         $('.expanse_data').empty();
                         if (expanses.length > 0) {
                             $.each(expanses, function(index, expanse) {
-                                // console.log(expanse.expense_category);
                                 const tr = document.createElement('tr');
                                 let statusBadge = ''; // Initialize status badge variable
 
@@ -266,49 +265,66 @@
                                     statusBadge =
                                         '<span class="badge bg-danger">Inactive</span>';
                                 }
+
+                                // Format dates
+                                const formatDate = (dateString) => {
+                                    if (!dateString) return "";
+                                    const date = new Date(dateString);
+                                    return new Intl.DateTimeFormat('en-GB', {
+                                        day: '2-digit',
+                                        month: 'short',
+                                        year: 'numeric'
+                                    }).format(date);
+                                };
+
+                                const formattedStartDate = formatDate(expanse.start_date);
+                                const formattedNextDueDate = formatDate(expanse.next_due_date);
+
                                 tr.innerHTML = `
-                                    <td>${expanse.name ?? ""}</td>
-                                    <td>
-                                        ${expanse?.expense_category?.name ?? ""}  
-                                    </td>
-                                    <td>${expanse.amount ?? 0}</td>
-                                    <td>${expanse.start_date ?? ""}</td>
-                                    <td>${expanse.recurrence_period ?? 0}</td>
-                                    <td>${expanse.next_due_date ?? 0}</td>
-                                    <td>
-                                        ${statusBadge}
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-success">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-danger">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                `;
+                                        <td>${expanse.name ?? ""}</td>
+                                        <td>
+                                            ${expanse?.expense_category?.name ?? ""}  
+                                        </td>
+                                        <td>${expanse.amount ?? 0}</td>
+                                        <td>${formattedStartDate}</td>
+                                        <td class="text-capitalize">${expanse.recurrence_period ?? 0}</td>
+                                        <td>${formattedNextDueDate}</td>
+                                        <td>
+                                            ${statusBadge}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-icon btn-xs btn-success">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-icon btn-xs btn-danger">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                    `;
                                 $('.expanse_data').append(tr);
 
                             });
                         } else {
                             $('.expanse_data').html(`
-                            <tr>
-                                <td colspan='9'>
-                                    <div class="text-center text-warning mb-2">Data Not Found</div>
-                                    <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#recurringExpanse">Add Recurring Expanse<i data-feather="plus"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan='9'>
+                                        <div class="text-center text-warning mb-2">Data Not Found</div>
+                                        <div class="text-center">
+                                            <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#recurringExpanse">Add Recurring Expanse<i data-feather="plus"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             `);
                         }
+                        dynamicDataTableFunc('myDataTable');
                     }
                 });
             }
             viewFunc();
+
 
 
             ///////////////////////// Expanse category related code///////////////////
@@ -371,6 +387,8 @@
                                 `<option selected disabled>No Category Found</option>`
                             ); // Clear and set default option
                         }
+
+
                     }
                 });
             }

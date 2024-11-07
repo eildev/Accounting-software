@@ -9,7 +9,7 @@
     <p class="">Total Current Balance: <span class="cash_current_balance"></span></p>
 </div>
 <div class="table-responsive">
-    <table class="table">
+    <table id="cashTableExample" class="table">
         <thead>
             <tr>
                 <th>Cash Account Name</th>

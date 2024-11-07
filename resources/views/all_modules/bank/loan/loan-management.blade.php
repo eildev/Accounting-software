@@ -23,10 +23,11 @@
                         <button class="btn btn-rounded-primary btn-sm" data-bs-toggle="modal" data-bs-target="#loanModal"><i
                                 data-feather="plus"></i></button>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table">
+                    <div id="" class="table-responsive">
+                        <table id="loanTable" class="table">
                             <thead>
                                 <tr>
+                                    <th>SN</th>
                                     <th>Loan Name</th>
                                     <th>Loan Duration</th>
                                     <th>Loan Principal</th>
@@ -69,7 +70,7 @@
                                 @if ($banks->count() > 0)
                                     <option value="">Select Loan Account</option>
                                     @foreach ($banks as $account)
-                                        <option value="{{ $account->id }}">{{ $account->account_name ?? '' }}</option>
+                                        <option value="{{ $account->id }}">{{ $account->bank_name ?? '' }}</option>
                                     @endforeach
                                 @else
                                     <option value="">No Account Found</option>
@@ -144,7 +145,7 @@
         }
 
 
-        // ready function 
+        // ready function
         $(document).ready(function() {
 
             // show error
@@ -182,7 +183,7 @@
                         if (res.status == 200) {
                             $('#loanModal').modal('hide');
                             $('.loanForm')[0].reset();
-                            loanView();
+                            LoanView();
                             toastr.success(res.message);
                         } else {
                             if (res.error.loan_name) {
@@ -216,14 +217,17 @@
                 });
             })
 
-            // Loan Info View Function 
-            function loanView() {
+            // // Loan Info View Function
+            function LoanView() {
                 $.ajax({
                     url: '/loan/view',
                     method: 'GET',
                     success: function(res) {
                         const loans = res.data;
                         $('.loan_data').empty();
+                        if ($.fn.DataTable.isDataTable('#loanTable')) {
+                            $('#loanTable').DataTable().clear().destroy();
+                        }
                         if (loans.length > 0) {
                             $.each(loans, function(index, loan) {
                                 const tr = document.createElement('tr');
@@ -241,54 +245,117 @@
                                         '<span class="badge bg-warning">Defaulted</span>';
                                 }
                                 tr.innerHTML = `
-                                    <td>
-                                        <a href="/loan/view/${loan.id}">
-                                            ${loan.loan_name ?? ""}
-                                            </a>
-                                        </td>
-                                    <td>${loan.loan_duration ?? ""}</td>
-                                    <td>${loan.loan_principal ?? ""}</td>
-                                    <td>${loan.interest_rate ?? ""}</td>
-                                    <td>${loan.loan_balance ?? 0}</td>
-                                    <td>
-                                        ${statusBadge}
-                                    </td>
-                                    <td>
-                                        <a href="/loan/view/${loan.id}" class="btn btn-icon btn-xs btn-primary">
-                                            <i class="fa-solid fa-eye"></i>
+                                <td>
+                                ${index+1}
+                                </td>
+                                <td>
+                                    <a href="/loan/view/${loan.id}">
+                                        ${loan.loan_name ?? ""}
                                         </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-success">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-icon btn-xs btn-danger">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                `;
+                                </td>
+                                <td>${loan.loan_duration ?? ""}</td>
+                                <td>${loan.loan_principal ?? ""}</td>
+                                <td>${loan.interest_rate ?? ""}</td>
+                                <td>${loan.loan_balance ?? 0}</td>
+                                <td>
+                                    ${statusBadge}
+                                </td>
+                                <td>
+                                    <a href="/loan/view/${loan.id}" class="btn btn-icon btn-xs btn-primary">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-icon btn-xs btn-success">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-icon btn-xs btn-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            `;
                                 $('.loan_data').append(tr);
 
                             });
                         } else {
                             $('.loan_data').html(`
-                            <tr>
-                                <td colspan='9'>
-                                    <div class="text-center text-warning mb-2">Data Not Found</div>
-                                    <div class="text-center">
-                                        <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">Add Loan Info<i data-feather="plus"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            `);
+                        <tr>
+                            <td colspan='9'>
+                                <div class="text-center text-warning mb-2">Data Not Found</div>
+                                <div class="text-center">
+                                    <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#loanModal">Add Loan Info<i data-feather="plus"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        `);
                         }
+                        // Reinitialize DataTable
+                        $('#loanTable').DataTable({
+                            columnDefs: [{
+                                "defaultContent": "-",
+                                "targets": "_all"
+                            }],
+                            dom: 'Bfrtip',
+                            buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: 'Excel',
+                                    exportOptions: {
+                                        header: true,
+                                        columns: ':visible'
+                                    },
+                                    customize: function(xlsx) {
+                                        return '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}\n\n' +
+                                            xlsx + '\n\n';
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    text: 'PDF',
+                                    exportOptions: {
+                                        header: true,
+                                        columns: ':visible'
+                                    },
+                                    customize: function(doc) {
+                                        doc.content.unshift({
+                                            text: '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}',
+                                            fontSize: 14,
+                                            alignment: 'center',
+                                            margin: [0, 0, 0, 12]
+                                        });
+                                        doc.content.push({
+                                            text: 'Thank you for using our service!',
+                                            fontSize: 14,
+                                            alignment: 'center',
+                                            margin: [0, 12, 0, 0]
+                                        });
+                                        return doc;
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    text: 'Print',
+                                    exportOptions: {
+                                        header: true,
+                                        columns: ':visible'
+                                    },
+                                    customize: function(win) {
+                                        $(win.document.body).prepend(
+                                            '<h4>{{ $header }}</br>{{ $phone ?? '+880....' }}</br>Email:{{ $email }}</br>Address:{{ $address }}</h4>'
+                                        );
+                                        $(win.document.body).find('h1')
+                                            .hide(); // Hide the title element
+                                    }
+                                }
+                            ]
+                        });
                     }
                 });
             }
-            loanView();
-        })
+            LoanView();
+
+        }); //
 
 
         document.addEventListener("DOMContentLoaded", function() {
-            // tab active on the page reload 
+            // tab active on the page reload
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
 
@@ -310,7 +377,7 @@
 
 
 
-            // modal on off 
+            // modal on off
             // Initialize modal with backdrop and keyboard options
             modalShowHide('loanModal');
         });

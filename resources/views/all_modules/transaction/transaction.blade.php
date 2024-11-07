@@ -81,7 +81,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Account Type<span class="text-danger">*</span></label>
-                            <select class="form-control account_type" name="account_type" onkeyup="errorRemove(this);"
+                            <select class="form-control account_type" name="account_type" onblur="errorRemove(this);"
                                 onchange="checkPaymentAccount(this);">
                                 <option value="">Select Account Type</option>
                                 <option value="cash">Cash</option>
@@ -93,7 +93,7 @@
                             <label for="name" class="form-label">Payment Account<span
                                     class="text-danger">*</span></label>
                             <select class="form-control payment_account_id" name="payment_account_id"
-                                onkeyup="errorRemove(this);">
+                                onchange="errorRemove(this);">
                                 <option value="">Select Payment Account</option>
                             </select>
                             <span class="text-danger payment_account_id_error"></span>
@@ -155,7 +155,7 @@
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Account Type<span
                                     class="text-danger">*</span></label>
-                            <select class="form-control account_type" name="account_type" onkeyup="errorRemove(this);"
+                            <select class="form-control account_type" name="account_type" onblur="errorRemove(this);"
                                 onchange="checkPaymentAccount(this);">
                                 <option value="">Select Account Type</option>
                                 <option value="cash">Cash</option>
@@ -167,7 +167,7 @@
                             <label for="name" class="form-label">Payment Account<span
                                     class="text-danger">*</span></label>
                             <select class="form-control payment_account_id" name="payment_account_id"
-                                onkeyup="errorRemove(this);">
+                                onchange="errorRemove(this);">
                                 <option value="">Select Payment Account</option>
                             </select>
                             <span class="text-danger payment_account_id_error"></span>
@@ -328,8 +328,10 @@
                             const withdrawal = res.withdraw;
                             const deposit = res.deposit;
 
-                            dynamicView('show_withdraw_data', withdrawal, 'cashWithdrawModal');
-                            dynamicView('show_deposit_data', deposit, 'cashDepositeModal');
+                            dynamicView('show_withdraw_data', withdrawal, 'cashWithdrawModal',
+                                'withdrawTable');
+                            dynamicView('show_deposit_data', deposit, 'cashDepositeModal',
+                                'depositTable');
 
                         } else {
                             toastr.error(res.message);
@@ -340,7 +342,7 @@
 
 
             ///////////////////////// Dynamic function for view dynamic Data /////////////////// 
-            function dynamicView(tbody, transactions, modalName) {
+            function dynamicView(tbody, transactions, modalName, table) {
                 $(`.${tbody}`).empty();
                 if (transactions.length > 0) {
                     $.each(transactions, function(index, transaction) {
@@ -363,6 +365,9 @@
                         </tr>
                     `);
                 }
+
+                // Initialize DataTables after table data is populated
+                dynamicDataTableFunc(table);
             }
 
             ///////////////////////// viewDataOnTable function for view Data /////////////////// 

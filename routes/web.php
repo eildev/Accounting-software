@@ -19,6 +19,7 @@ use App\Http\Controllers\EmployeePayroll\SalaryStructureController;
 use App\Http\Controllers\ConvenienceBill\ConvenienceBillController;
 use App\Http\Controllers\Expanse\RecurringExpanse\RecurringExpanseController;
 use App\Http\Controllers\Ledgers\LedgerController;
+use App\Http\Controllers\Ledgers\SubLedger\SubLedgerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -262,12 +263,25 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/manage/update/{id}', 'AdminManageUpdate')->name('update.admin.manage');
     });
 
-    // Banks related route
+    // Ledger related route
     Route::controller(LedgerController::class)->group(function () {
         Route::get('/ledger', 'index')->name('ledger');
-        // Route::post('/ledger/store', 'store')->name('ledger.store');
-        // Route::get('/ledger/view', 'view')->name('ledger.view');
+        Route::post('/ledger/store', 'store')->name('ledger.store');
+        Route::get('/ledger/view', 'view')->name('ledger.view');
         // Route::get('/ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
+
+        // all-ledger related route 
+        Route::post('/all-ledger/store', 'storeAllLedger');
+        Route::get('/all-ledger/view', 'viewAllLedger');
+        Route::get('/all-ledger/details/{id}', 'allLedgerDetails');
+    });
+    // Sub Ledger related route
+    Route::controller(SubLedgerController::class)->group(function () {
+        Route::get('/sub-ledger', 'index')->name('ledger.sub');
+        Route::post('/sub-ledger/store', 'store');
+        Route::get('/sub-ledger/view', 'view');
+        // Route::get('/all-ledger/view/select-tag', 'view');
+        // Route::get('/sub-ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
     });
 });
 

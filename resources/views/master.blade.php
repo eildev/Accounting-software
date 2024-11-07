@@ -181,6 +181,70 @@
             recurringExpanseModal.hide();
         });
     }
+
+
+
+    ///////////////////////// Data Table Function function /////////////////// 
+    function dynamicDataTableFunc(table) {
+        $(`#${table}`).DataTable({
+            columnDefs: [{
+                "defaultContent": "-",
+                "targets": "_all"
+            }],
+            dom: 'Bfrtip',
+            buttons: [{
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    exportOptions: {
+                        header: true,
+                        columns: ':visible'
+                    },
+                    customize: function(xlsx) {
+                        return '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}\n\n' +
+                            xlsx + '\n\n';
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'PDF',
+                    exportOptions: {
+                        header: true,
+                        columns: ':visible'
+                    },
+                    customize: function(doc) {
+                        doc.content.unshift({
+                            text: '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}',
+                            fontSize: 14,
+                            alignment: 'center',
+                            margin: [0, 0, 0, 12]
+                        });
+                        doc.content.push({
+                            text: 'Thank you for using our service!',
+                            fontSize: 14,
+                            alignment: 'center',
+                            margin: [0, 12, 0, 0]
+                        });
+                        return doc;
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    exportOptions: {
+                        header: true,
+                        columns: ':visible'
+                    },
+                    customize: function(win) {
+                        $(win.document.body).prepend(
+                            '<h4>{{ $header }}</br>{{ $phone ?? '+880....' }}</br>Email:{{ $email }}</br>Address:{{ $address }}</h4>'
+                        );
+                        $(win.document.body).find('h1')
+                            .hide(); // Hide the title element
+                    }
+                }
+            ]
+        });
+    }
 </script>
 
 </html>

@@ -118,10 +118,10 @@ class EmployeeController extends Controller
         ->get();
         $totalBonusAmount = $bonuses->sum('bonus_amount');
 
-        $conveniencesAmount = Convenience::where('employee_id', $employee->id)
-        ->whereMonth('bonus_date', Carbon::now()->month)
-        ->where('status', 'approved')
-        ->get();
+        // $conveniencesAmount = Convenience::where('employee_id', $employee->id)
+        // ->whereMonth('bonus_date', Carbon::now()->month)
+        // ->where('status', 'approved')
+        // ->get();
         return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount'));
     }
     //////////////////////////////////////////////// Employee Bonuse /////////////////////////////////
