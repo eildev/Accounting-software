@@ -141,7 +141,9 @@
                                 ($salaryStructure->base_salary ?? 0) +
                                 ($salaryStructure->house_rent ?? 0) +
                                 ($salaryStructure->transport_allowance ?? 0) +
-                                ($salaryStructure->other_fixed_allowances ?? 0);
+                                ($salaryStructure->other_fixed_allowances ?? 0) +
+                                ($totalBonusAmount ?? 0) +
+                                ($conveniencesTotalAmount ?? 0) ;
                         }
                         // $totalEarnings = $salaryStructure->base_salary ?? 0 + $salaryStructure->house_rent ?? 0 + $salaryStructure->transport_allowance ?? 0;
                         $deductions = $salaryStructure->deductions ?? 0;
@@ -180,12 +182,12 @@
                                                         <td>Other Fixed Allowances</td>
                                                         <td>{{ $salaryStructure->other_fixed_allowances ?? 0 }}</td>
                                                     </tr>
-                                                  {{-- @foreach ($bonuses as $bonus)
-                                                  <tr>
-                                                    <td>Employee Bonus</td>
-                                                    <td>{{$bonus->bonus_amount}}</td>
-                                                  </tr>
-                                                  @endforeach --}}
+                                                    {{-- @foreach ($bonuses as $bonus)
+                                                    <tr>
+                                                        <td>Employee Bonus</td>
+                                                        <td>{{$bonus->bonus_amount}}</td>
+                                                    </tr>
+                                                    @endforeach --}}
                                                   <tr>
                                                     <td>Total Employee Bonus</td>
                                                        <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
@@ -240,6 +242,13 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content" style="border: 2px solid #333; padding: 20px;">
+                <form action="" class="paySlipForm">
+                    <input type="hidden" name="total_deductions" value="{{ $deductions ?? 0 }}">
+                    <input type="hidden" name="total_gross_salary" value="{{ $totalEarnings ?? 0 }}">
+                    <input type="hidden" name="total_employee_bonus" value="{{ $totalBonusAmount ?? 0 }}">
+                    <input type="hidden" name="total_convenience_amount" value="{{ $conveniencesTotalAmount ?? 0 }}">
+                    <input type="hidden" name="total_net_salary" value="{{ $netPay ?? 0 }}">
+                    <input type="hidden" name="employee_id" value="{{$employee->id }}">
                 <div class="modal-body" style="font-family: Arial, sans-serif;">
 
                     <!-- Payslip Title and Date -->
@@ -283,13 +292,21 @@
                                     <td>{{ $salaryStructure->other_fixed_allowances ?? 0 }}</td>
                                 </tr>
                                 <tr>
+                                    <td>Total Employee Bonus</td>
+                                       <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
+                                  </tr>
+                                  <tr>
+                                    <td>Total Convenience Amount</td>
+                                       <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
+                                  </tr>
+                                <tr>
                                     <td><strong>Total Gross </strong></td>
                                     <td><strong>{{ $totalEarnings }}.00</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- Deductions Section -->
+                    <!--- Deductions Section --->
                     <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
                         <h6><strong>Deductions</strong></h6>
                         <table class="table table-bordered" style="width: 100%;">
@@ -313,11 +330,11 @@
                     </div>
 
                     <!-- Net Pay Section -->
-                    <div style="margin-top: 15px; padding: 10px; background-color: #f1f1f1; text-align: center;">
-                        <h6><strong>Net Salary:</strong> {{ $netPay }}<span>.00</span></h6>
+                    <div style="margin-top: 15px; padding: 10px; background-color: #000; text-align: center; color:#fff">
+                        <h6 ><strong>Net Salary:</strong> {{ $netPay }}<span>.00</span></h6>
                     </div>
 
-                    <!-- Signature Section -->
+                    {{-- <!-- Signature Section -->
                     <div style="margin-top: 30px; text-align: center;">
                         <div style="display: inline-block; width: 45%; text-align: center;">
                             <p><strong>Employer Signature</strong></p>
@@ -327,7 +344,7 @@
                             <p><strong>Employee Signature</strong></p>
                             <p>______________________________</p>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Footer -->
                     <div style="text-align: center; margin-top: 20px;">
@@ -337,8 +354,9 @@
                 <div class="modal-footer" style="border-top: 1px solid #333;">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         onclick="$('#previewModal').modal('hide');">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="save_pay_slip btn btn-primary">Save</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
@@ -350,6 +368,34 @@
         document.querySelector('.btn-secondary').addEventListener('click', function() {
             $('#previewModal').modal('hide');
         });
+        //Save PaySlip
+        const save_pay_slip = document.querySelector('.save_pay_slip');
+               save_pay_slip.addEventListener('click', function(e) {
+                //    alert('ok');
+                e.preventDefault();
+                let formData = new FormData($('.paySlipForm')[0]);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/employee/payslip/store',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if (res.status == 200) {
+                            $('#previewModal').modal('hide');
+                            $('.paySlipForm')[0].reset();
+                            toastr.success(res.message);
+                        } else {
+
+                        }
+                    }
+                });
+            });
     </script>
 
 @endsection

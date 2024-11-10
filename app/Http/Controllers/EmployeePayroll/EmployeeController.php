@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConvenienceBill\Convenience;
 use App\Models\Departments\Departments;
 use App\Models\EmployeePayroll\EmployeeBonuse;
+use App\Models\EmployeePayroll\PaySlip;
 use App\Models\EmployeePayroll\SalarySturcture;
 use Illuminate\Support\Facades\Validator;
 class EmployeeController extends Controller
@@ -204,6 +205,34 @@ class EmployeeController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Employee Bonus Deleted Successfully',
+        ]);
+    }
+    ///////////////////////Employee paySlip ////////////////////////
+    public function paySlipStore(Request $request){
+        // dd($request->all());
+        // $paySlip  = new PaySlip();
+        // $paySlip->employee_id = $request->employee_id;
+        // $paySlip->pay_period_date =  Carbon::now();
+        // $paySlip->total_gross_salary = $request->total_gross_salary;
+        // $paySlip->total_deductions = $request->total_deductions;
+        // $paySlip->total_net_salary = $request->total_net_salary;
+        // $paySlip->total_employee_bonus = $request->total_employee_bonus;
+        // $paySlip->total_convenience_amount = $request->total_convenience_amount;
+        // $paySlip->save();
+           $paySlip = PaySlip::updateOrCreate(
+            ['employee_id' => $request->employee_id],
+            [
+                'pay_period_date' => Carbon::now(),
+                'total_gross_salary' => $request->total_gross_salary,
+                'total_deductions' => $request->total_deductions,
+                'total_net_salary' => $request->total_net_salary,
+                'total_employee_bonus' => $request->total_employee_bonus,
+                'total_convenience_amount' => $request->total_convenience_amount
+            ]
+        );
+        return response()->json([
+            'status' => 200,
+            'message' => 'Employee Pay Slip Save Successfully',
         ]);
     }
 }
