@@ -223,6 +223,7 @@ class EmployeeController extends Controller
             ['employee_id' => $request->employee_id],
             [
                 'pay_period_date' => Carbon::now(),
+                'branch_id' =>  Auth::user()->branch_id,
                 'total_gross_salary' => $request->total_gross_salary,
                 'total_deductions' => $request->total_deductions,
                 'total_net_salary' => $request->total_net_salary,
