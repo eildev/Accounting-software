@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConvenienceBill\Convenience;
 use App\Models\Departments\Departments;
 use App\Models\EmployeePayroll\EmployeeBonuse;
+use App\Models\EmployeePayroll\PaySlip;
 use App\Models\EmployeePayroll\SalarySturcture;
 use Illuminate\Support\Facades\Validator;
 class EmployeeController extends Controller
@@ -122,12 +123,14 @@ class EmployeeController extends Controller
         ->whereMonth('created_at', Carbon::now()->month)
         ->where('status', 'approved')
         ->get();
-        // dd($conveniencesAmount);
         $conveniencesTotalAmount = $conveniencesAmount->sum('total_amount');
-
-        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount','conveniencesTotalAmount'));
+        //payslip send
+        $paySlip = PaySlip::where('employee_id', $employee->id)
+        ->where('status', 'approved')
+        ->get();
+        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount','conveniencesTotalAmount','conveniencesAmount','bonuses','paySlip'));
     }
-    //////////////////////////////////////////////// Employee Bonuse /////////////////////////////////
+    ///////////////////////////////////////// Employee Bonuse ////////////////////////////////////////
     public function indexBonus(){
         $departments = Departments::all();
         $employees =  Employee::all();
@@ -205,5 +208,66 @@ class EmployeeController extends Controller
             'status' => 200,
             'message' => 'Employee Bonus Deleted Successfully',
         ]);
+    }
+    ///////////////////////Employee paySlip ////////////////////////
+    public function paySlipStore(Request $request){
+
+            $existingPaySlip = PaySlip::where('employee_id', $request->employee_id)
+            ->whereMonth('pay_period_date', Carbon::now()->month)
+            ->whereYear('pay_period_date', Carbon::now()->year)
+            ->first();
+            if ($existingPaySlip) {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'A pay slip for this employee for the current month already exists.'
+                ]);
+            } else {
+                // Otherwise, create a new pay slip //
+
+                $paySlip = new PaySlip();
+                $paySlip->employee_id = $request->employee_id;
+                $paySlip->branch_id = Auth::user()->branch_id;
+                $paySlip->pay_period_date = Carbon::now();
+                $paySlip->total_gross_salary = $request->total_gross_salary;
+                $paySlip->total_deductions = $request->total_deductions;
+                $paySlip->total_net_salary = $request->total_net_salary;
+                $paySlip->total_employee_bonus = $request->total_employee_bonus;
+                $paySlip->total_convenience_amount = $request->total_convenience_amount;
+                $paySlip->status = 'pending';
+                $paySlip->save();
+                if($request->convenience_ids){
+                    $conveniences = Convenience::whereIn('id', $request->convenience_ids)->get();
+                    foreach ($conveniences as $convenience) {
+                        $convenience->status = 'paid';
+                        $convenience->save();
+                     }
+                }
+                // dd($request->bonus_ids);
+                if($request->bonus_ids){
+                    $employeeBonuses = EmployeeBonuse::whereIn('id',  $request->bonus_ids)->get();
+                    foreach ($employeeBonuses as $employeeBonuse) {
+                        $employeeBonuse->status = 'paid';
+                        $employeeBonuse->save();
+                     }
+                }
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Employee Pay Slip Save Successfully',
+                ]);
+            }
+
+        //    $paySlip = PaySlip::updateOrCreate(
+        //     ['employee_id' => $request->employee_id],
+        //     [
+        //         'pay_period_date' => Carbon::now(),
+        //         'branch_id' =>  Auth::user()->branch_id,
+        //         'total_gross_salary' => $request->total_gross_salary,
+        //         'total_deductions' => $request->total_deductions,
+        //         'total_net_salary' => $request->total_net_salary,
+        //         'total_employee_bonus' => $request->total_employee_bonus,
+        //         'total_convenience_amount' => $request->total_convenience_amount
+        //     ]
+        // );
+
     }
 }

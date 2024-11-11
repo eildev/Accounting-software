@@ -93,6 +93,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/bonuses/edit/{id}', 'bonusEdit');
         Route::post('/employee/bonus/update/{id}', 'bonusUpdate');
         Route::get('/employee/bonus/destroy/{id}', 'bonusDelete');
+        /////////////////////Employe PaySlip ////////////////////////
+        Route::post('/employee/payslip/store', 'paySlipStore');
     });
 
     // Banks related route
