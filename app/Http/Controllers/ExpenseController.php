@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\AccountTransaction;
-use App\Models\Bank;
+use App\Models\Bank\BankAccounts;
+use App\Models\Bank\Cash;
+use App\Models\Bank\CashTransaction;
+use App\Models\Bank\Transaction\Transaction;
+use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -33,9 +38,9 @@ class ExpenseController extends Controller
     public function ExpenseAdd()
     {
         if (Auth::user()->id == 1) {
-            $bank = Bank::latest()->get();
+            $bank = BankAccounts::latest()->get();
         } else {
-            $bank = Bank::where('branch_id', Auth::user()->branch_id)->latest()->get();
+            $bank = BankAccounts::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
         $expenseCategory = ExpenseCategory::latest()->get();
         return view('all_modules.expense.add_expanse', compact('expenseCategory', 'bank'));
@@ -43,15 +48,23 @@ class ExpenseController extends Controller
     public function ExpenseStore(Request $request)
     {
         $request->validate([
-            'purpose' => 'required',
-            'amount' => 'required',
-            'spender' => 'required',
-            'expense_category_id' => 'required',
+            'purpose' => 'required|max:99',
+            'amount' => 'required|numeric|between:0,999999999999.99',
+            'spender' => 'required|max:99',
+            'expense_category_id' => 'required|integer',
             'expense_date' => 'required',
-            'bank_account_id' => 'required',
+            'bank_account_id' => 'required|integer',
+            'account_type' => 'required|in:cash,bank',
         ]);
-        $oldBalance = AccountTransaction::where('account_id', $request->bank_account_id)->latest('created_at')->first();
-        if ($oldBalance && $oldBalance->balance > 0 && $oldBalance->balance >= $request->amount) {
+
+
+        if ($request->account_type == 'bank') {
+            $account_balance =  BankAccounts::findOrFail($request->bank_account_id);
+        } else {
+            $account_balance =  Cash::findOrFail($request->bank_account_id);
+        }
+
+        if ($account_balance->current_balance > 0 && $account_balance->current_balance >= $request->amount) {
 
             $expense = new Expense;
             $expense->branch_id =  Auth::user()->branch_id;
@@ -60,7 +73,11 @@ class ExpenseController extends Controller
             $expense->amount =  $request->amount;
             $expense->purpose =  $request->purpose;
             $expense->spender =  $request->spender;
-            $expense->bank_account_id =  $request->bank_account_id;
+            if ($request->account_type == 'bank') {
+                $expense->bank_account_id =  $request->bank_account_id;
+            } else {
+                $expense->cash_account_id =  $request->bank_account_id;
+            }
             $expense->note =  $request->note;
             if ($request->image) {
                 $imageName = rand() . '.' . $request->image->extension();
@@ -68,17 +85,61 @@ class ExpenseController extends Controller
                 $expense->image = $imageName;
             }
             $expense->save();
-            // account Transaction crud
-            $accountTransaction = new AccountTransaction;
-            $accountTransaction->branch_id =  Auth::user()->branch_id;
-            $accountTransaction->reference_id = $expense->id;
-            $accountTransaction->purpose =  'Expanse';
-            $accountTransaction->account_id =  $request->bank_account_id;
-            $accountTransaction->debit = $request->amount;
-            $oldBalance = AccountTransaction::where('account_id', $request->bank_account_id)->latest('created_at')->first();
-            $accountTransaction->balance = $oldBalance->balance - $request->amount;
-            $accountTransaction->created_at = Carbon::now();
-            $accountTransaction->save();
+
+            if ($request->account_type == 'bank') {
+                $bank =  BankAccounts::findOrFail($request->bank_account_id);
+                $bank->current_balance -= $request->amount;
+                $bank->save();
+            } else {
+                $cash =  Cash::findOrFail($request->bank_account_id);
+                $cash->current_balance -= $request->amount;
+                $cash->save();
+
+                // cash Transaction info save 
+                $cashTransaction = new CashTransaction;
+                $cashTransaction->branch_id = Auth::user()->branch_id;
+                $cashTransaction->cash_id = $cash->id;
+                $cashTransaction->transaction_date = Carbon::now();
+                $cashTransaction->amount = $request->amount;
+                $cashTransaction->transaction_type = 'withdraw';
+                $cashTransaction->process_by = Auth::user()->id;
+                $cashTransaction->save();
+            }
+
+            // transaction info save
+            $transaction = new Transaction;
+            $transaction->branch_id = Auth::user()->branch_id;
+            $transaction->source_id = $expense->id;
+            $transaction->source_type = 'Expanse';
+            $transaction->transaction_date = Carbon::now();
+            if ($request->account_type == 'bank') {
+                $transaction->bank_account_id =  $request->bank_account_id;
+            } else {
+                $transaction->cash_account_id =  $request->bank_account_id;
+            }
+            $transaction->amount = $request->amount;
+            $transaction->transaction_type = 'debit';
+            $transaction->transaction_id = $this->generateUniqueTransactionId();
+            $transaction->transaction_by = Auth::user()->id;
+            $transaction->save();
+
+            $ledgerAccounts = new LedgerAccounts;
+            $ledgerAccounts->branch_id = Auth::user()->branch_id;
+            $ledgerAccounts->group_id = 2;
+            $ledgerAccounts->account_name = $request->purpose;
+            $ledgerAccounts->save();
+
+            // // Ledger Entry info save
+            $ledgerEntries = new LedgerEntries;
+            $ledgerEntries->branch_id = Auth::user()->branch_id;
+            $ledgerEntries->transaction_id = $transaction->id;
+            $ledgerEntries->group_id = 2;
+            $ledgerEntries->account_id = $ledgerAccounts->id;
+            $ledgerEntries->entry_amount = $request->amount;
+            $ledgerEntries->transaction_date = Carbon::now();
+            $ledgerEntries->transaction_by = Auth::user()->id;
+            $ledgerEntries->save();
+
             $notification = [
                 'message' => 'Expense Added Successfully',
                 'alert-type' => 'info'
@@ -93,24 +154,37 @@ class ExpenseController extends Controller
         }
     } //
 
+
+
+    // generate uniqid transaction Id Function 
+    private function generateUniqueTransactionId()
+    {
+        $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
+        do {
+            $transactionId = substr(bin2hex(random_bytes(4)), 0, 8);
+        } while (in_array($transactionId, $allTransactionIds));
+
+        return $transactionId;
+    }
+
     public function ExpenseView()
     {
         $expenseCat = ExpenseCategory::latest()->get();
         $expenseCategory = ExpenseCategory::latest()->get();
         if (Auth::user()->id == 1) {
-            $bank = Bank::latest()->get();
+            $bank = BankAccounts::latest()->get();
             $expense = Expense::latest()->get();
         } else {
-            $bank = Bank::where('branch_id', Auth::user()->branch_id)->latest()->get();
+            $bank = BankAccounts::where('branch_id', Auth::user()->branch_id)->latest()->get();
             $expense = Expense::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
-        return view('all_modules.expense.view_expense', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
+        return view('all_modules.expense.expanse-management', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
     } //
 
     public function ExpenseEdit($id)
     {
         $expense = Expense::findOrFail($id);
-        $bank = Bank::latest()->get();
+        $bank = BankAccounts::latest()->get();
         $expenseCategory = ExpenseCategory::latest()->get();
         return view('all_modules.expense.edit_expense', compact('expense', 'expenseCategory', 'bank'));
     } //

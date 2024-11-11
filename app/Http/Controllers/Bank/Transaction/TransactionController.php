@@ -8,6 +8,7 @@ use App\Models\Bank\Cash;
 use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,6 +109,18 @@ class TransactionController extends Controller
             $accounts->current_balance += $request->transaction_type === 'withdrawal' ? -$request->amount : $request->amount;
             $transaction->save();
             $accounts->save();
+
+            // Ledger Entry info save
+            $ledgerEntries = new LedgerEntries;
+            $ledgerEntries->branch_id = Auth::user()->branch_id;
+            $ledgerEntries->transaction_id = $transaction->id;
+            $ledgerEntries->group_id = 1;
+            $ledgerEntries->account_id = 1;
+            $ledgerEntries->sub_ledger_id = 1;
+            $ledgerEntries->entry_amount = $request->initial_balance;
+            $ledgerEntries->transaction_date = Carbon::now();
+            $ledgerEntries->transaction_by = Auth::user()->id;
+            $ledgerEntries->save();
 
             return response()->json([
                 'status' => 200,

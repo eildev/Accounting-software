@@ -380,7 +380,6 @@
                     <td>${transaction.transaction_date ?? ""}</td>
                     <td>${transaction.bank?.bank_name ?? (transaction.cash?.cash_account_name ?? "")}</td>
                     <td>${transaction.amount ?? 0}</td>
-                    <td>${transaction.description ?? 0}</td>
                     <td>${transaction.transaction_id ?? 0}</td>
                     <td>
                         <a href="/transaction/view-details/${transaction.id}" class="btn btn-icon btn-xs btn-primary">
