@@ -75,7 +75,7 @@
             <div class="card rounded mt-3">
                 <div class="card-body ">
                     <h5 class="text-center">Salary Structure</h5>
-                    <div class=" align-items-center  justify-content-between mb-2">
+                    <div class=" align-items-center mt-3  justify-content-between mb-2">
                         <h4 class="card-title mb-0  ">Salary :</h4>
                         <h6 class="mt-1" style="color: #7987a1">{{ $salaryStructure->base_salary ?? '-' }}</h6>
                     </div>
@@ -108,7 +108,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="card rounded">
-                                <div class="card-body">
+                                <div class="card-body table-responsive">
                                     <p class="mb-3 tx-14">Salary Month Info</p>
                                     <table class="table table-bordered">
                                         <thead>
@@ -119,11 +119,12 @@
                                                 <th>Total Total Bonus </th>
                                                 <th>Total Convenience Amount</th>
                                                 <th>Total Deductions</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                                @foreach ( $paySlip as $slip)
+                                                @foreach ($paySlip as $slip)
                                                 <tr>
                                                 <td>{{ $slip->pay_period_date ?? '-' }}</td>
                                                 <td>{{ $slip->total_net_salary ?? '-' }}</td>
@@ -131,6 +132,17 @@
                                                 <td>{{ $slip->total_employee_bonus ?? '-' }}</td>
                                                 <td>{{ $slip->total_convenience_amount ?? '-' }} </td>
                                                 <td>{{ $slip->total_deductions ?? '-' }}</td>
+                                                <td>
+                                                    @if($slip->status =='pending')
+                                                        <p class="btn btn-sm badge bg-warning ">Pending</p>
+                                                    @elseif($slip->status =='approved')
+                                                    <p  class="btn btn-sm badge bg-success">Approved</p>
+                                                    @elseif($slip->status =='paid')
+                                                    <p  class="btn btn-sm badge bg-success">Paid</p>
+                                                    @else
+                                                        <p class="btn btn-sm badge bg-info color-black">Processing</p>
+                                                    @endif
+                                                </td>
                                                </tr>
                                                 @endforeach
 
@@ -414,6 +426,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #333;">
+                    {{-- <button type="button" class="btn print btn-primary">Print</button> --}}
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         onclick="$('#previewModal').modal('hide');">Close</button>
                     <button type="button" class="save_pay_slip btn btn-primary">Save</button>
@@ -458,6 +471,9 @@
                     }
                 });
             });
+            //////////////////////////
+
+
     </script>
 
 @endsection

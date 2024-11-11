@@ -113,20 +113,20 @@ class EmployeeController extends Controller
         $conveniences = Convenience::where('employee_id', $employee->id)->get();
         //Total Employee Amount Send
         $bonuses = EmployeeBonuse::where('employee_id', $employee->id)
-        ->whereMonth('bonus_date', Carbon::now()->month)
-        ->whereYear('bonus_date', Carbon::now()->year)
+        // ->whereMonth('bonus_date', Carbon::now()->month)
+        // ->whereYear('bonus_date', Carbon::now()->year)
         ->where('status', 'approved')
         ->get();
         $totalBonusAmount = $bonuses->sum('bonus_amount');
        //Total Convenience Amount Send
         $conveniencesAmount = Convenience::where('employee_id', $employee->id)
-        ->whereMonth('created_at', Carbon::now()->month)
+        // ->whereMonth('created_at', Carbon::now()->month)
         ->where('status', 'approved')
         ->get();
         $conveniencesTotalAmount = $conveniencesAmount->sum('total_amount');
         //payslip send
         $paySlip = PaySlip::where('employee_id', $employee->id)
-        ->where('status', 'approved')
+        // ->where('status', 'approved')
         ->get();
         return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount','conveniencesTotalAmount','conveniencesAmount','bonuses','paySlip'));
     }

@@ -141,7 +141,7 @@
 
 
 
-            // select primaryLedgerViewOnSelectTag function 
+            // select primaryLedgerViewOnSelectTag function
             function primaryLedgerViewOnSelectTag() {
                 $.ajax({
                     url: '/ledger/view',
