@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ModelHasRolesSeeder::class,
             ExpenseCategorySeeder::class,
             PrimaryLedgerSeed::class,
+            LedgerSeed::class,
         ]);
     }
 }

@@ -153,6 +153,9 @@
                         console.log(res);
                         const ledgers = res.data;
                         $('.show_sub_ledger_data').empty();
+                        if ($.fn.DataTable.isDataTable('#subLedgerTable')) {
+                            $('#subLedgerTable').DataTable().clear().destroy();
+                        }
                         if (ledgers.length > 0) {
                             $.each(ledgers, function(index, ledger) {
                                 // Calculate the sum of account_transaction balances

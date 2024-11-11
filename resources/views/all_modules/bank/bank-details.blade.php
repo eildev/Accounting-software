@@ -125,16 +125,31 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Instalment No.</th>
+                                                <th>Purpose</th>
                                                 <th>Date</th>
-                                                <th>Payment Method</th>
-                                                <th>Principal Paid</th>
-                                                <th>Interest Paid</th>
-                                                <th>Total Paid</th>
+                                                <th>Amount</th>
+                                                <th>Transaction Type</th>
+                                                <th>Transaction Id</th>
+                                                <th>Transaction by</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            @forelse ($transactions as $transaction)
+                                                <tr>
+                                                    <td>{{ $transaction->source_type ?? '' }}</td>
+                                                    <td>{{ $transaction->transaction_date ?? '' }}</td>
+                                                    <td>{{ number_format($transaction->amount, 2) ?? 0 }}</td>
+                                                    <td class="text-capitalize">
+                                                        {{ $transaction->transaction_type ?? '' }}
+                                                    </td>
+                                                    <td>#{{ $transaction->transaction_id ?? 0 }}</td>
+                                                    <td>{{ $transaction->user->name ?? '' }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td>No Data Found</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>

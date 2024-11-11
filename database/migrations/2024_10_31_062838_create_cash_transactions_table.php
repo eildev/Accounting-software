@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('cash_transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_id')->unsigned();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->unsignedBigInteger('cash_id')->unsigned();
             $table->foreign('cash_id')->references('id')->on('cashes');
             $table->date('transaction_date')->nullable();

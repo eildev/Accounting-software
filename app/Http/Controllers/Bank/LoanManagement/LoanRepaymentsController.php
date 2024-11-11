@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Bank\LoanManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
 use App\Models\Bank\Cash;
+use App\Models\Bank\CashTransaction;
 use App\Models\Bank\LoanManagement\Loan;
 use App\Models\Bank\LoanManagement\LoanRepayments;
 use App\Models\Bank\Transaction\Transaction;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -78,22 +81,55 @@ class LoanRepaymentsController extends Controller
                 $loan_repayments->save();
 
 
-                // // Transaction 
-                // $transaction = new Transaction;
-                // $transaction->branch_id = Auth::user()->branch_id;
-                // $transaction->source_id = Auth::user()->branch_id;
-                // $transaction->source_type = Auth::user()->branch_id;
-                // $transaction->transaction_date = Auth::user()->branch_id;
-                // if ($request->account_type > 'bank') {
-                //     $transaction->cash_account_id = $request->payment_account_id;
-                // } else {
-                //     $transaction->bank_account_id = $request->payment_account_id;
-                // }
-                // $transaction->amount = $payment_balance;
-                // $transaction->transaction_type = 'debit';
-                // $transaction->transaction_id = 
-                // $transaction->transaction_by = Auth::user()->id;
-                // $transaction->save();
+
+                if ($request->account_type == 'bank') {
+                    $bank =  BankAccounts::findOrFail($request->payment_account_id);
+                    $bank->current_balance -= $request->payment_balance;
+                    $bank->save();
+                } else {
+                    $cash =  Cash::findOrFail($request->payment_account_id);
+                    $cash->current_balance -= $request->payment_balance;
+                    $cash->save();
+
+                    // cash Transaction info save 
+                    $cashTransaction = new CashTransaction;
+                    $cashTransaction->branch_id = Auth::user()->branch_id;
+                    $cashTransaction->cash_id = $cash->id;
+                    $cashTransaction->transaction_date = Carbon::now();
+                    $cashTransaction->amount = $request->payment_balance;
+                    $cashTransaction->transaction_type = 'withdraw';
+                    $cashTransaction->process_by = Auth::user()->id;
+                    $cashTransaction->save();
+                }
+
+                // transaction info save
+                $transaction = new Transaction;
+                $transaction->branch_id = Auth::user()->branch_id;
+                $transaction->source_id = $loan_repayments->id;
+                $transaction->source_type = 'Loan Repayments';
+                $transaction->transaction_date = Carbon::now();
+                if ($request->account_type == 'bank') {
+                    $transaction->bank_account_id =  $request->payment_account_id;
+                } else {
+                    $transaction->cash_account_id =  $request->payment_account_id;
+                }
+                $transaction->amount = $request->payment_balance;
+                $transaction->transaction_type = 'debit';
+                $transaction->transaction_id = $this->generateUniqueTransactionId();
+                $transaction->transaction_by = Auth::user()->id;
+                $transaction->save();
+
+                // // Ledger Entry info save
+                $ledgerEntries = new LedgerEntries;
+                $ledgerEntries->branch_id = Auth::user()->branch_id;
+                $ledgerEntries->transaction_id = $transaction->id;
+                $ledgerEntries->group_id = 4;
+                $ledgerEntries->account_id = $request->data_id;
+                $ledgerEntries->sub_ledger_id = $loan_repayments->id;
+                $ledgerEntries->entry_amount = $request->payment_balance;
+                $ledgerEntries->transaction_date = Carbon::now();
+                $ledgerEntries->transaction_by = Auth::user()->id;
+                $ledgerEntries->save();
             } else {
                 return response()->json([
                     'status' => 400,
@@ -112,5 +148,17 @@ class LoanRepaymentsController extends Controller
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
         }
+    }
+
+
+    // generate uniqid transaction Id Function 
+    private function generateUniqueTransactionId()
+    {
+        $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
+        do {
+            $transactionId = substr(bin2hex(random_bytes(4)), 0, 8);
+        } while (in_array($transactionId, $allTransactionIds));
+
+        return $transactionId;
     }
 }

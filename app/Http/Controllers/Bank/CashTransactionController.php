@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bank\Cash;
+use App\Models\Bank\CashTransaction;
+use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
+use App\Models\Ledger\SubLedger\SubLedger;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -36,6 +41,51 @@ class CashTransactionController extends Controller
             $cash->opening_balance = $request->opening_balance;
             $cash->current_balance = $request->opening_balance;
             $cash->save();
+
+            // create SubLedger 
+            $subLedger = new SubLedger;
+            $subLedger->branch_id = Auth::user()->branch_id;
+            $subLedger->account_id = 2;
+            $subLedger->sub_ledger_name = $request->cash_account_name;
+            $subLedger->save();
+
+
+            // cash Transaction info save 
+            $cashTransaction = new CashTransaction;
+            $cashTransaction->branch_id = Auth::user()->branch_id;
+            $cashTransaction->cash_id = $cash->id;
+            $cashTransaction->transaction_date = Carbon::now();
+            $cashTransaction->amount = $request->opening_balance;
+            $cashTransaction->transaction_type = 'deposit';
+            $cashTransaction->process_by = Auth::user()->id;
+            $cashTransaction->save();
+
+
+            // transaction info save
+            $transaction = new Transaction;
+            $transaction->branch_id = Auth::user()->branch_id;
+            $transaction->source_type = 'Cash AC Opening';
+            $transaction->transaction_date = Carbon::now();
+            $transaction->cash_account_id = $cash->id;
+            $transaction->amount = $request->opening_balance;
+            $transaction->transaction_type = 'credit';
+            $transaction->transaction_id = $this->generateUniqueTransactionId();
+            $transaction->transaction_by = Auth::user()->id;
+            $transaction->save();
+
+            // Ledger Entry info save
+            $ledgerEntries = new LedgerEntries;
+            $ledgerEntries->branch_id = Auth::user()->branch_id;
+            $ledgerEntries->transaction_id = $transaction->id;
+            $ledgerEntries->group_id = 1;
+            $ledgerEntries->account_id = 2;
+            $ledgerEntries->sub_ledger_id = $subLedger->id;
+            $ledgerEntries->entry_amount = $request->opening_balance;
+            $ledgerEntries->transaction_date = Carbon::now();
+            $ledgerEntries->transaction_by = Auth::user()->id;
+            $ledgerEntries->save();
+
+
             return response()->json([
                 'status' => 200,
                 'message' => 'cash Account Saved Successfully',
@@ -47,6 +97,17 @@ class CashTransactionController extends Controller
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
         }
+    }
+
+    // generate uniqid transaction Id Function 
+    private function generateUniqueTransactionId()
+    {
+        $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
+        do {
+            $transactionId = substr(bin2hex(random_bytes(4)), 0, 8);
+        } while (in_array($transactionId, $allTransactionIds));
+
+        return $transactionId;
     }
 
 
@@ -93,8 +154,9 @@ class CashTransactionController extends Controller
 
             $data = Cash::findOrFail($id);
             $branch = Branch::findOrFail($data->branch_id);
+            $transactions = Transaction::where('cash_account_id', '=', $id)->get();
             $isBank = false;
-            return view('all_modules.bank.bank-details', compact('data', 'branch', 'isBank'));
+            return view('all_modules.bank.bank-details', compact('data', 'branch', 'isBank', 'transactions'));
         } catch (\Exception $e) {
             // Handle any exceptions that may occur
             Log::error('Cash Details Error: ' . $e->getMessage());

@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
 use App\Models\Bank\LoanManagement\Loan;
 use App\Models\Bank\LoanManagement\LoanRepayments;
+use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
+use App\Models\Ledger\SubLedger\SubLedger;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +84,43 @@ class LoanController extends Controller
             $loan->end_date = Carbon::parse($request->start_date)->copy()->addYears($request->loan_duration);
             $loan->status = 'defaulted';
             $loan->save();
+
+            // create SubLedger 
+            $subLedger = new SubLedger;
+            $subLedger->branch_id = Auth::user()->branch_id;
+            $subLedger->account_id = 3;
+            $subLedger->sub_ledger_name = $request->loan_name;
+            $subLedger->save();
+
+            // transaction info save
+            $transaction = new Transaction;
+            $transaction->branch_id = Auth::user()->branch_id;
+            $transaction->source_id = $loan->id;
+            $transaction->source_type = 'Loan';
+            $transaction->transaction_date = Carbon::now();
+            $transaction->bank_account_id = $request->bank_loan_account_id;
+            $transaction->amount = $request->loan_principal;
+            $transaction->transaction_type = 'credit';
+            $transaction->transaction_id = $this->generateUniqueTransactionId();
+            $transaction->transaction_by = Auth::user()->id;
+            $transaction->save();
+
+            $bank = BankAccounts::findOrFail($request->bank_loan_account_id);
+            $bank->current_balance += $request->loan_principal;
+            $bank->save();
+
+            // Ledger Entry info save
+            $ledgerEntries = new LedgerEntries;
+            $ledgerEntries->branch_id = Auth::user()->branch_id;
+            $ledgerEntries->transaction_id = $transaction->id;
+            $ledgerEntries->group_id = 4;
+            $ledgerEntries->account_id = 3;
+            $ledgerEntries->sub_ledger_id = $subLedger->id;
+            $ledgerEntries->entry_amount = $request->loan_principal;
+            $ledgerEntries->transaction_date = Carbon::now();
+            $ledgerEntries->transaction_by = Auth::user()->id;
+            $ledgerEntries->save();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'loan Saved Successfully',
@@ -92,6 +132,17 @@ class LoanController extends Controller
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
         }
+    }
+
+    // generate uniqid transaction Id Function 
+    private function generateUniqueTransactionId()
+    {
+        $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
+        do {
+            $transactionId = substr(bin2hex(random_bytes(4)), 0, 8);
+        } while (in_array($transactionId, $allTransactionIds));
+
+        return $transactionId;
     }
 
     // view function 

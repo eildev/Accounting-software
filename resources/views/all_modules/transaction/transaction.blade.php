@@ -344,6 +344,9 @@
             ///////////////////////// Dynamic function for view dynamic Data /////////////////// 
             function dynamicView(tbody, transactions, modalName, table) {
                 $(`.${tbody}`).empty();
+                if ($.fn.DataTable.isDataTable(`#${table}`)) {
+                    $(`#${table}`).DataTable().clear().destroy();
+                }
                 if (transactions.length > 0) {
                     $.each(transactions, function(index, transaction) {
                         // Generate the table row using viewDataOnTable
@@ -365,7 +368,6 @@
                         </tr>
                     `);
                 }
-
                 // Initialize DataTables after table data is populated
                 dynamicDataTableFunc(table);
             }
