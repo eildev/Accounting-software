@@ -137,7 +137,6 @@
                                                                 </svg></span>
                                                         </div>
 
-
                                                     </div>
                                                     @error('expense_date')
                                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -145,17 +144,30 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="mb-3" bis_skin_checked="1">
-                                                        <label for="ageSelect" class="form-label">Select Bank
-                                                            Acoount</label>
+                                                        <label for="ageSelect" class="form-label">Account Type<span
+                                                                class="text-danger">*</span></label>
+                                                        <select
+                                                            class="form-select is-valid @error('account_type') is-invalid @enderror"data-width="100%"
+                                                            name="account_type" aria-invalid="false"
+                                                            onchange="checkPaymentAccount(this);">
+                                                            <option value="">Select Account Type</option>
+                                                            <option value="cash">Cash</option>
+                                                            <option value="bank">Bank</option>
+                                                        </select>
+                                                        @error('account_type')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                        <span class="text-danger related_sign_error"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3" bis_skin_checked="1">
+                                                        <label for="ageSelect" class="form-label">Payment
+                                                            Account<span class="text-danger">*</span></label>
                                                         <select
                                                             class="form-select bank_id is-valid @error('bank_account_id') is-invalid @enderror js-example-basic-single"data-width="100%"
                                                             name="bank_account_id" aria-invalid="false">
-                                                            <option selected="" disabled="" value="">Select
-                                                                Bank</option>
-                                                            @foreach ($bank as $banks)
-                                                                <option value="{{ $banks->id }}">{{ $banks->name }}
-                                                                </option>
-                                                            @endforeach
+                                                            <option value="">Select Payment Account</option>
                                                         </select>
                                                         @error('bank_account_id')
                                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -409,6 +421,40 @@
     {{-- ///////////tab//////////// --}}
 
     <script>
+        ///////////////////////// Check payment Account Using for check payment type ///////////////////
+        function checkPaymentAccount(element) {
+            const paymentType = $(element).val(); // 'element' is passed in from the onclick event
+            const paymentAccounts = $('.bank_id');
+            $.ajax({
+                url: '/check-account-type',
+                method: 'GET',
+                data: {
+                    payment_type: paymentType
+                },
+                success: function(res) {
+                    const accounts = res.data;
+                    // console.log(accounts);
+                    if (accounts.length > 0) {
+                        $('.bank_id').html(
+                            `<option selected disabled>Select Account</option>`
+                        ); // Clear and set default option
+                        $.each(accounts, function(index, account) {
+                            // console.log(account);
+                            $('.bank_id').append(
+                                `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
+                            );
+                        });
+
+                    } else {
+                        $('.bank_id').html(
+                            `<option selected disabled>No Account Found</option>`
+                        ); // Clear and set default option
+                    }
+                }
+            });
+        }
+
+
         $(document).ready(function() {
             $(document).on('click', '.update_expense_category', function(e) {
                 e.preventDefault();

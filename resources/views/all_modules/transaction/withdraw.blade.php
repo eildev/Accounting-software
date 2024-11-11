@@ -11,7 +11,6 @@
                 <th>Transaction Date</th>
                 <th>Transaction Account</th>
                 <th>Amount</th>
-                <th>Description</th>
                 <th>Transaction Id</th>
                 <th>Action</th>
             </tr>

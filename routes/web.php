@@ -138,10 +138,6 @@ Route::middleware('auth')->group(function () {
     });
 
 
-
-
-
-
     // Transaction related route(n)
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
