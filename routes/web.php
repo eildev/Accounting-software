@@ -97,6 +97,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/employee/payslip/store', 'paySlipStore');
          /////////////////////Employe Multiple Slip PaySlip ////////////////////////
          Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
+         Route::get('/employe/all/slip/view','allPaySlipView');
+
     });
 
     // Banks related route

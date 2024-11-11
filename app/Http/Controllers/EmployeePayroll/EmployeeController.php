@@ -17,8 +17,9 @@ class EmployeeController extends Controller
 {
     public function view()
     {
+        $departments = Departments::all();
         $employees = Employee::get();
-        return view('all_modules.employee.view_employee', compact('employees'));
+        return view('all_modules.employee.view_employee', compact('employees','departments'));
     } //
     public function index()
     {
@@ -59,6 +60,7 @@ class EmployeeController extends Controller
             'message' => 'Employee Added Successfully',
             'alert-type' => 'info'
         );
+
         return redirect()->route('employee.view')->with($notification);
     } //
     public function edit($id)
@@ -347,5 +349,13 @@ class EmployeeController extends Controller
 
             return response()->json(['status' => 200, 'message' => 'Slips generated successfully!']);
 
+        }
+        public function allPaySlipView(){
+            $paySlip = PaySlip::with('employee')->get();
+
+            return response()->json([
+                "status" => 200,
+                "paySlip" => $paySlip,
+            ]);
         }
 }//
