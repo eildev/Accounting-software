@@ -28,6 +28,7 @@
                                     <th>Bonus Type </th>
                                     <th>Bonus Amount</th>
                                     <th>Bonus Reason</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -239,13 +240,19 @@
                                         <td>${bonus.bonus_amount  ?? ""}</td>
                                         <td>${bonus.bonus_reason  ?? ""}</td>
                                         <td>
+                                        ${bonus.status === 'pending' ? '<p class="btn btn-sm badge bg-warning">Pending</p>' : ''}
+                                        ${bonus.status === 'approved' ? '<p class="btn btn-sm badge bg-success">Approved</p>' : ''}
+                                        ${bonus.status === 'paid' ? '<p class="btn btn-sm badge bg-success">Paid</p>' : ''}
+                                        ${!['pending', 'approved', 'paid'].includes(bonus.status) ? '<p class="btn btn-sm badge bg-info color-black">Processing</p>' : ''}
+                                        </td>
+                                        <td>
                                             <a href="#" class="btn btn-primary btn-icon bonuses_edit" data-id="${bonus.id}" data-bs-toggle="modal" data-bs-target="#edit">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                             ${bonus.status === 'pending' ? ''
-                                       :  ` <a href="#" class="btn btn-danger btn-icon employee_bonus_delete" data-id="${bonus.id}">
+                                             ${bonus.status === 'pending' ? `<a href="#" class="btn btn-danger btn-icon employee_bonus_delete" data-id="${bonus.id}">
                                             <i class="fa-solid fa-trash-can"></i>
-                                        </a>`}
+                                        </a>`
+                                       : ' '}
 
                                         </td>
                                     `;
