@@ -75,7 +75,7 @@
             <div class="card rounded mt-3">
                 <div class="card-body ">
                     <h5 class="text-center">Salary Structure</h5>
-                    <div class=" align-items-center  justify-content-between mb-2">
+                    <div class=" align-items-center mt-3  justify-content-between mb-2">
                         <h4 class="card-title mb-0  ">Salary :</h4>
                         <h6 class="mt-1" style="color: #7987a1">{{ $salaryStructure->base_salary ?? '-' }}</h6>
                     </div>
@@ -119,11 +119,12 @@
                                                 <th>Total Total Bonus </th>
                                                 <th>Total Convenience Amount</th>
                                                 <th>Total Deductions</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                                @foreach ( $paySlip as $slip)
+                                                @foreach ($paySlip as $slip)
                                                 <tr>
                                                 <td>{{ $slip->pay_period_date ?? '-' }}</td>
                                                 <td>{{ $slip->total_net_salary ?? '-' }}</td>
@@ -131,6 +132,17 @@
                                                 <td>{{ $slip->total_employee_bonus ?? '-' }}</td>
                                                 <td>{{ $slip->total_convenience_amount ?? '-' }} </td>
                                                 <td>{{ $slip->total_deductions ?? '-' }}</td>
+                                                <td>
+                                                    @if($slip->status =='pending')
+                                                        <p class="btn btn-sm badge bg-warning ">Pending</p>
+                                                    @elseif($slip->status =='approved')
+                                                    <p  class="btn btn-sm badge bg-success">Approved</p>
+                                                    @elseif($slip->status =='paid')
+                                                    <p  class="btn btn-sm badge bg-success">Paid</p>
+                                                    @else
+                                                        <p class="btn btn-sm badge bg-info color-black">Processing</p>
+                                                    @endif
+                                                </td>
                                                </tr>
                                                 @endforeach
 
