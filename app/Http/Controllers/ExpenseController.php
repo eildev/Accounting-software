@@ -178,7 +178,7 @@ class ExpenseController extends Controller
             $bank = BankAccounts::where('branch_id', Auth::user()->branch_id)->latest()->get();
             $expense = Expense::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
-        return view('all_modules.expense.view_expense', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
+        return view('all_modules.expense.expanse-management', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
     } //
 
     public function ExpenseEdit($id)

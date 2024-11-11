@@ -525,6 +525,8 @@
                 });
             })
         });
+
+
         const filter = document.querySelector('#filter').addEventListener('click', function(e) {
             e.preventDefault();
             filterData();
