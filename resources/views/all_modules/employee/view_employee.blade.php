@@ -13,20 +13,23 @@
 <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                <h6 class="card-title " >View Employee List</h6>
-
+                <div class="col-md-12 grid-margin stretch-card d-flex mb-0 justify-content-between">
+                    <div class="">
+                        <h6 class="card-title " >View Employee List</h6>
+                    </div>
+                    <div class="">
+                        <a href="javascript:void(0)" class="btn" id="generate-slip" style="background: #5660D9">Generate Slip</a>                    </div>
+                </div>
                     <div id="" class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th > <input type="checkbox" id="select-all" class="me-2"> Select All</th>
                                     <th>SN</th>
                                     <th>Name</th>
+                                    <th>Designation</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>NID Numbaer</th>
-                                    <th>Image</th>
-                                    <th>Designation</th>
                                     <th>Salary</th>
                                     <th>Action</th>
                                 </tr>
@@ -35,22 +38,15 @@
                             @if ($employees->count() > 0)
                             @foreach ($employees as $key => $employe)
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" class="employee-checkbox" data-id="{{$employe->id}}">
+                                    </td>
                                 <td>{{ $key + 1 }}</td>
                                 <td><a href="{{route('employee.profile',$employe->id)}}">{{ $employe->full_name ?? ''}}</a></td>
+                                <td>{{ $employe->designation ?? ''}}</td>
                                 <td>{{ $employe->email ?? ''}}</td>
                                 <td>{{ $employe->phone ?? ''}}</td>
-                                <td>{{ $employe->address ?? ''}}</td>
-                                <td>{{ $employe->nid ?? ''}}</td>
-                                <td>
-                                @if($employe->pic)
-                                    <img src="{{ asset('uploads/employee/'.$employe->pic) }}" alt="">
-                                    @else
-                                    <img src="{{ asset('dummy/image.jpg') }}" alt="Dummy Image">
-                                    @endif
-
-                                <td>{{ $employe->designation ?? ''}}</td>
                                 <td>{{ $employe->salary ?? ''}}</td>
-
                                 <td>
                                     @if(Auth::user()->can('employee.edit'))
                                     <a href="{{route('employee.edit',$employe->id)}}" class="btn btn-sm btn-primary btn-icon">
@@ -84,6 +80,52 @@
             </div>
         </div>
 </div>
+<script>
+     // Select All functionality
+     document.getElementById('select-all').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.employee-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+    // Click event for "Generate Slip" button
+document.getElementById('generate-slip').addEventListener('click', function() {
+    // Collect selected checkbox IDs
+    let selectedIds = [];
+    document.querySelectorAll('.employee-checkbox:checked').forEach(function(checkbox) {
+        selectedIds.push(checkbox.getAttribute('data-id'));
+    });
+
+    if (selectedIds.length > 0) {
+
+        $.ajax({
+            url: '/employe/multilple/slip/store',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                selected_ids: selectedIds
+            },
+            success: function(response) {
+                if(response.status == 500){
+                response.existing_employees.forEach(function(employee) {
+                    toastr.warning(response.message, employee.employee_name);
+                });
+            } else if (response.status == 200) {
+                toastr.success(response.message);
+            }
+            },
+            error: function(xhr, status, error) {
+                // Handle error response
+                toastr.error('Something went wrong! Please try again.');
+                console.error(error);
+            }
+        });
+    } else {
+        toastr.error('Please select at least one employee to generate the slip.');
+    }
+});
+
+</script>
 @endsection
 
 

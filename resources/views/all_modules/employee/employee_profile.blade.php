@@ -202,7 +202,6 @@
                                 ($totalBonusAmount ?? 0) +
                                 ($conveniencesTotalAmount ?? 0) ;
                         }
-                        // $totalEarnings = $salaryStructure->base_salary ?? 0 + $salaryStructure->house_rent ?? 0 + $salaryStructure->transport_allowance ?? 0;
                         $deductions = $salaryStructure->deductions ?? 0;
                         $netPay = $totalEarnings - $deductions;
                        @endphp
@@ -426,7 +425,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #333;">
-                    {{-- <button type="button" class="btn print btn-primary">Print</button> --}}
+                    <button type="button" class="btn print btn-primary">Print</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         onclick="$('#previewModal').modal('hide');">Close</button>
                     <button type="button" class="save_pay_slip btn btn-primary">Save</button>
@@ -473,6 +472,41 @@
             });
             //////////////////////////
 
+
+            document.querySelector('.print').addEventListener('click', function () {
+        // Clone the modal content
+        const printContent = document.querySelector('#previewModal .modal-content').cloneNode(true);
+
+        // Create a new window for printing
+        const printWindow = window.open('', '_blank', 'width=800, height=600');
+        printWindow.document.open();
+        printWindow.document.close();
+        // Add basic HTML structure and styles for the print window
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Payslip</title>
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                    <style>
+                        body { font-family: Arial, sans-serif; }
+                        .table { width: 100%; border-collapse: collapse; }
+                        .table th, .table td { padding: 10px; border: 1px solid #333; }
+                        .modal-content { border: 2px solid #333; padding: 20px; }
+                        .modal-footer { border-top: 1px solid #333; }
+                        .text-center { text-align: center; }
+                        .font-weight-bold { font-weight: bold; }
+                        .bg-dark { background-color: #000; color: #fff; padding: 10px; }
+                    </style>
+                </head>
+                <body>
+                    ${printContent.outerHTML}
+                </body>
+            </html>
+        `);
+
+        printWindow.document.close();
+        printWindow.print();
+    });
 
     </script>
 

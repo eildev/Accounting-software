@@ -95,6 +95,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/bonus/destroy/{id}', 'bonusDelete');
         /////////////////////Employe PaySlip ////////////////////////
         Route::post('/employee/payslip/store', 'paySlipStore');
+         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
+         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
     });
 
     // Banks related route
