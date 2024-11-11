@@ -108,7 +108,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="card rounded">
-                                <div class="card-body">
+                                <div class="card-body table-responsive">
                                     <p class="mb-3 tx-14">Salary Month Info</p>
                                     <table class="table table-bordered">
                                         <thead>
@@ -414,6 +414,7 @@
                     </div>
                 </div>
                 <div class="modal-footer" style="border-top: 1px solid #333;">
+                    {{-- <button type="button" class="btn print btn-primary">Print</button> --}}
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         onclick="$('#previewModal').modal('hide');">Close</button>
                     <button type="button" class="save_pay_slip btn btn-primary">Save</button>
@@ -458,6 +459,9 @@
                     }
                 });
             });
+            //////////////////////////
+
+
     </script>
 
 @endsection
