@@ -310,7 +310,7 @@ class EmployeeController extends Controller
                         ($salaryStructure->transport_allowance ?? 0) +
                         ($salaryStructure->other_fixed_allowances ?? 0) +
                         ($totalBonusAmount ?? 0) +
-                        ($conveniencesTotalAmount ?? 0) ;
+                        ($conveniencesTotalAmounts ?? 0) ;
                 }
                 //net pay calculation
                 $deductions = $salaryStructure->deductions ?? 0;
