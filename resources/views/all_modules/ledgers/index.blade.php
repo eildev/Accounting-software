@@ -212,6 +212,9 @@
                         // console.log(res);
                         const ledgers = res.data;
                         $('.show_ledger_data').empty();
+                        if ($.fn.DataTable.isDataTable('#myDataTable')) {
+                            $('#myDataTable').DataTable().clear().destroy();
+                        }
                         if (ledgers.length > 0) {
                             $.each(ledgers, function(index, ledger) {
                                 // Calculate the sum of account_transaction balances
@@ -297,6 +300,9 @@
                     success: function(res) {
                         const primaryLedgers = res.data;
                         $('.show_primary_ledger_data').empty();
+                        if ($.fn.DataTable.isDataTable('#primaryLedgerTable')) {
+                            $('#primaryLedgerTable').DataTable().clear().destroy();
+                        }
                         if (primaryLedgers.length > 0) {
                             $.each(primaryLedgers, function(index, ledger) {
                                 // Calculate the sum of account_transaction balances

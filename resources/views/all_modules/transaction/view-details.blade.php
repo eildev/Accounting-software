@@ -1,13 +1,11 @@
 @extends('master')
-@section('title')
-    | {{ $subLedger->sub_ledger_name ?? '' }} Details
-@endsection
+@section('title', '| Transaction Details')
 @section('admin')
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-                {{ $ledger->sub_ledger_name ?? '' }} Details
+                Transaction Details
             </li>
         </ol>
     </nav>
@@ -40,6 +38,7 @@
                             @endif
                             <hr>
                             <p class="show_branch_address">{{ $branch->address ?? '' }}</p>
+                            <p class="show_branch_email">{{ $branch->email ?? '' }}</p>
                             <p class="show_branch_phone">{{ $branch->phone ?? '' }}</p>
                         </div>
                         <div>
@@ -59,38 +58,62 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <td><b><i>Sub Ledger</i></b></td>
-                                                <td>{{ $subLedger->sub_ledger_name ?? '' }}</td>
                                                 <td>
-                                                    <b><i>Ledger Name</i></b>
+                                                    <b><i>Source Type</i></b>
                                                 </td>
                                                 <td>
-                                                    {{ $sub_ledger_name->ledger->account_name ?? '' }}
+                                                    {{ $transaction->source_type ?? '' }}
+                                                </td>
+                                                <td><b><i>Transaction Date</i></b></td>
+                                                <td>{{ $transaction->transaction_date ?? '' }}</td>
+                                                <td>
+                                                    <b><i>Transaction Account</i></b>
+                                                </td>
+                                                <td>{{ $transaction->bank->cash_account_name ?? ($transaction->cash->cash_account_name ?? '') }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b><i>Amount</i></b>
+                                                </td>
+                                                <td>{{ $transaction->amount ?? 0 }}</td>
+                                                <td>
+                                                    <b><i>Transaction Type</i></b>
+                                                </td>
+                                                <td>{{ $transaction->transaction_type ?? '' }}</td>
+                                                <td>
+                                                    <b><i>Description</i></b>
+                                                </td>
+                                                <td>{{ $transaction->description ?? '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b><i>Transaction Id</i></b>
+                                                </td>
+                                                <td>{{ $transaction->transaction_id ?? 0 }}</td>
+                                                <td>
+                                                    <b><i>Transaction by</i></b>
                                                 </td>
                                                 <td>
-                                                    <b><i>Primary Ledger</i></b>
+                                                    {{ $transaction->user->name ?? '' }}
                                                 </td>
-                                                <td>{{ $primaryLedger->group_name ?? '' }}</td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
     <style>
-        #printFrame,
-        .action {
-            display: none !important;
+        #printFrame {
+            display: none;
             /* Hide the iframe */
         }
 
@@ -128,6 +151,7 @@
             }
 
             button,
+            a,
             .filter_box,
             nav,
             .footer,
@@ -141,88 +165,6 @@
     </style>
 
     <script>
-        // error remove
-        function errorRemove(element) {
-            if (element.value != '') {
-                $(element).siblings('span').hide();
-                $(element).css('border-color', 'green');
-            }
-        }
-
-
-        $(document).ready(function() {
-
-            // show error
-            function showError(name, message) {
-                $(name).css('border-color', 'red'); // Highlight input with red border
-                $(name).focus(); // Set focus to the input field
-                $(`${name}_error`).show().text(message); // Show error message
-            }
-
-
-
-            // select primaryLedgerViewOnSelectTag function 
-            function ledgerViewOnSelectTag() {
-                $.ajax({
-                    url: '/all-ledger/view',
-                    method: 'GET',
-                    success: function(res) {
-                        const primaryLedgers = res.data;
-                        if (primaryLedgers.length > 0) {
-                            $('.account_id').html(
-                                `<option selected disabled>Select Ledger</option>`
-                            ); // Clear and set default option
-                            $.each(primaryLedgers, function(index, ledger) {
-                                $('.account_id').append(
-                                    `<option value="${ledger.id}">${ledger.account_name ?? "" }</option>`
-                                );
-                            });
-                        } else {
-                            $('.group_id').html(
-                                `<option selected disabled>No Ledger Found</option>`
-                            ); // Clear and set default option
-                        }
-                    }
-                })
-            }
-            ledgerViewOnSelectTag();
-
-            // save all Ledger information
-            const saveSubLedger = document.querySelector('.save_sub_ledger');
-            saveSubLedger.addEventListener('click', function(e) {
-                e.preventDefault();
-                let formData = new FormData($('.subLedgerForm')[0]);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/sub-ledger/store',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if (res.status == 200) {
-                            $('#subLedgerModal').modal('hide');
-                            $('.subLedgerForm')[0].reset();
-                            subLedgerView();
-                            toastr.success(res.message);
-                        } else {
-                            if (res.error.sub_ledger_name) {
-                                showError('.sub_ledger_name', res.error.sub_ledger_name);
-                            }
-                            if (res.error.account_id) {
-                                showError('.account_id', res.error.account_id);
-                            }
-                        }
-                    }
-                });
-            })
-
-        })
-
         // print
         document.querySelector('.print-btn').addEventListener('click', function(e) {
             e.preventDefault();

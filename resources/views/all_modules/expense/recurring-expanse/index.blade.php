@@ -252,6 +252,9 @@
                     success: function(res) {
                         const expanses = res.data;
                         $('.expanse_data').empty();
+                        if ($.fn.DataTable.isDataTable('#myDataTable')) {
+                            $('#myDataTable').DataTable().clear().destroy();
+                        }
                         if (expanses.length > 0) {
                             $.each(expanses, function(index, expanse) {
                                 const tr = document.createElement('tr');
@@ -305,7 +308,6 @@
                                         </td>
                                     `;
                                 $('.expanse_data').append(tr);
-
                             });
                         } else {
                             $('.expanse_data').html(`

@@ -7,6 +7,7 @@ use App\Models\Bank\BankAccounts;
 use App\Models\Bank\Cash;
 use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
+use App\Models\Branch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,7 @@ class TransactionController extends Controller
     }
 
 
+    // TODO: Ledger Entries Create is Not yet implemented
     // storeTransaction function 
     public function storeTransaction(Request $request)
     {
@@ -109,7 +111,7 @@ class TransactionController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Transaction saved successfully.'
+                'message' => 'Transaction Saved Successfully.'
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -136,6 +138,7 @@ class TransactionController extends Controller
     {
         $cashTransaction = new CashTransaction;
         $cashTransaction->fill([
+            'branch_id' => Auth::user()->branch_id,
             'cash_id' => $request->payment_account_id,
             'transaction_date' => Carbon::parse($request->transaction_date)->format('Y-m-d'),
             'amount' => $request->amount,
@@ -228,7 +231,8 @@ class TransactionController extends Controller
     {
         try {
             $transaction = Transaction::findOrFail($id);
-            return view('all_modules.transaction.test', compact('transaction'));
+            $branch = Branch::findOrFail($transaction->branch_id);
+            return view('all_modules.transaction.view-details', compact('transaction', 'branch'));
         } catch (\Exception $e) {
             // Log the error message
             Log::error('Transaction Error: ' . $e->getMessage());

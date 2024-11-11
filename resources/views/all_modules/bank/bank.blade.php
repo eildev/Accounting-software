@@ -328,6 +328,9 @@
                         const banks = res.data;
                         // console.log(banks.account_transaction);
                         $('.show_cash_data').empty();
+                        if ($.fn.DataTable.isDataTable('#cashTableExample')) {
+                            $('#cashTableExample').DataTable().clear().destroy();
+                        }
                         if (banks.length > 0) {
                             $('.total_cash').text(res.total_cash);
                             $('.total_opening_balance').text(res.total_initial_balance);
