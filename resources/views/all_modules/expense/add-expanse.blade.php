@@ -3,7 +3,7 @@
     @csrf
     <div class="row">
         <!-- Col -->
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Purpose<span class="text-danger">*</span></label>
                 <input type="text" name="purpose"
@@ -14,7 +14,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div><!-- Col -->
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Amount<span class="text-danger">*</span></label>
                 <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror"
@@ -35,9 +35,9 @@
                             name="expense_category_id" aria-invalid="false">
                             <option selected="" disabled="">Select Expense
                                 Category </option>
-                            @foreach ($expenseCategory as $expanse)
+                            @foreach ($ledgerAccounts as $expanse)
                                 <option value="{{ $expanse->id }}">
-                                    {{ $expanse->name }}</option>
+                                    {{ $expanse->account_name }}</option>
                             @endforeach
                         </select>
                         @error('expense_category_id')
@@ -45,18 +45,18 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-sm-6 float-end">
+                <div class="col-sm-6">
                     <div>
                         <label for="ageSelect" class="form-label">Add Expense
                             Category </label>
-                        <a href="" class="btn btn-sm bg-info text-dark" data-bs-toggle="modal"
-                            data-bs-target="#exampleModalLongScollable"><i data-feather="plus"></i>
+                        <a href="" class="btn btn-sm bg-primary" data-bs-toggle="modal"
+                            data-bs-target="#expanseCategoryModal">
                             Expense Category</a>
                     </div>
                 </div>
             </div>
         </div><!-- Col -->
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Splender<span class="text-danger">*</span></label>
                 <input type="text" name="spender" class="form-control @error('spender') is-invalid @enderror"
@@ -67,16 +67,15 @@
             @enderror
         </div><!-- Col -->
 
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Date<span class="text-danger">*</span></label>
-
                 <div class="input-group flatpickr" id="flatpickr-date">
                     <input type="text"name="expense_date"
                         class="form-control @error('expense_date') is-invalid @enderror flatpickr-input" data-input=""
                         readonly="readonly" placeholder="Select Expense Date">
-                    <span class="input-group-text input-group-addon" data-toggle=""><svg
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <span class="input-group-text input-group-addon" data-toggle="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="feather feather-calendar">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2">
@@ -84,15 +83,15 @@
                             <line x1="16" y1="2" x2="16" y2="6"></line>
                             <line x1="8" y1="2" x2="8" y2="6"></line>
                             <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg></span>
+                        </svg>
+                    </span>
                 </div>
-
             </div>
             @error('expense_date')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="mb-3" bis_skin_checked="1">
                 <label for="ageSelect" class="form-label">Account Type<span class="text-danger">*</span></label>
                 <select class="form-select is-valid @error('account_type') is-invalid @enderror"data-width="100%"
@@ -107,7 +106,7 @@
                 <span class="text-danger related_sign_error"></span>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="mb-3" bis_skin_checked="1">
                 <label for="ageSelect" class="form-label">Payment
                     Account<span class="text-danger">*</span></label>

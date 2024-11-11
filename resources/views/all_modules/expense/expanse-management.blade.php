@@ -69,7 +69,7 @@
                                     </style>
                                 </div>
                                 <br>
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-md-11 mb-2"> <!-- Left Section -->
                                         <div class="justify-content-left">
                                             <a href="" class="btn btn-sm bg-info text-dark mr-2"
@@ -115,7 +115,7 @@
 
 
     {{-- /////////////////Add Modal//////////////// --}}
-    <div class="modal fade" id="exampleModalLongScollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    <div class="modal fade" id="expanseCategoryModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
@@ -133,7 +133,7 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary save_category">Save</button>
                 </div>
                 </form>
@@ -141,8 +141,6 @@
         </div>
     </div>
     <!---------------->
-
-
 
 
     <script>
@@ -200,7 +198,7 @@
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        $('#exampleModalLongScollable1' + categoryId).modal(
+                        $('#expanseCatUpModal' + categoryId).modal(
                             'hide'); // Hide the correct modal using the category ID
                         $('#signupForm' + categoryId)[0].reset(); // Reset the form
                         Swal.fire({
@@ -236,7 +234,7 @@
                     contentType: false,
                     success: function(res) {
                         if (res.status == 200) {
-                            $('#exampleModalLongScollable').modal('hide');
+                            $('#expanseCategoryModal').modal('hide');
                             // formData.delete(entry[0]);
                             // alert('added successfully');
                             $('.categoryForm')[0].reset();
@@ -265,12 +263,12 @@
                     spender: {
                         required: true,
                     },
-                    // bank_account_id:{
-                    //     required : true,
-                    // },
-                    // note:{
-                    //     required : true,
-                    // },
+                    bank_account_id: {
+                        required: true,
+                    },
+                    account_type: {
+                        required: true,
+                    },
                     expense_date: {
                         required: true,
                     },
@@ -288,12 +286,12 @@
                     spender: {
                         required: 'Please Enter  spender',
                     },
-                    // bank_account_id: {
-                    //     required : 'Please Select Bank Name',
-                    // },
-                    // note: {
-                    //     required : 'Please Enter Note',
-                    // },
+                    bank_account_id: {
+                        required: 'Please Select Bank Name',
+                    },
+                    account_type: {
+                        required: 'Please Select Account Type',
+                    },
                     expense_date: {
                         required: 'Please Select Date',
                     },
@@ -318,10 +316,14 @@
             e.preventDefault();
             filterData();
         });
-        document.querySelector('.filter-category').addEventListener('change', function(e) {
-            e.preventDefault();
-            filterData();
-        });
+        let filterCategoryElement = document.querySelector('.filter-category');
+        if (filterCategoryElement) {
+            filterCategoryElement.addEventListener('change', function(e) {
+                e.preventDefault();
+                filterData();
+            });
+        }
+
 
         function filterData() {
             let startDate = document.querySelector('.from-date').value;
@@ -390,7 +392,7 @@
         }
 
 
-        // tab active on the page reload
+        // // tab active on the page reload
         document.addEventListener("DOMContentLoaded", function() {
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
@@ -411,9 +413,9 @@
                 });
             });
 
-
             // modal not close function
-            modalShowHide('exampleModalLongScollable');
+            modalShowHide('expanseCategoryModal');
+
         });
     </script>
 

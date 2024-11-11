@@ -12,6 +12,7 @@ use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
+use App\Models\Ledger\SubLedger\SubLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -25,13 +26,23 @@ class ExpenseController extends Controller
         ], [
             'name' => 'required Expense Category Name'
         ]);
-        $expenseCategory = new ExpenseCategory;
+
         if ($validator->passes()) {
-            $expenseCategory->name =  $request->name;
-            $expenseCategory->save();
+
+            $ledgerAccounts = new LedgerAccounts;
+            $ledgerAccounts->branch_id = Auth::user()->branch_id;
+            $ledgerAccounts->group_id = 2;
+            $ledgerAccounts->account_name = $request->name;
+            $ledgerAccounts->save();
+
             return response()->json([
                 'status' => 200,
                 'message' => "Expense Category Added Successfully"
+            ]);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'error' => $validator->messages()
             ]);
         }
     } //End Method
@@ -123,18 +134,19 @@ class ExpenseController extends Controller
             $transaction->transaction_by = Auth::user()->id;
             $transaction->save();
 
-            $ledgerAccounts = new LedgerAccounts;
-            $ledgerAccounts->branch_id = Auth::user()->branch_id;
-            $ledgerAccounts->group_id = 2;
-            $ledgerAccounts->account_name = $request->purpose;
-            $ledgerAccounts->save();
+            $subLedger = new SubLedger;
+            $subLedger->branch_id = Auth::user()->branch_id;
+            $subLedger->account_id = $request->expense_category_id;
+            $subLedger->sub_ledger_name = $request->purpose;
+            $subLedger->save();
 
             // // Ledger Entry info save
             $ledgerEntries = new LedgerEntries;
             $ledgerEntries->branch_id = Auth::user()->branch_id;
             $ledgerEntries->transaction_id = $transaction->id;
             $ledgerEntries->group_id = 2;
-            $ledgerEntries->account_id = $ledgerAccounts->id;
+            $ledgerEntries->account_id = $request->expense_category_id;
+            $ledgerEntries->sub_ledger_id = $subLedger->id;
             $ledgerEntries->entry_amount = $request->amount;
             $ledgerEntries->transaction_date = Carbon::now();
             $ledgerEntries->transaction_by = Auth::user()->id;
@@ -171,6 +183,8 @@ class ExpenseController extends Controller
     {
         $expenseCat = ExpenseCategory::latest()->get();
         $expenseCategory = ExpenseCategory::latest()->get();
+        $ledgerAccounts = LedgerAccounts::where('group_id', 2)->latest()->get();
+        $testData = LedgerEntries::where('group_id', 2)->latest()->get();
         if (Auth::user()->id == 1) {
             $bank = BankAccounts::latest()->get();
             $expense = Expense::latest()->get();
@@ -178,7 +192,7 @@ class ExpenseController extends Controller
             $bank = BankAccounts::where('branch_id', Auth::user()->branch_id)->latest()->get();
             $expense = Expense::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
-        return view('all_modules.expense.expanse-management', compact('expense', 'expenseCat', 'bank', 'expenseCategory'));
+        return view('all_modules.expense.expanse-management', compact('expense', 'expenseCat', 'bank', 'expenseCategory', 'ledgerAccounts', 'testData'));
     } //
 
     public function ExpenseEdit($id)
@@ -271,7 +285,7 @@ class ExpenseController extends Controller
     } //
     public function ExpenseCategoryDelete($id)
     {
-        $expenseCategory = ExpenseCategory::findOrFail($id);
+        $expenseCategory = LedgerAccounts::findOrFail($id);
         $expenseCategory->delete();
         $notification = [
             'message' => 'Expense Category Deleted Successfully',
@@ -281,7 +295,7 @@ class ExpenseController extends Controller
     } //
     public function ExpenseCategoryEdit($id)
     {
-        $category = ExpenseCategory::findOrFail($id);
+        $category = LedgerAccounts::findOrFail($id);
         if ($category) {
             return response()->json([
                 'status' => 200,
@@ -297,8 +311,8 @@ class ExpenseController extends Controller
     public function ExpenseCategoryUpdate(Request $request, $id)
     {
 
-        $category = ExpenseCategory::findOrFail($id)->update([
-            'name' => $request->name
+        LedgerAccounts::findOrFail($id)->update([
+            'name' => $request->account_name
         ]);
         // dd($category);
         // Return success response
@@ -310,7 +324,7 @@ class ExpenseController extends Controller
     ///Expense Filter view //
     public function ExpenseFilterView(Request $request)
     {
-        $expenseCat = ExpenseCategory::latest()->get();
+        $expenseCat = LedgerAccounts::where('group_id', 2)->latest()->get();
         // $expenseCategory  = ExpenseCategory::latest()->get();
         $expense =  Expense::when($request->startDate && $request->endDate, function ($query) use ($request) {
             return $query->whereBetween('expense_date', [$request->startDate, $request->endDate]);
