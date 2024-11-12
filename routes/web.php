@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Assets\AssetController;
+use App\Http\Controllers\Assets\AssetRevaluationController;
+use App\Http\Controllers\Assets\AssetTypesController;
 use App\Http\Controllers\Bank\BankAccountsController;
 use App\Http\Controllers\Bank\CashTransactionController;
 use App\Http\Controllers\Bank\LoanManagement\LoanController;
@@ -97,10 +100,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/employee/payslip/store', 'paySlipStore');
         Route::get('/employee/{employeeId}/slip/view', 'singlePaySlipView');
 
-         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
-         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
-         Route::get('/employe/all/slip/view','allPaySlipView');
-
+        /////////////////////Employe Multiple Slip PaySlip ////////////////////////
+        Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
+        Route::get('/employe/all/slip/view', 'allPaySlipView');
     });
 
     // Banks related route
@@ -293,6 +295,28 @@ Route::middleware('auth')->group(function () {
         Route::get('/sub-ledger/view', 'view');
         // Route::get('/all-ledger/view/select-tag', 'view');
         Route::get('/sub-ledger/details/{id}', 'details');
+    });
+
+    // Asset Types related route
+    Route::controller(AssetTypesController::class)->group(function () {
+        Route::post('/asset-type/store', 'store');
+        Route::get('/asset-type/view', 'view');
+        // Route::get('/all-ledger/view/select-tag', 'view');
+        // Route::get('/sub-ledger/details/{id}', 'details');
+    });
+    Route::controller(AssetController::class)->group(function () {
+        Route::get('/asset-management', 'index')->name('asset.management');
+        Route::post('/asset/store', 'store');
+        Route::get('/asset/view', 'view');
+        // Route::get('/all-ledger/view/select-tag', 'view');
+        // Route::get('/sub-ledger/details/{id}', 'details');
+    });
+    Route::controller(AssetRevaluationController::class)->group(function () {
+        Route::get('/asset-revaluation', 'index')->name('asset.revaluation');
+        Route::post('/asset-revaluation/store', 'store');
+        Route::get('/asset-revaluation/view', 'view');
+        // Route::get('/all-ledger/view/select-tag', 'view');
+        // Route::get('/sub-ledger/details/{id}', 'details');
     });
 });
 

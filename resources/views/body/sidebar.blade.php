@@ -294,7 +294,7 @@
                 </li>
             @endif
 
-
+            {{-- ledger related all routes  --}}
             <li class="nav-item nav-category">Ledgers</li>
             {{-- @if (Auth::user()->can('ledgers.menu')) --}}
             <li class="nav-item">
@@ -312,6 +312,23 @@
                     class="nav-link {{ request()->routeIs('ledger.sub') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-network-wired link-icon"></i>
                     <span class="link-title">Sub Ledgers</span>
+                </a>
+            </li>
+
+            {{-- Assets Related All Route  --}}
+            <li class="nav-item nav-category">Assets</li>
+            <li class="nav-item">
+                <a href="{{ route('asset.management') }}"
+                    class="nav-link {{ request()->routeIs('asset.management') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-network-wired link-icon"></i>
+                    <span class="link-title">Asset Managment</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('asset.revaluation') }}"
+                    class="nav-link {{ request()->routeIs('asset.revaluation') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-network-wired link-icon"></i>
+                    <span class="link-title">Asset Revaluation</span>
                 </a>
             </li>
 
