@@ -4,22 +4,22 @@
 
     <div class="row">
         @if (Auth::user()->can('employee.add'))
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card ">
-                <div class="card-body">
-                    <div class="col-md-12 grid-margin stretch-card d-flex  mb-0 justify-content-between">
-                        <div>
-                            <h5 class="mb-2">Total Departments : {{$departments->count()}}</h5>
-                            <h5>Total Employee : {{$employees->count()}} </h5>
-                        </div>
-                        <div class="">
-                            <h4 class="text-right"><a href="{{ route('employee') }}" class="btn"
-                                    style="background: #5660D9">Add New Employee</a></h4>
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card ">
+                    <div class="card-body">
+                        <div class="col-md-12 grid-margin stretch-card d-flex  mb-0 justify-content-between">
+                            <div>
+                                <h5 class="mb-2">Total Departments : {{ $departments->count() }}</h5>
+                                <h5>Total Employee : {{ $employees->count() }} </h5>
+                            </div>
+                            <div class="">
+                                <h4 class="text-right"><a href="{{ route('employee') }}" class="btn"
+                                        style="background: #5660D9">Add New Employee</a></h4>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         @endif
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
@@ -109,7 +109,7 @@
 
                     </div>
                     <div id="" class="table-responsive">
-                        <table id="example" class="table">
+                        <table id="showSlipTable" class="table">
                             <thead>
                                 <tr>
 
@@ -180,20 +180,21 @@
         });
 
         ////Slip Vew //
-        // fetchPaySlips();
-        // $(document).ready(function() {
+        function fetchPaySlips() {
+            $.ajax({
+                url: '/employe/all/slip/view',
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    // console.log(response.paySlip);
+                    if ($.fn.DataTable.isDataTable('#showSlipTable')) {
+                        $('#showSlipTable').DataTable().clear().destroy();
+                    }
+                    if (response.paySlip) {
+                        $('.showSlip').empty(); // Clear previous data if any
 
-       function fetchPaySlips() {
-        $.ajax({
-            url: '/employe/all/slip/view',
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                // console.log(response.paySlip);
-                if (response.paySlip) {
-                    $('.showSlip').empty(); // Clear previous data if any
-                    $.each(response.paySlip, function(index, paySlips) {
-                        $('.showSlip').append(`
+                        $.each(response.paySlip, function(index, paySlips) {
+                            $('.showSlip').append(`
                             <tr>
                                 <td>${paySlips.employee ? paySlips.employee.full_name : 'N/A'}</td>
                                 <td>${paySlips.pay_period_date}</td>
@@ -210,16 +211,74 @@
                                 </td>
                             </tr>
                         `);
-                    });
+                        });
+                    }
+                   ///
+                   $('#showSlipTable').DataTable({
+                            columnDefs: [{
+                                "defaultContent": "-",
+                                "targets": "_all"
+                            }],
+                            dom: 'Bfrtip',
+                            buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: 'Excel',
+                                    exportOptions: {
+                                        header: true,
+                                        columns: ':visible'
+                                    },
+                                    customize: function(xlsx) {
+                                        return '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}\n\n' +
+                                            xlsx + '\n\n';
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    text: 'PDF',
+                                    exportOptions: {
+                                        header: true,
+                                        columns: ':visible'
+                                    },
+                                    customize: function(doc) {
+                                        doc.content.unshift({
+                                            text: '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}',
+                                            fontSize: 14,
+                                            alignment: 'center',
+                                            margin: [0, 0, 0, 12]
+                                        });
+                                        doc.content.push({
+                                            text: 'Thank you for using our service!',
+                                            fontSize: 14,
+                                            alignment: 'center',
+                                            margin: [0, 12, 0, 0]
+                                        });
+                                        return doc;
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    text: 'Print',
+                                    exportOptions: {
+                                        header: true,
+                                        columns: ':visible'
+                                    },
+                                    customize: function(win) {
+                                        $(win.document.body).prepend(
+                                            '<h4>{{ $header }}</br>{{ $phone ?? '+880....' }}</br>Email:{{ $email }}</br>Address:{{ $address }}</h4>'
+                                        );
+                                        $(win.document.body).find('h1')
+                                            .hide(); // Hide the title element
+                                    }
+                                }
+                            ]
+                        });
+                   ///
+                },
+                error: function(xhr, status, error) {
+                    console.error("Failed to fetch pay slips:", error);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error("Failed to fetch pay slips:", error);
-            }
-        });
-    }
-    fetchPaySlips();
-// });
-
-</script>
+            });
+        }
+        fetchPaySlips();
+    </script>
 @endsection

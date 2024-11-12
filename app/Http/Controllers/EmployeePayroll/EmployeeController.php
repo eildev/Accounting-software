@@ -350,6 +350,19 @@ class EmployeeController extends Controller
             return response()->json(['status' => 200, 'message' => 'Slips generated successfully!']);
 
         }
+        public function singlePaySlipView($employeeId){
+        $paySlips = PaySlip::where('employee_id', $employeeId)->get();
+        if ($paySlips->isEmpty()) {
+            return response()->json([
+                "status" => 404,
+                "message" => "No pay slips found for this employee.",
+            ]);
+        }
+        return response()->json([
+            "status" => 200,
+            "paySlips" => $paySlips,
+        ]);
+        }
         public function allPaySlipView(){
             $paySlip = PaySlip::with('employee')->get();
 

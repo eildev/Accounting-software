@@ -93,11 +93,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/bonuses/edit/{id}', 'bonusEdit');
         Route::post('/employee/bonus/update/{id}', 'bonusUpdate');
         Route::get('/employee/bonus/destroy/{id}', 'bonusDelete');
-        /////////////////////Employe PaySlip ////////////////////////
+        /////////////////////Employe single PaySlip ////////////////////////
         Route::post('/employee/payslip/store', 'paySlipStore');
-        /////////////////////Employe Multiple Slip PaySlip ////////////////////////
-        Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
-        Route::get('/employe/all/slip/view', 'allPaySlipView');
+        Route::get('/employee/{employeeId}/slip/view', 'singlePaySlipView');
+
+         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
+         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
+         Route::get('/employe/all/slip/view','allPaySlipView');
+
     });
 
     // Banks related route
