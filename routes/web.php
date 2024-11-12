@@ -95,10 +95,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/bonus/destroy/{id}', 'bonusDelete');
         /////////////////////Employe PaySlip ////////////////////////
         Route::post('/employee/payslip/store', 'paySlipStore');
-         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
-         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
-         Route::get('/employe/all/slip/view','allPaySlipView');
-
+        /////////////////////Employe Multiple Slip PaySlip ////////////////////////
+        Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
+        Route::get('/employe/all/slip/view', 'allPaySlipView');
     });
 
     // Banks related route
@@ -277,6 +276,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/all-ledger/view', 'viewAllLedger');
         Route::get('/all-ledger/view/category-wise/{id}', 'viewAllLedgerCategoryWise');
         Route::get('/all-ledger/details/{id}', 'allLedgerDetails');
+        Route::get('/sub-ledger/view/category-wise/{id}', 'viewSubLedgerCategoryWise');
     });
     // Sub Ledger related route
     Route::controller(SubLedgerController::class)->group(function () {
