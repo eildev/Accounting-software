@@ -312,10 +312,10 @@
                                         ${index+1}
                                     </td>
                                     <td>
-                                        <a href="#" >${ledger.group_name ?? ""}</a>
+                                        <a href="/ledger/details/${ledger.id}" >${ledger.group_name ?? ""}</a>
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                        <a href="/ledger/details/${ledger.id}" class="btn btn-icon btn-xs btn-primary">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
                                         <a href="#" class="btn btn-icon btn-xs btn-success">

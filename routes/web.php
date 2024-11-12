@@ -272,11 +272,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/ledger', 'index')->name('ledger');
         Route::post('/ledger/store', 'store')->name('ledger.store');
         Route::get('/ledger/view', 'view')->name('ledger.view');
-        // Route::get('/ledger/details/{id}', 'ledgerDetails')->name('ledger.details');
+        Route::get('/ledger/details/{id}', 'ledgerDetails');
 
         // all-ledger related route
         Route::post('/all-ledger/store', 'storeAllLedger');
         Route::get('/all-ledger/view', 'viewAllLedger');
+        Route::get('/all-ledger/view/category-wise/{id}', 'viewAllLedgerCategoryWise');
         Route::get('/all-ledger/details/{id}', 'allLedgerDetails');
     });
     // Sub Ledger related route

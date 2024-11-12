@@ -164,6 +164,48 @@ class LedgerController extends Controller
     }
 
 
+    // ledger details Function 
+    public function ledgerDetails($id)
+    {
+        try {
+            // Fetch the bank accounts based on user type (admin or branch)
+            $primaryLedger = PrimaryLedgerGroup::findOrFail($id);
+            $ledgers = LedgerAccounts::where('group_id', $id)->get();
+            $branch = Branch::findOrFail($primaryLedger->branch_id);
+            // Return a successful response with data
+            // Attempt to return the view
+            return view('all_modules.ledgers.primary-ledgers-details', compact('primaryLedger', 'branch', 'ledgers'));
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error loading the Ledger details: ' . $e->getMessage());
+
+            // Optionally return a custom error view or a simple error message
+            return response()->view('errors.500', [], 500);
+        }
+    }
+
+
+    // ledger details Function 
+    public function viewAllLedgerCategoryWise($id)
+    {
+        try {
+            $ledgers = LedgerAccounts::where('group_id', $id)->get();
+            // Return a successful response with data
+            // Attempt to return the view
+            return response()->json([
+                "status" => 200,
+                "data" => $ledgers,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching Ledger Info.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
+
+
     public function allLedgerDetails($id)
     {
         try {
