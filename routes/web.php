@@ -284,6 +284,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/all-ledger/view', 'viewAllLedger');
         Route::get('/all-ledger/view/category-wise/{id}', 'viewAllLedgerCategoryWise');
         Route::get('/all-ledger/details/{id}', 'allLedgerDetails');
+        Route::get('/sub-ledger/view/category-wise/{id}', 'viewSubLedgerCategoryWise');
     });
     // Sub Ledger related route
     Route::controller(SubLedgerController::class)->group(function () {

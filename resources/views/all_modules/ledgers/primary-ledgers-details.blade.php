@@ -43,30 +43,6 @@
                             <p class="show_branch_phone">{{ $branch->phone ?? '' }}</p>
                         </div>
                         <div>
-
-                            <a href="{{ route('expense.view') }}"
-                                class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                                <i class="btn-icon-prepend" data-feather="dollar-sign"></i>
-                                Expanse
-                            </a>
-                            @if ($primaryLedger->group_name == 'Asset')
-                                <a href="{{ route('transaction') }}"
-                                    class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                                    <i class="btn-icon-prepend" data-feather="repeat"></i>
-                                    Transaction
-                                </a>
-                            @endif
-                            @if ($primaryLedger->group_name == 'Asset')
-                                <a href="{{ route('bank') }}"
-                                    class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                                    <i class="btn-icon-prepend" data-feather="aperture"></i>
-                                    Bank
-                                </a>
-                            @endif
-                            <a href="{{ route('loan') }}" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
-                                <i class="btn-icon-prepend" data-feather="plus-circle"></i>
-                                Loan
-                            </a>
                             <button type="button" class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0"
                                 data-bs-toggle="modal" data-bs-target="#ledgerModal">
                                 <i class="btn-icon-prepend" data-feather="plus"></i>

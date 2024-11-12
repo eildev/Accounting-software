@@ -224,4 +224,26 @@ class LedgerController extends Controller
             return response()->view('errors.500', [], 500);
         }
     }
+
+
+
+    // ledger details Function 
+    public function viewSubLedgerCategoryWise($id)
+    {
+        try {
+            $subLedger = SubLedger::where('account_id', $id)->get();
+            // Return a successful response with data
+            // Attempt to return the view
+            return response()->json([
+                "status" => 200,
+                "data" => $subLedger,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching Ledger Info.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
 }
