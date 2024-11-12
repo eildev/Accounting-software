@@ -101,17 +101,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/employee/payslip/store', 'paySlipStore');
         Route::get('/employee/{employeeId}/slip/view', 'singlePaySlipView');
 
-<<<<<<< HEAD
         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
         Route::get('/employe/all/slip/view', 'allPaySlipView');
-=======
-         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
-         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
-         Route::get('/employe/all/slip/view','allPaySlipView');
-         Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
-
->>>>>>> 9b6251709969fd231a71bc7bc6ee2d667ac2bbfb
+        Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
     });
 
     // Banks related route
@@ -230,7 +223,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/salary/structure/destroy/{id}', 'destroy');
         Route::get('/employees-without-salary-structure', 'getEmployeesWithoutSalaryStructure');
         Route::get('/employees-without-salary-structure-edit', 'getEmployeesWithoutSalaryStructureEdit');
-
     }); //End
     // Convenience Bill  related route(n)
     Route::controller(ConvenienceBillController::class)->group(function () {
