@@ -96,13 +96,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/bonuses/edit/{id}', 'bonusEdit');
         Route::post('/employee/bonus/update/{id}', 'bonusUpdate');
         Route::get('/employee/bonus/destroy/{id}', 'bonusDelete');
+        Route::post('/update-status-bonus', 'updateStatusBonus');
         /////////////////////Employe single PaySlip ////////////////////////
         Route::post('/employee/payslip/store', 'paySlipStore');
         Route::get('/employee/{employeeId}/slip/view', 'singlePaySlipView');
 
+<<<<<<< HEAD
         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
         Route::get('/employe/all/slip/view', 'allPaySlipView');
+=======
+         /////////////////////Employe Multiple Slip PaySlip ////////////////////////
+         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
+         Route::get('/employe/all/slip/view','allPaySlipView');
+         Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
+
+>>>>>>> 9b6251709969fd231a71bc7bc6ee2d667ac2bbfb
     });
 
     // Banks related route
@@ -145,7 +154,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/category/view', 'viewExpenseCategory');
     });
 
-
     // Transaction related route(n)
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
@@ -184,7 +192,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
     });
 
-    // Transaction related route(n)
+    // Employee Salary related route(n)
     Route::controller(EmployeeSalaryController::class)->group(function () {
         Route::get('/employee/salary/add', 'EmployeeSalaryAdd')->name('employee.salary.add');
         Route::get('/employee/salary/view', 'EmployeeSalaryView')->name('employee.salary.view');
@@ -222,6 +230,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/salary/structure/destroy/{id}', 'destroy');
         Route::get('/employees-without-salary-structure', 'getEmployeesWithoutSalaryStructure');
         Route::get('/employees-without-salary-structure-edit', 'getEmployeesWithoutSalaryStructureEdit');
+
     }); //End
     // Convenience Bill  related route(n)
     Route::controller(ConvenienceBillController::class)->group(function () {
@@ -230,6 +239,7 @@ Route::middleware('auth')->group(function () {
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
         Route::get('/convenience/view', 'convenienceView')->name('convenience.view');
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
+        Route::post('/update-status', 'updateStatus')->name('update-status');
     }); //End
 
     // Payroll Dashboard related route(n)

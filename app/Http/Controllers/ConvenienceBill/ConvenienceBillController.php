@@ -205,4 +205,16 @@ class ConvenienceBillController extends Controller
         $otherExpenseCosts = OtherExpenseCost::where('convenience_id', $id)->get();
         return view('all_modules.convenience_bill.all_bill_report',compact('movementCosts','foodingCosts','overnightCosts','otherExpenseCosts'));
     }
+    public function updateStatus(Request $request)
+    {
+
+        $item = Convenience::findOrFail($request->id);
+        $item->status = $request->status;
+        $item->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully!',
+            'status' => $item->status,
+        ]);
+    }
 }

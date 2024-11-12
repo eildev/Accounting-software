@@ -331,7 +331,6 @@
                     <span class="link-title">Asset Revaluation</span>
                 </a>
             </li>
-
             <li class="nav-item nav-category">PEOPLES</li>
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">

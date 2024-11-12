@@ -371,4 +371,27 @@ class EmployeeController extends Controller
                 "paySlip" => $paySlip,
             ]);
         }
+        /////////////Bonus Status Change////////
+        public function updateStatusBonus(Request $request){
+
+            $item = EmployeeBonuse::findOrFail($request->id);
+            $item->status = $request->status;
+            $item->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully!',
+                'status' => $item->status,
+            ]);
+        }
+        ////////////Payslip Status Change////////
+        public function PaySlipStatusUpdate(Request $request){
+            $item = PaySlip::findOrFail($request->id);
+            $item->status = $request->status;
+            $item->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Status updated successfully!',
+                'status' => $item->status,
+            ]);
+        }
 }//

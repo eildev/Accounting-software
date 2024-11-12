@@ -1,6 +1,11 @@
 @extends('master')
 @section('title', '| Expense')
 @section('admin')
+<style>
+    button{
+        border: none!important;
+    }
+</style>
     <div class="row">
 
         <div id="filter-rander">
@@ -30,11 +35,19 @@
                                      <td>{{$item->employee->full_name }}</td>
                                      <td>{{$item->total_amount }}</td>
                                      <td>
-                                        @if ($item->status  == 'pending')
-                                        <a href="#" class="badge bg-warning text-dark" style="font-weight: bold;">Pending</a>
-                                        @else
-                                        <a href="#" class="badge  bg-success text-dark" style="font-weight: bold;">Apprved</a>
-                                        @endif
+                                        <div class="dropdown" id="statusChange{{$item->id}}">
+                                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <a href="#" id="statusBadge{{$item->id}}"  class="badge text-dark
+                                                    {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'approved' ? 'bg-success' : 'bg-primary') }}" >
+                                                    {{ ucfirst($item->status) }}
+                                                </a>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#" onclick="changeStatus({{ $item->id }}, 'pending')">Pending</a>
+                                                <a class="dropdown-item" href="#" onclick="changeStatus({{ $item->id }}, 'approved')">Approved</a>
+                                                <a class="dropdown-item" href="#" onclick="changeStatus({{ $item->id }}, 'paid')">Paid</a>
+                                            </div>
+                                        </div>
                                     </td>
                                     </tr>
                                     @endforeach
@@ -62,9 +75,35 @@
     {{-- /////Expensse Report End --}}
     </div>
     </div>
-
-
-
     </div>
+    <script>
+      function changeStatus(id, status) {
+        $.ajax({
+            url: '/update-status', // Adjust with your route URL
+            type: 'POST',
+            data: {
+                id: id,
+                status: status,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                // Update badge color and text
+                let badge = $('#statusBadge' + id);
+                badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
+                if (status === 'pending') {
+                    badge.removeClass('bg-success bg-primary').addClass('bg-warning');
+                } else if (status === 'approved') {
+                    badge.removeClass('bg-warning bg-primary').addClass('bg-success');
+                } else if (status === 'paid') {
+                    badge.removeClass('bg-warning bg-success').addClass('bg-primary');
+                }
+            },
+            error: function(error) {
+                console.error("Error updating status", error);
+            }
+        });
+    }
+    changeStatus()
+    </script>
 @endsection

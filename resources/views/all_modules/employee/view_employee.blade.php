@@ -204,75 +204,84 @@
                                 <td>${paySlips.total_employee_bonus}</td>
                                 <td>${paySlips.total_convenience_amount}</td>
                                 <td>
-                                ${paySlips.status === 'pending' ? '<p class="btn btn-sm badge bg-warning">Pending</p>' : ''}
-                                ${paySlips.status === 'approved' ? '<p class="btn btn-sm badge bg-success">Approved</p>' : ''}
-                                ${paySlips.status === 'paid' ? '<p class="btn btn-sm badge bg-success">Paid</p>' : ''}
-                                ${!['pending', 'approved', 'paid'].includes(paySlips.status) ? '<p class="btn btn-sm badge bg-info color-black">Processing</p>' : ''}
+                                  <div class="dropdown" id="statusChange${paySlips.id}">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="statusBadge${paySlips.id}" class="badge text-dark
+                                            ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                            ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
+                                        </span>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
+                                        <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending')">Pending</a>
+                                        <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
+                                        <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'paid')">Paid</a>
+                                    </div>
+                                </div>
                                 </td>
                             </tr>
                         `);
                         });
                     }
-                   ///
-                   $('#showSlipTable').DataTable({
-                            columnDefs: [{
-                                "defaultContent": "-",
-                                "targets": "_all"
-                            }],
-                            dom: 'Bfrtip',
-                            buttons: [{
-                                    extend: 'excelHtml5',
-                                    text: 'Excel',
-                                    exportOptions: {
-                                        header: true,
-                                        columns: ':visible'
-                                    },
-                                    customize: function(xlsx) {
-                                        return '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}\n\n' +
-                                            xlsx + '\n\n';
-                                    }
+                    ///
+                    $('#showSlipTable').DataTable({
+                        columnDefs: [{
+                            "defaultContent": "-",
+                            "targets": "_all"
+                        }],
+                        dom: 'Bfrtip',
+                        buttons: [{
+                                extend: 'excelHtml5',
+                                text: 'Excel',
+                                exportOptions: {
+                                    header: true,
+                                    columns: ':visible'
                                 },
-                                {
-                                    extend: 'pdfHtml5',
-                                    text: 'PDF',
-                                    exportOptions: {
-                                        header: true,
-                                        columns: ':visible'
-                                    },
-                                    customize: function(doc) {
-                                        doc.content.unshift({
-                                            text: '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}',
-                                            fontSize: 14,
-                                            alignment: 'center',
-                                            margin: [0, 0, 0, 12]
-                                        });
-                                        doc.content.push({
-                                            text: 'Thank you for using our service!',
-                                            fontSize: 14,
-                                            alignment: 'center',
-                                            margin: [0, 12, 0, 0]
-                                        });
-                                        return doc;
-                                    }
-                                },
-                                {
-                                    extend: 'print',
-                                    text: 'Print',
-                                    exportOptions: {
-                                        header: true,
-                                        columns: ':visible'
-                                    },
-                                    customize: function(win) {
-                                        $(win.document.body).prepend(
-                                            '<h4>{{ $header }}</br>{{ $phone ?? '+880....' }}</br>Email:{{ $email }}</br>Address:{{ $address }}</h4>'
-                                        );
-                                        $(win.document.body).find('h1')
-                                            .hide(); // Hide the title element
-                                    }
+                                customize: function(xlsx) {
+                                    return '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}\n\n' +
+                                        xlsx + '\n\n';
                                 }
-                            ]
-                        });
-                   ///
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                text: 'PDF',
+                                exportOptions: {
+                                    header: true,
+                                    columns: ':visible'
+                                },
+                                customize: function(doc) {
+                                    doc.content.unshift({
+                                        text: '{{ $header ?? '' }}\n {{ $phone ?? '+880.....' }}\n {{ $email ?? '' }}\n{{ $address ?? '' }}',
+                                        fontSize: 14,
+                                        alignment: 'center',
+                                        margin: [0, 0, 0, 12]
+                                    });
+                                    doc.content.push({
+                                        text: 'Thank you for using our service!',
+                                        fontSize: 14,
+                                        alignment: 'center',
+                                        margin: [0, 12, 0, 0]
+                                    });
+                                    return doc;
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                text: 'Print',
+                                exportOptions: {
+                                    header: true,
+                                    columns: ':visible'
+                                },
+                                customize: function(win) {
+                                    $(win.document.body).prepend(
+                                        '<h4>{{ $header }}</br>{{ $phone ?? '+880....' }}</br>Email:{{ $email }}</br>Address:{{ $address }}</h4>'
+                                    );
+                                    $(win.document.body).find('h1')
+                                        .hide(); // Hide the title element
+                                }
+                            }
+                        ]
+                    });
+                    ///
                 },
                 error: function(xhr, status, error) {
                     console.error("Failed to fetch pay slips:", error);
@@ -280,5 +289,36 @@
             });
         }
         fetchPaySlips();
+        ///Status Change
+        function changeStatusPayslip(id, status) {
+            $.ajax({
+                url: '/update-status-payslip',
+                type: 'POST',
+                data: {
+                    id: id,
+                    status: status,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Update badge color and text dynamically
+                    const badge = $('#statusBadge' + id);
+                    badge.text(status.charAt(0).toUpperCase() + status.slice(1));
+
+                    // Remove existing badge classes and add new one based on status
+                    badge.removeClass('bg-warning bg-success bg-primary');
+                    if (status === 'pending') {
+                        badge.addClass('bg-warning');
+                    } else if (status === 'approved') {
+                        badge.addClass('bg-success');
+                    } else if (status === 'paid') {
+                        badge.addClass('bg-primary');
+                    }
+                },
+                error: function(error) {
+                    console.error("Error updating status", error);
+                    alert("There was an issue updating the status. Please try again.");
+                }
+            });
+        }
     </script>
 @endsection
