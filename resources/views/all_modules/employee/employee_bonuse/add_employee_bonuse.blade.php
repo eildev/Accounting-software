@@ -239,12 +239,21 @@
                                         <td>${bonus.bonus_type  ?? ""}</td>
                                         <td>${bonus.bonus_amount  ?? ""}</td>
                                         <td>${bonus.bonus_reason  ?? ""}</td>
-                                        <td>
-                                        ${bonus.status === 'pending' ? '<p class="btn btn-sm badge bg-warning">Pending</p>' : ''}
-                                        ${bonus.status === 'approved' ? '<p class="btn btn-sm badge bg-success">Approved</p>' : ''}
-                                        ${bonus.status === 'paid' ? '<p class="btn btn-sm badge bg-success">Paid</p>' : ''}
-                                        ${!['pending', 'approved', 'paid'].includes(bonus.status) ? '<p class="btn btn-sm badge bg-info color-black">Processing</p>' : ''}
-                                        </td>
+
+                                       <div class="dropdown" id="statusChange${bonus.id}">
+                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${bonus.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span id="statusBadge${bonus.id}" class="badge text-dark
+                                                ${bonus.status === 'pending' ? 'bg-warning' : (bonus.status === 'approved' ? 'bg-success' : (bonus.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                                ${bonus.status ? bonus.status.charAt(0).toUpperCase() + bonus.status.slice(1) : 'Processing'}
+                                            </span>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${bonus.id}">
+                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'pending')">Pending</a>
+                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'approved')">Approved</a>
+                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'paid')">Paid</a>
+                                            </div>
+                                        </div>
+
                                         <td>
                                             <a href="#" class="btn btn-primary btn-icon bonuses_edit" data-id="${bonus.id}" data-bs-toggle="modal" data-bs-target="#edit">
                                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -480,5 +489,36 @@
             });
 
         });
+        ////Status Change
+        function changeStatusBonus(id, status) {
+    $.ajax({
+        url: '/update-status-bonus',
+        type: 'POST',
+        data: {
+            id: id,
+            status: status,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            const badge = $('#statusBadge' + id);
+            badge.text(status.charAt(0).toUpperCase() + status.slice(1));
+
+            // Remove existing badge classes and add new one based on status
+            badge.removeClass('bg-warning bg-success bg-primary');
+            if (status === 'pending') {
+                badge.addClass('bg-warning');
+            } else if (status === 'approved') {
+                badge.addClass('bg-success');
+            } else if (status === 'paid') {
+                badge.addClass('bg-primary');
+            }
+        },
+        error: function(error) {
+            console.error("Error updating status", error);
+            alert("There was an issue updating the status. Please try again.");
+        }
+    });
+}
+
     </script>
 @endsection
