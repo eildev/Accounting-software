@@ -225,7 +225,6 @@
                     url: '/bank/view',
                     method: 'GET',
                     success: function(res) {
-                        // console.log(res.data);
                         const banks = res.data;
                         // console.log(banks.account_transaction);
                         $('.show_bank_data').empty();

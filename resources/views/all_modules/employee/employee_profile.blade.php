@@ -80,7 +80,7 @@
                         <h6 class="mt-1" style="color: #7987a1">{{ $salaryStructure->base_salary ?? '-' }}</h6>
                     </div>
                     <div class=" align-items-center justify-content-between mb-2">
-                        <h4 class="card-title mb-0 ">House Rent	:</h4>
+                        <h4 class="card-title mb-0 ">House Rent :</h4>
                         <h6 class="mt-1" style="color: #7987a1">{{ $salaryStructure->house_rent ?? '-' }}</h6>
                     </div>
                     <div class=" align-items-center justify-content-between mb-2">
@@ -89,7 +89,8 @@
                     </div>
                     <div class=" align-items-center   justify-content-between mb-2">
                         <h4 class="card-title mb-0  ">Other Fixed Allowance :</h4>
-                        <h6 class="mt-1" style="color: #7987a1">{{ $salaryStructure->other_fixed_allowances ?? '-' }}</h6>
+                        <h6 class="mt-1" style="color: #7987a1">{{ $salaryStructure->other_fixed_allowances ?? '-' }}
+                        </h6>
                     </div>
                     <div class="align-items-center   justify-content-between mb-2">
                         <h4 class="card-title mb-0  ">Deductions :</h4>
@@ -106,7 +107,8 @@
             <div class="row">
                 <div class="col-md-12 grid-margin ">
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel"
+                            aria-labelledby="home-tab">
                             <div class="card rounded">
                                 <div class="card-body table-responsive">
                                     <p class="mb-3 tx-14">Salary Month Info</p>
@@ -122,29 +124,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-
-                                                @foreach ($paySlip as $slip)
-                                                <tr>
-                                                <td>{{ $slip->pay_period_date ?? '-' }}</td>
-                                                <td>{{ $slip->total_net_salary ?? '-' }}</td>
-                                                <td>{{ $slip->total_gross_salary ?? '-' }}</td>
-                                                <td>{{ $slip->total_employee_bonus ?? '-' }}</td>
-                                                <td>{{ $slip->total_convenience_amount ?? '-' }} </td>
-                                                <td>{{ $slip->total_deductions ?? '-' }}</td>
-                                                <td>
-                                                    @if($slip->status =='pending')
-                                                        <p class="btn btn-sm badge bg-warning ">Pending</p>
-                                                    @elseif($slip->status =='approved')
-                                                    <p  class="btn btn-sm badge bg-success">Approved</p>
-                                                    @elseif($slip->status =='paid')
-                                                    <p  class="btn btn-sm badge bg-success">Paid</p>
-                                                    @else
-                                                        <p class="btn btn-sm badge bg-info color-black">Processing</p>
-                                                    @endif
-                                                </td>
-                                               </tr>
-                                                @endforeach
+                                        <tbody class="showSlip">
 
                                         </tbody>
                                     </table>
@@ -174,12 +154,12 @@
                                                     <td>{{ $convenience->created_at ? $convenience->created_at->format('d F Y') : '-' }}
                                                     </td>
                                                     <td>
-                                                        @if($convenience->status =='pending')
+                                                        @if ($convenience->status == 'pending')
                                                             <p class="btn btn-sm badge bg-warning ">Pending</p>
-                                                        @elseif($convenience->status =='approved')
-                                                        <p  class="btn btn-sm badge bg-success">Approved</p>
-                                                        @elseif($convenience->status =='paid')
-                                                        <p  class="btn btn-sm badge bg-success">Paid</p>
+                                                        @elseif($convenience->status == 'approved')
+                                                            <p class="btn btn-sm badge bg-success">Approved</p>
+                                                        @elseif($convenience->status == 'paid')
+                                                            <p class="btn btn-sm badge bg-success">Paid</p>
                                                         @else
                                                             <p class="btn btn-sm badge bg-info color-black">Processing</p>
                                                         @endif
@@ -192,19 +172,19 @@
                             </div>
                         </div>
                         @php
-                        $totalEarnings = 0;
-                        if ($salaryStructure) {
-                            $totalEarnings =
-                                ($salaryStructure->base_salary ?? 0) +
-                                ($salaryStructure->house_rent ?? 0) +
-                                ($salaryStructure->transport_allowance ?? 0) +
-                                ($salaryStructure->other_fixed_allowances ?? 0) +
-                                ($totalBonusAmount ?? 0) +
-                                ($conveniencesTotalAmount ?? 0) ;
-                        }
-                        $deductions = $salaryStructure->deductions ?? 0;
-                        $netPay = $totalEarnings - $deductions;
-                       @endphp
+                            $totalEarnings = 0;
+                            if ($salaryStructure) {
+                                $totalEarnings =
+                                    ($salaryStructure->base_salary ?? 0) +
+                                    ($salaryStructure->house_rent ?? 0) +
+                                    ($salaryStructure->transport_allowance ?? 0) +
+                                    ($salaryStructure->other_fixed_allowances ?? 0) +
+                                    ($totalBonusAmount ?? 0) +
+                                    ($conveniencesTotalAmount ?? 0);
+                            }
+                            $deductions = $salaryStructure->deductions ?? 0;
+                            $netPay = $totalEarnings - $deductions;
+                        @endphp
                         <div class="tab-pane fade " id="payslip" role="tabpanel" aria-labelledby="payslip-tab">
                             <div class="card rounded">
                                 <div class="card-body">
@@ -244,14 +224,14 @@
                                                         <td>{{$bonus->bonus_amount}}</td>
                                                     </tr>
                                                     @endforeach --}}
-                                                  <tr>
-                                                    <td>Total Employee Bonus</td>
-                                                       <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Total Convenience Amount</td>
-                                                       <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
-                                                  </tr>
+                                                    <tr>
+                                                        <td>Total Employee Bonus</td>
+                                                        <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total Convenience Amount</td>
+                                                        <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
+                                                    </tr>
                                                     {{-- <tr style="font-size: 20px;font-weignt:bold">
                                                         <td>Total Gross </td>
                                                         <td>{{ $totalEarnings ?? 0 }}<span>.00</span></td>
@@ -260,8 +240,9 @@
                                             </table>
                                         </div>
                                         <div class="col-md-4">
-                                            <p class="mb-3 tx-14">Total  Amount </p>
-                                            <table class="table " style="font-size: 15px; font-weignt:bold ;margin-right: 10px">
+                                            <p class="mb-3 tx-14">Total Amount </p>
+                                            <table class="table "
+                                                style="font-size: 15px; font-weignt:bold ;margin-right: 10px">
                                                 <thead>
                                                     <tr>
                                                         <th>Title</th>
@@ -271,7 +252,7 @@
                                                 <tbody>
 
                                                     <tr>
-                                                        <td>Total Gross :  </td>
+                                                        <td>Total Gross : </td>
                                                         <td>{{ $totalEarnings ?? 0 }}<span>.00</span></td>
                                                     </tr>
                                                     <tr>
@@ -280,12 +261,12 @@
                                                     </tr>
                                                     <tr>
                                                         <td>Net Salary : </td>
-                                                        <td>{{  $netPay  ?? 0 }} .00 </td>
+                                                        <td>{{ $netPay ?? 0 }} .00 </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
-                                            <hr>
+                                        <hr>
                                         <div class="col-md-12 text-end mt-2" style="">
                                             {{-- <p class="mb-3" style="font-size: 20px; font-weignt:bold ;margin-right: 65px"> Net Salary = {{ $netPay }}<span>.00</span> </p> --}}
                                         </div>
@@ -313,101 +294,102 @@
                     <input type="hidden" name="total_employee_bonus" value="{{ $totalBonusAmount ?? 0 }}">
                     <input type="hidden" name="total_convenience_amount" value="{{ $conveniencesTotalAmount ?? 0 }}">
                     <input type="hidden" name="total_net_salary" value="{{ $netPay ?? 0 }}">
-                    <input type="hidden" name="employee_id" value="{{$employee->id }}">
+                    <input type="hidden" name="employee_id" value="{{ $employee->id }}">
 
                     @foreach ($conveniencesAmount as $convenience)
-                    <input type="hidden" name="convenience_ids[]" value="{{ $convenience->id }}">
+                        <input type="hidden" name="convenience_ids[]" value="{{ $convenience->id }}">
                     @endforeach
 
                     @foreach ($bonuses as $bonus)
-                    <input type="hidden" name="bonus_ids[]" value="{{$bonus->id}}">
+                        <input type="hidden" name="bonus_ids[]" value="{{ $bonus->id }}">
                     @endforeach
-                <div class="modal-body" style="font-family: Arial, sans-serif;">
+                    <div class="modal-body" style="font-family: Arial, sans-serif;">
 
-                    <!-- Payslip Title and Date -->
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <h2 style="font-weight: bold; margin: 0;">Payslip</h2>
-                        <p class="mt-2">Pay Date: {{ date('Y/m/d') }}</p>
-                    </div>
+                        <!-- Payslip Title and Date -->
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <h2 style="font-weight: bold; margin: 0;">Payslip</h2>
+                            <p class="mt-2">Pay Date: {{ date('Y/m/d') }}</p>
+                        </div>
 
-                    <!-- Employee Details -->
-                    <div style="margin-bottom: 15px;">
-                        <p><strong>Employee Name:</strong> {{ $employee->full_name ?? '-' }}</p>
-                        <p><strong>Employee ID:</strong> 00{{ $employee->id ?? '' }}</p>
+                        <!-- Employee Details -->
+                        <div style="margin-bottom: 15px;">
+                            <p><strong>Employee Name:</strong> {{ $employee->full_name ?? '-' }}</p>
+                            <p><strong>Employee ID:</strong> 00{{ $employee->id ?? '' }}</p>
 
-                    </div>
+                        </div>
 
-                    <!-- Earnings Section -->
-                    <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
-                        <h6><strong> Gross </strong></h6>
-                        <table class="table table-bordered" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Basic Salary</td>
-                                    <td>{{ $salaryStructure->base_salary ?? 0 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>House Rent</td>
-                                    <td>{{ $salaryStructure->house_rent ?? 0 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Transport Allowance</td>
-                                    <td>{{ $salaryStructure->transport_allowance ?? 0 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Other Fixed Allowance</td>
-                                    <td>{{ $salaryStructure->other_fixed_allowances ?? 0 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Total Employee Bonus</td>
-                                       <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Total Convenience Amount</td>
-                                       <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
-                                  </tr>
-                                <tr>
-                                    <td><strong>Total Gross </strong></td>
-                                    <td><strong>{{ $totalEarnings }}.00</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--- Deductions Section --->
-                    <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
-                        <h6><strong>Deductions</strong></h6>
-                        <table class="table table-bordered" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- <tr>
+                        <!-- Earnings Section -->
+                        <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
+                            <h6><strong> Gross </strong></h6>
+                            <table class="table table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Basic Salary</td>
+                                        <td>{{ $salaryStructure->base_salary ?? 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>House Rent</td>
+                                        <td>{{ $salaryStructure->house_rent ?? 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Transport Allowance</td>
+                                        <td>{{ $salaryStructure->transport_allowance ?? 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other Fixed Allowance</td>
+                                        <td>{{ $salaryStructure->other_fixed_allowances ?? 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Employee Bonus</td>
+                                        <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Convenience Amount</td>
+                                        <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total Gross </strong></td>
+                                        <td><strong>{{ $totalEarnings }}.00</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--- Deductions Section --->
+                        <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
+                            <h6><strong>Deductions</strong></h6>
+                            <table class="table table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{-- <tr>
                                         <td>Deductions</td>
                                         <td>{{ $deductions}}</td>
                                     </tr> --}}
-                                <tr>
-                                    <td><strong>Total Deductions</strong></td>
-                                    <td><strong>{{ $deductions }}</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                    <tr>
+                                        <td><strong>Total Deductions</strong></td>
+                                        <td><strong>{{ $deductions }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <!-- Net Pay Section -->
-                    <div style="margin-top: 15px; padding: 10px; background-color: #000; text-align: center; color:#fff">
-                        <h6 ><strong>Net Salary:</strong> {{ $netPay }}<span>.00</span></h6>
-                    </div>
+                        <!-- Net Pay Section -->
+                        <div
+                            style="margin-top: 15px; padding: 10px; background-color: #000; text-align: center; color:#fff">
+                            <h6><strong>Net Salary:</strong> {{ $netPay }}<span>.00</span></h6>
+                        </div>
 
-                    {{-- <!-- Signature Section -->
+                        {{-- <!-- Signature Section -->
                     <div style="margin-top: 30px; text-align: center;">
                         <div style="display: inline-block; width: 45%; text-align: center;">
                             <p><strong>Employer Signature</strong></p>
@@ -419,18 +401,18 @@
                         </div>
                     </div> --}}
 
-                    <!-- Footer -->
-                    <div style="text-align: center; margin-top: 20px;">
-                        <p style="font-size: 12px;">This is a system-generated payslip</p>
+                        <!-- Footer -->
+                        <div style="text-align: center; margin-top: 20px;">
+                            <p style="font-size: 12px;">This is a system-generated payslip</p>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid #333;">
-                    <button type="button" class="btn print btn-primary">Print</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        onclick="$('#previewModal').modal('hide');">Close</button>
-                    <button type="button" class="save_pay_slip btn btn-primary">Save</button>
-                </div>
-            </form>
+                    <div class="modal-footer" style="border-top: 1px solid #333;">
+                        <button type="button" class="btn print btn-primary">Print</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="$('#previewModal').modal('hide');">Close</button>
+                        <button type="button" class="save_pay_slip btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -442,72 +424,110 @@
         document.querySelector('.btn-secondary').addEventListener('click', function() {
             $('#previewModal').modal('hide');
         });
+        //////////////Ajax view Month Salary//////////////////////
+
+        const employeeId = {{ $employee->id }};
+
+        function fetchPaySlip(employeeId) {
+            $.ajax({
+                url: `/employee/${employeeId}/slip/view`,
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    $('.showSlip').empty();
+                    // Populate table with pay slip data
+                    $.each(response.paySlips, function(index, paySlip) {
+                        $('.showSlip').append(`
+                                <tr>
+                                    <td>${paySlip.pay_period_date}</td>
+                                    <td>${paySlip.total_gross_salary}</td>
+                                    <td>${paySlip.total_deductions}</td>
+                                    <td>${paySlip.total_net_salary}</td>
+                                    <td>${paySlip.total_employee_bonus}</td>
+                                    <td>${paySlip.total_convenience_amount}</td>
+                                    <td>
+                                        ${paySlip.status === 'pending' ? '<p class="btn btn-sm badge bg-warning">Pending</p>' : ''}
+                                        ${paySlip.status === 'approved' ? '<p class="btn btn-sm badge bg-success">Approved</p>' : ''}
+                                        ${paySlip.status === 'paid' ? '<p class="btn btn-sm badge bg-success">Paid</p>' : ''}
+                                        ${!['pending', 'approved', 'paid'].includes(paySlip.status) ? '<p class="btn btn-sm badge bg-info color-black">Processing</p>' : ''}
+                                    </td>
+                                </tr>
+                            `);
+                    });
+
+                },
+                error: function(xhr, status, error) {
+                    console.error("Failed to fetch pay slips:", error);
+                }
+            });
+        }
+        fetchPaySlip(employeeId);
         //Save PaySlip
         const save_pay_slip = document.querySelector('.save_pay_slip');
-               save_pay_slip.addEventListener('click', function(e) {
-                //    alert('ok');
-                e.preventDefault();
-                let formData = new FormData($('.paySlipForm')[0]);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/employee/payslip/store',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if (res.status == 200) {
-                            $('#previewModal').modal('hide');
-                            $('.paySlipForm')[0].reset();
-                            toastr.success(res.message);
-                        } else if (res.status == 500){
-                            toastr.error(res.message);
-                        }
-                    }
-                });
+        save_pay_slip.addEventListener('click', function(e) {
+            //    alert('ok');
+            e.preventDefault();
+            let formData = new FormData($('.paySlipForm')[0]);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
-            //////////////////////////
+            $.ajax({
+                url: '/employee/payslip/store',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if (res.status == 200) {
+                        $('#previewModal').modal('hide');
+                        $('.paySlipForm')[0].reset();
+                        toastr.success(res.message);
+                        fetchPaySlip(employeeId);
+                    } else if (res.status == 500) {
+                        toastr.error(res.message);
+                    }
 
+                }
+            });
+        });
+        ////////////////////////// print////////////////////
 
-            document.querySelector('.print').addEventListener('click', function () {
-        // Clone the modal content
-        const printContent = document.querySelector('#previewModal .modal-content').cloneNode(true);
+        // document.querySelector('.print').addEventListener('click', function() {
+        //     // Clone the modal content
+        //     const printContent = document.querySelector('#previewModal .modal-content').cloneNode(true);
 
-        // Create a new window for printing
-        const printWindow = window.open('', '_blank', 'width=800, height=600');
-        printWindow.document.open();
-        printWindow.document.close();
-        // Add basic HTML structure and styles for the print window
-        printWindow.document.write(`
-            <html>
-                <head>
-                    <title>Payslip</title>
-                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                    <style>
-                        body { font-family: Arial, sans-serif; }
-                        .table { width: 100%; border-collapse: collapse; }
-                        .table th, .table td { padding: 10px; border: 1px solid #333; }
-                        .modal-content { border: 2px solid #333; padding: 20px; }
-                        .modal-footer { border-top: 1px solid #333; }
-                        .text-center { text-align: center; }
-                        .font-weight-bold { font-weight: bold; }
-                        .bg-dark { background-color: #000; color: #fff; padding: 10px; }
-                    </style>
-                </head>
-                <body>
-                    ${printContent.outerHTML}
-                </body>
-            </html>
-        `);
+        //     // Create a new window for printing
+        //     const printWindow = window.open('', '_blank', 'width=800, height=600');
+        //     printWindow.document.open();
+        //     printWindow.document.close();
+        //     // Add basic HTML structure and styles for the print window
+        //     printWindow.document.write(`
+        //     <html>
+        //         <head>
+        //             <title>Payslip</title>
+        //             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        //             <style>
+        //                 body { font-family: Arial, sans-serif; }
+        //                 .table { width: 100%; border-collapse: collapse; }
+        //                 .table th, .table td { padding: 10px; border: 1px solid #333; }
+        //                 .modal-content { border: 2px solid #333; padding: 20px; }
+        //                 .modal-footer { border-top: 1px solid #333; }
+        //                 .text-center { text-align: center; }
+        //                 .font-weight-bold { font-weight: bold; }
+        //                 .bg-dark { background-color: #000; color: #fff; padding: 10px; }
+        //             </style>
+        //         </head>
+        //         <body>
+        //             ${printContent.outerHTML}
+        //         </body>
+        //     </html>
+        // `);
 
-        printWindow.document.close();
-        printWindow.print();
-    });
-
+        //     printWindow.document.close();
+        //     printWindow.print();
+        // });
     </script>
 
 @endsection
