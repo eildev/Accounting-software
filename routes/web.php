@@ -21,6 +21,7 @@ use App\Http\Controllers\Expanse\RecurringExpanse\RecurringExpanseController;
 use App\Http\Controllers\Ledgers\LedgerController;
 use App\Http\Controllers\Ledgers\SubLedger\SubLedgerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +54,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/change-password', 'ChangePassword')->name('user.change.password');
         Route::post('/update-password', 'updatePassword')->name('user.update.password');
     });
-
 
     // Branch related route(n)
     Route::controller(BranchController::class)->group(function () {
@@ -228,6 +228,11 @@ Route::middleware('auth')->group(function () {
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
         Route::get('/convenience/view', 'convenienceView')->name('convenience.view');
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
+    }); //End
+
+    // Payroll Dashboard related route(n)
+    Route::controller(PayrollDashboardController::class)->group(function () {
+        Route::get('/payroll/dashboard', 'payrollDashboard')->name('payroll.dashboard');
     }); //End
 
     ////////////////////Role And Permission Route /////////////////

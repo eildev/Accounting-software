@@ -326,7 +326,20 @@
                 </li>
             @endif
             <li class="nav-item nav-category">HR</li>
-
+            <li class="nav-item">
+                <a href="{{ route('payroll.dashboard') }}"
+                    class="nav-link {{ request()->routeIs('payroll.dashboard') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Payroll Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('departments') }}"
+                    class="nav-link {{ request()->routeIs('departments') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Departments</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('departments') }}"
                     class="nav-link {{ request()->routeIs('departments') ? 'nav_active' : '' }}">
