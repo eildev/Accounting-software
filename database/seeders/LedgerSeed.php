@@ -50,6 +50,12 @@ class LedgerSeed extends Seeder
                 'group_id' => 1,
                 'account_name' => 'Fixed Asset',
             ],
+            [
+                'id' => 7,
+                'branch_id' => 1,
+                'group_id' => 2,
+                'account_name' => 'Recurring Expanse',
+            ],
         ];
 
         foreach ($ledgers as $ledger) {

@@ -270,7 +270,7 @@
                                         <div class="text-center text-warning mb-2">Data Not Found</div>
 
                                         <div class="text-center">
-                                            <button class="btn btn-primary employee_bonus_delete" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add  Bonuses<i data-feather="plus"></i></button>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add  Bonuses<i data-feather="plus"></i></button>
                                         </div>
 
                                     </td>
