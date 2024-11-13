@@ -185,7 +185,7 @@ class EmployeeController extends Controller
             $paySlip->total_deductions = $request->total_deductions;
             $paySlip->total_net_salary = $request->total_net_salary;
             $paySlip->total_employee_bonus = $request->total_employee_bonus;
-            $paySlip->total_convenience_amount = $request->total_convenience_amount;
+            $paySlip->total_convenience_amount =  $request->total_convenience_amount;
             $paySlip->status = 'pending';
             $paySlip->save();
             if($request->convenience_ids){
