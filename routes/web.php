@@ -86,6 +86,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/employee/update/{id}', 'update')->name('employee.update');
         Route::get('/employee/delete/{id}', 'destroy')->name('employee.delete');
         Route::get('/employee/profile/{id}', 'profile')->name('employee.profile');
+        Route::get('/employee/profile/edit/{id}', 'editProfile');
+        Route::post('/employee/profile/payslip/update', 'updateProfilepaySlip');
         ///////////////////////Employee Bonuse////////////////////////
         Route::get('/employee/bonus', 'indexBonus')->name('employee.bonus');
         Route::post('/employee/bonus/store', 'bonusStore');

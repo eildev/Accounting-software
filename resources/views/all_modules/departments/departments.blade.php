@@ -149,7 +149,7 @@
 
             function DepartmentsView() {
                 $.ajax({
-                    url: '/depertments/view',
+                    url: '/departments/view',
                     method: 'GET',
                     success: function(res) {
                         const departments = res.data;
