@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('primary_ledger_groups', function (Blueprint $table) {
-            $table->id(); // INT AUTO_INCREMENT PRIMARY KEY,
+        Schema::create('assets', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->unsignedBigInteger('general_ledger_id')->nullable();
-            $table->foreign('general_ledger_id')->references('id')->on('general_ledgers');
-            $table->string('group_name', 50);  // NOT NULL -- E.g., 'Assets', 'Liabilities', 'Income', 'Expenses'
+            $table->string('asset_name', 99);
+            $table->integer('asset_type_id');
+            $table->date('purchase_date');
+            $table->decimal('acquisition_cost', 15, 2);
+            $table->integer('useful_life'); // -- in years
+            $table->decimal('salvage_value', 15, 2);
+            $table->date('initial_depreciation_date');
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('primary_ledger_groups');
+        Schema::dropIfExists('assets');
     }
 };
