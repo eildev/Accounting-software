@@ -363,6 +363,7 @@
                             $('#assetTypeModal').modal('hide');
                             $('.assetTypeForm')[0].reset();
                             assetTypeView();
+                            selectAssetTypeView();
                             toastr.success(res.message);
                         } else {
                             if (res.error.name) {

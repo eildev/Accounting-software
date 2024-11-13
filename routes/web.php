@@ -208,7 +208,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(DepartmentsController::class)->group(function () {
         Route::get('/departments', 'index')->name('departments');
         Route::post('/departments/store', 'store');
-        Route::get('/depertments/view', 'view');
+        Route::get('/departments/view', 'view');
         Route::get('/departments/edit/{id}', 'edit');
         Route::post('/departments/update/{id}', 'update');
         Route::get('/departments/destroy/{id}', 'destroy');
