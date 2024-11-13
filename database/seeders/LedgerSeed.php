@@ -18,7 +18,7 @@ class LedgerSeed extends Seeder
                 'id' => 1,
                 'branch_id' => 1,
                 'group_id' => 1,
-                'account_name' => 'Bank',
+                'account_name' => 'Banks',
             ],
             [
                 'id' => 2,
@@ -30,7 +30,25 @@ class LedgerSeed extends Seeder
                 'id' => 3,
                 'branch_id' => 1,
                 'group_id' => 4,
-                'account_name' => 'Loan',
+                'account_name' => 'Loans',
+            ],
+            [
+                'id' => 4,
+                'branch_id' => 1,
+                'group_id' => 2,
+                'account_name' => 'Regular Expanse',
+            ],
+            [
+                'id' => 5,
+                'branch_id' => 1,
+                'group_id' => 2,
+                'account_name' => 'Convenience Bill',
+            ],
+            [
+                'id' => 6,
+                'branch_id' => 1,
+                'group_id' => 1,
+                'account_name' => 'Fixed Asset',
             ],
         ];
 

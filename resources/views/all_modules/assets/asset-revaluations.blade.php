@@ -52,75 +52,55 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Loan</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Asset Revaluation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="assetRevaluationForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Loan Name<span class="text-danger">*</span></label>
-                            <input class="form-control loan_name" name="loan_name" type="text"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger loan_name_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Bank Account<span class="text-danger">*</span></label>
-                            <select class="form-control bank_loan_account_id" name="bank_loan_account_id"
-                                onchange="errorRemove(this);">
-                                @if ($banks->count() > 0)
-                                    <option value="">Select Loan Account</option>
-                                    @foreach ($banks as $account)
-                                        <option value="{{ $account->id }}">{{ $account->bank_name ?? '' }}</option>
+                            <label for="name" class="form-label">Select Asset<span class="text-danger">*</span></label>
+                            <select class="form-control asset_id" name="asset_id" onchange="errorRemove(this);">
+                                @if ($assets->count() > 0)
+                                    <option value="" selected disabled>Select Asset</option>
+                                    @foreach ($assets as $asset)
+                                        <option value="{{ $asset->id }}">{{ $asset->asset_name ?? '' }}</option>
                                     @endforeach
                                 @else
-                                    <option value="">No Account Found</option>
+                                    <option value="">No Asset Found</option>
                                 @endif
                             </select>
-                            <span class="text-danger bank_loan_account_id_error"></span>
+                            <span class="text-danger asset_id_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Loan Amount<span class="text-danger">*</span></label>
-                            <input class="form-control loan_principal" name="loan_principal" type="number"
-                                onkeyup="errorRemove(this);">
-                            <span class="text-danger loan_principal_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Interest Rate %<span
+                            <label for="name" class="form-label">Revaluation Date<span
                                     class="text-danger">*</span></label>
-                            <input class="form-control interest_rate" name="interest_rate" type="number"
-                                onkeyup="errorRemove(this);" placeholder="0.00">
-                            <span class="text-danger interest_rate_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Loan Duration <span
-                                    class="text-danger">*</span></label>
-                            <input class="form-control loan_duration" name="loan_duration" type="number"
-                                onkeyup="errorRemove(this);" placeholder="0.00">
-                            <span class="text-danger loan_duration_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Repayment Schedule<span
-                                    class="text-danger">*</span></label>
-                            <select class="form-control repayment_schedule" name="repayment_schedule"
-                                onchange="errorRemove(this);">
-                                <option value="">Select Repayment Schedule</option>
-                                <option value="daily">Daily</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="yearly">Yearly</option>
-                            </select>
-                            <span class="text-danger repayment_schedule_error"></span>
-                        </div>
-                        <div class="mb-3 col-md-12">
-                            <label for="name" class="form-label">Start Date<span class="text-danger">*</span></label>
                             <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
                                 <span class="input-group-text input-group-addon bg-transparent border-primary"
                                     data-toggle><i data-feather="calendar" class="text-primary"></i></span>
-                                <input type="text" name="start_date"
-                                    class="form-control bg-transparent border-primary start_date"
+                                <input type="text" name="revaluation_date"
+                                    class="form-control bg-transparent border-primary revaluation_date"
                                     placeholder="Select date" data-input>
                             </div>
-                            <span class="text-danger start_date_error"></span>
+                            <span class="text-danger revaluation_date_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Revaluation Amount<span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control revaluation_amount" name="revaluation_amount" type="number"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger revaluation_amount_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">New Book Value<span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control new_book_value" name="new_book_value" type="number"
+                                onkeyup="errorRemove(this);" placeholder="0.00">
+                            <span class="text-danger new_book_value_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="name" class="form-label">Reason</label>
+                            <input class="form-control reason" name="reason" type="text" onkeyup="errorRemove(this);">
+                            <span class="text-danger reason_error"></span>
                         </div>
                     </form>
                 </div>
@@ -211,6 +191,7 @@
                     url: '/asset-revaluation/view',
                     method: 'GET',
                     success: function(res) {
+                        // console.log(res);
                         const assetRevaluations = res.data;
                         $('.asset_revaluation_data').empty();
                         if ($.fn.DataTable.isDataTable('#assetRevaluationTable')) {
@@ -226,8 +207,8 @@
                                 </td>
                                 <td>
                                     <a href="#">
-                                        ${loan.asset_id ?? ""}
-                                        </a>
+                                        ${loan.asset.asset_name ?? ""}
+                                    </a>
                                 </td>
                                 <td>${loan.revaluation_date ?? ""}</td>
                                 <td>${loan.revaluation_amount ?? ""}</td>
@@ -254,7 +235,7 @@
                             <td colspan='9'>
                                 <div class="text-center text-warning mb-2">Data Not Found</div>
                                 <div class="text-center">
-                                    <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="assetRevaluationModal">Add Asset Revaluation<i data-feather="plus"></i></button>
+                                    <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#assetRevaluationModal">Add Asset Revaluation<i data-feather="plus"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -271,30 +252,6 @@
 
 
         document.addEventListener("DOMContentLoaded", function() {
-            // tab active on the page reload
-            // Get the last active tab from localStorage
-            // let activeTab = localStorage.getItem('activeTab');
-
-            // // If there is an active tab stored, activate it
-            // if (activeTab) {
-            //     let tabElement = document.querySelector(`a[href="${activeTab}"]`);
-            //     if (tabElement) {
-            //         new bootstrap.Tab(tabElement).show();
-            //     }
-            // }
-
-            // // Store the currently active tab in localStorage
-            // document.querySelectorAll('.nav-link').forEach(tab => {
-            //     tab.addEventListener('shown.bs.tab', function(event) {
-            //         let activeTabHref = event.target.getAttribute('href');
-            //         localStorage.setItem('activeTab', activeTabHref);
-            //     });
-            // });
-
-
-
-            // modal on off
-            // Initialize modal with backdrop and keyboard options
             modalShowHide('assetRevaluationModal');
         });
     </script>

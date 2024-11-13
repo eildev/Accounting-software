@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // INT AUTO_INCREMENT PRIMARY KEY,
             $table->unsignedBigInteger('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->unsignedBigInteger('general_ledger_id')->unsigned();
+            $table->unsignedBigInteger('general_ledger_id')->nullable();
             $table->foreign('general_ledger_id')->references('id')->on('general_ledgers');
             $table->string('group_name', 50);  // NOT NULL -- E.g., 'Assets', 'Liabilities', 'Income', 'Expenses'
             $table->timestamps();

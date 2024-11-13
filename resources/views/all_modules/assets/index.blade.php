@@ -268,8 +268,7 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        toastr.error(xhr.responseJSON.message ||
-                            'An unexpected error occurred');
+                        toastr.error(xhr.statusText || 'An unexpected error occurred');
                     }
                 });
             })
@@ -281,7 +280,6 @@
                     method: 'GET',
                     success: function(res) {
                         const assets = res.data;
-                        console.log(assets);
                         $('.asset_data').empty();
                         if ($.fn.DataTable.isDataTable('#assetTable')) {
                             $('#assetTable').DataTable().clear().destroy();

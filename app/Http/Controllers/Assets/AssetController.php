@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Assets;
 
 use App\Http\Controllers\Controller;
-use App\Models\Assets\AssetDescription;
+use App\Models\Assets\AssetDepreciation;
 use App\Models\Assets\Assets;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,6 +30,7 @@ class AssetController extends Controller
     // asset Type Store Data using store Functions
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
             $validator = Validator::make($request->all(), [
                 'asset_name' => 'required|max:99',
@@ -61,22 +62,22 @@ class AssetController extends Controller
 
 
             // Asset Description table Store Data 
-            $assetDescription = new AssetDescription;
-            $assetDescription->branch_id = Auth::user()->branch_id;
-            $assetDescription->asset_id = $asset->id;
-            $assetDescription->depreciation_date = Carbon::createFromFormat('d-M-Y', $request->initial_depreciation_date)->format('Y-m-d');
-            $assetDescription->depreciation_amount = $request->acquisition_cost;
-            $assetDescription->depreciation_type = 'scheduled';
-            $assetDescription->save();
+            // $assetDescription = new AssetDepreciation;
+            // $assetDescription->branch_id = Auth::user()->branch_id;
+            // $assetDescription->asset_id = $asset->id;
+            // $assetDescription->depreciation_date = Carbon::createFromFormat('d-M-Y', $request->initial_depreciation_date)->format('Y-m-d');
+            // $assetDescription->depreciation_amount = $request->acquisition_cost;
+            // $assetDescription->depreciation_type = 'scheduled';
+            // $assetDescription->save();
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Asset Type Saved Successfully',
+                'message' => 'Asset Saved Successfully',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 "status" => 500,
-                "message" => 'An error occurred while fetching Asset Type.',
+                "message" => 'An error occurred while fetching Asset',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
         }
@@ -103,7 +104,7 @@ class AssetController extends Controller
             // Handle any exceptions that may occur
             return response()->json([
                 "status" => 500,
-                "message" => 'An error occurred while fetching Asset types.',
+                "message" => 'An error occurred while fetching Asset ',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
         }

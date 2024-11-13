@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AssetRevaluation extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+    function asset()
+    {
+        return $this->belongsTo(Assets::class, 'asset_id', 'id');
+    }
 }
