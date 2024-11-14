@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Bank\BankAccounts;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,13 @@ class DatabaseSeeder extends Seeder
             ModelHasRolesSeeder::class,
             PrimaryLedgerSeed::class,
             LedgerSeed::class,
+            SubLedgerSeed::class,
+            BanksAccountSeed::class,
+            CashSeed::class,
+            CashTransactionSeed::class,
+            TransactionSeed::class,
+            LedgerEntriesSeed::class,
+            DepartmentSeed::class,
         ]);
     }
 }
