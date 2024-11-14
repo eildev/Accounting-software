@@ -258,11 +258,7 @@
                                             <a href="#" class="btn btn-primary btn-icon bonuses_edit" data-id="${bonus.id}" data-bs-toggle="modal" data-bs-target="#edit">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                             ${bonus.status === 'pending' ? `<a href="#" class="btn btn-danger btn-icon employee_bonus_delete" data-id="${bonus.id}">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>`
-                                       : ' '}
-
+                                            ${bonus.status === 'pending' ? `<a href="#" class="btn btn-danger btn-icon employee_bonus_delete" data-id="${bonus.id}"><i class="fa-solid fa-trash-can"></i></a>` : ''}
                                         </td>
                                     `;
                                 $('.showData').append(tr);
@@ -272,7 +268,6 @@
                                 <tr>
                                     <td colspan='8'>
                                         <div class="text-center text-warning mb-2">Data Not Found</div>
-
                                         <div class="text-center">
                                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLongScollable">Add  Bonuses<i data-feather="plus"></i></button>
                                         </div>
@@ -511,6 +506,12 @@
                 badge.addClass('bg-success');
             } else if (status === 'paid') {
                 badge.addClass('bg-primary');
+            }
+            // Show or hide the delete button based on the new status
+            if (status === 'pending') {
+                $(`#statusChange${id}`).next('.employee_bonus_delete').show();
+            } else {
+                $(`#statusChange${id}`).next('.employee_bonus_delete').hide();
             }
         },
         error: function(error) {

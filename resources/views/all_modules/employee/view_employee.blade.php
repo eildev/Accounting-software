@@ -121,6 +121,7 @@
                                     <th>Total Employee Bonus</th>
                                     <th>Total Convenience Amount</th>
                                     <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="showSlip">
@@ -212,12 +213,18 @@
                                         </span>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
-                                        <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending')">Pending</a>
+                                        <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending' , ${paySlips.employee_id})">Pending</a>
                                         <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
                                         <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'paid')">Paid</a>
                                     </div>
                                 </div>
                                 </td>
+                                <td id="editButtonContainer${paySlips.id}">
+                                     ${paySlips.status === 'pending' ? `
+                                    <a href="/employee/profile/edit/${paySlips.employee_id}/${paySlips.id}" class="btn btn-sm btn-primary btn-icon payslip_edit" data-id="${paySlips.employee_id}">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>` : ''}
+                            </td>
                             </tr>
                         `);
                         });
@@ -290,7 +297,7 @@
         }
         fetchPaySlips();
         ///Status Change
-        function changeStatusPayslip(id, status) {
+        function changeStatusPayslip(id, status,employee_id) {
             $.ajax({
                 url: '/update-status-payslip',
                 type: 'POST',
@@ -312,6 +319,18 @@
                         badge.addClass('bg-success');
                     } else if (status === 'paid') {
                         badge.addClass('bg-primary');
+                    }
+                    const editButtonContainer = $('#editButtonContainer' + id);
+                    if (status === 'pending') {
+                        // Show or add the edit button if status is pending
+                        editButtonContainer.html(`
+                            <a href="/employee/profile/edit/${employee_id}" class="btn btn-sm btn-primary btn-icon payslip_edit" data-id="${id}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        `);
+                    } else {
+                        // Remove the edit button if status is not pending
+                        editButtonContainer.html('');
                     }
                 },
                 error: function(error) {

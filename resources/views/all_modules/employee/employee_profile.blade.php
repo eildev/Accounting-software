@@ -116,11 +116,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Pay Date</th>
-                                                <th>Total Net Salary</th>
                                                 <th>Total Gross Salary</th>
-                                                <th>Total Total Bonus </th>
-                                                <th>Total Convenience Amount</th>
                                                 <th>Total Deductions</th>
+                                                <th>Total Net Salary</th>
+                                                <th>Total Bonus Amount</th>
+                                                <th>Total Convenience Amount</th>
+
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -270,10 +271,28 @@
                                         <div class="col-md-12 text-end mt-2" style="">
                                             {{-- <p class="mb-3" style="font-size: 20px; font-weignt:bold ;margin-right: 65px"> Net Salary = {{ $netPay }}<span>.00</span> </p> --}}
                                         </div>
-                                        <div class="col-md-12 text-center mt-2 ">
+
+
+                                        {{-- <div class="col-md-12 text-center mt-2 ">
                                             <a href="#" onclick="previewPayslip()" class="btn btn-sm fs-5"
                                                 style="background-color: #6571FF;color:#fff">Genarate Slip</a>
+                                        </div> --}}
+
+                                        @if (Request::is('employee/profile/*') && !Request::is('employee/profile/edit/*'))
+                                        <div class="col-md-12 text-center mt-2">
+                                            <a href="#" onclick="previewPayslip()" class="btn btn-sm fs-5" style="background-color: #6571FF; color:#fff;">
+                                                Generate Slip
+                                            </a>
                                         </div>
+                                        @endif
+
+                                        @if (Request::is('employee/profile/edit/*'))
+                                            <div class="col-md-12 text-center mt-2">
+                                                <a href="#" class="btn btn-sm fs-5" onclick="updatePayslip()" style="background-color: #6571FF; color:#fff;">
+                                                    Update Slip
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -416,13 +435,156 @@
             </div>
         </div>
     </div>
+<!-- update Modal for Preview -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="border: 2px solid #333; padding: 20px;">
+        <form action="" class="updatePaySlipForm">
+            <input type="hidden" name="total_deductions" value="{{ $deductions ?? 0 }}">
+            <input type="hidden" name="total_gross_salary" value="{{ $totalEarnings ?? 0 }}">
+            <input type="hidden" name="total_employee_bonus" value="{{ $totalBonusAmount ?? 0 }}">
+            <input type="hidden" name="total_convenience_amount" value="{{ $conveniencesTotalAmount ?? 0 }}">
+            <input type="hidden" name="total_net_salary" value="{{ $netPay ?? 0 }}">
+            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+            {{-- //Url Match  --}}
+            @if (Request::is('employee/profile/edit/*'))
+            <input type="hidden" name="payslip_id" value="{{ $payslip_id->id }}">
+            @endif
+            @foreach ($conveniencesAmount as $convenience)
+                <input type="hidden" name="convenience_ids[]" value="{{ $convenience->id }}">
+            @endforeach
 
+            @foreach ($bonuses as $bonus)
+                <input type="hidden" name="bonus_ids[]" value="{{ $bonus->id }}">
+            @endforeach
+            <div class="modal-body" style="font-family: Arial, sans-serif;">
+
+                <!-- Payslip Title and Date -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="font-weight: bold; margin: 0;">Payslip</h2>
+                    <p class="mt-2">Pay Date: {{ date('Y/m/d') }}</p>
+                </div>
+
+                <!-- Employee Details -->
+                <div style="margin-bottom: 15px;">
+                    <p><strong>Employee Name:</strong> {{ $employee->full_name ?? '-' }}</p>
+                    <p><strong>Employee ID:</strong> 00{{ $employee->id ?? '' }}</p>
+
+                </div>
+
+                <!-- Earnings Section -->
+                <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
+                    <h6><strong> Gross </strong></h6>
+                    <table class="table table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Basic Salary</td>
+                                <td>{{ $salaryStructure->base_salary ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>House Rent</td>
+                                <td>{{ $salaryStructure->house_rent ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Transport Allowance</td>
+                                <td>{{ $salaryStructure->transport_allowance ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Other Fixed Allowance</td>
+                                <td>{{ $salaryStructure->other_fixed_allowances ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Employee Bonus</td>
+                                <td>{{ $totalBonusAmount ?? 0 }}<span>.00</span></td>
+                            </tr>
+                            <tr>
+                                <td>Total Convenience Amount</td>
+                                <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Gross </strong></td>
+                                <td><strong>{{ $totalEarnings }}.00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--- Deductions Section --->
+                <div style="border: 1px solid #333; padding: 10px; margin-bottom: 15px;">
+                    <h6><strong>Deductions</strong></h6>
+                    <table class="table table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- <tr>
+                                <td>Deductions</td>
+                                <td>{{ $deductions}}</td>
+                            </tr> --}}
+                            <tr>
+                                <td><strong>Total Deductions</strong></td>
+                                <td><strong>{{ $deductions }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Net Pay Section -->
+                <div
+                    style="margin-top: 15px; padding: 10px; background-color: #000; text-align: center; color:#fff">
+                    <h6><strong>Net Salary:</strong> {{ $netPay }}<span>.00</span></h6>
+                </div>
+
+                {{-- <!-- Signature Section -->
+            <div style="margin-top: 30px; text-align: center;">
+                <div style="display: inline-block; width: 45%; text-align: center;">
+                    <p><strong>Employer Signature</strong></p>
+                    <p>______________________________</p>
+                </div>
+                <div style="display: inline-block; width: 45%; text-align: center;">
+                    <p><strong>Employee Signature</strong></p>
+                    <p>______________________________</p>
+                </div>
+            </div> --}}
+
+                <!-- Footer -->
+                {{-- <div style="text-align: center; margin-top: 20px;">
+                    <p style="font-size: 12px;">This is a system-generated payslip</p>
+                </div> --}}
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid #333;">
+                <button type="button" class="btn print btn-primary">Print</button>
+                <button type="button" class="btn btn-secondary btnupdate" data-dismiss="modal"
+                    onclick="$('#updateModal').modal('hide');">Close</button>
+                <button type="button" class="update_pay_slip btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
     <script>
         function previewPayslip() {
             $('#previewModal').modal('show');
         }
+        //update modal
+        function updatePayslip() {
+            $('#updateModal').modal('show');
+        }
         document.querySelector('.btn-secondary').addEventListener('click', function() {
             $('#previewModal').modal('hide');
+        });
+        //update modal
+        document.querySelector('.btnupdate').addEventListener('click', function() {
+            $('#updateModal').modal('hide');
         });
         //////////////Ajax view Month Salary//////////////////////
 
@@ -490,6 +652,56 @@
                     }
 
                 }
+            });
+        });
+        //////////// Update payslip /////////////
+        const update_pay_slip = document.querySelector('.update_pay_slip');
+        update_pay_slip.addEventListener('click', function(e) {
+            //    alert('ok');
+            e.preventDefault();
+            let formData = new FormData($('.updatePaySlipForm')[0]);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/employee/profile/payslip/update',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if (res.status == 200) {
+                        $('#updateModal').modal('hide');
+                        $('.updatePaySlipForm')[0].reset();
+                        toastr.success(res.message);
+                        fetchPaySlip(employeeId);
+                    } else if (res.status == 500) {
+                        toastr.error(res.message);
+                    }
+
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the last active tab from localStorage
+            let activeTab = localStorage.getItem('activeTab');
+
+            // If there is an active tab stored, activate it
+            if (activeTab) {
+                let tabElement = document.querySelector(`a[href="${activeTab}"]`);
+                if (tabElement) {
+                    new bootstrap.Tab(tabElement).show();
+                }
+            }
+
+            // Store the currently active tab in localStorage
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function(event) {
+                    let activeTabHref = event.target.getAttribute('href');
+                    localStorage.setItem('activeTab', activeTabHref);
+                });
             });
         });
         ////////////////////////// print////////////////////

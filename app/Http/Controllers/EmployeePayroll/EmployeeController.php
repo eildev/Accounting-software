@@ -131,6 +131,61 @@ class EmployeeController extends Controller
         // ->where('status', 'approved')
         ->get();
         return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount','conveniencesTotalAmount','conveniencesAmount','bonuses','paySlip'));
+
+    }
+    //Profile Edit
+    public function editProfile($id,$payslips_id){
+        $employee = Employee::findOrFail($id);
+        $salaryStructure = SalarySturcture::where('employee_id', $employee->id)->first();
+        $conveniences = Convenience::where('employee_id', $employee->id)->get();
+        $payslip_id = PaySlip::findOrFail($payslips_id);
+        //Total Employee Amount Send
+
+        $bonuses = EmployeeBonuse::where('employee_id', $employee->id)
+        ->whereMonth('bonus_date', Carbon::parse($payslip_id->pay_period_date)->month)
+        ->whereYear('bonus_date',  Carbon::parse($payslip_id->pay_period_date)->year)
+        ->where('status', 'approved')
+        ->get();
+        $totalBonusAmount = $bonuses->sum('bonus_amount');
+       //Total Convenience Amount Send
+
+        $conveniencesAmount = Convenience::where('employee_id', $employee->id)
+        ->whereMonth('created_at',  Carbon::parse($payslip_id->pay_period_date)->month)
+        ->whereYear('created_at',  Carbon::parse($payslip_id->pay_period_date)->year)
+        ->where('status', 'approved')
+        ->get();
+        $conveniencesTotalAmount = $conveniencesAmount->sum('total_amount');
+
+        return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount','conveniencesTotalAmount','conveniencesAmount','bonuses','payslip_id'));
+    }
+    ///////////Profile payslip Update////
+    public function updateProfilepaySlip(Request $request){
+
+            $paySlip =  PaySlip::findOrFail($request->payslip_id);
+            $paySlip->total_gross_salary = $paySlip->total_gross_salary + $request->total_employee_bonus + $request->total_convenience_amount;
+            $paySlip->total_net_salary = $paySlip->total_net_salary + $request->total_employee_bonus + $request->total_convenience_amount;
+            $paySlip->total_employee_bonus = $paySlip->total_employee_bonus + $request->total_employee_bonus;
+            $paySlip->total_convenience_amount = $paySlip->total_convenience_amount + $request->total_convenience_amount;
+            $paySlip->save();
+            if($request->convenience_ids){
+                $conveniences = Convenience::whereIn('id', $request->convenience_ids)->get();
+                foreach ($conveniences as $convenience) {
+                    $convenience->status = 'processing';
+                    $convenience->save();
+                 }
+            }
+            if($request->bonus_ids){
+                $employeeBonuses = EmployeeBonuse::whereIn('id', $request->bonus_ids)->get();
+                foreach ($employeeBonuses as $employeeBonuse) {
+                    $employeeBonuse->status = 'processing';
+                    $employeeBonuse->save();
+                 }
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'Employee Pay Slip Update Successfully',
+            ]);
+
     }
     ///////////////////////////////////////// Employee Bonus ////////////////////////////////////////
     public function indexBonus(){
@@ -240,7 +295,7 @@ class EmployeeController extends Controller
                 if($request->convenience_ids){
                     $conveniences = Convenience::whereIn('id', $request->convenience_ids)->get();
                     foreach ($conveniences as $convenience) {
-                        $convenience->status = 'paid';
+                        $convenience->status = 'processing';
                         $convenience->save();
                      }
                 }
@@ -248,7 +303,7 @@ class EmployeeController extends Controller
                 if($request->bonus_ids){
                     $employeeBonuses = EmployeeBonuse::whereIn('id',  $request->bonus_ids)->get();
                     foreach ($employeeBonuses as $employeeBonuse) {
-                        $employeeBonuse->status = 'paid';
+                        $employeeBonuse->status = 'processing';
                         $employeeBonuse->save();
                      }
                 }
@@ -333,7 +388,7 @@ class EmployeeController extends Controller
               // Update Employee convenience Status to Paid
                 if ($conveniencesAmount->isNotEmpty()) {
                     foreach ($conveniencesAmount as $convenience) {
-                        $convenience->status = 'paid';
+                        $convenience->status = 'processing';
                         $convenience->save();
                     }
                 }
@@ -341,7 +396,7 @@ class EmployeeController extends Controller
                 // Update Employee Bonuses Status to Paid
                 if ($bonuses->isNotEmpty()) {
                     foreach ($bonuses as $employeeBonuse) {
-                        $employeeBonuse->status = 'paid';
+                        $employeeBonuse->status = 'processing';
                         $employeeBonuse->save();
                     }
                 }
