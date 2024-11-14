@@ -25,6 +25,7 @@ use App\Http\Controllers\Ledgers\LedgerController;
 use App\Http\Controllers\Ledgers\SubLedger\SubLedgerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
+use App\Http\Controllers\EmployeePayroll\PaySlipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,7 +110,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
         Route::get('/employe/salary/sheet/view', 'allSalarySheetiew')->name('salary.sheet');
     });
-
+    // PaySlip related route
+    Route::controller(PaySlipController::class)->group(function () {
+        Route::get('/bank', 'index')->name('bank');
+        Route::post('/bank/store', 'store')->name('bank.store');
+        Route::get('/bank/view', 'view')->name('bank.view');
+        Route::get('/bank/details/{id}', 'bankDetails')->name('bank.details');
+    });
     // Banks related route
     Route::controller(BankAccountsController::class)->group(function () {
         Route::get('/bank', 'index')->name('bank');
