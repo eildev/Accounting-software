@@ -116,11 +116,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Pay Date</th>
-                                                <th>Total Net Salary</th>
                                                 <th>Total Gross Salary</th>
-                                                <th>Total Total Bonus </th>
-                                                <th>Total Convenience Amount</th>
                                                 <th>Total Deductions</th>
+                                                <th>Total Net Salary</th>
+                                                <th>Total Bonus Amount</th>
+                                                <th>Total Convenience Amount</th>
+
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -446,7 +447,10 @@ aria-hidden="true">
             <input type="hidden" name="total_convenience_amount" value="{{ $conveniencesTotalAmount ?? 0 }}">
             <input type="hidden" name="total_net_salary" value="{{ $netPay ?? 0 }}">
             <input type="hidden" name="employee_id" value="{{ $employee->id }}">
-
+            {{-- //Url Match  --}}
+            @if (Request::is('employee/profile/edit/*'))
+            <input type="hidden" name="payslip_id" value="{{ $payslip_id->id }}">
+            @endif
             @foreach ($conveniencesAmount as $convenience)
                 <input type="hidden" name="convenience_ids[]" value="{{ $convenience->id }}">
             @endforeach
@@ -678,6 +682,26 @@ aria-hidden="true">
                     }
 
                 }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the last active tab from localStorage
+            let activeTab = localStorage.getItem('activeTab');
+
+            // If there is an active tab stored, activate it
+            if (activeTab) {
+                let tabElement = document.querySelector(`a[href="${activeTab}"]`);
+                if (tabElement) {
+                    new bootstrap.Tab(tabElement).show();
+                }
+            }
+
+            // Store the currently active tab in localStorage
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function(event) {
+                    let activeTabHref = event.target.getAttribute('href');
+                    localStorage.setItem('activeTab', activeTabHref);
+                });
             });
         });
         ////////////////////////// print////////////////////

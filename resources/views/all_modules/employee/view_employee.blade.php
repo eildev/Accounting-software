@@ -221,7 +221,7 @@
                                 </td>
                                 <td id="editButtonContainer${paySlips.id}">
                                      ${paySlips.status === 'pending' ? `
-                                    <a href="/employee/profile/edit/${paySlips.employee_id}" class="btn btn-sm btn-primary btn-icon payslip_edit" data-id="${paySlips.employee_id}">
+                                    <a href="/employee/profile/edit/${paySlips.employee_id}/${paySlips.id}" class="btn btn-sm btn-primary btn-icon payslip_edit" data-id="${paySlips.employee_id}">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>` : ''}
                             </td>
