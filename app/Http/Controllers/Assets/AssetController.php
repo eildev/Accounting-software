@@ -58,21 +58,18 @@ class AssetController extends Controller
             $asset->useful_life = $request->useful_life;
             $asset->salvage_value = $request->salvage_value;
             $asset->initial_depreciation_date = Carbon::createFromFormat('d-M-Y', $request->initial_depreciation_date)->format('Y-m-d');
+            if ($request->new_asset == null) {
+                $asset->status = 'purchased';
+            }
             $asset->save();
-
-
-            // Asset Description table Store Data 
-            // $assetDescription = new AssetDepreciation;
-            // $assetDescription->branch_id = Auth::user()->branch_id;
-            // $assetDescription->asset_id = $asset->id;
-            // $assetDescription->depreciation_date = Carbon::createFromFormat('d-M-Y', $request->initial_depreciation_date)->format('Y-m-d');
-            // $assetDescription->depreciation_amount = $request->acquisition_cost;
-            // $assetDescription->depreciation_type = 'scheduled';
-            // $assetDescription->save();
 
             return response()->json([
                 'status' => 200,
                 'message' => 'Asset Saved Successfully',
+                'data' => [
+                    'asset_id' => $asset->id, // Retrieve actual saved asset id
+                    'acquisition_cost' => $asset->acquisition_cost
+                ]
             ]);
         } catch (\Exception $e) {
             return response()->json([

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('useful_life'); // -- in years
             $table->decimal('salvage_value', 15, 2);
             $table->date('initial_depreciation_date');
+            $table->enum('status', ['purchased', 'purchasing'])->default('purchasing');
             $table->timestamps();
         });
     }
