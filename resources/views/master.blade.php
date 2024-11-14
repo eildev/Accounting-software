@@ -28,9 +28,165 @@
 
         </div>
     </div>
+
+
+    <!-- Modal Payment -->
+    <div class="modal fade" id="globalPaymentModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentForm" class="addPaymentForm row" method="POST">
+                        <input type="hidden" name="data_id" id="data_id" value="">
+                        <input type="hidden" name="payment_balance" id="payment_balance" value="">
+                        <input type="hidden" name="purpose" id="purpose" value="">
+                        <input type="hidden" name="transaction_type" id="transaction_type" value="">
+                        <div class="col-md-12">
+                            <label for="name" class="form-label">Installment Amount : <span id="due-amount"></span>
+                                ৳</label>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Account Type<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control account_type" name="account_type" onclick="errorRemove(this);"
+                                onchange="checkPaymentAccount(this);">
+                                <option value="">Select Account Type</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                            <span class="text-danger account_type_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Payment Account<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control payment_account_id" name="payment_account_id"
+                                onchange="errorRemove(this);">
+                                <option value="">Select Payment Account</option>
+                            </select>
+                            <span class="text-danger payment_account_id_error"></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-primary" id="save_global_payment">Payment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     @include('body.js')
 </body>
 <script>
+    // global check payment func 
+    function checkPaymentAccount(element) {
+        const paymentType = $(element).val(); // 'element' is passed in from the onclick event
+        const paymentAccounts = $('.payment_account_id');
+        $.ajax({
+            url: '/check-account-type',
+            method: 'GET',
+            data: {
+                payment_type: paymentType
+            },
+            success: function(res) {
+                const accounts = res.data;
+                // console.log(accounts);
+                if (accounts.length > 0) {
+                    $('.payment_account_id').html(
+                        `<option selected disabled>Select Account</option>`
+                    ); // Clear and set default option
+                    $.each(accounts, function(index, account) {
+                        // console.log(account);
+                        $('.payment_account_id').append(
+                            `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
+                        );
+                    });
+
+                } else {
+                    $('.payment_account_id').html(
+                        `<option selected disabled>No Account Found</option>`
+                    ); // Clear and set default option
+                }
+            }
+        });
+
+    }
+
+
+    const saveGlobalPayment = document.getElementById('save_global_payment');
+    saveGlobalPayment.addEventListener('click', function(e) {
+        // console.log('Working on payment')
+        e.preventDefault();
+
+        let formData = new FormData($('.addPaymentForm')[0]);
+        let paymentBalance = parseFloat($('#payment_balance').val());
+
+        // CSRF Token setup
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // // AJAX request
+        $.ajax({
+            url: '/transaction/store/with-ledger',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                // console.log(res);
+                if (res.status == 200) {
+                    // Hide the correct modal
+                    $('#duePayment').modal('hide');
+                    // Reset the form
+                    $('.addPaymentForm')[0].reset();
+                    toastr.success(res.message);
+                    window.location.reload();
+                } else if (res.status == 400) {
+                    toastr.warning(res.message);
+                } else {
+                    // console.log(res.error);
+                    if (res.message) {
+                        toastr.error(res.error);
+                    }
+                    if (res.error.data_id) {
+                        toastr.error(res.error.data_id);
+                    }
+                    if (res.error.account_type) {
+                        showError('.account_type', res.error.account_type);
+                    }
+                    if (res.error.account_type) {
+                        showError('.account_type', res.error.account_type);
+                    }
+                    if (res.error.payment_account_id) {
+                        showError('.payment_account_id', res.error.payment_account_id);
+                    }
+                    if (res.error.repayment_date) {
+                        showError('.repayment_date', res.error.repayment_date);
+                    }
+                    if (res.error.payment_balance) {
+                        toastr.error(res.error.payment_balance);
+                    }
+                }
+            },
+            error: function(err) {
+                toastr.error('An error occurred, Something Went Wrong.');
+            }
+        });
+    });
+
+
+    modalShowHide('globalPaymentModal');
+
+
     document.addEventListener('DOMContentLoaded', function() {
         const flexSwitchCheckDefault = document.querySelector('.flexSwitchCheckDefault');
         const form = document.getElementById('darkModeForm');
