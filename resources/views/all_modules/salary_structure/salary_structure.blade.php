@@ -26,7 +26,7 @@
                                     <th>SN</th>
                                     <th>Employee Name</th>
                                     <th>Basic Salary</th>
-                                    <th>Rouse Rent</th>
+                                    <th>House Rent</th>
                                     <th>Transport Allowance</th>
                                     <th>Other Fixed Allowance</th>
                                     <th>Deductions</th>

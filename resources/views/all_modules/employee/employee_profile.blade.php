@@ -314,6 +314,7 @@
                     <input type="hidden" name="total_convenience_amount" value="{{ $conveniencesTotalAmount ?? 0 }}">
                     <input type="hidden" name="total_net_salary" value="{{ $netPay ?? 0 }}">
                     <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                    <input type="hidden" name="base_salary" value="{{ $salaryStructure->base_salary ?? 0}}">
 
                     @foreach ($conveniencesAmount as $convenience)
                         <input type="hidden" name="convenience_ids[]" value="{{ $convenience->id }}">
@@ -624,7 +625,7 @@ aria-hidden="true">
             });
         }
         fetchPaySlip(employeeId);
-        //Save PaySlip
+        ////////Save PaySlip//////////
         const save_pay_slip = document.querySelector('.save_pay_slip');
         save_pay_slip.addEventListener('click', function(e) {
             //    alert('ok');
@@ -684,6 +685,7 @@ aria-hidden="true">
                 }
             });
         });
+        ///////////Atcive tab///////
         document.addEventListener("DOMContentLoaded", function() {
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
