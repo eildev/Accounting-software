@@ -322,8 +322,7 @@ class EmployeeController extends Controller
     public function multiplePaySlipStore(Request $request){
         $selectedIds = $request->input('selected_ids');
         /////////////////////////////////Condition if already exist then return ///////////////
-        // // dd($selectedIds);
-        // $existingEmployees = [];
+          // $existingEmployees = [];
         //   //this only For Validation
         // foreach ($selectedIds as $employeeId) {
         //       $existingPaySlip = PaySlip::where('employee_id', $employeeId)
@@ -348,7 +347,11 @@ class EmployeeController extends Controller
         //             'existing_employees' => $existingEmployees
         //         ]);
         //     }
+
+        // // dd($selectedIds);
+
             //Insert All Id ways Payslip
+
             foreach ($selectedIds as $employeeId) {
                 //Total Bonus
                 $existingPaySlip = PaySlip::where('employee_id', $employeeId)
@@ -416,11 +419,13 @@ class EmployeeController extends Controller
                         $employeeBonuse->save();
                     }
                 }
+
             }
 
             }//
 
             return response()->json(['status' => 200, 'message' => 'Slips generated successfully!']);
+
 
         }
         public function singlePaySlipView($employeeId){

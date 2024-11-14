@@ -149,7 +149,6 @@
             }
         });
 
-        ////Slip View //
 
     </script>
 @endsection
