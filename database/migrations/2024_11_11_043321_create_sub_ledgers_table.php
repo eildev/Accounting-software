@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->unsignedBigInteger('account_id')->unsigned(); //  Foreign key linking each sub-ledger to a ledger account.
             $table->foreign('account_id')->references('id')->on('ledger_accounts');
-            $table->string('sub_ledger_name', 100)->nullable(); // Name for specific sub-ledger (e.g., Cash in Hand, Bank Savings).
+            $table->string('sub_ledger_name', 100); // Name for specific sub-ledger (e.g., Cash in Hand, Bank Savings).
+            $table->string('slug', 100); // Name for specific sub-ledger (e.g., Cash in Hand, Bank Savings).
             $table->timestamps();
         });
     }

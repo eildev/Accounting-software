@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('general_ledger_id')->nullable();
             $table->foreign('general_ledger_id')->references('id')->on('general_ledgers');
             $table->string('group_name', 50);  // NOT NULL -- E.g., 'Assets', 'Liabilities', 'Income', 'Expenses'
+            $table->string('slug', 50);
             $table->timestamps();
         });
     }

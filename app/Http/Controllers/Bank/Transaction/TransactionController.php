@@ -295,16 +295,18 @@ class TransactionController extends Controller
             }
 
             // Ledger Entry info save
-            // $ledgerEntries = new LedgerEntries;
-            // $ledgerEntries->branch_id = Auth::user()->branch_id;
-            // $ledgerEntries->transaction_id = $transaction->id;
-            // $ledgerEntries->group_id = 1;
-            // $ledgerEntries->account_id = 1;
-            // $ledgerEntries->sub_ledger_id = 1;
-            // $ledgerEntries->entry_amount = $request->initial_balance;
-            // $ledgerEntries->transaction_date = Carbon::now();
-            // $ledgerEntries->transaction_by = Auth::user()->id;
-            // $ledgerEntries->save();
+            $ledgerEntries = new LedgerEntries;
+            $ledgerEntries->branch_id = Auth::user()->branch_id;
+            $ledgerEntries->transaction_id = $transaction->id;
+            $ledgerEntries->group_id = 1;
+            if ($request->purpose == "Fixed Asset Purchase") {
+                $ledgerEntries->account_id = 6;
+            }
+            // $ledgerEntries->sub_ledger_id = ;
+            $ledgerEntries->entry_amount = $request->initial_balance;
+            $ledgerEntries->transaction_date = Carbon::now();
+            $ledgerEntries->transaction_by = Auth::user()->id;
+            $ledgerEntries->save();
 
             return response()->json([
                 'status' => 200,
