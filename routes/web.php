@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
         Route::get('/employe/all/slip/view', 'allPaySlipView');
         Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
+        Route::get('/employe/salary/sheet/view', 'allSalarySheetiew')->name('salary.sheet');
     });
 
     // Banks related route
