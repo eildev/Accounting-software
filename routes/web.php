@@ -241,6 +241,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
         Route::get('/convenience/view', 'convenienceView')->name('convenience.view');
+        Route::get('/convenience/view-details/{id}', 'convenienceViewDetails');
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
         Route::post('/update-status', 'updateStatus')->name('update-status');
     }); //End

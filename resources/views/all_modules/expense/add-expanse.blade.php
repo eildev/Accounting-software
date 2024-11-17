@@ -34,9 +34,9 @@
                             name="expense_category_id" aria-invalid="false">
                             <option selected="" disabled="">Select Expense
                                 Category </option>
-                            @foreach ($ledgerAccounts as $expanse)
+                            @foreach ($subLedger as $expanse)
                                 <option value="{{ $expanse->id }}">
-                                    {{ $expanse->account_name }}</option>
+                                    {{ $expanse->sub_ledger_name }}</option>
                             @endforeach
                         </select>
                         <span class="text-danger expense_category_id_error"></span>

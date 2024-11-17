@@ -13,11 +13,11 @@
             </tr>
         </thead>
         <tbody class="showData">
-            @if ($ledgerAccounts->count() > 0)
-                @foreach ($ledgerAccounts as $key => $ledgerAccount)
+            @if ($subLedger->count() > 0)
+                @foreach ($subLedger as $key => $ledgerAccount)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $ledgerAccount->account_name ?? '-' }}</td>
+                        <td>{{ $ledgerAccount->sub_ledger_name ?? '-' }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-primary category_edit" title="Edit"
                                 data-bs-toggle="modal" data-bs-target="#expanseCatUpModal{{ $ledgerAccount->id }}">
@@ -46,7 +46,8 @@
                                                 Expense Category Name</label>
                                             <input id="defaultconfig" class="form-control category_name" maxlength="250"
                                                 name="name" type="text" onkeyup="errorRemove(this);"
-                                                onblur="errorRemove(this);" value="{{ $ledgerAccount->name }}">
+                                                onblur="errorRemove(this);"
+                                                value="{{ $ledgerAccount->sub_ledger_name }}">
                                             <span class="text-danger category_name_error"></span>
                                         </div>
                                     </form>
@@ -65,6 +66,12 @@
                 <tr>
                     <td colspan="12">
                         <div class="text-center text-warning mb-2">Data Not Found</div>
+                        <div class="text-center">
+                            <button class="btn btn-xs btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#expanseCategoryModal">
+                                Add Expanse Category
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endif

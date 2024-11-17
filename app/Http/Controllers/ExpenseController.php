@@ -7,9 +7,6 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\AccountTransaction;
 use App\Models\Bank\BankAccounts;
-use App\Models\Bank\Cash;
-use App\Models\Bank\CashTransaction;
-use App\Models\Bank\Transaction\Transaction;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use App\Models\Ledger\SubLedger\SubLedger;
@@ -30,12 +27,12 @@ class ExpenseController extends Controller
 
         if ($validator->passes()) {
 
-            $ledgerAccounts = new LedgerAccounts;
-            $ledgerAccounts->branch_id = Auth::user()->branch_id;
-            $ledgerAccounts->group_id = 2;
-            $ledgerAccounts->account_name = $request->name;
-            $ledgerAccounts->slug = Str::slug($request->name);
-            $ledgerAccounts->save();
+            $subLedger = new SubLedger;
+            $subLedger->branch_id = Auth::user()->branch_id;
+            $subLedger->account_id = 4;
+            $subLedger->sub_ledger_name = $request->name;
+            $subLedger->slug = Str::slug($request->name);
+            $subLedger->save();
 
             return response()->json([
                 'status' => 200,
@@ -98,21 +95,13 @@ class ExpenseController extends Controller
             }
             $expense->save();
 
-
-            $subLedger = new SubLedger;
-            $subLedger->branch_id = Auth::user()->branch_id;
-            $subLedger->account_id = $request->expense_category_id;
-            $subLedger->sub_ledger_name = $request->purpose;
-            $subLedger->slug = Str::slug($request->purpose);
-            $subLedger->save();
-
             return response()->json([
                 'status' => 200,
                 'message' => 'Expanse Saved Successfully',
                 'data' => [
                     'expanse_id' => $expense->id, // Retrieve actual saved asset id
                     'amount' => $expense->amount,
-                    'subLedger_id' => $subLedger->id,
+                    'subLedger_id' => $request->expense_category_id,
                 ]
             ]);
         } catch (\Exception $e) {
@@ -128,18 +117,14 @@ class ExpenseController extends Controller
 
     public function ExpenseView()
     {
-        $expenseCat = ExpenseCategory::latest()->get();
-        $expenseCategory = ExpenseCategory::latest()->get();
-        $ledgerAccounts = LedgerAccounts::where('group_id', 2)->latest()->get();
-        $testData = LedgerEntries::where('group_id', 2)->latest()->get();
+        $subLedger = SubLedger::where('account_id', 4)->latest()->get();
+        $testData = LedgerEntries::where('account_id', 4)->latest()->get();
         if (Auth::user()->id == 1) {
-            $bank = BankAccounts::latest()->get();
             $expense = Expense::latest()->get();
         } else {
-            $bank = BankAccounts::where('branch_id', Auth::user()->branch_id)->latest()->get();
             $expense = Expense::where('branch_id', Auth::user()->branch_id)->latest()->get();
         }
-        return view('all_modules.expense.expanse-management', compact('expense', 'expenseCat', 'bank', 'expenseCategory', 'ledgerAccounts', 'testData'));
+        return view('all_modules.expense.expanse-management', compact('expense', 'subLedger', 'testData'));
     } //
 
     public function ExpenseEdit($id)

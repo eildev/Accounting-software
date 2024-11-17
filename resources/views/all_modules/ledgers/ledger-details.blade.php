@@ -43,7 +43,7 @@
                             <p class="show_branch_phone">{{ $branch->phone ?? '' }}</p>
                         </div>
                         <div>
-                            @if ($ledger->account_name == 'Regular Expanse')
+                            @if ($ledger->account_name == 'Expanse')
                                 <a href="{{ route('expense.view') }}"
                                     class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                                     <i class="btn-icon-prepend" data-feather="dollar-sign"></i>

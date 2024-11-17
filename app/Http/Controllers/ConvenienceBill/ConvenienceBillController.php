@@ -181,7 +181,7 @@ class ConvenienceBillController extends Controller
                     'status' => 200,
                     'message' => 'Convenience Bil Added Successfully',
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'status' => '500',
                     'error' => 'Convenience Fail to Added',
@@ -194,16 +194,18 @@ class ConvenienceBillController extends Controller
             ]);
         }
     }
-    public function convenienceView(){
+    public function convenienceView()
+    {
         $convenience = Convenience::all();
-        return view('all_modules.convenience_bill.convenience_bill_report',compact('convenience'));
+        return view('all_modules.convenience_bill.convenience_bill_report', compact('convenience'));
     }
-    public function convenienceInvoice($id){
+    public function convenienceInvoice($id)
+    {
         $movementCosts = MovementCost::where('convenience_id', $id)->get();
         $foodingCosts = FoodingCost::where('convenience_id', $id)->get();
         $overnightCosts = OvernightCost::where('convenience_id', $id)->get();
         $otherExpenseCosts = OtherExpenseCost::where('convenience_id', $id)->get();
-        return view('all_modules.convenience_bill.all_bill_report',compact('movementCosts','foodingCosts','overnightCosts','otherExpenseCosts'));
+        return view('all_modules.convenience_bill.all_bill_report', compact('movementCosts', 'foodingCosts', 'overnightCosts', 'otherExpenseCosts'));
     }
     public function updateStatus(Request $request)
     {
@@ -215,6 +217,16 @@ class ConvenienceBillController extends Controller
             'success' => true,
             'message' => 'Status updated successfully!',
             'status' => $item->status,
+        ]);
+    }
+
+    public function convenienceViewDetails($id)
+    {
+
+        $convenience = Convenience::findOrFail($id);
+        return response()->json([
+            'status' => 200,
+            'convenience' => $convenience,
         ]);
     }
 }
