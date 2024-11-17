@@ -48,7 +48,7 @@ class AssetTypesController extends Controller
     }
 
 
-    // Asset Type view Function 
+    // Asset Type view Function
     public function view()
     {
         try {
@@ -80,7 +80,7 @@ class AssetTypesController extends Controller
     public function edit() {}
     public function update() {}
 
-    // Delete functionality implement this function 
+    // Delete functionality implement this function
     public function delete($id)
     {
         try {
@@ -110,9 +110,10 @@ class AssetTypesController extends Controller
 
     public function assetTypeDeleteView()
     {
+
         try {
-            $assetTypes = AssetTypes::where('deleted_at', '!=', null)->latest()->get();
-            dd($assetTypes);
+            $assetTypes = AssetTypes::onlyTrashed()->get();
+            // dd($assetTypes);
 
             // Return a successful response with data
             return response()->json([
