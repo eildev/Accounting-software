@@ -1,6 +1,5 @@
 <h6 class="card-title text-info">Add Expanse</h6>
-<form id="myValidForm" action="{{ route('expense.store') }}" method="post" enctype="multipart/form-data">
-    @csrf
+<form id="myValidForm" class="expanseForm" method="post" enctype="multipart/form-data">
     <div class="row">
         <!-- Col -->
         <div class="col-sm-3">
@@ -139,6 +138,6 @@
         </div>
     </div><!-- Row -->
     <div>
-        <input type="submit" class="btn btn-primary submit" value="Save">
+        <button type="submit" class="btn btn-primary save_expanse">Save</button>
     </div>
 </form>

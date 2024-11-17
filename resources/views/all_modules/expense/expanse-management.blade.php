@@ -114,7 +114,7 @@
     </div>
 
 
-    {{-- /////////////////Add Modal//////////////// --}}
+    {{-- /////////////////Add Expanse Category Modal//////////////// --}}
     <div class="modal fade" id="expanseCategoryModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
@@ -178,6 +178,7 @@
         // }
 
         $(document).ready(function() {
+
             $(document).on('click', '.update_expense_category', function(e) {
                 e.preventDefault();
                 let categoryId = $(this).data(
@@ -238,6 +239,33 @@
                             // formData.delete(entry[0]);
                             // alert('added successfully');
                             $('.categoryForm')[0].reset();
+                            toastr.success(res.message);
+                            window.location.reload();
+                        } else {
+                            showError('.category_name', res.error.name);
+                        }
+                    }
+                });
+            })
+
+
+            const saveExpanse = document.querySelector('.save_expanse');
+            saveExpanse.addEventListener('click', function(e) {
+                e.preventDefault();
+                let formData = new FormData($('.expanseForm')[0]);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/expense/store',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        if (res.status == 200) {
                             toastr.success(res.message);
                             window.location.reload();
                         } else {
