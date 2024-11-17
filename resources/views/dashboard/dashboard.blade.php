@@ -2,7 +2,7 @@
 @section('title', '| Dashboard')
 @section('admin')
 
-    {{-- ///// css style design //// --}}
+    {{-- ///// css style design ///// --}}
     <style>
         @media (max-width: 768px) {
             .responsive-text {

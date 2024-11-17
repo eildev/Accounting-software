@@ -85,7 +85,7 @@ $(function() {
       type: 'line',
       data: {
         labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-        datasets: [{ 
+        datasets: [{
             data: [86,114,106,106,107,111,133,221,783,2478],
             label: "Africa",
             borderColor: colors.info,
@@ -95,7 +95,7 @@ $(function() {
             pointBorderWidth: 2,
             pointHoverBorderWidth: 3,
             tension: .3
-          }, { 
+          }, {
             data: [282,350,411,502,635,809,947,1402,3700,5267],
             label: "Asia",
             borderColor: colors.danger,
@@ -110,7 +110,7 @@ $(function() {
       },
       options: {
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -175,7 +175,7 @@ $(function() {
       options: {
         aspectRatio: 2,
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -199,7 +199,7 @@ $(function() {
       type: 'line',
       data: {
         labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-        datasets: [{ 
+        datasets: [{
             data: [86,114,106,106,107,111,133,221,783,2478],
             label: "Africa",
             borderColor: colors.danger,
@@ -209,7 +209,7 @@ $(function() {
             pointBorderWidth: 2,
             pointHoverBorderWidth: 3,
             tension: .3
-          }, { 
+          }, {
             data: [282,350,411,502,635,809,947,1402,3700,5267],
             label: "Asia",
             borderColor: colors.info,
@@ -224,7 +224,7 @@ $(function() {
       },
       options: {
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -286,7 +286,7 @@ $(function() {
       },
       options: {
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -353,7 +353,7 @@ $(function() {
       },
       options: {
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -365,7 +365,7 @@ $(function() {
           },
         },
         scales: {
-          x: { 
+          x: {
             display: true,
             title: {
               display: true,
@@ -383,7 +383,7 @@ $(function() {
               }
             }
           },
-          y: { 
+          y: {
             display: true,
             title: {
               display: true,
@@ -471,7 +471,7 @@ $(function() {
           }
         },
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -536,7 +536,7 @@ $(function() {
           }
         },
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -574,7 +574,7 @@ $(function() {
       },
       options: {
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,
@@ -664,7 +664,7 @@ $(function() {
       },
       options: {
         plugins: {
-          legend: { 
+          legend: {
             display: true,
             labels: {
               color: colors.bodyColor,

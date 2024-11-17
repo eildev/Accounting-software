@@ -1,117 +1,211 @@
 @extends('master')
 @section('admin')
-<div class="row">
-    <div class="col-12 col-xl-12 stretch-card">
-      <div class="row flex-grow-1">
-        <div class="col-md-4 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-baseline">
-                <h6 class="card-title mb-0">New Customers</h6>
-                <div class="dropdown mb-2">
-                  <a type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                  </div>
+
+    <style>
+        .card-color {
+            background-color: #FAFAFA
+        }
+
+        .card-body {
+            padding: 15px 10px 10px 15px !important
+        }
+
+        .card {
+            border-radius: 12px
+        }
+
+        .growth {
+            border-radius: 30px;
+            padding: 0px 15px;
+            border: 1px solid #bebebe;
+        }
+
+        .employe-name {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 15px 0 5px 0px;
+            color: #9DA2AE;
+        }
+
+        .card-result-color {
+            color: #1E62E4;
+        }
+
+        @media (min-width: 1200px) {
+            .col-xl-5 {
+                width: 100%;
+            }
+
+            .col-md-12 {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <!-------------------------------Main Dashboard Start ------------------------->
+    <div class="row">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow-1">
+                <div class="col-md-3 grid-margin  stretch-card">
+                    <div class="card card-color">
+                        <div class="card-body card_body_first">
+                            <div class="d-flex justify-content-between align-items-center mb-0">
+                                <img width="60px" height="50px"
+                                    src="{{ asset('uploads/payroll_dashboard/payroll_icon/Group162507.png') }}"
+                                    alt="">
+                                <div class="growth">
+                                    <span>+10.3%</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-xl-5">
+                                    <P class="employe-name">Total Employee</P>
+                                    <h3 class="card-result-color">{{ $data['employeesCount'] }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-6 col-md-12 col-xl-5">
-                  <h3 class="mb-2">3,897</h3>
-                  <div class="d-flex align-items-baseline">
-                    <p class="text-success">
-                      <span>+3.3%</span>
-                      <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                    </p>
-                  </div>
+
+                <div class="col-md-3 grid-margin stretch-card">
+                    <div class="card card-color">
+                        <div class="card-body first">
+                            <div class="d-flex justify-content-between align-items-center mb-0">
+                                <img width="60px" height="50px"
+                                    src="{{ asset('uploads/payroll_dashboard/payroll_icon/Group162508.png') }}"
+                                    alt="">
+                                <div class="growth">
+                                    <span>+10.3%</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-xl-5">
+                                    <P class="employe-name">Total Department</P>
+                                    <h3 class="card-result-color">{{ $data['departmentsCount'] }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6 col-md-12 col-xl-7">
-                  <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
+                <div class="col-md-3 grid-margin stretch-card">
+                    <div class="card card-color">
+                        <div class="card-body first">
+                            <div class="d-flex justify-content-between align-items-center mb-0">
+                                <img width="60px" height="50px"
+                                    src="{{ asset('uploads/payroll_dashboard/payroll_icon/Group162509.png') }}"
+                                    alt="">
+                                <div class="growth">
+                                    <span>+0.3%</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-xl-6">
+                                    <P class="employe-name">Total Designation</P>
+                                    <h3 class="card-result-color">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div class="col-md-3 grid-margin stretch-card">
+                    <div class="card card-color">
+                        <div class="card-body first">
+                            <div class="d-flex justify-content-between align-items-center mb-0">
+                                <img width="60px" height="50px"
+                                    src="{{ asset('uploads/payroll_dashboard/payroll_icon/Group162510.png') }}"
+                                    alt="">
+                                <div class="growth">
+                                    <span>+0.3%</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-xl-6">
+                                    <P class="employe-name">Total Salary</P>
+                                    <h3 class="card-result-color">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="col-md-4 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-baseline">
-                <h6 class="card-title mb-0">New Orders</h6>
-                <div class="dropdown mb-2">
-                  <a type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                  </div>
+    </div> <!-- row -->
+    <!-------------------------------Main Dashboard End ------------------------->
+    <div class="row">
+        <div class="col-lg-7 col-xl-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Area chart</h6>
+                    <div class="flot-chart-wrapper">
+                        <div class="flot-chart" id="flotArea"></div>
+                    </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-6 col-md-12 col-xl-5">
-                  <h3 class="mb-2">35,084</h3>
-                  <div class="d-flex align-items-baseline">
-                    <p class="text-danger">
-                      <span>-2.8%</span>
-                      <i data-feather="arrow-down" class="icon-sm mb-1"></i>
-                    </p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-12 col-xl-7">
-                  <div id="ordersChart" class="mt-md-3 mt-xl-0"></div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-        <div class="col-md-4 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-baseline">
-                <h6 class="card-title mb-0">Growth</h6>
-                <div class="dropdown mb-2">
-                  <a type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="eye" class="icon-sm me-2"></i> <span class="">View</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="edit-2" class="icon-sm me-2"></i> <span class="">Edit</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="trash" class="icon-sm me-2"></i> <span class="">Delete</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="printer" class="icon-sm me-2"></i> <span class="">Print</span></a>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i data-feather="download" class="icon-sm me-2"></i> <span class="">Download</span></a>
-                  </div>
+        <div class="col-lg-5 col-xl-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Donut chart</h6>
+                    <div id="apexDonut"></div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-6 col-md-12 col-xl-5">
-                  <h3 class="mb-2">89.87%</h3>
-                  <div class="d-flex align-items-baseline">
-                    <p class="text-success">
-                      <span>+2.8%</span>
-                      <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                    </p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-12 col-xl-7">
-                  <div id="growthChart" class="mt-md-3 mt-xl-0"></div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </div> <!-- row -->
+    </div> <!-- row -->
+    <script>
+
+$(document).ready(function() {
+  // Area Chart
+  $.plot($('#flotArea'), [
+    {
+      label: 'iPhone',
+      data: [
+        [ "2010.Q1", 35 ], [ '2010.Q2', 67 ], [ '2010.Q3', 13 ], [ '2010.Q4', 45 ]
+      ]
+    },
+    {
+      label: 'iTouch',
+      data: [
+        [ '2010.Q1', 32 ], [ '2010.Q2', 49 ], [ '2010.Q3', 25 ], [ '2010.Q4', 57 ]
+      ]
+    }
+  ], {
+    series: {
+      shadowSize: 0,
+      lines: {
+        show: true,
+        fill: 0.15,
+        lineWidth: 1
+      }
+    },
+
+    grid: {
+      color: colors.bodyColor,
+      borderColor: colors.gridBorder,
+      borderWidth: 1,
+      hoverable: true,
+      clickable: true
+    },
+
+    xaxis: { mode: 'categories', tickColor: colors.gridBorder },
+    yaxis: { tickColor: colors.gridBorder },
+    legend: { backgroundColor: colors.cardBg },
+
+    tooltip: {
+      show: true,
+      content: '%s: %y'
+    },
+
+    colors: [colors.danger, colors.primary]
+  });
+})
+    </script>
+ <script src="{{ asset('assets') }}/vendors/jquery.flot/jquery.flot.js"></script>
+ <script src="{{ asset('assets') }}/vendors/jquery.flot/jquery.flot.resize.js"></script>
+ <script src="{{ asset('assets') }}/vendors/jquery.flot/jquery.flot.pie.js"></script>
+ <script src="{{ asset('assets') }}/vendors/jquery.flot/jquery.flot.categories.js"></script>
+   <!-- End plugin js for this page -->
+
+   <!-- Custom js for this page -->
+ <script src="{{ asset('assets') }}/assets/js/jquery.flot-light.js"></script>
+
 @endsection
-
-
-
