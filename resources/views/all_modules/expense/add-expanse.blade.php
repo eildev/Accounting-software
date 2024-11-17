@@ -2,27 +2,27 @@
 <form id="myValidForm" class="expanseForm" method="post" enctype="multipart/form-data">
     <div class="row">
         <!-- Col -->
-        <div class="col-sm-3">
+        <div class="col-md-4">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Purpose<span class="text-danger">*</span></label>
-                <input type="text" name="purpose"
-                    class="form-control field_required  @error('purpose') is-invalid @enderror"
-                    placeholder="Enter purpose" value="{{ old('purpose') }}">
+                <input type="text" name="purpose" class="form-control purpose" placeholder="Enter purpose">
+                <span class="text-danger purpose_error"></span>
             </div>
-            @error('purpose')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div><!-- Col -->
-        <div class="col-sm-3">
+        <div class="col-md-4">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Amount<span class="text-danger">*</span></label>
-                <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror"
-                    placeholder="Enter Amount" value="{{ old('amount') }}">
+                <input type="number" name="amount" class="form-control amount" placeholder="Enter Amount">
+                <span class="text-danger amount_error"></span>
             </div>
-            @error('amount')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
+        <div class="col-sm-4">
+            <div class="mb-3 form-valid-groups">
+                <label class="form-label">Splender<span class="text-danger">*</span></label>
+                <input type="text" name="spender" class="form-control spender" placeholder="Enter Splender">
+                <span class="text-danger spender_error"></span>
+            </div>
+        </div><!-- Col -->
         <div class="col-sm-6 form-valid-group">
             <div class="row">
                 <div class="col-sm-6">
@@ -30,7 +30,7 @@
                         <label for="ageSelect" class="form-label">Select Expense
                             Category <span class="text-danger">*</span></label>
                         <select
-                            class="form-select expense_category_name is-valid js-example-basic-single @error('expense_category_id') is-invalid @enderror"
+                            class="form-select expense_category_name is-valid js-example-basic-single expense_category_id"
                             name="expense_category_id" aria-invalid="false">
                             <option selected="" disabled="">Select Expense
                                 Category </option>
@@ -39,9 +39,7 @@
                                     {{ $expanse->account_name }}</option>
                             @endforeach
                         </select>
-                        @error('expense_category_id')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <span class="text-danger expense_category_id_error"></span>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -55,24 +53,14 @@
                 </div>
             </div>
         </div><!-- Col -->
-        <div class="col-sm-3">
-            <div class="mb-3 form-valid-groups">
-                <label class="form-label">Splender<span class="text-danger">*</span></label>
-                <input type="text" name="spender" class="form-control @error('spender') is-invalid @enderror"
-                    value="{{ old('spender') }}" placeholder="Enter Splender">
-            </div>
-            @error('spender')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div><!-- Col -->
 
-        <div class="col-sm-3">
+
+        <div class="col-sm-6">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Date<span class="text-danger">*</span></label>
                 <div class="input-group flatpickr" id="flatpickr-date">
-                    <input type="text"name="expense_date"
-                        class="form-control @error('expense_date') is-invalid @enderror flatpickr-input" data-input=""
-                        readonly="readonly" placeholder="Select Expense Date">
+                    <input type="text"name="expense_date" class="form-control  flatpickr-input expense_date"
+                        data-input="" readonly="readonly" placeholder="Select Expense Date">
                     <span class="input-group-text input-group-addon" data-toggle="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -85,55 +73,21 @@
                         </svg>
                     </span>
                 </div>
-            </div>
-            @error('expense_date')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="col-sm-3">
-            <div class="mb-3" bis_skin_checked="1">
-                <label for="ageSelect" class="form-label">Account Type<span class="text-danger">*</span></label>
-                <select class="form-select is-valid @error('account_type') is-invalid @enderror"data-width="100%"
-                    name="account_type" aria-invalid="false" onchange="checkPaymentAccount(this);">
-                    <option value="">Select Account Type</option>
-                    <option value="cash">Cash</option>
-                    <option value="bank">Bank</option>
-                </select>
-                @error('account_type')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                <span class="text-danger related_sign_error"></span>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="mb-3" bis_skin_checked="1">
-                <label for="ageSelect" class="form-label">Payment
-                    Account<span class="text-danger">*</span></label>
-                <select
-                    class="form-select bank_id is-valid @error('bank_account_id') is-invalid @enderror js-example-basic-single"data-width="100%"
-                    name="bank_account_id" aria-invalid="false">
-                    <option value="">Select Payment Account</option>
-                </select>
-                @error('bank_account_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                <span class="text-danger related_sign_error"></span>
+                <span class="text-danger expense_date_error"></span>
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title">Expense Image</h6>
-                    <p class="mb-3 text-warning">Note: <span class="fst-italic">Image not
-                            required.</span></p>
-                    <input type="file" name="image" id="myDropify" />
-                </div>
+            <div class="mb-3 form-valid-groups">
+                <label class="form-label">Expense Image</label>
+                <input type="file" name="image" class="form-control image" />
+                <span class="text-danger image_error"></span>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="mb-3 form-valid-groups">
                 <label class="form-label">Note</label>
-                <textarea name="note" class="form-control" id="" cols="10" rows="5"></textarea>
+                <textarea name="note" class="form-control note" id="" cols="10" rows="2"></textarea>
+                <span class="text-danger note_error"></span>
             </div>
         </div>
     </div><!-- Row -->

@@ -9,6 +9,7 @@ use App\Models\Bank\Cash;
 use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
+use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -242,7 +243,7 @@ class TransactionController extends Controller
                 'payment_account_id' => 'required|integer',
                 'payment_balance' => 'required|numeric|between:0,999999999999.99',
                 'purpose' => 'required',
-                'transaction_type' => 'required',
+                'transaction_type' => 'required|in:withdraw,deposit',
             ]);
 
             if ($validator->fails()) {
@@ -292,18 +293,32 @@ class TransactionController extends Controller
                 $asset = Assets::findOrFail($request->data_id);
                 $asset->status = 'purchased';
                 $asset->save();
+            } else if ($request->purpose == "Regular Expanse") {
+                $expanse = Expense::findOrFail($request->data_id);
+                $expanse->status = 'purchased';
+                if ($request->account_type === 'cash') {
+                    $expanse->cash_account_id = $request->payment_account_id;
+                } else {
+                    $expanse->bank_account_id = $request->payment_account_id;
+                }
+                $expanse->save();
             }
 
             // Ledger Entry info save
             $ledgerEntries = new LedgerEntries;
             $ledgerEntries->branch_id = Auth::user()->branch_id;
             $ledgerEntries->transaction_id = $transaction->id;
-            $ledgerEntries->group_id = 1;
             if ($request->purpose == "Fixed Asset Purchase") {
+                $ledgerEntries->group_id = 1;
                 $ledgerEntries->account_id = 6;
+            } else if ($request->purpose == "Regular Expanse") {
+                $ledgerEntries->group_id = 2;
+                $ledgerEntries->account_id = 4;
             }
-            // $ledgerEntries->sub_ledger_id = ;
-            $ledgerEntries->entry_amount = $request->initial_balance;
+            if ($request->subLedger_id) {
+                $ledgerEntries->sub_ledger_id = $request->subLedger_id;
+            }
+            $ledgerEntries->entry_amount = $request->payment_balance;
             $ledgerEntries->transaction_date = Carbon::now();
             $ledgerEntries->transaction_by = Auth::user()->id;
             $ledgerEntries->save();

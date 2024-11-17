@@ -45,6 +45,7 @@
                         <input type="hidden" name="payment_balance" id="payment_balance" value="">
                         <input type="hidden" name="purpose" id="purpose" value="">
                         <input type="hidden" name="transaction_type" id="transaction_type" value="">
+                        <input type="hidden" name="subLedger_id" id="subLedger_id" value="">
                         <div class="col-md-12">
                             <label for="name" class="form-label">Installment Amount : <span id="due-amount"></span>
                                 ৳</label>
@@ -158,10 +159,7 @@
                         toastr.error(res.error);
                     }
                     if (res.error.data_id) {
-                        toastr.error(res.error.data_id);
-                    }
-                    if (res.error.account_type) {
-                        showError('.account_type', res.error.account_type);
+                        toastr.error('Something went wrong with your Data ID');
                     }
                     if (res.error.account_type) {
                         showError('.account_type', res.error.account_type);
@@ -169,11 +167,14 @@
                     if (res.error.payment_account_id) {
                         showError('.payment_account_id', res.error.payment_account_id);
                     }
-                    if (res.error.repayment_date) {
-                        showError('.repayment_date', res.error.repayment_date);
-                    }
                     if (res.error.payment_balance) {
-                        toastr.error(res.error.payment_balance);
+                        toastr.error('Something went wrong with Payment Amount');
+                    }
+                    if (res.error.purpose) {
+                        toastr.error('Something went wrong with purpose');
+                    }
+                    if (res.error.transaction_type) {
+                        toastr.error('Something went wrong with Transaction Type');
                     }
                 }
             },
