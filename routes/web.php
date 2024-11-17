@@ -314,8 +314,11 @@ Route::middleware('auth')->group(function () {
     Route::controller(AssetTypesController::class)->group(function () {
         Route::post('/asset-type/store', 'store');
         Route::get('/asset-type/view', 'view');
-        // Route::get('/all-ledger/view/select-tag', 'view');
-        // Route::get('/sub-ledger/details/{id}', 'details');
+        Route::get('/asset-type/details/{id}', 'details');
+        Route::get('/asset-type/edit/{id}', 'edit');
+        Route::post('/asset-type/update/{id}', 'update');
+        Route::get('/asset-type/delete/{id}', 'delete');
+        Route::get('/asset-type/delete/view', 'assetTypeDeleteView');
     });
     Route::controller(AssetController::class)->group(function () {
         Route::get('/asset-management', 'index')->name('asset.management');

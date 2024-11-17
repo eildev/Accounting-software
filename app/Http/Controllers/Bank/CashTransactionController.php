@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
 
 class CashTransactionController extends Controller
 {
@@ -47,6 +49,7 @@ class CashTransactionController extends Controller
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = 2;
             $subLedger->sub_ledger_name = $request->cash_account_name;
+            $subLedger->slug = Str::slug($request->cash_account_name);
             $subLedger->save();
 
 

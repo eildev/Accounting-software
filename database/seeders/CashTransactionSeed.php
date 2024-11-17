@@ -18,7 +18,6 @@ class CashTransactionSeed extends Seeder
             [
                 'id' => 1,
                 'branch_id' => 1,
-                'cash_account_name' => 'Cash Account',
                 'cash_id' => 1,
                 'transaction_date' => Carbon::now(),
                 'amount' => 100000,

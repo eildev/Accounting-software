@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class BankAccountsController extends Controller
 {
@@ -69,6 +70,7 @@ class BankAccountsController extends Controller
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = 1;
             $subLedger->sub_ledger_name = $request->bank_name;
+            $subLedger->slug = Str::slug($request->bank_name);
             $subLedger->save();
 
             // transaction info save

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class SubLedgerController extends Controller
 {
@@ -51,6 +52,7 @@ class SubLedgerController extends Controller
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = $request->account_id;
             $subLedger->sub_ledger_name = $request->sub_ledger_name;
+            $subLedger->slug = Str::slug($request->sub_ledger_name);
             $subLedger->save();
             return response()->json([
                 'status' => 200,

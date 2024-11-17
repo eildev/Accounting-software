@@ -145,37 +145,37 @@
 
     <script>
         ///////////////////////// Check payment Account Using for check payment type ///////////////////
-        function checkPaymentAccount(element) {
-            const paymentType = $(element).val(); // 'element' is passed in from the onclick event
-            const paymentAccounts = $('.bank_id');
-            $.ajax({
-                url: '/check-account-type',
-                method: 'GET',
-                data: {
-                    payment_type: paymentType
-                },
-                success: function(res) {
-                    const accounts = res.data;
-                    // console.log(accounts);
-                    if (accounts.length > 0) {
-                        $('.bank_id').html(
-                            `<option selected disabled>Select Account</option>`
-                        ); // Clear and set default option
-                        $.each(accounts, function(index, account) {
-                            // console.log(account);
-                            $('.bank_id').append(
-                                `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
-                            );
-                        });
+        // function checkPaymentAccount(element) {
+        //     const paymentType = $(element).val(); // 'element' is passed in from the onclick event
+        //     const paymentAccounts = $('.bank_id');
+        //     $.ajax({
+        //         url: '/check-account-type',
+        //         method: 'GET',
+        //         data: {
+        //             payment_type: paymentType
+        //         },
+        //         success: function(res) {
+        //             const accounts = res.data;
+        //             // console.log(accounts);
+        //             if (accounts.length > 0) {
+        //                 $('.bank_id').html(
+        //                     `<option selected disabled>Select Account</option>`
+        //                 ); // Clear and set default option
+        //                 $.each(accounts, function(index, account) {
+        //                     // console.log(account);
+        //                     $('.bank_id').append(
+        //                         `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
+        //                     );
+        //                 });
 
-                    } else {
-                        $('.bank_id').html(
-                            `<option selected disabled>No Account Found</option>`
-                        ); // Clear and set default option
-                    }
-                }
-            });
-        }
+        //             } else {
+        //                 $('.bank_id').html(
+        //                     `<option selected disabled>No Account Found</option>`
+        //                 ); // Clear and set default option
+        //             }
+        //         }
+        //     });
+        // }
 
         $(document).ready(function() {
             $(document).on('click', '.update_expense_category', function(e) {

@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class LoanController extends Controller
 {
@@ -90,6 +91,7 @@ class LoanController extends Controller
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = 3;
             $subLedger->sub_ledger_name = $request->loan_name;
+            $subLedger->slug = Str::slug($request->loan_name);
             $subLedger->save();
 
             // transaction info save

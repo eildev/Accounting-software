@@ -16,6 +16,7 @@ use App\Models\Ledger\SubLedger\SubLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ExpenseController extends Controller
 {
@@ -33,6 +34,7 @@ class ExpenseController extends Controller
             $ledgerAccounts->branch_id = Auth::user()->branch_id;
             $ledgerAccounts->group_id = 2;
             $ledgerAccounts->account_name = $request->name;
+            $ledgerAccounts->slug = Str::slug($request->name);
             $ledgerAccounts->save();
 
             return response()->json([
@@ -138,6 +140,7 @@ class ExpenseController extends Controller
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = $request->expense_category_id;
             $subLedger->sub_ledger_name = $request->purpose;
+            $subLedger->slug = Str::slug($request->purpose);
             $subLedger->save();
 
             // // Ledger Entry info save
