@@ -25,6 +25,7 @@ use App\Http\Controllers\Ledgers\LedgerController;
 use App\Http\Controllers\Ledgers\SubLedger\SubLedgerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
+use App\Http\Controllers\EmployeePayroll\PaySlipController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,7 +110,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
         Route::get('/employe/salary/sheet/view', 'allSalarySheetiew')->name('salary.sheet');
     });
-
+    // PaySlip related route
+    Route::controller(PaySlipController::class)->group(function () {
+        Route::get('/bank', 'index')->name('bank');
+        Route::post('/bank/store', 'store')->name('bank.store');
+        Route::get('/bank/view', 'view')->name('bank.view');
+        Route::get('/bank/details/{id}', 'bankDetails')->name('bank.details');
+    });
     // Banks related route
     Route::controller(BankAccountsController::class)->group(function () {
         Route::get('/bank', 'index')->name('bank');
@@ -307,8 +314,13 @@ Route::middleware('auth')->group(function () {
     Route::controller(AssetTypesController::class)->group(function () {
         Route::post('/asset-type/store', 'store');
         Route::get('/asset-type/view', 'view');
-        // Route::get('/all-ledger/view/select-tag', 'view');
-        // Route::get('/sub-ledger/details/{id}', 'details');
+        Route::get('/asset-type/details/{id}', 'details');
+        Route::get('/asset-type/edit/{id}', 'edit');
+        Route::post('/asset-type/update/{id}', 'update');
+        Route::get('/asset-type/delete/{id}', 'delete');
+        Route::get('/asset-type/trash/delete/view', 'assetTypeDeleteView');
+        Route::get('/asset-type/trash/restore/{id}', 'assetTypeRestore');
+        Route::get('/asset-type/trash/delete/{id}', 'assetTypeDelete');
     });
     Route::controller(AssetController::class)->group(function () {
         Route::get('/asset-management', 'index')->name('asset.management');

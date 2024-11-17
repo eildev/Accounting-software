@@ -18,21 +18,25 @@ class PrimaryLedgerSeed extends Seeder
                 'id' => 1,
                 'branch_id' => 1,
                 'group_name' => 'Asset',
+                'slug' => 'asset',
             ],
             [
                 'id' => 2,
                 'branch_id' => 1,
                 'group_name' => 'Expanse',
+                'slug' => 'expanse',
             ],
             [
                 'id' => 3,
                 'branch_id' => 1,
                 'group_name' => 'Income',
+                'slug' => 'income',
             ],
             [
                 'id' => 4,
                 'branch_id' => 1,
                 'group_name' => 'Liabilities',
+                'slug' => 'liabilities',
             ],
         ];
 

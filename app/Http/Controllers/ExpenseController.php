@@ -16,6 +16,7 @@ use App\Models\Ledger\SubLedger\SubLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ExpenseController extends Controller
 {
@@ -33,6 +34,7 @@ class ExpenseController extends Controller
             $ledgerAccounts->branch_id = Auth::user()->branch_id;
             $ledgerAccounts->group_id = 2;
             $ledgerAccounts->account_name = $request->name;
+            $ledgerAccounts->slug = Str::slug($request->name);
             $ledgerAccounts->save();
 
             return response()->json([
@@ -58,24 +60,23 @@ class ExpenseController extends Controller
     } //
     public function ExpenseStore(Request $request)
     {
-        $request->validate([
-            'purpose' => 'required|max:99',
-            'amount' => 'required|numeric|between:0,999999999999.99',
-            'spender' => 'required|max:99',
-            'expense_category_id' => 'required|integer',
-            'expense_date' => 'required',
-            'bank_account_id' => 'required|integer',
-            'account_type' => 'required|in:cash,bank',
-        ]);
+        try {
 
+            $validator = Validator::make($request->all(), [
+                'purpose' => 'required|max:99',
+                'amount' => 'required|numeric|between:0,999999999999.99',
+                'spender' => 'required|max:99',
+                'expense_category_id' => 'required|integer',
+                'expense_date' => 'required',
+                'image' => 'file|mimes:jpg,pdf,png,svg,webp,jpeg,gif|max:5120',
+            ]);
 
-        if ($request->account_type == 'bank') {
-            $account_balance =  BankAccounts::findOrFail($request->bank_account_id);
-        } else {
-            $account_balance =  Cash::findOrFail($request->bank_account_id);
-        }
-
-        if ($account_balance->current_balance > 0 && $account_balance->current_balance >= $request->amount) {
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => '500',
+                    'error' => $validator->messages()
+                ]);
+            }
 
             $expense = new Expense;
             $expense->branch_id =  Auth::user()->branch_id;
@@ -97,87 +98,32 @@ class ExpenseController extends Controller
             }
             $expense->save();
 
-            if ($request->account_type == 'bank') {
-                $bank =  BankAccounts::findOrFail($request->bank_account_id);
-                $bank->current_balance -= $request->amount;
-                $bank->save();
-            } else {
-                $cash =  Cash::findOrFail($request->bank_account_id);
-                $cash->current_balance -= $request->amount;
-                $cash->save();
-
-                // cash Transaction info save 
-                $cashTransaction = new CashTransaction;
-                $cashTransaction->branch_id = Auth::user()->branch_id;
-                $cashTransaction->cash_id = $cash->id;
-                $cashTransaction->transaction_date = Carbon::now();
-                $cashTransaction->amount = $request->amount;
-                $cashTransaction->transaction_type = 'withdraw';
-                $cashTransaction->process_by = Auth::user()->id;
-                $cashTransaction->save();
-            }
-
-            // transaction info save
-            $transaction = new Transaction;
-            $transaction->branch_id = Auth::user()->branch_id;
-            $transaction->source_id = $expense->id;
-            $transaction->source_type = 'Expanse';
-            $transaction->transaction_date = Carbon::now();
-            if ($request->account_type == 'bank') {
-                $transaction->bank_account_id =  $request->bank_account_id;
-            } else {
-                $transaction->cash_account_id =  $request->bank_account_id;
-            }
-            $transaction->amount = $request->amount;
-            $transaction->transaction_type = 'debit';
-            $transaction->transaction_id = $this->generateUniqueTransactionId();
-            $transaction->transaction_by = Auth::user()->id;
-            $transaction->save();
 
             $subLedger = new SubLedger;
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = $request->expense_category_id;
             $subLedger->sub_ledger_name = $request->purpose;
+            $subLedger->slug = Str::slug($request->purpose);
             $subLedger->save();
 
-            // // Ledger Entry info save
-            $ledgerEntries = new LedgerEntries;
-            $ledgerEntries->branch_id = Auth::user()->branch_id;
-            $ledgerEntries->transaction_id = $transaction->id;
-            $ledgerEntries->group_id = 2;
-            $ledgerEntries->account_id = $request->expense_category_id;
-            $ledgerEntries->sub_ledger_id = $subLedger->id;
-            $ledgerEntries->entry_amount = $request->amount;
-            $ledgerEntries->transaction_date = Carbon::now();
-            $ledgerEntries->transaction_by = Auth::user()->id;
-            $ledgerEntries->save();
-
-            $notification = [
-                'message' => 'Expense Added Successfully',
-                'alert-type' => 'info'
-            ];
-            return redirect()->route('expense.view')->with($notification);
-        } else {
-            $notification = [
-                'warning' => 'Your account Balance is low Please Select Another account',
-                'alert-type' => 'warning'
-            ];
-            return redirect()->back()->with($notification);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Expanse Saved Successfully',
+                'data' => [
+                    'expanse_id' => $expense->id, // Retrieve actual saved asset id
+                    'amount' => $expense->amount
+                ]
+            ]);
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while Save Expanse.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
         }
     } //
 
-
-
-    // generate uniqid transaction Id Function 
-    private function generateUniqueTransactionId()
-    {
-        $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
-        do {
-            $transactionId = substr(bin2hex(random_bytes(4)), 0, 8);
-        } while (in_array($transactionId, $allTransactionIds));
-
-        return $transactionId;
-    }
 
     public function ExpenseView()
     {

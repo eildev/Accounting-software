@@ -48,7 +48,7 @@ class AssetTypesController extends Controller
     }
 
 
-    // Asset Type view Function 
+    // Asset Type view Function
     public function view()
     {
         try {
@@ -72,6 +72,113 @@ class AssetTypesController extends Controller
                 "status" => 500,
                 "message" => 'An error occurred while fetching Asset types.',
                 "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
+
+    public function details() {}
+    public function edit() {}
+    public function update() {}
+
+    // Delete functionality implement this function
+    public function delete($id)
+    {
+        try {
+            $assetType = AssetTypes::find($id);
+
+            if (!$assetType) {
+                return response()->json([
+                    "status" => 404,
+                    "message" => "Asset Type not found."
+                ]);
+            }
+
+            $assetType->delete(); // Soft delete the record
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Asset Type Deleted Successfully."
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => "An Error Occurred While Deleting Asset Type.",
+                "error" => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function assetTypeDeleteView()
+    {
+
+        try {
+            $assetTypes = AssetTypes::onlyTrashed()->get();
+            // dd($assetTypes);
+
+            // Return a successful response with data
+            return response()->json([
+                "status" => 200,
+                "data" => $assetTypes,
+            ]);
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur
+            return response()->json([
+                "status" => 500,
+                "message" => 'An error occurred while fetching Asset types.',
+                "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
+
+    public function assetTypeRestore($id)
+    {
+        try {
+            $assetType = AssetTypes::withTrashed()->find($id);
+
+            if (!$assetType) {
+                return response()->json([
+                    "status" => 404,
+                    "message" => "Asset Type not found."
+                ]);
+            }
+
+            $assetType->restore(); // Soft delete the record
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Asset Type Restore Successfully."
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => "An Error Occurred While Deleting Asset Type.",
+                "error" => $e->getMessage()
+            ]);
+        }
+    }
+    public function assetTypeDelete($id)
+    {
+        try {
+            $assetType = AssetTypes::withTrashed()->find($id);
+
+            if (!$assetType) {
+                return response()->json([
+                    "status" => 404,
+                    "message" => "Asset Type not found."
+                ]);
+            }
+
+            $assetType->forceDelete(); // Soft delete the record
+
+            return response()->json([
+                "status" => 200,
+                "message" => "Asset Type Permanently Deleted Successfully."
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => 500,
+                "message" => "An Error Occurred While Deleting Asset Type.",
+                "error" => $e->getMessage()
             ]);
         }
     }

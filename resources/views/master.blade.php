@@ -158,10 +158,7 @@
                         toastr.error(res.error);
                     }
                     if (res.error.data_id) {
-                        toastr.error(res.error.data_id);
-                    }
-                    if (res.error.account_type) {
-                        showError('.account_type', res.error.account_type);
+                        toastr.error('Something went wrong with your Data ID');
                     }
                     if (res.error.account_type) {
                         showError('.account_type', res.error.account_type);
@@ -169,11 +166,14 @@
                     if (res.error.payment_account_id) {
                         showError('.payment_account_id', res.error.payment_account_id);
                     }
-                    if (res.error.repayment_date) {
-                        showError('.repayment_date', res.error.repayment_date);
-                    }
                     if (res.error.payment_balance) {
-                        toastr.error(res.error.payment_balance);
+                        toastr.error('Something went wrong with Payment Amount');
+                    }
+                    if (res.error.purpose) {
+                        toastr.error('Something went wrong with purpose');
+                    }
+                    if (res.error.transaction_type) {
+                        toastr.error('Something went wrong with Transaction Type');
                     }
                 }
             },
@@ -183,8 +183,10 @@
         });
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+        modalShowHide('globalPaymentModal'); // Moved inside DOMContentLoaded event
+    });
 
-    modalShowHide('globalPaymentModal');
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -317,26 +319,67 @@
 
 
     ///////////////////////// Modal show and close function /////////////////// 
+    // function modalShowHide(element) {
+    //     var modalName = new bootstrap.Modal(document.getElementById(`${element}`), {
+    //         backdrop: 'static', // Prevent closing by clicking outside
+    //         keyboard: false // Prevent closing with Escape key
+    //     });
+
+    //     console.log(element);
+    //     console.log(modalName);
+
+    //     // Trigger modal open when the button is clicked
+    //     document.querySelector(`.btn[data-bs-target="#${element}"]`).addEventListener('click',
+    //         function() {
+    //             modalName.show();
+    //         });
+
+    //     // Custom close functionality for specific buttons
+    //     document.querySelector('.modal_close').addEventListener('click', function() {
+    //         modalName.hide();
+    //     });
+    //     document.querySelector('.btn-close').addEventListener('click', function() {
+    //         modalName.hide();
+    //     });
+    // }
     function modalShowHide(element) {
-        var recurringExpanseModal = new bootstrap.Modal(document.getElementById(`${element}`), {
-            backdrop: 'static', // Prevent closing by clicking outside
-            keyboard: false // Prevent closing with Escape key
+        var modalElement = document.getElementById(`${element}`);
+        if (!modalElement) {
+            console.error(`Modal with ID "${element}" not found.`);
+            return; // Stop execution if modal is not found
+        }
+
+        var modalName = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: false
         });
 
-        // Trigger modal open when the button is clicked
-        document.querySelector(`.btn[data-bs-target="#${element}"]`).addEventListener('click',
-            function() {
-                recurringExpanseModal.show();
+        // Check for existence of button and add event listeners conditionally
+        var modalButton = document.querySelector(`.btn[data-bs-target="#${element}"]`);
+        if (modalButton) {
+            modalButton.addEventListener('click', function() {
+                modalName.show();
             });
+        } else {
+            console.warn(`Button with data-bs-target="#${element}" not found.`);
+        }
 
-        // Custom close functionality for specific buttons
-        document.querySelector('.modal_close').addEventListener('click', function() {
-            recurringExpanseModal.hide();
-        });
-        document.querySelector('.btn-close').addEventListener('click', function() {
-            recurringExpanseModal.hide();
-        });
+        // Attach close button event listeners only if the elements exist
+        var closeModalButton = document.querySelector('.modal_close');
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', function() {
+                modalName.hide();
+            });
+        }
+
+        var btnClose = document.querySelector('.btn-close');
+        if (btnClose) {
+            btnClose.addEventListener('click', function() {
+                modalName.hide();
+            });
+        }
     }
+
 
 
 

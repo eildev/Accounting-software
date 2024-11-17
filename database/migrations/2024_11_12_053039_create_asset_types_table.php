@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->decimal('depreciation_rate', 4, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

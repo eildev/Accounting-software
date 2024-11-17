@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class LedgerController extends Controller
 {
@@ -55,6 +56,7 @@ class LedgerController extends Controller
             $ledger = new PrimaryLedgerGroup();
             $ledger->branch_id = Auth::user()->branch_id;
             $ledger->group_name = $request->group_name;
+            $ledger->slug = Str::slug($request->group_name);
             $ledger->save();
             return response()->json([
                 'status' => 200,
@@ -120,6 +122,8 @@ class LedgerController extends Controller
             $ledger->branch_id = Auth::user()->branch_id;
             $ledger->group_id = $request->group_id;
             $ledger->account_name = $request->account_name;
+            $ledger->slug = Str::slug($request->account_name);
+
             $ledger->save();
             return response()->json([
                 'status' => 200,

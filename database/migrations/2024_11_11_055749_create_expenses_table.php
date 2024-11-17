@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('bank_account_id')->nullable();
             $table->integer('cash_account_id')->nullable();
             $table->text('note')->nullable();
+            $table->enum('status', ['purchased', 'purchasing'])->default('purchasing');
             $table->timestamps();
         });
     }
