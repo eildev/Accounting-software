@@ -318,7 +318,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/asset-type/edit/{id}', 'edit');
         Route::post('/asset-type/update/{id}', 'update');
         Route::get('/asset-type/delete/{id}', 'delete');
-        Route::get('/asset-type/delete/view', 'assetTypeDeleteView');
+        Route::get('/asset-type/trash/delete/view', 'assetTypeDeleteView');
     });
     Route::controller(AssetController::class)->group(function () {
         Route::get('/asset-management', 'index')->name('asset.management');

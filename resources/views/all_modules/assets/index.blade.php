@@ -534,7 +534,7 @@
 
             function assetTrashView() {
                 $.ajax({
-                    url: '/asset-type/delete/view',
+                    url: '/asset-type/trash/delete/view',
                     method: 'GET',
                     success: function(res) {
                         console.log(res);
