@@ -144,40 +144,23 @@
 
 
     <script>
-        ///////////////////////// Check payment Account Using for check payment type ///////////////////
-        // function checkPaymentAccount(element) {
-        //     const paymentType = $(element).val(); // 'element' is passed in from the onclick event
-        //     const paymentAccounts = $('.bank_id');
-        //     $.ajax({
-        //         url: '/check-account-type',
-        //         method: 'GET',
-        //         data: {
-        //             payment_type: paymentType
-        //         },
-        //         success: function(res) {
-        //             const accounts = res.data;
-        //             // console.log(accounts);
-        //             if (accounts.length > 0) {
-        //                 $('.bank_id').html(
-        //                     `<option selected disabled>Select Account</option>`
-        //                 ); // Clear and set default option
-        //                 $.each(accounts, function(index, account) {
-        //                     // console.log(account);
-        //                     $('.bank_id').append(
-        //                         `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
-        //                     );
-        //                 });
+        // error remove
+        function errorRemove(element) {
+            if (element.value != '') {
+                $(element).siblings('span').hide();
+                $(element).css('border-color', 'green');
+            }
+        }
 
-        //             } else {
-        //                 $('.bank_id').html(
-        //                     `<option selected disabled>No Account Found</option>`
-        //                 ); // Clear and set default option
-        //             }
-        //         }
-        //     });
-        // }
 
         $(document).ready(function() {
+
+            // show error
+            function showError(name, message) {
+                $(name).css('border-color', 'red'); // Highlight input with red border
+                $(name).focus(); // Set focus to the input field
+                $(`${name}_error`).show().text(message); // Show error message
+            }
 
             $(document).on('click', '.update_expense_category', function(e) {
                 e.preventDefault();
@@ -266,10 +249,35 @@
                     contentType: false,
                     success: function(res) {
                         if (res.status == 200) {
-                            toastr.success(res.message);
-                            window.location.reload();
+                            // toastr.success(res.message);
+                            $('#globalPaymentModal #data_id').val(res.data
+                                .expanse_id); // assuming res.data contains asset_id
+                            $('#globalPaymentModal #payment_balance').val(res.data.amount);
+                            $('#globalPaymentModal #purpose').val('Regular Expanse');
+                            $('#globalPaymentModal #transaction_type').val('withdraw');
+                            $('#globalPaymentModal #due-amount').text(res.data.amount);
+                            // Open the Payment Modal
+                            $('#globalPaymentModal').modal('show');
                         } else {
-                            showError('.category_name', res.error.name);
+                            if (res.error.purpose) {
+                                showError('.purpose', res.error.purpose);
+                            }
+                            if (res.error.amount) {
+                                showError('.amount', res.error.amount);
+                            }
+                            if (res.error.expense_category_id) {
+                                showError('.expense_category_id', res.error
+                                    .expense_category_id);
+                            }
+                            if (res.error.spender) {
+                                showError('.spender', res.error.spender);
+                            }
+                            if (res.error.expense_date) {
+                                showError('.expense_date', res.error.expense_date);
+                            }
+                            if (res.error.note) {
+                                showError('.note', res.error.note);
+                            }
                         }
                     }
                 });

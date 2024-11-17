@@ -158,10 +158,7 @@
                         toastr.error(res.error);
                     }
                     if (res.error.data_id) {
-                        toastr.error(res.error.data_id);
-                    }
-                    if (res.error.account_type) {
-                        showError('.account_type', res.error.account_type);
+                        toastr.error('Something went wrong with your Data ID');
                     }
                     if (res.error.account_type) {
                         showError('.account_type', res.error.account_type);
@@ -169,11 +166,14 @@
                     if (res.error.payment_account_id) {
                         showError('.payment_account_id', res.error.payment_account_id);
                     }
-                    if (res.error.repayment_date) {
-                        showError('.repayment_date', res.error.repayment_date);
-                    }
                     if (res.error.payment_balance) {
-                        toastr.error(res.error.payment_balance);
+                        toastr.error('Something went wrong with Payment Amount');
+                    }
+                    if (res.error.purpose) {
+                        toastr.error('Something went wrong with purpose');
+                    }
+                    if (res.error.transaction_type) {
+                        toastr.error('Something went wrong with Transaction Type');
                     }
                 }
             },

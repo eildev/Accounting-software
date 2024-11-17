@@ -186,8 +186,6 @@
                 $(element).css('border-color', 'green');
             }
         }
-
-
         // ready function
         $(document).ready(function() {
 
@@ -517,6 +515,7 @@
                                 if (data.status == 200) {
                                     toastr.success(data.message);
                                     assetTypeView();
+                                    assetTrashView();
                                 } else {
                                     Swal.fire({
                                         icon: "error",
@@ -537,7 +536,7 @@
                     url: '/asset-type/trash/delete/view',
                     method: 'GET',
                     success: function(res) {
-                        console.log(res);
+                        // console.log(res);
                         const assetTypes = res.data;
                         $('.asset_type_trash_data').empty();
                         if ($.fn.DataTable.isDataTable('#assetTypeTrashTable')) {
@@ -558,10 +557,10 @@
                                 </td>
                                 <td>${asset.depreciation_rate ?? 0} %</td>
                                 <td>
-                                    <a href="#" class="btn btn-icon btn-xs btn-success" data-id=${asset.id}>
+                                    <a href="#" class="btn btn-icon btn-xs btn-success asset_type_restore" data-id=${asset.id}>
                                         <i class="fa-solid fa-arrow-rotate-left"></i>
                                     </a>
-                                    <a href="#" class="btn btn-icon btn-xs btn-danger" data-id=${asset.id}>
+                                    <a href="#" class="btn btn-icon btn-xs btn-danger asset_type_permanent_delete" data-id=${asset.id}>
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
@@ -570,7 +569,7 @@
 
                             });
                         } else {
-                            $('.asset_type_data').html(`
+                            $('.asset_type_trash_data').html(`
                             <tr>
                                 <td colspan='4'>
                                     <div class="text-center text-warning mb-2">Data Not Found</div>
@@ -584,6 +583,92 @@
                 });
             }
             assetTrashView();
+
+
+            // Asset Type Restore  Data
+            $(document).on('click', '.asset_type_restore', function(e) {
+                e.preventDefault();
+                let id = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to Restore this Data!",
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Restore"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: `/asset-type/trash/restore/${id}`,
+                            type: 'GET',
+                            success: function(data) {
+                                if (data.status == 200) {
+                                    toastr.success(data.message);
+                                    assetTypeView();
+                                    assetTrashView();
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: data.message,
+                                        footer: '<a href="#">Why do I have this issue?</a>'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+
+
+            // Asset Type permanently Delete
+            $(document).on('click', '.asset_type_permanent_delete', function(e) {
+                e.preventDefault();
+                let id = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to Delete this Permanently!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: `/asset-type/trash/delete/${id}`,
+                            type: 'GET',
+                            success: function(data) {
+                                if (data.status == 200) {
+                                    toastr.success(data.message);
+                                    assetTrashView();
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: data.message,
+                                        footer: '<a href="#">Why do I have this issue?</a>'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+
         }); //
 
 

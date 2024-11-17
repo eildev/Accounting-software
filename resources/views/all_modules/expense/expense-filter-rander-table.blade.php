@@ -10,6 +10,7 @@
                     <th>Bank Account</th>
                     <th>Expense Category</th>
                     <th>Expense Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -26,6 +27,13 @@
                             </td>
                             <td>{{ $expenses->expenseCat->account_name ?? '' }}</td>
                             <td>{{ $expenses->expense_date->format('d M Y') ?? '' }}</td>
+                            <td>
+                                @if ($expenses->status == 'purchased')
+                                    <span class="badge bg-primary">{{ $expenses->status }}</span>
+                                @else
+                                    <span class="badge bg-warning">{{ $expenses->status }}</span>
+                                @endif
+                            </td>
                             <td>
                                 @if (Auth::user()->can('expense.edit'))
                                     <a href="{{ route('expense.edit', $expenses->id) }}" class="btn btn-sm btn-primary "
@@ -68,16 +76,17 @@
                     <th>subledger id</th>
                 </tr>
             </thead>
-            <tbody class="showData">
+            <tbody>
+                {{-- @dd($testData) --}}
                 @forelse ($testData as $key => $element)
                     <tr>
                         <td>{{ $key + 1 }}</td>
-                        <td>{{ $element->transaction_date ?? '' }}</td>
-                        <td>{{ $element->entry_amount ?? '' }}</td>
-                        <td>{{ $element->transaction_id ?? '' }}</td>
-                        <td>{{ $element->group_id ?? '' }}</td>
-                        <td>{{ $element->account_id ?? '' }}</td>
-                        <td>{{ $element->sub_ledger_id ?? '' }}</td>
+                        <td>{{ $element->transaction_date ?? 'null' }}</td>
+                        <td>{{ $element->entry_amount ?? 'null' }}</td>
+                        <td>{{ $element->transaction_id ?? 'null' }}</td>
+                        <td>{{ $element->group_id ?? 'null' }}</td>
+                        <td>{{ $element->account_id ?? 'null' }}</td>
+                        <td>{{ $element->sub_ledger_id ?? 'null' }}</td>
                     </tr>
                 @empty
                     <tr>
