@@ -133,7 +133,6 @@
                                 toastr.warning(response.message, employee.employee_name);
                             });
                         } else if (response.status == 200) {
-                            // fetchPaySlips()
                             if (response.message_type === 'success') {
                                 toastr.success(response.message); // Green color for success
                             } else if (response.message_type === 'warning') {
