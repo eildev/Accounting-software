@@ -322,49 +322,138 @@ class EmployeeController extends Controller
     public function multiplePaySlipStore(Request $request){
         $selectedIds = $request->input('selected_ids');
         /////////////////////////////////Condition if already exist then return ///////////////
-          // $existingEmployees = [];
-        //   //this only For Validation
-        // foreach ($selectedIds as $employeeId) {
-        //       $existingPaySlip = PaySlip::where('employee_id', $employeeId)
-        //         ->whereMonth('pay_period_date', Carbon::now()->month)
-        //         ->whereYear('pay_period_date', Carbon::now()->year)
-        //         ->first();
-
-        //         if ($existingPaySlip) {
-        //             $employee = Employee::find($employeeId);
-        //             $existingEmployees[] = [
-        //                 'employee_id' => $employeeId,
-        //                 'employee_name' => $employee->full_name ?? 'Unknown Employee'
-        //             ];
-
-        //         }
-        //       }
-        //     //Show Message if not any selected but already genarated
-        //     if (!empty($existingEmployees)) {
-        //         return response()->json([
-        //             'status' => 500,
-        //             'message' => 'Pay slips for these employees already exist for the current month.',
-        //             'existing_employees' => $existingEmployees
-        //         ]);
-        //     }
-
-        // // dd($selectedIds);
 
             //Insert All Id ways Payslip
+            // $selectedIds = $request->input('selected_ids');
+            if (count($selectedIds) === 1) {
+                $existingEmployees = [];
+             foreach ($selectedIds as $employeeId) {
+              $existingPaySlip = PaySlip::where('employee_id', $employeeId)
+                ->whereMonth('pay_period_date', Carbon::now()->month)
+                ->whereYear('pay_period_date', Carbon::now()->year)
+                ->first();
 
+                if ($existingPaySlip) {
+                    $employee = Employee::find($employeeId);
+                    $existingEmployees[] = [
+                        'employee_id' => $employeeId,
+                        'employee_name' => $employee->full_name ?? 'Unknown Employee'
+                    ];
+
+                } else{
+                $salaryStructure = SalarySturcture::where('employee_id', $employeeId)->first();
+                if($salaryStructure->base_salary ?? 0  > 3000){
+                $bonuses = EmployeeBonuse::where('employee_id',$employeeId)
+                ->where('status', 'approved')
+                ->get();
+                $totalBonusAmount = $bonuses->sum('bonus_amount');
+                //Total Conveience
+                $conveniencesAmount = Convenience::where('employee_id', $employeeId)
+                ->where('status', 'approved')
+                ->get();
+                $conveniencesTotalAmounts = $conveniencesAmount->sum('total_amount');
+
+                //Salary Structure
+                $totalEarnings = 0;
+                if ($salaryStructure) {
+                    $totalEarnings =
+                        ($salaryStructure->base_salary ?? 0) +
+                        ($salaryStructure->house_rent ?? 0) +
+                        ($salaryStructure->transport_allowance ?? 0) +
+                        ($salaryStructure->other_fixed_allowances ?? 0) +
+                        ($totalBonusAmount ?? 0) +
+                        ($conveniencesTotalAmounts ?? 0) ;
+                }
+                //net pay calculation
+                $deductions = $salaryStructure->deductions ?? 0;
+                $netPay = $totalEarnings - $deductions ;
+                //Store Payslip
+                $newPaySlip = new PaySlip();
+                $newPaySlip->employee_id = $employeeId;
+                $newPaySlip->branch_id = Auth::user()->branch_id;
+                $newPaySlip->pay_period_date = Carbon::now();
+                $newPaySlip->total_gross_salary = $totalEarnings;
+                $newPaySlip->total_deductions = $deductions;
+                $newPaySlip->total_net_salary =  $netPay;
+                $newPaySlip->total_employee_bonus = $totalBonusAmount ?? 0;
+                $newPaySlip->total_convenience_amount = $conveniencesTotalAmounts ?? 0;
+                $newPaySlip->status = 'pending';
+                $newPaySlip->save();
+
+              // Update Employee convenience Status to Paid
+                if ($conveniencesAmount->isNotEmpty()) {
+                    foreach ($conveniencesAmount as $convenience) {
+                        $convenience->status = 'processing';
+                        $convenience->save();
+                    }
+                }
+                // Update Employee Bonuses Status to Paid
+                if ($bonuses->isNotEmpty()) {
+                    foreach ($bonuses as $employeeBonuse) {
+                        $employeeBonuse->status = 'processing';
+                        $employeeBonuse->save();
+                    }
+                }
+                return response()->json(['status' => 200, 'message' => 'Slips generated successfully!']);
+               } //if else inner end
+                else{
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'Please at first Insert Salary Structure',
+                    ]);
+                }
+                }//else end
+
+              }
+            //Show Message if not any selected but already genarated
+            if (!empty($existingEmployees)) {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Pay slips for these employees already exist for the current month.',
+                    'existing_employees' => $existingEmployees
+                ]);
+            }
+            }//Single Select End
+             else{
+                $notInserted = [];
+                $anyInserted = false;
             foreach ($selectedIds as $employeeId) {
+                $employee = Employee::find($employeeId); // Assuming Employee model exists
+                $employeeName = $employee ? $employee->full_name : 'Unknown Employee';
                 //Total Bonus
+
                 $existingPaySlip = PaySlip::where('employee_id', $employeeId)
                     ->whereMonth('pay_period_date', Carbon::now()->month)
                     ->whereYear('pay_period_date', Carbon::now()->year)
                     ->first();
-
                 // Skip to the next employee if a payslip already exists for the current month
                 if ($existingPaySlip) {
+                    $notInserted[] = [
+                        'employee_name' => $employeeName,
+                        'reason' => 'Already exists for the current month',
+                         'reason_type' => 'warning'
+                    ];
                     continue;
                 }
                 $salaryStructure = SalarySturcture::where('employee_id', $employeeId)->first();
-                if ($salaryStructure && $salaryStructure->base_salary > 3000) {
+                // if ($salaryStructure && $salaryStructure->base_salary > 3000) {
+                    if (!$salaryStructure) {
+                        $notInserted[] = [
+                            'employee_name' => $employeeName,
+                            'reason' => 'Salary structure not found',
+                            'reason_type' => 'error'
+                        ];
+                        continue;
+                    }
+
+                    if ($salaryStructure->base_salary <= 3000) {
+                        $notInserted[] = [
+                            'employee_name' => $employeeName,
+                            'reason' => "Base salary is {$salaryStructure->base_salary} which is 3000 or below",
+                             'reason_type' => 'error'
+                        ];
+                        continue;
+                    }
 
                 $bonuses = EmployeeBonuse::where('employee_id',$employeeId)
                 ->where('status', 'approved')
@@ -403,7 +492,7 @@ class EmployeeController extends Controller
                 $newPaySlip->total_convenience_amount = $conveniencesTotalAmounts ?? 0;
                 $newPaySlip->status = 'pending';
                 $newPaySlip->save();
-
+                $anyInserted = true;
               // Update Employee convenience Status to Paid
                 if ($conveniencesAmount->isNotEmpty()) {
                     foreach ($conveniencesAmount as $convenience) {
@@ -420,12 +509,15 @@ class EmployeeController extends Controller
                     }
                 }
 
-            }
+            // }
 
             }//
-
-            return response()->json(['status' => 200, 'message' => 'Slips generated successfully!']);
-
+            return response()->json(['status' => 200,
+             'message' => $anyInserted ? 'Slips generated successfully!' : 'No slips were generated.',
+             'message_type' => $anyInserted ? 'success' : 'warning',
+             'reason_type' => $anyInserted ? 'error' : 'warning',
+             'not_inserted' => $notInserted,]);
+        }
 
         }
         public function singlePaySlipView($employeeId){

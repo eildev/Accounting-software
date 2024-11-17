@@ -134,7 +134,45 @@
                             });
                         } else if (response.status == 200) {
                             // fetchPaySlips()
-                            toastr.success(response.message);
+                            if (response.message_type === 'success') {
+                                toastr.success(response.message); // Green color for success
+                            } else if (response.message_type === 'warning') {
+                                toastr.info(response.message); // Yellow color for warning
+                            }else if(response.status == 200){
+                                toastr.success(response.message);
+                            }
+                                //Success End
+                            if (response.not_inserted.length > 0) {
+                                let errorReasons = [];
+                                let warningReasons = [];
+                                // let message = "The following employees were not inserted:\n";
+                                // response.not_inserted.forEach(item => {
+                                //     message += `Employee Name: ${item.employee_name}, Reason: ${item.reason}\n`;
+                                // });
+                                // toastr.warning(message.replace(/\n/g, '<br>')); // Replace newlines with HTML line breaks for better formatting
+                                response.not_inserted.forEach(item => {
+                                    if (item.reason_type === 'error') {
+                                        errorReasons.push(`Employee Name: ${item.employee_name}, Reason: ${item.reason}`);
+                                    } else if (item.reason_type === 'warning') {
+                                        warningReasons.push(`Employee Name: ${item.employee_name}, Reason: ${item.reason}`);
+                                    }
+                                });
+
+                                // Show error messages
+                                if (errorReasons.length > 0) {
+                                    let errorMessage = "Salary Structure:\n" + errorReasons.join("\n");
+                                    toastr.error(errorMessage.replace(/\n/g, '<br>')); // Red for critical errors
+                                }
+
+                                // Show warning messages
+                                if (warningReasons.length > 0) {
+                                    let warningMessage = "Warnings:\n" + warningReasons.join("\n");
+                                    toastr.warning(warningMessage.replace(/\n/g, '<br>')); // Yellow for warnings
+                                }
+                            }
+
+                        }else if(response.status == 400){
+                            toastr.error(response.message);
                         }
                         //
                     },
