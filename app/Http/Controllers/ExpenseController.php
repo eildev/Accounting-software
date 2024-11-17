@@ -111,7 +111,8 @@ class ExpenseController extends Controller
                 'message' => 'Expanse Saved Successfully',
                 'data' => [
                     'expanse_id' => $expense->id, // Retrieve actual saved asset id
-                    'amount' => $expense->amount
+                    'amount' => $expense->amount,
+                    'subLedger_id' => $subLedger->id,
                 ]
             ]);
         } catch (\Exception $e) {

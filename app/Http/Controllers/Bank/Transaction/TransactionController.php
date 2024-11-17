@@ -315,7 +315,9 @@ class TransactionController extends Controller
                 $ledgerEntries->group_id = 2;
                 $ledgerEntries->account_id = 4;
             }
-            // $ledgerEntries->sub_ledger_id = ;
+            if ($request->subLedger_id) {
+                $ledgerEntries->sub_ledger_id = $request->subLedger_id;
+            }
             $ledgerEntries->entry_amount = $request->payment_balance;
             $ledgerEntries->transaction_date = Carbon::now();
             $ledgerEntries->transaction_by = Auth::user()->id;

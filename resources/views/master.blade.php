@@ -45,6 +45,7 @@
                         <input type="hidden" name="payment_balance" id="payment_balance" value="">
                         <input type="hidden" name="purpose" id="purpose" value="">
                         <input type="hidden" name="transaction_type" id="transaction_type" value="">
+                        <input type="hidden" name="subLedger_id" id="subLedger_id" value="">
                         <div class="col-md-12">
                             <label for="name" class="form-label">Installment Amount : <span id="due-amount"></span>
                                 ৳</label>

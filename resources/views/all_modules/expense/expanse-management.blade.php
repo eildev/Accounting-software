@@ -256,6 +256,7 @@
                             $('#globalPaymentModal #purpose').val('Regular Expanse');
                             $('#globalPaymentModal #transaction_type').val('withdraw');
                             $('#globalPaymentModal #due-amount').text(res.data.amount);
+                            $('#globalPaymentModal #subLedger_id').val(res.data.subLedger_id);
                             // Open the Payment Modal
                             $('#globalPaymentModal').modal('show');
                         } else {
