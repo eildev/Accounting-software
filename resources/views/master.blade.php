@@ -183,8 +183,10 @@
         });
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+        modalShowHide('globalPaymentModal'); // Moved inside DOMContentLoaded event
+    });
 
-    modalShowHide('globalPaymentModal');
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -317,26 +319,67 @@
 
 
     ///////////////////////// Modal show and close function /////////////////// 
+    // function modalShowHide(element) {
+    //     var modalName = new bootstrap.Modal(document.getElementById(`${element}`), {
+    //         backdrop: 'static', // Prevent closing by clicking outside
+    //         keyboard: false // Prevent closing with Escape key
+    //     });
+
+    //     console.log(element);
+    //     console.log(modalName);
+
+    //     // Trigger modal open when the button is clicked
+    //     document.querySelector(`.btn[data-bs-target="#${element}"]`).addEventListener('click',
+    //         function() {
+    //             modalName.show();
+    //         });
+
+    //     // Custom close functionality for specific buttons
+    //     document.querySelector('.modal_close').addEventListener('click', function() {
+    //         modalName.hide();
+    //     });
+    //     document.querySelector('.btn-close').addEventListener('click', function() {
+    //         modalName.hide();
+    //     });
+    // }
     function modalShowHide(element) {
-        var recurringExpanseModal = new bootstrap.Modal(document.getElementById(`${element}`), {
-            backdrop: 'static', // Prevent closing by clicking outside
-            keyboard: false // Prevent closing with Escape key
+        var modalElement = document.getElementById(`${element}`);
+        if (!modalElement) {
+            console.error(`Modal with ID "${element}" not found.`);
+            return; // Stop execution if modal is not found
+        }
+
+        var modalName = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: false
         });
 
-        // Trigger modal open when the button is clicked
-        document.querySelector(`.btn[data-bs-target="#${element}"]`).addEventListener('click',
-            function() {
-                recurringExpanseModal.show();
+        // Check for existence of button and add event listeners conditionally
+        var modalButton = document.querySelector(`.btn[data-bs-target="#${element}"]`);
+        if (modalButton) {
+            modalButton.addEventListener('click', function() {
+                modalName.show();
             });
+        } else {
+            console.warn(`Button with data-bs-target="#${element}" not found.`);
+        }
 
-        // Custom close functionality for specific buttons
-        document.querySelector('.modal_close').addEventListener('click', function() {
-            recurringExpanseModal.hide();
-        });
-        document.querySelector('.btn-close').addEventListener('click', function() {
-            recurringExpanseModal.hide();
-        });
+        // Attach close button event listeners only if the elements exist
+        var closeModalButton = document.querySelector('.modal_close');
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', function() {
+                modalName.hide();
+            });
+        }
+
+        var btnClose = document.querySelector('.btn-close');
+        if (btnClose) {
+            btnClose.addEventListener('click', function() {
+                modalName.hide();
+            });
+        }
     }
+
 
 
 
