@@ -133,16 +133,29 @@
                 success: function(res) {
                     if (res.status == 200) {
                         const convenience = res.convenience;
-                        $('#globalPaymentModal #data_id').val(convenience
-                            .id); // assuming res.data contains asset_id
-                        $('#globalPaymentModal #payment_balance').val(convenience
-                            .total_amount);
-                        $('#globalPaymentModal #purpose').val('Convenience Bill');
-                        $('#globalPaymentModal #transaction_type').val('withdraw');
-                        $('#globalPaymentModal #due-amount').text(convenience
-                            .total_amount);
-                        // Open the Payment Modal
-                        $('#globalPaymentModal').modal('show');
+                        if (convenience.status != 'paid') {
+                            $('#globalPaymentModal #data_id').val(convenience
+                                .id); // assuming res.data contains asset_id
+                            $('#globalPaymentModal #payment_balance').val(convenience
+                                .total_amount);
+                            $('#globalPaymentModal #purpose').val('Convenience Bill');
+                            $('#globalPaymentModal #transaction_type').val('withdraw');
+                            $('#globalPaymentModal #due-amount').text(convenience
+                                .total_amount);
+                            // Open the Payment Modal
+                            $('#globalPaymentModal').modal('show');
+                        } else {
+                            Swal.fire({
+                                title: "<strong>Already Paid</strong>",
+                                icon: "info",
+                                html: `
+                                    You can Paid Another Conveneience Bill. 
+                                    `,
+                                showCloseButton: true,
+                                showCancelButton: true,
+                                focusConfirm: false,
+                            });
+                        }
 
                     } else {
                         toastr.error("data Not Found");

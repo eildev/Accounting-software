@@ -9,6 +9,7 @@ use App\Models\Bank\Cash;
 use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
+use App\Models\ConvenienceBill\Convenience;
 use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use Carbon\Carbon;
@@ -303,6 +304,10 @@ class TransactionController extends Controller
                     $expanse->bank_account_id = $request->payment_account_id;
                 }
                 $expanse->save();
+            } else if ($request->purpose == "Convenience Bill") {
+                $convenienceBill = Convenience::findOrFail($request->data_id);
+                $convenienceBill->status = 'paid';
+                $convenienceBill->save();
             }
 
             // Ledger Entry info save
@@ -315,6 +320,9 @@ class TransactionController extends Controller
             } else if ($request->purpose == "Expanse") {
                 $ledgerEntries->group_id = 2;
                 $ledgerEntries->account_id = 4;
+            } else if ($request->purpose == "Convenience Bill") {
+                $ledgerEntries->group_id = 2;
+                $ledgerEntries->account_id = 5;
             }
             if ($request->subLedger_id) {
                 $ledgerEntries->sub_ledger_id = $request->subLedger_id;

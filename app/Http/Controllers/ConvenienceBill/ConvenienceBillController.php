@@ -201,11 +201,12 @@ class ConvenienceBillController extends Controller
     }
     public function convenienceInvoice($id)
     {
+        $convenienceBill = Convenience::findOrFail($id);
         $movementCosts = MovementCost::where('convenience_id', $id)->get();
         $foodingCosts = FoodingCost::where('convenience_id', $id)->get();
         $overnightCosts = OvernightCost::where('convenience_id', $id)->get();
         $otherExpenseCosts = OtherExpenseCost::where('convenience_id', $id)->get();
-        return view('all_modules.convenience_bill.all_bill_report', compact('movementCosts', 'foodingCosts', 'overnightCosts', 'otherExpenseCosts'));
+        return view('all_modules.convenience_bill.all_bill_report', compact('movementCosts', 'foodingCosts', 'overnightCosts', 'otherExpenseCosts', 'convenienceBill'));
     }
     public function updateStatus(Request $request)
     {
