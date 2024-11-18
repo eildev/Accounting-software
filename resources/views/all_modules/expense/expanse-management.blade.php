@@ -253,7 +253,7 @@
                             $('#globalPaymentModal #data_id').val(res.data
                                 .expanse_id); // assuming res.data contains asset_id
                             $('#globalPaymentModal #payment_balance').val(res.data.amount);
-                            $('#globalPaymentModal #purpose').val('Regular Expanse');
+                            $('#globalPaymentModal #purpose').val('Expanse');
                             $('#globalPaymentModal #transaction_type').val('withdraw');
                             $('#globalPaymentModal #due-amount').text(res.data.amount);
                             $('#globalPaymentModal #subLedger_id').val(res.data.subLedger_id);

@@ -39,7 +39,7 @@ class LedgerSeed extends Seeder
                 'id' => 4,
                 'branch_id' => 1,
                 'group_id' => 2,
-                'account_name' => 'Regular Expanse',
+                'account_name' => 'Expanse',
                 'slug' => 'regular-expanse',
             ],
             [
