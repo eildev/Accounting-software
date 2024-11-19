@@ -9,6 +9,7 @@ use App\Models\Bank\Cash;
 use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
+use App\Models\ConvenienceBill\Convenience;
 use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use Carbon\Carbon;
@@ -244,6 +245,7 @@ class TransactionController extends Controller
                 'payment_balance' => 'required|numeric|between:0,999999999999.99',
                 'purpose' => 'required',
                 'transaction_type' => 'required|in:withdraw,deposit',
+                'subLedger_id' => 'nullable|integer',
             ]);
 
             if ($validator->fails()) {
@@ -293,7 +295,7 @@ class TransactionController extends Controller
                 $asset = Assets::findOrFail($request->data_id);
                 $asset->status = 'purchased';
                 $asset->save();
-            } else if ($request->purpose == "Regular Expanse") {
+            } else if ($request->purpose == "Expanse") {
                 $expanse = Expense::findOrFail($request->data_id);
                 $expanse->status = 'purchased';
                 if ($request->account_type === 'cash') {
@@ -302,6 +304,10 @@ class TransactionController extends Controller
                     $expanse->bank_account_id = $request->payment_account_id;
                 }
                 $expanse->save();
+            } else if ($request->purpose == "Convenience Bill") {
+                $convenienceBill = Convenience::findOrFail($request->data_id);
+                $convenienceBill->status = 'paid';
+                $convenienceBill->save();
             }
 
             // Ledger Entry info save
@@ -311,9 +317,12 @@ class TransactionController extends Controller
             if ($request->purpose == "Fixed Asset Purchase") {
                 $ledgerEntries->group_id = 1;
                 $ledgerEntries->account_id = 6;
-            } else if ($request->purpose == "Regular Expanse") {
+            } else if ($request->purpose == "Expanse") {
                 $ledgerEntries->group_id = 2;
                 $ledgerEntries->account_id = 4;
+            } else if ($request->purpose == "Convenience Bill") {
+                $ledgerEntries->group_id = 2;
+                $ledgerEntries->account_id = 5;
             }
             if ($request->subLedger_id) {
                 $ledgerEntries->sub_ledger_id = $request->subLedger_id;

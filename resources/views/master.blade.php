@@ -176,6 +176,9 @@
                     if (res.error.transaction_type) {
                         toastr.error('Something went wrong with Transaction Type');
                     }
+                    if (res.error.subLedger_id) {
+                        toastr.error('Something went wrong with SubLedger Id');
+                    }
                 }
             },
             error: function(err) {
