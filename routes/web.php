@@ -253,6 +253,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-festival-percentage-data', 'getFestivalPercentage');
         Route::get('/get-performance-percentage-data', 'getperformancePercentage');
         Route::get('/get-other-percentage-data', 'getOtherPercentage');
+        Route::get('/get-month-convenience-data', 'getConvenienceMonth');
     }); //End
 
     ////////////////////Role And Permission Route /////////////////

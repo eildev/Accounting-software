@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', '| Convenience Bill Management')
+@section('title', '| Conveyance Bill Management')
 @section('admin')
     @php
         $mode = App\models\PosSetting::all()->first();
@@ -98,7 +98,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="card-title">Convenience Bill Table</h6>
+                        <h6 class="card-title">Conveyance Bill Table</h6>
                         {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                         data-bs-target="#exampleModalLongScollable">Add Departments</button> --}}
                     </div>
