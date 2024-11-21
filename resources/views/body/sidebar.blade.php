@@ -368,14 +368,14 @@
                 <a href="{{ route('convenience') }}"
                     class="nav-link {{ request()->routeIs('convenience') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Convenience Bill</span>
+                    <span class="link-title">Conveyance Bill</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('convenience.view') }}"
                     class="nav-link {{ request()->routeIs('convenience.view') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Convenience Report</span>
+                    <span class="link-title">Conveyance Report</span>
                 </a>
             </li>
 

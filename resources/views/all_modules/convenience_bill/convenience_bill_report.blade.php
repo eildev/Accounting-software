@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', '| Expense')
+@section('title', '| Conveyance Report')
 @section('admin')
     <style>
         button {
@@ -11,7 +11,7 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title text-info">Convenience Bill Report</h6>
+                        <h6 class="card-title text-info">Conveyance Bill Report</h6>
                         <div id="tableContainer" class="table-responsive">
                             <table id="example" class="table">
                                 <thead class="action">
@@ -70,7 +70,7 @@
                                             <td colspan="12">
                                                 <div class="text-center text-warning mb-2">Data Not Found</div>
                                                 <div class="text-center">
-                                                    <a href="#" class="btn btn-primary">Add Convenience<i
+                                                    <a href="#" class="btn btn-primary">Add Conveyance<i
                                                             data-feather="plus"></i></a>
                                                 </div>
                                             </td>
@@ -149,7 +149,7 @@
                                 title: "<strong>Already Paid</strong>",
                                 icon: "info",
                                 html: `
-                                    You can Paid Another Conveneience Bill. 
+                                    You can Paid Another Conveneience Bill.
                                     `,
                                 showCloseButton: true,
                                 showCancelButton: true,

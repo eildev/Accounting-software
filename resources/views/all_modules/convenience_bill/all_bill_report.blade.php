@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', '| Customer List')
+@section('title', '| Conveyance List')
 @section('admin')
 
     <div class="row">
@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="card-title text-info">View Bill Report List</h6>
+                        <h6 class="card-title text-info">View Conveyance Bill Report List</h6>
                         <div>
                             @if ($convenienceBill->status != 'paid')
                                 <button class="btn btn-sm btn-primary payment_conveience_bill"
