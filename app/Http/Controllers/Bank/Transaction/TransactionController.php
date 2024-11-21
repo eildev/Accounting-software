@@ -318,7 +318,7 @@ class TransactionController extends Controller
                 $paySlip = PaySlip::findOrFail($request->data_id);
                 $paySlip->status = 'paid';
                 if ($paySlip->total_convenience_amount > 0) {
-                    $convenienceBills = Convenience::where('employee_id', $paySlip->employee->id);
+                    $convenienceBills = Convenience::where('employee_id', $paySlip->employee->id)->get();
                     if ($convenienceBills) {
                         foreach ($convenienceBills as $value) {
                             $value->status = 'paid';
