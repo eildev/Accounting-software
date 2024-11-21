@@ -26,6 +26,10 @@
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
                             aria-controls="profile" aria-selected="false">Cash Deposite</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="balance-tab" data-bs-toggle="tab" href="#balance" role="tab"
+                            aria-controls="balance" aria-selected="false">Balance Transfer</a>
+                    </li>
                 </ul>
                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -41,6 +45,13 @@
                         <div class="card">
                             <div class="card-body">
                                 @include('all_modules.transaction.deposite')
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                @include('all_modules.transaction.balance-transfer')
                             </div>
                         </div>
                     </div>
@@ -192,6 +203,104 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary save_deposite">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Balance Transfer Modal -->
+    <div class="modal fade" id="balanceTransferModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Balance Transfer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="balanceTransferForm row">
+                        <div class="col-12 border py-2">
+                            <h5 class="mb-2">Source Account</h5>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="name" class="form-label">Account Type<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control account_type" name="account_type"
+                                        onblur="errorRemove(this);" onchange="checkPaymentAccount(this);">
+                                        <option value="">Select Account Type</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="bank">Bank</option>
+                                    </select>
+                                    <span class="text-danger account_type_error"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="name" class="form-label">Payment Account<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control payment_account_id" name="payment_account_id"
+                                        onchange="errorRemove(this);">
+                                        <option value="">Select Payment Account</option>
+                                    </select>
+                                    <span class="text-danger payment_account_id_error"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 border py-2">
+                            <h5 class="mb-2">Destination Account</h5>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="name" class="form-label">Account Type<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control account_type" name="account_type"
+                                        onblur="errorRemove(this);" onchange="checkPaymentAccount(this);">
+                                        <option value="">Select Account Type</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="bank">Bank</option>
+                                    </select>
+                                    <span class="text-danger account_type_error"></span>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="name" class="form-label">Payment Account<span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control payment_account_id" name="payment_account_id"
+                                        onchange="errorRemove(this);">
+                                        <option value="">Select Payment Account</option>
+                                    </select>
+                                    <span class="text-danger payment_account_id_error"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Amount<span class="text-danger">*</span></label>
+                            <input class="form-control amount" name="amount" type="number"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger amount_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Transaction Date<span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
+                                <span class="input-group-text input-group-addon bg-transparent border-primary"
+                                    data-toggle><i data-feather="calendar" class="text-primary"></i></span>
+                                <input type="text" name="transaction_date"
+                                    class="form-control bg-transparent border-primary transaction_date"
+                                    placeholder="Select date" data-input>
+                            </div>
+                            <span class="text-danger transaction_date_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="name" class="form-label">Note/Comments</label>
+                            <input class="form-control description" name="description" type="text"
+                                onkeyup="errorRemove(this);">
+                            <span class="text-danger description_error"></span>
+                        </div>
+                        <input class="form-control transaction_type" name="transaction_type" type="hidden"
+                            value="deposit">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary save_balance_transfer">Save</button>
                 </div>
             </div>
         </div>

@@ -292,7 +292,7 @@ class TransactionController extends Controller
             }
 
             // Update balance based on transaction type
-            $accounts->current_balance += $request->transaction_type === 'withdraw' ? -$request->amount : $request->amount;
+            $accounts->current_balance += $request->transaction_type === 'withdraw' ? -$request->payment_balance : $request->payment_balance;
             $transaction->save();
             $accounts->save();
 
