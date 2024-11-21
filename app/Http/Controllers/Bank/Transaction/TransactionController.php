@@ -10,6 +10,10 @@ use App\Models\Bank\CashTransaction;
 use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
 use App\Models\ConvenienceBill\Convenience;
+use App\Models\EmployeePayroll\Employee;
+use App\Models\EmployeePayroll\EmployeeBonuse;
+use App\Models\EmployeePayroll\PaySlip;
+use App\Models\EmployeePayroll\SalarySturcture;
 use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use Carbon\Carbon;
@@ -259,6 +263,7 @@ class TransactionController extends Controller
             $transaction = new Transaction;
             $transaction->fill([
                 'branch_id' => Auth::user()->branch_id,
+                'source_id' => $request->data_id,
                 'amount' => $request->payment_balance,
                 'transaction_date' => Carbon::now(),
                 'source_type' => $request->purpose,
@@ -308,6 +313,29 @@ class TransactionController extends Controller
                 $convenienceBill = Convenience::findOrFail($request->data_id);
                 $convenienceBill->status = 'paid';
                 $convenienceBill->save();
+            } else if ($request->purpose == "Employee Salary") {
+                // $employee = Employee::findOrFail($request->data_id);
+                $paySlip = PaySlip::findOrFail($request->data_id);
+                $paySlip->status = 'paid';
+                if ($paySlip->total_convenience_amount > 0) {
+                    $convenienceBills = Convenience::where('employee_id', $paySlip->employee->id)->get();
+                    if ($convenienceBills) {
+                        foreach ($convenienceBills as $value) {
+                            $value->status = 'paid';
+                            $value->save();
+                        }
+                    }
+                }
+                if ($paySlip->total_employee_bonus > 0) {
+                    $bonus = EmployeeBonuse::where('employee_id', $paySlip->employee->id)->get();
+                    if ($bonus) {
+                        foreach ($bonus as $value) {
+                            $value->status = 'paid';
+                            $value->save();
+                        }
+                    }
+                }
+                $paySlip->save();
             }
 
             // Ledger Entry info save
@@ -323,6 +351,9 @@ class TransactionController extends Controller
             } else if ($request->purpose == "Convenience Bill") {
                 $ledgerEntries->group_id = 2;
                 $ledgerEntries->account_id = 5;
+            } else if ($request->purpose == "Employee Salary") {
+                $ledgerEntries->group_id = 2;
+                $ledgerEntries->account_id = 8;
             }
             if ($request->subLedger_id) {
                 $ledgerEntries->sub_ledger_id = $request->subLedger_id;

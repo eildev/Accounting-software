@@ -63,6 +63,13 @@ class LedgerSeed extends Seeder
                 'account_name' => 'Recurring Expanse',
                 'slug' => 'recurring-expanse',
             ],
+            [
+                'id' => 8,
+                'branch_id' => 1,
+                'group_id' => 2,
+                'account_name' => 'Employee Salary',
+                'slug' => 'employee-salary',
+            ],
         ];
 
         foreach ($ledgers as $ledger) {

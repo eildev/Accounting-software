@@ -112,10 +112,10 @@ Route::middleware('auth')->group(function () {
     });
     // PaySlip related route
     Route::controller(PaySlipController::class)->group(function () {
-        Route::get('/bank', 'index')->name('bank');
-        Route::post('/bank/store', 'store')->name('bank.store');
-        Route::get('/bank/view', 'view')->name('bank.view');
-        Route::get('/bank/details/{id}', 'bankDetails')->name('bank.details');
+        // Route::get('/bank', 'index')->name('bank');
+        // Route::post('/pay-slip/store', 'store')->name('bank.store');
+        // Route::get('/bank/view', 'view')->name('bank.view');
+        Route::get('/pay-slip/{id}', 'paySlip');
     });
     // Banks related route
     Route::controller(BankAccountsController::class)->group(function () {
