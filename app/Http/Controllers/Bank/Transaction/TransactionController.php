@@ -11,6 +11,7 @@ use App\Models\Bank\Transaction\Transaction;
 use App\Models\Branch;
 use App\Models\ConvenienceBill\Convenience;
 use App\Models\EmployeePayroll\Employee;
+use App\Models\EmployeePayroll\EmployeeBonuse;
 use App\Models\EmployeePayroll\PaySlip;
 use App\Models\EmployeePayroll\SalarySturcture;
 use App\Models\Expense;
@@ -317,9 +318,22 @@ class TransactionController extends Controller
                 $paySlip = PaySlip::findOrFail($request->data_id);
                 $paySlip->status = 'paid';
                 if ($paySlip->total_convenience_amount > 0) {
-                    $convenienceBill = Convenience::findOrFail($paySlip->employee->id);
-                    $convenienceBill->status = 'paid';
-                    $convenienceBill->save();
+                    $convenienceBills = Convenience::where('employee_id', $paySlip->employee->id);
+                    if ($convenienceBills) {
+                        foreach ($convenienceBills as $value) {
+                            $value->status = 'paid';
+                            $value->save();
+                        }
+                    }
+                }
+                if ($paySlip->total_employee_bonus > 0) {
+                    $bonus = EmployeeBonuse::where('employee_id', $paySlip->employee->id)->get();
+                    if ($bonus) {
+                        foreach ($bonus as $value) {
+                            $value->status = 'paid';
+                            $value->save();
+                        }
+                    }
                 }
                 $paySlip->save();
             }
