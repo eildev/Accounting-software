@@ -112,10 +112,10 @@ Route::middleware('auth')->group(function () {
     });
     // PaySlip related route
     Route::controller(PaySlipController::class)->group(function () {
-        Route::get('/bank', 'index')->name('bank');
-        Route::post('/bank/store', 'store')->name('bank.store');
-        Route::get('/bank/view', 'view')->name('bank.view');
-        Route::get('/bank/details/{id}', 'bankDetails')->name('bank.details');
+        // Route::get('/bank', 'index')->name('bank');
+        // Route::post('/pay-slip/store', 'store')->name('bank.store');
+        // Route::get('/bank/view', 'view')->name('bank.view');
+        Route::get('/pay-slip/{id}', 'paySlip');
     });
     // Banks related route
     Route::controller(BankAccountsController::class)->group(function () {
@@ -249,6 +249,10 @@ Route::middleware('auth')->group(function () {
     // Payroll Dashboard related route(n)
     Route::controller(PayrollDashboardController::class)->group(function () {
         Route::get('/payroll/dashboard', 'payrollDashboard')->name('payroll.dashboard');
+        Route::get('/get-month-bonus-data', 'getMonthBonus');
+        Route::get('/get-festival-percentage-data', 'getFestivalPercentage');
+        Route::get('/get-performance-percentage-data', 'getperformancePercentage');
+        Route::get('/get-other-percentage-data', 'getOtherPercentage');
     }); //End
 
     ////////////////////Role And Permission Route /////////////////
