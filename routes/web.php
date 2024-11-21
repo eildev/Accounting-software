@@ -249,6 +249,10 @@ Route::middleware('auth')->group(function () {
     // Payroll Dashboard related route(n)
     Route::controller(PayrollDashboardController::class)->group(function () {
         Route::get('/payroll/dashboard', 'payrollDashboard')->name('payroll.dashboard');
+        Route::get('/get-month-bonus-data', 'getMonthBonus');
+        Route::get('/get-festival-percentage-data', 'getFestivalPercentage');
+        Route::get('/get-performance-percentage-data', 'getperformancePercentage');
+        Route::get('/get-other-percentage-data', 'getOtherPercentage');
     }); //End
 
     ////////////////////Role And Permission Route /////////////////
