@@ -85,6 +85,22 @@
     @include('body.js')
 </body>
 <script>
+    function errorRemove(element) {
+        if (element.value != '') {
+            $(element).siblings('span').hide();
+            $(element).css('border-color', 'green');
+        }
+    }
+
+
+    ///////////////////////// show error function using validation ///////////////////
+    function showError(name, message) {
+        $(name).css('border-color', 'red'); // Highlight input with red border
+        $(name).focus(); // Set focus to the input field
+        $(`${name}_error`).show().text(message); // Show error message
+    }
+
+
     // global check payment func 
     function checkPaymentAccount(element) {
         const paymentType = $(element).val(); // 'element' is passed in from the onclick event
@@ -118,7 +134,6 @@
         });
 
     }
-
 
     const saveGlobalPayment = document.getElementById('save_global_payment');
     saveGlobalPayment.addEventListener('click', function(e) {
