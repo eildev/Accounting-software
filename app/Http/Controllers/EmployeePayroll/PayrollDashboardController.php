@@ -67,17 +67,44 @@ class PayrollDashboardController extends Controller
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
         ];
-        ////////////////////////////////////////////////Salary ///////////////////////////////////////////////////////
-        //Invoice Count
-        $salaryInvoiceCount = PaySlip::count();
-        //All Salary  Amount Sum
-        $allSalaryAmountSum = PaySlip::sum('total_net_salary');
-        //all Paid Salary
-        $allPaidSalarySum = PaySlip::where('status', 'paid')->sum('total_net_salary');
-        //all pending Salary
-        $allPendingSalarySum = PaySlip::where('status', 'pending')->sum('total_net_salary');
-        //all Due Salary
-        $allDueSalarySum = PaySlip::where('status', 'due')->sum('total_net_salary');
+        ////////////////////////////////////////////////Salary  Chart///////////////////////////////////////////////////////
+        // //Invoice Count
+        // $salaryInvoiceCount = PaySlip::count();
+        // //All Salary  Amount Sum
+        // $allSalaryAmountSum = PaySlip::sum('total_net_salary');
+        // //all Paid Salary
+        // $allPaidSalarySum = PaySlip::where('status', 'paid')->sum('total_net_salary');
+        // //all pending Salary
+        // $allPendingSalarySum = PaySlip::where('status', 'pending')->sum('total_net_salary');
+        // //all Due Salary
+        // $allDueSalarySum = PaySlip::where('status', 'due')->sum('total_net_salary');
+        ///////apex Donut Chart ////////
+        //pending percentage
+        $paySlipAll = PaySlip::whereMonth('created_at', Carbon::now()->month)
+        ->whereYear('created_at', Carbon::now()->year)
+        ->get();
+
+        $paySlipBillCount = $paySlipAll->count();
+        // Group bonuses by status
+        $paySlipPaid = $paySlipAll->where('status', 'paid')->count();
+        $paySlipPending = $paySlipAll->where('status', 'pending')->count();
+        $paySlipUnpaid = $paySlipAll->where('status', 'approved')->count();
+        $paySlipProcess = $paySlipAll->where('status', 'processing')->count();
+
+        // Calculate percentages
+        $paySlipPaidPercentage = $paySlipBillCount > 0 ? ($paySlipPaid / $paySlipBillCount) * 100 : 0;
+        $paySlipPendingPercentage = $paySlipBillCount > 0 ? ($paySlipPending / $paySlipBillCount) * 100 : 0;
+        $paySlipUnpaidPercentage = $paySlipBillCount > 0 ? ($paySlipUnpaid / $paySlipBillCount) * 100 : 0;
+        $paySlipProcessPercentage = $paySlipBillCount > 0 ? ($paySlipProcess / $paySlipBillCount) * 100 : 0;
+
+        // Prepare the result
+        $paySlipsPercentage = [
+           'paySlipPaid' => round($paySlipPaidPercentage, 2),
+    'paySlipPending' => round($paySlipPendingPercentage, 2),
+    'paySlipUnpaid' => round($paySlipUnpaidPercentage, 2),
+    'paySlipProcessing' => round($paySlipProcessPercentage, 2),
+        ];
+        // dd($paySlipsPercentage);
         /////////////////////////////////////////////// Convinience ////////////////////////////////////////////////////
         //all Convinience Bill
         $convenienceDataSum = Convenience::whereMonth('created_at', Carbon::now()->month)
@@ -99,7 +126,33 @@ class PayrollDashboardController extends Controller
         ->whereYear('created_at', Carbon::now()->year)
         ->get();
         $otherCostSum = OtherExpenseCost::sum('total_amount');
-        /////////////////////////////////////////////// Net Salary(Payslip)  ////////////////////////////////////////////////////
+
+        $convenienceBill = Convenience::whereMonth('created_at', Carbon::now()->month)
+        ->whereYear('created_at', Carbon::now()->year)
+        ->get();
+
+        // Total bonuses
+        $convenienceBillCount = $convenienceBill->count();
+        // Group bonuses by status
+        $conveniencePaid = $convenienceBill->where('status', 'paid')->count();
+        $conveniencePending = $convenienceBill->where('status', 'pending')->count();
+        $convenienceUnpaid = $convenienceBill->where('status', 'approved')->count();
+        $convenienceProcess = $convenienceBill->where('status', 'processing')->count();
+
+        // Calculate percentages
+        $conveniencePaidPercentage = $convenienceBillCount > 0 ? ($conveniencePaid / $convenienceBillCount) * 100 : 0;
+        $conveniencePendingPercentage = $convenienceBillCount > 0 ? ($conveniencePending / $convenienceBillCount) * 100 : 0;
+        $convenienceUnpaidPercentage = $convenienceBillCount > 0 ? ($convenienceUnpaid / $convenienceBillCount) * 100 : 0;
+        $convenienceProcessPercentage = $convenienceBillCount > 0 ? ($convenienceProcess / $convenienceBillCount) * 100 : 0;
+
+        // Prepare the result
+        $conveniencePercentage = [
+            'conveniencePaid' => round($conveniencePaidPercentage, 2) . '%',
+            'conveniencePending' => round($conveniencePendingPercentage, 2) . '%',
+            'convenienceUnpaid' => round($convenienceUnpaidPercentage, 2) . '%',
+            'conveniencePrecessing' => round($convenienceProcessPercentage, 2) . '%',
+        ];
+        /////////////////////////////////////////////// Net Salary table (Payslip)  ////////////////////////////////////////////////////
         //All Net Salary
         $netSalarys = PaySlip::whereMonth('pay_period_date', Carbon::now()->month)
         ->whereYear('pay_period_date', Carbon::now()->year)
@@ -114,11 +167,6 @@ class PayrollDashboardController extends Controller
             'totalPaidBonusSum' => $totalPaidBonusSum,
             'totalPendingBonusSum' => $totalPendingBonusSum,
             'totalDueBonusSum' => $totalDueBonusSum,
-            'salaryInvoiceCount' => $salaryInvoiceCount,
-            'allSalaryAmountSum' => $allSalaryAmountSum,
-            'allPaidSalarySum' => $allPaidSalarySum,
-            'allPendingSalarySum' => $allPendingSalarySum,
-            'allDueSalarySum' => $allDueSalarySum,
             'netSalarys' => $netSalarys,
             'result' =>  $result,
             'movementCostSum' => $movementCostSum,
@@ -126,6 +174,8 @@ class PayrollDashboardController extends Controller
             'foodingCostSum' => $foodingCostSum,
             'otherCostSum' => $otherCostSum,
             'convenienceDataSum' => $convenienceDataSum,
+            'conveniencePercentage' => $conveniencePercentage,
+            'paySlipsPercentage' => $paySlipsPercentage,
         ];
         return view('all_modules.payroll_dashboard.payroll_dashboard', compact('data'));
     }
@@ -283,6 +333,27 @@ class PayrollDashboardController extends Controller
             'overNightCost' => $overNightCost,
             'foodingCost' => $foodingCost,
             'otherCost' => $otherCost,
+        ]);
+    }
+    public function getPaySlipsMonthData(Request $request)
+    {
+        $selectedMonth = $request->month ?? Carbon::now()->month;
+
+        $paySlipAll = PaySlip::whereMonth('created_at', $selectedMonth)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->get();
+
+        $paySlipBillCount = $paySlipAll->count();
+        $paySlipPaid = $paySlipAll->where('status', 'paid')->count();
+        $paySlipPending = $paySlipAll->where('status', 'pending')->count();
+        $paySlipUnpaid = $paySlipAll->where('status', 'approved')->count();
+        $paySlipProcess = $paySlipAll->where('status', 'processing')->count();
+
+        return response()->json([
+            'paySlipPaid' => $paySlipBillCount > 0 ? round(($paySlipPaid / $paySlipBillCount) * 100, 2) : 0,
+            'paySlipPending' => $paySlipBillCount > 0 ? round(($paySlipPending / $paySlipBillCount) * 100, 2) : 0,
+            'paySlipUnpaid' => $paySlipBillCount > 0 ? round(($paySlipUnpaid / $paySlipBillCount) * 100, 2) : 0,
+            'paySlipProcessing' => $paySlipBillCount > 0 ? round(($paySlipProcess / $paySlipBillCount) * 100, 2) : 0,
         ]);
     }
 
