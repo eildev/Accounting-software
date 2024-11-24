@@ -16,11 +16,13 @@ use App\Models\EmployeePayroll\PaySlip;
 use App\Models\EmployeePayroll\SalarySturcture;
 use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
+use App\Models\Ledger\SubLedger\SubLedger;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Stmt\TryCatch;
 
 class TransactionController extends Controller
 {
@@ -48,8 +50,6 @@ class TransactionController extends Controller
         }
     }
 
-
-    // TODO: Ledger Entries Create is Not yet implemented
     // storeTransaction function 
     public function storeTransaction(Request $request)
     {
@@ -107,7 +107,7 @@ class TransactionController extends Controller
 
             if ($request->account_type === 'cash') {
                 $transaction->cash_account_id = $request->payment_account_id;
-                $this->saveCashTransaction($transaction, $request);
+                $this->saveCashTransaction($request);
             } else {
                 $transaction->bank_account_id = $request->payment_account_id;
             }
@@ -193,6 +193,10 @@ class TransactionController extends Controller
                     ->where('transaction_type', 'credit')
                     ->latest()
                     ->get();
+                $transfers = Transaction::with(['bank', 'cash'])
+                    ->where('transaction_type', 'bl_transfer')
+                    ->latest()
+                    ->get();
             } else {
                 $withdraw = Transaction::with(['bank', 'cash'])
                     ->where('branch_id', Auth::user()->branch_id)
@@ -204,12 +208,18 @@ class TransactionController extends Controller
                     ->where('transaction_type', 'credit')
                     ->latest()
                     ->get();
+                $transfers = Transaction::with(['bank', 'cash'])
+                    ->where('branch_id', Auth::user()->branch_id)
+                    ->where('transaction_type', 'bl_transfer')
+                    ->latest()
+                    ->get();
             }
 
             return response()->json([
                 'status' => 200,
                 'withdraw' => $withdraw,
                 'deposit' => $deposit,
+                'transfers' => $transfers,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -376,6 +386,161 @@ class TransactionController extends Controller
         }
     }
 
+    // store balance Transfer Data with duel Ledger Entry 
+    public function balanceTransfer(Request $request)
+    {
+        try {
+            // Validate the input
+            $validator = Validator::make($request->all(), [
+                'source_account_type' => 'required|in:cash,bank',
+                'destination_account_type' => 'required|in:cash,bank',
+                'source_payment_account_id' => 'required|integer',
+                'destination_payment_account_id' => 'required|integer',
+                'amount' => 'required|numeric|between:0,999999999999.99',
+                'transaction_date' => 'required|date',
+                'description' => 'string|nullable',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 500,
+                    'error' => $validator->messages()
+                ]);
+            }
+
+            // Determine account type (cash or bank) and fetch the source account
+            $sourceAccount = $this->getAccount($request->source_account_type, $request->source_payment_account_id);
+
+            if ($sourceAccount->current_balance < $request->amount) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Insufficient balance. Please add funds or select another account.'
+                ]);
+            }
+            if ($request->source_account_type == 'cash' && $request->destination_account_type == 'cash' || $request->source_account_type == 'bank' && $request->destination_account_type == 'bank') {
+                if ($sourceAccount->id == $request->destination_payment_account_id) {
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'You Select same payment method. Please select another payment method'
+                    ]);
+                }
+            }
+
+            // Create a new transaction
+            $transaction = $this->createTransaction($request, $sourceAccount);
+
+            // Update balances and save ledger entries
+            $this->processAccount(
+                $transaction,
+                $request->source_account_type,
+                $sourceAccount,
+                'withdraw',
+                $request->amount,
+                $request->description
+            );
+
+            $destinationAccount = $this->getAccount($request->destination_account_type, $request->destination_payment_account_id);
+            $this->processAccount(
+                $transaction,
+                $request->destination_account_type,
+                $destinationAccount,
+                'deposit',
+                $request->amount,
+                $request->description
+            );
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Balance Transfer Successful.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'An error occurred while processing the transaction.',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    //------################ Helper function ################------//
+
+    // Fetch Account Based on Type
+    private function getAccount(string $accountType, int $accountId)
+    {
+        $model = $accountType === 'cash' ? Cash::class : BankAccounts::class;
+        return $model::findOrFail($accountId);
+    }
+
+    // Create Transaction
+    private function createTransaction($request, $sourceAccount)
+    {
+        // Prepare the transaction data
+        $transactionData = [
+            'branch_id' => Auth::user()->branch_id,
+            'amount' => $request->amount,
+            'transaction_date' => Carbon::parse($request->transaction_date)->format('Y-m-d'),
+            'source_id' => $sourceAccount->id,
+            'source_type' => "Balance Transfer",
+            'description' => $request->description,
+            'transaction_by' => Auth::user()->id,
+            'transaction_id' => $this->generateUniqueTransactionId(),
+            'transaction_type' => 'bl_transfer',
+        ];
+
+        // Conditionally add either `cash_account_id` or `bank_account_id`
+        if ($request->source_account_type == 'cash') {
+            $transactionData['cash_account_id'] = $sourceAccount->id;
+        } else {
+            $transactionData['bank_account_id'] = $sourceAccount->id;
+        }
+
+        // Create and return the transaction
+        return Transaction::create($transactionData);
+    }
+
+
+    // Process Account
+    private function processAccount($transaction, string $accountType, $account, string $transactionType, float $amount, $description)
+    {
+        // Update account balance
+        if ($transactionType === 'withdraw') {
+            $account->current_balance -= $amount;
+        } else {
+            $account->current_balance += $amount;
+        }
+        $account->save();
+
+        // Save ledger entry
+        $subLedger = SubLedger::where('sub_ledger_name', $account->bank_name ?? $account->cash_account_name)->first();
+        if (!$subLedger) {
+            throw new \Exception("SubLedger not found for account: {$account->bank_name}");
+        }
+
+        LedgerEntries::create([
+            'branch_id' => Auth::user()->branch_id,
+            'transaction_id' => $transaction->id,
+            'group_id' => 1,
+            'account_id' => $accountType === 'cash' ? 2 : 1,
+            'sub_ledger_id' => $subLedger->id,
+            'entry_amount' => $amount,
+            'transaction_date' => Carbon::parse($transaction->transaction_date)->format('Y-m-d'),
+            'transaction_by' => Auth::user()->id,
+            'transaction_type' => $transactionType === 'withdraw' ? 'debit' : 'credit',
+        ]);
+
+        // Log the cash/bank transaction
+        if ($accountType === 'cash') {
+            CashTransaction::create([
+                'branch_id' => Auth::user()->branch_id,
+                'cash_id' => $account->id,
+                'transaction_date' => Carbon::parse($transaction->transaction_date)->format('Y-m-d'),
+                'amount' => $amount,
+                'description' => $description ?? "",
+                'transaction_type' => $transactionType,
+                'process_by' => Auth::user()->id,
+            ]);
+        }
+    }
 
 
 

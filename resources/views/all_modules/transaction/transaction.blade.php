@@ -226,22 +226,23 @@
                                 <div class="mb-3 col-md-6">
                                     <label for="name" class="form-label">Account Type<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control account_type" name="account_type"
-                                        onblur="errorRemove(this);" onchange="checkPaymentAccount(this);">
+                                    <select class="form-control source_account_type" name="source_account_type"
+                                        onblur="errorRemove(this);"
+                                        onchange="checkBalancePaymentAccount(this, 'source_payment_account_id');">
                                         <option value="">Select Account Type</option>
                                         <option value="cash">Cash</option>
                                         <option value="bank">Bank</option>
                                     </select>
-                                    <span class="text-danger account_type_error"></span>
+                                    <span class="text-danger source_account_type_error"></span>
                                 </div>
                                 <div class="mb-3 col-md-6">
                                     <label for="name" class="form-label">Payment Account<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control payment_account_id" name="payment_account_id"
-                                        onchange="errorRemove(this);">
+                                    <select class="form-control source_payment_account_id"
+                                        name="source_payment_account_id" onchange="errorRemove(this);">
                                         <option value="">Select Payment Account</option>
                                     </select>
-                                    <span class="text-danger payment_account_id_error"></span>
+                                    <span class="text-danger source_payment_account_id_error"></span>
                                 </div>
                             </div>
                         </div>
@@ -251,22 +252,23 @@
                                 <div class="mb-3 col-md-6">
                                     <label for="name" class="form-label">Account Type<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control account_type" name="account_type"
-                                        onblur="errorRemove(this);" onchange="checkPaymentAccount(this);">
+                                    <select class="form-control destination_account_type" name="destination_account_type"
+                                        onblur="errorRemove(this);"
+                                        onchange="checkBalancePaymentAccount(this, 'destination_payment_account_id');">
                                         <option value="">Select Account Type</option>
                                         <option value="cash">Cash</option>
                                         <option value="bank">Bank</option>
                                     </select>
-                                    <span class="text-danger account_type_error"></span>
+                                    <span class="text-danger destination_account_type_error"></span>
                                 </div>
                                 <div class="mb-3 col-md-6">
                                     <label for="name" class="form-label">Payment Account<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control payment_account_id" name="payment_account_id"
-                                        onchange="errorRemove(this);">
+                                    <select class="form-control destination_payment_account_id"
+                                        name="destination_payment_account_id" onchange="errorRemove(this);">
                                         <option value="">Select Payment Account</option>
                                     </select>
-                                    <span class="text-danger payment_account_id_error"></span>
+                                    <span class="text-danger destination_payment_account_id_error"></span>
                                 </div>
                             </div>
                         </div>
@@ -294,8 +296,6 @@
                                 onkeyup="errorRemove(this);">
                             <span class="text-danger description_error"></span>
                         </div>
-                        <input class="form-control transaction_type" name="transaction_type" type="hidden"
-                            value="deposit">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -321,9 +321,9 @@
         }
 
         ///////////////////////// Check payment Account Using for check payment type ///////////////////
-        function checkPaymentAccount(element) {
+        function checkBalancePaymentAccount(element, selectTag) {
             const paymentType = $(element).val(); // 'element' is passed in from the onclick event
-            const paymentAccounts = $('.payment_account_id');
+            const paymentAccounts = $(`.${selectTag}`);
             $.ajax({
                 url: '/check-account-type',
                 method: 'GET',
@@ -334,18 +334,18 @@
                     const accounts = res.data;
                     // console.log(accounts);
                     if (accounts.length > 0) {
-                        $('.payment_account_id').html(
+                        $(`.${selectTag}`).html(
                             `<option selected disabled>Select Account</option>`
                         ); // Clear and set default option
                         $.each(accounts, function(index, account) {
                             // console.log(account);
-                            $('.payment_account_id').append(
+                            $(`.${selectTag}`).append(
                                 `<option value="${account.id}">${account.bank_name ?? account.cash_account_name ?? ""}</option>`
                             );
                         });
 
                     } else {
-                        $('.payment_account_id').html(
+                        $(`.${selectTag}`).html(
                             `<option selected disabled>No Account Found</option>`
                         ); // Clear and set default option
                     }
@@ -379,7 +379,7 @@
                         if (res.status == 200) {
                             $(`#${modalName}`).modal('hide');
                             $(`.${formName}`)[0].reset();
-                            withdrawView();
+                            transactionView();
                             toastr.success(res.message);
                         } else if (res.status == 400) {
                             toastr.warning(res.message);
@@ -428,7 +428,7 @@
 
 
             ///////////////////////// Fetching Data from Transaction Module ///////////////////
-            function withdrawView() {
+            function transactionView() {
                 $.ajax({
                     url: '/transaction/view',
                     method: 'GET',
@@ -436,11 +436,15 @@
                         if (res.status == 200) {
                             const withdrawal = res.withdraw;
                             const deposit = res.deposit;
+                            const balanceTransfer = res.transfers;
 
                             dynamicView('show_withdraw_data', withdrawal, 'cashWithdrawModal',
                                 'withdrawTable');
                             dynamicView('show_deposit_data', deposit, 'cashDepositeModal',
                                 'depositTable');
+                            dynamicView('show_balance_transfer_data', balanceTransfer,
+                                'balanceTransferModal',
+                                'balanceTransferTable');
 
                         } else {
                             toastr.error(res.message);
@@ -504,7 +508,64 @@
                 `;
                 return tr;
             }
-            withdrawView();
+            transactionView();
+
+
+            // save Blanace Transfer information
+            const saveBalanceTransfer = document.querySelector('.save_balance_transfer');
+            saveBalanceTransfer.addEventListener('click', function(e) {
+                e.preventDefault();
+                let formData = new FormData($('.balanceTransferForm')[0]);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/transaction/balance-transfer',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        // console.log(res);
+                        if (res.status == 200) {
+                            $('#balanceTransferModal').modal('hide');
+                            $('.balanceTransferForm')[0].reset();
+                            transactionView();
+                            toastr.success(res.message);
+                        } else if (res.status == 400) {
+                            toastr.warning(res.message);
+                        } else {
+                            if (res.error.source_account_type) {
+                                showError('.source_account_type', res.error
+                                    .source_account_type);
+                            }
+                            if (res.error.source_payment_account_id) {
+                                showError('.source_payment_account_id', res.error
+                                    .source_payment_account_id);
+                            }
+                            if (res.error.destination_account_type) {
+                                showError('.destination_account_type', res.error
+                                    .destination_account_type);
+                            }
+                            if (res.error.destination_payment_account_id) {
+                                showError('.destination_payment_account_id', res.error
+                                    .destination_payment_account_id);
+                            }
+                            if (res.error.amount) {
+                                showError('.amount', res.error.amount);
+                            }
+                            if (res.error.transaction_date) {
+                                showError('.transaction_date', res.error.transaction_date);
+                            }
+                            if (res.error.description) {
+                                showError('.description', res.error.description);
+                            }
+                        }
+                    }
+                });
+            })
         })
 
 
@@ -535,6 +596,7 @@
             // modal not close function 
             modalShowHide('cashWithdrawModal');
             modalShowHide('cashDepositeModal');
+            modalShowHide('balanceTransferModal');
         });
     </script>
 

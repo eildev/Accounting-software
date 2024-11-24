@@ -112,9 +112,6 @@ Route::middleware('auth')->group(function () {
     });
     // PaySlip related route
     Route::controller(PaySlipController::class)->group(function () {
-        // Route::get('/bank', 'index')->name('bank');
-        // Route::post('/pay-slip/store', 'store')->name('bank.store');
-        // Route::get('/bank/view', 'view')->name('bank.view');
         Route::get('/pay-slip/{id}', 'paySlip');
     });
     // Banks related route
@@ -165,6 +162,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaction/view', 'view');
         Route::get('/transaction/view-details/{id}', 'viewDetails');
         Route::get('/check-account-type', 'checkAccountType');
+        Route::post('/transaction/balance-transfer', 'balanceTransfer');
+        // Route::get('/transaction/balance-transfer/view', 'balanceTransferView');
     });
 
     // Transaction related route(n)
