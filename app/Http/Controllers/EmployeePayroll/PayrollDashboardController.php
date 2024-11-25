@@ -348,12 +348,14 @@ class PayrollDashboardController extends Controller
         $paySlipPending = $paySlipAll->where('status', 'pending')->count();
         $paySlipUnpaid = $paySlipAll->where('status', 'approved')->count();
         $paySlipProcess = $paySlipAll->where('status', 'processing')->count();
-
+        $totalAmount = $paySlipAll->sum('amount');
         return response()->json([
             'paySlipPaid' => $paySlipBillCount > 0 ? round(($paySlipPaid / $paySlipBillCount) * 100, 2) : 0,
             'paySlipPending' => $paySlipBillCount > 0 ? round(($paySlipPending / $paySlipBillCount) * 100, 2) : 0,
             'paySlipUnpaid' => $paySlipBillCount > 0 ? round(($paySlipUnpaid / $paySlipBillCount) * 100, 2) : 0,
             'paySlipProcessing' => $paySlipBillCount > 0 ? round(($paySlipProcess / $paySlipBillCount) * 100, 2) : 0,
+            'totalAmount' => $totalAmount,
+
         ]);
     }
 
