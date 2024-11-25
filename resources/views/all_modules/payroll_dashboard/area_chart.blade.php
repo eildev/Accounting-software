@@ -6,7 +6,7 @@
                 <div class="form-group primary-color-text mb-2">
                     <select class="form-control primary-color-text" id="yearSelectArea">
                         <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('Y') }}">
-                            <span class="selected-option">Select Year</span>
+                            <p class="selected-option">Select Year</p>
                             <i class="fas fa-chevron-down"></i>
                         </option>
                         <option value="2024">2024</option>
@@ -29,8 +29,6 @@
     </div>
 </div>
 </div>
-
-
 
 <script>
     $(document).ready(function() {

@@ -318,7 +318,7 @@
                                 <select class="form-control primary-color-text" id="monthSelect">
                                     <option disabled selected class="bg-white"
                                         value="{{ Carbon\Carbon::now()->format('m') }}">
-                                        <span class="selected-option">Month</span>
+                                        <p class="selected-option">Month</p>
                                         <i class="fas fa-chevron-down"></i>
                                     </option>
                                     <option value="1" data-month="1">January</option>
@@ -464,7 +464,6 @@
                     <button class="prev-btn mx-2">← Previous</button>
                     <div class="page-numbers"></div>
                     <button class="next-btn mx-2">Next →</button>
-
                 </div>
             </div>
 
@@ -484,7 +483,7 @@
                                 <select class="form-control primary-color-text" id="conveniencemonthSelect">
                                     <option disabled selected class="bg-white"
                                         value="{{ Carbon\Carbon::now()->format('m') }}">
-                                        <span class="selected-option">Month</span>
+                                        <p class="selected-option">Month</p>
                                         <i class="fas fa-chevron-down"></i>
                                     </option>
                                     <option value="1" data-month="1">January</option>
@@ -581,8 +580,7 @@
                                 aria-valuemin="0" aria-valuemax="100">
                             </div>
                             <div class="progress-bar " role="progressbar"
-                                style="width: {{ $data['conveniencePercentage']['convenienceUnpaid'] }}; background: #9566F2;
-"
+                                style="width: {{ $data['conveniencePercentage']['convenienceUnpaid'] }}; background: #9566F2;"
                                 aria-valuenow="{{ $data['conveniencePercentage']['convenienceUnpaid'] }}"
                                 aria-valuemin="0" aria-valuemax="100">
                             </div>
@@ -593,8 +591,7 @@
                             </div>
                         </div>
                     </span>
-                    <div class="row mt-4" style="padding-top: 24px;
-">
+                    <div class="row mt-4" style="padding-top: 24px;">
                         <div class="col-md-12 d-flex justify-content-between">
 
                             <div class="fs-5 mt-1 ">

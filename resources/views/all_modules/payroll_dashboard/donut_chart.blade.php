@@ -6,7 +6,7 @@
                 <div class="form-group primary-color-text mb-2">
                     <select class="form-control primary-color-text" id="monthSelect2">
                         <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('m') }}">
-                            <span class="selected-option">Month</span>
+                            <p class="selected-option">Month</p>
                             <i class="fas fa-chevron-down"></i>
                         </option>
                         <option value="1" data-month="1">January</option>
@@ -110,114 +110,6 @@
                 chart.render();
             }
         }
-//         function renderDonutChart(data, totalAmount) {
-//             if (chart) {
-//                 chart.destroy(); // Destroy existing chart
-//             }
-//             if ($('#apexDonut').length) {
-//                 const options = {
-//                     chart: {
-//                         height: 300,
-
-//                         type: "donut",
-//                         foreColor: colors.bodyColor,
-//                         background: colors.cardBg,
-//                         toolbar: {
-//                             show: false
-//                         },
-//                     },
-//                     theme: {
-//                         mode: 'light'
-//                     },
-//                     tooltip: {
-//                         theme: 'light'
-//                     },
-//                     stroke: {
-//                         colors: ['rgba(0,0,0,0)']
-//                     },
-//                     colors: [colors.success, colors.warning, colors.danger, colors
-//                     .info], // Add color for "Processing"
-//                     legend: {
-//                         show: false
-//                     }, // We'll create a custom legend
-//                     dataLabels: {
-//                         enabled: true,
-//                         formatter: (val) => `${Math.round(val)}%`, // Show percentages
-//                         style: {
-//                             fontSize: '14px',
-//                             fontFamily: fontFamily
-//                         },
-//                     },
-//                     series: [
-//                         parseFloat(data.paySlipPaid),
-//                         parseFloat(data.paySlipPending),
-//                         parseFloat(data.paySlipUnpaid),
-//                         parseFloat(data.paySlipProcessing) // Add processing data
-//                     ],
-//                     labels: ['Successfully Paid', 'Pending', 'Unpaid',
-//                     'Processing'], // Add "Processing" label
-//                     plotOptions: {
-//                         pie: {
-//                             donut: {
-//                                 size: '70%',
-//                                 labels: {
-//                                     show: true,
-//                                     name: {
-//                                         show: false
-//                                     },
-//                                     value: {
-//                                         show: true,
-//                                         fontSize: '20px',
-//                                         fontFamily: fontFamily,
-//                                         formatter: () => `৳${totalAmount}`, // Show total in the middle
-//                                     },
-//                                     total: {
-//                                         show: true,
-//                                         label: 'Payment Total',
-//                                         formatter: () => `৳${totalAmount}`,
-//                                         style: {
-//                                             fontSize: '14px',
-//                                             fontWeight: 'bold'
-//                                         },
-//                                     },
-//                                 },
-//                             },
-//                         },
-//                     },
-//                 };
-
-//                 chart = new ApexCharts(document.querySelector("#apexDonut"), options);
-//                 chart.render();
-
-//                 // Create custom legend
-//                 createCustomLegend(data);
-//             }
-//         }
-
-//         // Function to create a custom legend (with 4 items now)
-//         function createCustomLegend(data) {
-//             const legendHTML = `
-// <div class="d-flex flex-column">
-//     <div class="d-flex align-items-center mb-2">
-//         <div class="legend-color-box" style="background-color: ${colors.success};"></div>
-//         <span>${data.paySlipPaid}% Successfully Paid</span>
-//     </div>
-//     <div class="d-flex align-items-center mb-2">
-//         <div class="legend-color-box" style="background-color: ${colors.warning};"></div>
-//         <span>${data.paySlipPending}% Pending</span>
-//     </div>
-//     <div class="d-flex align-items-center mb-2">
-//         <div class="legend-color-box" style="background-color: ${colors.danger};"></div>
-//         <span>${data.paySlipUnpaid}% Unpaid</span>
-//     </div>
-//     <div class="d-flex align-items-center">
-//         <div class="legend-color-box" style="background-color: ${colors.info};"></div>
-//         <span>${data.paySlipProcessing}% Processing</span>
-//     </div>
-// </div>
-// // `;
-//             document.getElementById('chartLegend').innerHTML = legendHTML;
-//         }
 
         $('#monthSelect2').on('change', function() {
             const selectedMonth = $(this).val();

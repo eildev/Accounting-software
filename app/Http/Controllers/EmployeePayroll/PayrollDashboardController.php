@@ -355,8 +355,6 @@ class PayrollDashboardController extends Controller
             'paySlipPending' => $paySlipBillCount > 0 ? round(($paySlipPending / $paySlipBillCount) * 100, 2) : 0,
             'paySlipUnpaid' => $paySlipBillCount > 0 ? round(($paySlipUnpaid / $paySlipBillCount) * 100, 2) : 0,
             'paySlipProcessing' => $paySlipBillCount > 0 ? round(($paySlipProcess / $paySlipBillCount) * 100, 2) : 0,
-
-
         ]);
     }
 
