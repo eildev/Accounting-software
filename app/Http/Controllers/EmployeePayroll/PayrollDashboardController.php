@@ -68,17 +68,7 @@ class PayrollDashboardController extends Controller
             'Unpaid' => round($unpaidPercentage, 2) . '%',
         ];
         ////////////////////////////////////////////////Salary  Chart///////////////////////////////////////////////////////
-        // //Invoice Count
-        // $salaryInvoiceCount = PaySlip::count();
-        // //All Salary  Amount Sum
-        // $allSalaryAmountSum = PaySlip::sum('total_net_salary');
-        // //all Paid Salary
-        // $allPaidSalarySum = PaySlip::where('status', 'paid')->sum('total_net_salary');
-        // //all pending Salary
-        // $allPendingSalarySum = PaySlip::where('status', 'pending')->sum('total_net_salary');
-        // //all Due Salary
-        // $allDueSalarySum = PaySlip::where('status', 'due')->sum('total_net_salary');
-        ///////apex Donut Chart ////////
+
         //pending percentage
         $paySlipAll = PaySlip::whereMonth('created_at', Carbon::now()->month)
         ->whereYear('created_at', Carbon::now()->year)
