@@ -254,6 +254,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-other-percentage-data', 'getOtherPercentage');
         Route::get('/get-month-convenience-data', 'getConvenienceMonth');
         Route::get('/get-pay-slips-month-data', 'getPaySlipsMonthData');
+        Route::get('/fetch-yearly-data', 'fetchYearlyAreaChart')->name('fetchYearlyData');
 
     }); //End
 

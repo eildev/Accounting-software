@@ -299,15 +299,8 @@
     <!-------------------------------Main Dashboard End ------------------------->
     <div class="row">
         <div class="col-lg-7 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-title">Area chart</h6>
-                    <div class="flot-chart-wrapper">
-                        <div class="flot-chart" id="flotArea"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            @include('all_modules.payroll_dashboard.area_chart')
+
         <div class="col-lg-5  grid-margin stretch-card">
             @include('all_modules.payroll_dashboard.donut_chart')
         </div>

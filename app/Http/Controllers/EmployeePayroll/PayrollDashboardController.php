@@ -67,7 +67,7 @@ class PayrollDashboardController extends Controller
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
         ];
-        ////////////////////////////////////////////////Salary  Chart///////////////////////////////////////////////////////
+        ////////////////////////////////////////////////Salary Donut Chart///////////////////////////////////////////////////////
 
         //pending percentage
         $paySlipAll = PaySlip::whereMonth('created_at', Carbon::now()->month)
@@ -90,11 +90,22 @@ class PayrollDashboardController extends Controller
         // Prepare the result
         $paySlipsPercentage = [
            'paySlipPaid' => round($paySlipPaidPercentage, 2),
-    'paySlipPending' => round($paySlipPendingPercentage, 2),
-    'paySlipUnpaid' => round($paySlipUnpaidPercentage, 2),
-    'paySlipProcessing' => round($paySlipProcessPercentage, 2),
+            'paySlipPending' => round($paySlipPendingPercentage, 2),
+            'paySlipUnpaid' => round($paySlipUnpaidPercentage, 2),
+            'paySlipProcessing' => round($paySlipProcessPercentage, 2),
         ];
-        // dd($paySlipsPercentage);
+        /////////////////////////Salary Area Chart ///////////////////////
+
+            // $paySlipsArea = PaySlip::selectRaw('MONTH(pay_period_date) as month, SUM(total_net_salary) as total_paid')
+            // ->where('status', 'paid')
+            // ->whereYear('pay_period_date', Carbon::now()->year)
+            // ->groupBy('month')
+            // ->orderBy('month', 'asc')
+            // ->get();
+
+
+
+
         /////////////////////////////////////////////// Convinience ////////////////////////////////////////////////////
         //all Convinience Bill
         $convenienceDataSum = Convenience::whereMonth('created_at', Carbon::now()->month)
@@ -166,6 +177,7 @@ class PayrollDashboardController extends Controller
             'convenienceDataSum' => $convenienceDataSum,
             'conveniencePercentage' => $conveniencePercentage,
             'paySlipsPercentage' => $paySlipsPercentage,
+            // 'paySlipsArea' => $paySlipsArea,
         ];
         return view('all_modules.payroll_dashboard.payroll_dashboard', compact('data'));
     }
@@ -348,5 +360,26 @@ class PayrollDashboardController extends Controller
         ]);
     }
 
+    public function fetchYearlyAreaChart(Request $request)
+    {
+        $year = $request->input('year');  // Get the selected year
 
+        // Fetch the salary data for the selected year
+        $paySlipsArea = PaySlip::selectRaw('MONTH(pay_period_date) as month, SUM(total_net_salary) as total_paid')
+                                ->where('status', 'paid')
+                                ->whereYear('pay_period_date', $year)
+                                ->groupBy('month')
+                                ->orderBy('month', 'asc')
+                                ->get();
+
+        // Prepare data for chart (monthly totals)
+        $months = $paySlipsArea->pluck('month')->toArray();
+        $totals = $paySlipsArea->pluck('total_paid')->toArray();
+
+        // Return data as JSON
+        return response()->json([
+            'months' => $months,
+            'totals' => $totals
+        ]);
+    }
 }//Main End
