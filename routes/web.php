@@ -195,24 +195,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
     });
 
-    // Employee Salary related route(n)
-    Route::controller(EmployeeSalaryController::class)->group(function () {
-        Route::get('/employee/salary/add', 'EmployeeSalaryAdd')->name('employee.salary.add');
-        Route::get('/employee/salary/view', 'EmployeeSalaryView')->name('employee.salary.view');
-        Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
-        Route::get('/employee/salary/edit/{id}', 'EmployeeSalaryEdit')->name('employee.salary.edit');
-        Route::post('/employee/salary/update/{id}', 'EmployeeSalaryUpdate')->name('employee.salary.update');
-        Route::get('/employee/salary/delete/{id}', 'EmployeeSalaryDelete')->name('employee.salary.delete');
-        Route::get('/employee/branch/{branch_id}', 'BranchAjax'); //dependency
-        Route::get('/employee/info/{employee_id}', 'getEmployeeInfo');
-        /////////////////Employ Salary Advanced ////////////
-        Route::get('/advanced/employee/salary/add', 'EmployeeSalaryAdvancedAdd')->name('advanced.employee.salary.add');
-        Route::post('/advanced/employee/salary/store', 'EmployeeSalaryAdvancedStore')->name('advanced.employee.salary.store');
-        Route::get('/advanced/employee/salary/view', 'EmployeeSalaryAdvancedView')->name('employee.salary.advanced.view');
-        Route::get('/advanced/employee/salary/edit/{id}', 'EmployeeSalaryAdvancedEdit')->name('employee.salary.advanced.edit');
-        Route::post('/advanced/employee/salary/update/{id}', 'EmployeeSalaryAdvancedUpdate')->name('employee.salary.advanced.update');
-        Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
-    });
+    // // Employee Salary related route(n)
+    // Route::controller(EmployeeSalaryController::class)->group(function () {
+    //     Route::get('/employee/salary/add', 'EmployeeSalaryAdd')->name('employee.salary.add');
+    //     Route::get('/employee/salary/view', 'EmployeeSalaryView')->name('employee.salary.view');
+    //     Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
+    //     Route::get('/employee/salary/edit/{id}', 'EmployeeSalaryEdit')->name('employee.salary.edit');
+    //     Route::post('/employee/salary/update/{id}', 'EmployeeSalaryUpdate')->name('employee.salary.update');
+    //     Route::get('/employee/salary/delete/{id}', 'EmployeeSalaryDelete')->name('employee.salary.delete');
+    //     Route::get('/employee/branch/{branch_id}', 'BranchAjax'); //dependency
+    //     Route::get('/employee/info/{employee_id}', 'getEmployeeInfo');
+    //     /////////////////Employ Salary Advanced ////////////
+    //     Route::get('/advanced/employee/salary/add', 'EmployeeSalaryAdvancedAdd')->name('advanced.employee.salary.add');
+    //     Route::post('/advanced/employee/salary/store', 'EmployeeSalaryAdvancedStore')->name('advanced.employee.salary.store');
+    //     Route::get('/advanced/employee/salary/view', 'EmployeeSalaryAdvancedView')->name('employee.salary.advanced.view');
+    //     Route::get('/advanced/employee/salary/edit/{id}', 'EmployeeSalaryAdvancedEdit')->name('employee.salary.advanced.edit');
+    //     Route::post('/advanced/employee/salary/update/{id}', 'EmployeeSalaryAdvancedUpdate')->name('employee.salary.advanced.update');
+    //     Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
+    // });
 
     // Departments related route(n)
     Route::controller(DepartmentsController::class)->group(function () {
@@ -253,6 +253,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-performance-percentage-data', 'getperformancePercentage');
         Route::get('/get-other-percentage-data', 'getOtherPercentage');
         Route::get('/get-month-convenience-data', 'getConvenienceMonth');
+        Route::get('/get-pay-slips-month-data', 'getPaySlipsMonthData');
+
     }); //End
 
     ////////////////////Role And Permission Route /////////////////

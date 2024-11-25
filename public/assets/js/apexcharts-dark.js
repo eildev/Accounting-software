@@ -414,46 +414,46 @@ $(function() {
 
 
   // Apex Donut chart start
-    if ($('#apexDonut').length) {
-        var options = {
-        chart: {
-            height: 300,
-            type: "donut",
-            foreColor: colors.bodyColor,
-            background: colors.cardBg,
-            toolbar: {
-            show: false
-            },
-        },
-        theme: {
-            mode: 'dark'
-        },
-        tooltip: {
-            theme: 'dark'
-        },
-        stroke: {
-            colors: ['rgba(0,0,0,0)']
-        },
-        colors: [colors.primary,colors.warning,colors.danger, colors.info],
-        legend: {
-            show: true,
-            position: "top",
-            horizontalAlign: 'center',
-            fontFamily: fontFamily,
-            itemMargin: {
-            horizontal: 8,
-            vertical: 0
-            },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        series: [44, 55, 13, 33]
-        };
+    // if ($('#apexDonut').length) {
+    //     var options = {
+    //     chart: {
+    //         height: 300,
+    //         type: "donut",
+    //         foreColor: colors.bodyColor,
+    //         background: colors.cardBg,
+    //         toolbar: {
+    //         show: false
+    //         },
+    //     },
+    //     theme: {
+    //         mode: 'dark'
+    //     },
+    //     tooltip: {
+    //         theme: 'dark'
+    //     },
+    //     stroke: {
+    //         colors: ['rgba(0,0,0,0)']
+    //     },
+    //     colors: [colors.primary,colors.warning,colors.danger, colors.info],
+    //     legend: {
+    //         show: true,
+    //         position: "top",
+    //         horizontalAlign: 'center',
+    //         fontFamily: fontFamily,
+    //         itemMargin: {
+    //         horizontal: 8,
+    //         vertical: 0
+    //         },
+    //     },
+    //     dataLabels: {
+    //         enabled: false
+    //     },
+    //     series: [44, 55, 13, 33]
+    //     };
 
-        var chart = new ApexCharts(document.querySelector("#apexDonut"), options);
-        chart.render();
-    }
+    //     var chart = new ApexCharts(document.querySelector("#apexDonut"), options);
+    //     chart.render();
+    // }
   // Apex Donut chart start
 
 
