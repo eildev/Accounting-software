@@ -57,6 +57,7 @@ class ExpenseController extends Controller
     } //
     public function ExpenseStore(Request $request)
     {
+        // dd($request->all());
         try {
 
             $validator = Validator::make($request->all(), [
@@ -82,11 +83,6 @@ class ExpenseController extends Controller
             $expense->amount =  $request->amount;
             $expense->purpose =  $request->purpose;
             $expense->spender =  $request->spender;
-            if ($request->account_type == 'bank') {
-                $expense->bank_account_id =  $request->bank_account_id;
-            } else {
-                $expense->cash_account_id =  $request->bank_account_id;
-            }
             $expense->note =  $request->note;
             if ($request->image) {
                 $imageName = rand() . '.' . $request->image->extension();

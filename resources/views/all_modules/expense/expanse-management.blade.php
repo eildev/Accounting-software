@@ -248,6 +248,7 @@
                     processData: false,
                     contentType: false,
                     success: function(res) {
+                        console.log(res);
                         if (res.status == 200) {
                             // toastr.success(res.message);
                             $('#globalPaymentModal #data_id').val(res.data
