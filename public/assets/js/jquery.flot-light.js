@@ -24,7 +24,7 @@ $(function() {
 
 
 
-  //Line Chart 
+  //Line Chart
   $.plot($('#flotLine'), [
     {
       label: 'Visits',
@@ -114,48 +114,48 @@ $(function() {
 
 
   // Area Chart
-  $.plot($('#flotArea'), [
-    {
-      label: 'iPhone',
-      data: [
-        [ "2010.Q1", 35 ], [ '2010.Q2', 67 ], [ '2010.Q3', 13 ], [ '2010.Q4', 45 ]
-      ]
-    },
-    {
-      label: 'iTouch',
-      data: [
-        [ '2010.Q1', 32 ], [ '2010.Q2', 49 ], [ '2010.Q3', 25 ], [ '2010.Q4', 57 ]
-      ]
-    }
-  ], {
-    series: {
-      shadowSize: 0,
-      lines: {
-        show: true,
-        fill: 0.15,
-        lineWidth: 1
-      }
-    },
+//   $.plot($('#flotArea'), [
+//     {
+//       label: 'iPhone',
+//       data: [
+//         [ "2010.Q1", 35 ], [ '2010.Q2', 67 ], [ '2010.Q3', 13 ], [ '2010.Q4', 45 ]
+//       ]
+//     },
+//     {
+//       label: 'iTouch',
+//       data: [
+//         [ '2010.Q1', 32 ], [ '2010.Q2', 49 ], [ '2010.Q3', 25 ], [ '2010.Q4', 57 ]
+//       ]
+//     }
+//   ], {
+//     series: {
+//       shadowSize: 0,
+//       lines: {
+//         show: true,
+//         fill: 0.15,
+//         lineWidth: 1
+//       }
+//     },
 
-    grid: {
-      color: colors.bodyColor,
-      borderColor: colors.gridBorder,
-      borderWidth: 1,
-      hoverable: true,
-      clickable: true
-    },
+//     grid: {
+//       color: colors.bodyColor,
+//       borderColor: colors.gridBorder,
+//       borderWidth: 1,
+//       hoverable: true,
+//       clickable: true
+//     },
 
-    xaxis: { mode: 'categories', tickColor: colors.gridBorder },
-    yaxis: { tickColor: colors.gridBorder },
-    legend: { backgroundColor: colors.cardBg },
+//     xaxis: { mode: 'categories', tickColor: colors.gridBorder },
+//     yaxis: { tickColor: colors.gridBorder },
+//     legend: { backgroundColor: colors.cardBg },
 
-    tooltip: {
-      show: true,
-      content: '%s: %y'
-    },
+//     tooltip: {
+//       show: true,
+//       content: '%s: %y'
+//     },
 
-    colors: [colors.danger, colors.primary]
-  });
+//     colors: [colors.danger, colors.primary]
+//   });
 
 
 

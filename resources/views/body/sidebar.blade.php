@@ -268,6 +268,15 @@
                     </a>
                 </li>
             @endif
+
+                <li class="nav-item">
+                    <a href="{{ route('expanse.dashboard') }}"
+                        class="nav-link {{ request()->routeIs('expanse.dashboard') ? 'nav_active' : '' }}">
+                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
+                        <span class="link-title">Expanse Dashboard</span>
+                    </a>
+                </li>
+
             @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
@@ -356,13 +365,6 @@
                     <span class="link-title">Departments</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ route('departments') }}"
-                    class="nav-link {{ request()->routeIs('departments') ? 'nav_active' : '' }}">
-                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Departments</span>
-                </a>
-            </li>
 
             <li class="nav-item">
                 <a href="{{ route('salary.structure') }}"
@@ -375,14 +377,14 @@
                 <a href="{{ route('convenience') }}"
                     class="nav-link {{ request()->routeIs('convenience') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Convenience Bill</span>
+                    <span class="link-title">Conveyance Bill</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('convenience.view') }}"
                     class="nav-link {{ request()->routeIs('convenience.view') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Convenience Report</span>
+                    <span class="link-title">Conveyance Report</span>
                 </a>
             </li>
 
@@ -418,6 +420,13 @@
                                     class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
                                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                                     <span class="link-title">Employee Bonuses</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('salary.sheet') }}"
+                                    class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                    <span class="link-title">Salary Sheet</span>
                                 </a>
                             </li>
                         </ul>

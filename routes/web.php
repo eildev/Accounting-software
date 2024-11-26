@@ -25,7 +25,8 @@ use App\Http\Controllers\Ledgers\LedgerController;
 use App\Http\Controllers\Ledgers\SubLedger\SubLedgerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
-
+use App\Http\Controllers\EmployeePayroll\PaySlipController;
+use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,7 +90,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/employee/update/{id}', 'update')->name('employee.update');
         Route::get('/employee/delete/{id}', 'destroy')->name('employee.delete');
         Route::get('/employee/profile/{id}', 'profile')->name('employee.profile');
-        Route::get('/employee/profile/edit/{id}', 'editProfile');
+        Route::get('/employee/profile/edit/{id}/{payslip_id}', 'editProfile');
         Route::post('/employee/profile/payslip/update', 'updateProfilepaySlip');
         ///////////////////////Employee Bonuse////////////////////////
         Route::get('/employee/bonus', 'indexBonus')->name('employee.bonus');
@@ -107,8 +108,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/employe/multilple/slip/store', 'multiplePaySlipStore');
         Route::get('/employe/all/slip/view', 'allPaySlipView');
         Route::post('/update-status-payslip', 'PaySlipStatusUpdate');
+        Route::get('/employe/salary/sheet/view', 'allSalarySheetiew')->name('salary.sheet');
     });
-
+    // PaySlip related route
+    Route::controller(PaySlipController::class)->group(function () {
+        Route::get('/pay-slip/{id}', 'paySlip');
+    });
     // Banks related route
     Route::controller(BankAccountsController::class)->group(function () {
         Route::get('/bank', 'index')->name('bank');
@@ -153,9 +158,12 @@ Route::middleware('auth')->group(function () {
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transaction', 'transaction')->name('transaction');
         Route::post('/transaction/store', 'storeTransaction');
+        Route::post('/transaction/store/with-ledger', 'storeTransactionWithLedger');
         Route::get('/transaction/view', 'view');
         Route::get('/transaction/view-details/{id}', 'viewDetails');
         Route::get('/check-account-type', 'checkAccountType');
+        Route::post('/transaction/balance-transfer', 'balanceTransfer');
+        // Route::get('/transaction/balance-transfer/view', 'balanceTransferView');
     });
 
     // Transaction related route(n)
@@ -187,24 +195,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
     });
 
-    // Employee Salary related route(n)
-    Route::controller(EmployeeSalaryController::class)->group(function () {
-        Route::get('/employee/salary/add', 'EmployeeSalaryAdd')->name('employee.salary.add');
-        Route::get('/employee/salary/view', 'EmployeeSalaryView')->name('employee.salary.view');
-        Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
-        Route::get('/employee/salary/edit/{id}', 'EmployeeSalaryEdit')->name('employee.salary.edit');
-        Route::post('/employee/salary/update/{id}', 'EmployeeSalaryUpdate')->name('employee.salary.update');
-        Route::get('/employee/salary/delete/{id}', 'EmployeeSalaryDelete')->name('employee.salary.delete');
-        Route::get('/employee/branch/{branch_id}', 'BranchAjax'); //dependency
-        Route::get('/employee/info/{employee_id}', 'getEmployeeInfo');
-        /////////////////Employ Salary Advanced ////////////
-        Route::get('/advanced/employee/salary/add', 'EmployeeSalaryAdvancedAdd')->name('advanced.employee.salary.add');
-        Route::post('/advanced/employee/salary/store', 'EmployeeSalaryAdvancedStore')->name('advanced.employee.salary.store');
-        Route::get('/advanced/employee/salary/view', 'EmployeeSalaryAdvancedView')->name('employee.salary.advanced.view');
-        Route::get('/advanced/employee/salary/edit/{id}', 'EmployeeSalaryAdvancedEdit')->name('employee.salary.advanced.edit');
-        Route::post('/advanced/employee/salary/update/{id}', 'EmployeeSalaryAdvancedUpdate')->name('employee.salary.advanced.update');
-        Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
-    });
+    // // Employee Salary related route(n)
+    // Route::controller(EmployeeSalaryController::class)->group(function () {
+    //     Route::get('/employee/salary/add', 'EmployeeSalaryAdd')->name('employee.salary.add');
+    //     Route::get('/employee/salary/view', 'EmployeeSalaryView')->name('employee.salary.view');
+    //     Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
+    //     Route::get('/employee/salary/edit/{id}', 'EmployeeSalaryEdit')->name('employee.salary.edit');
+    //     Route::post('/employee/salary/update/{id}', 'EmployeeSalaryUpdate')->name('employee.salary.update');
+    //     Route::get('/employee/salary/delete/{id}', 'EmployeeSalaryDelete')->name('employee.salary.delete');
+    //     Route::get('/employee/branch/{branch_id}', 'BranchAjax'); //dependency
+    //     Route::get('/employee/info/{employee_id}', 'getEmployeeInfo');
+    //     /////////////////Employ Salary Advanced ////////////
+    //     Route::get('/advanced/employee/salary/add', 'EmployeeSalaryAdvancedAdd')->name('advanced.employee.salary.add');
+    //     Route::post('/advanced/employee/salary/store', 'EmployeeSalaryAdvancedStore')->name('advanced.employee.salary.store');
+    //     Route::get('/advanced/employee/salary/view', 'EmployeeSalaryAdvancedView')->name('employee.salary.advanced.view');
+    //     Route::get('/advanced/employee/salary/edit/{id}', 'EmployeeSalaryAdvancedEdit')->name('employee.salary.advanced.edit');
+    //     Route::post('/advanced/employee/salary/update/{id}', 'EmployeeSalaryAdvancedUpdate')->name('employee.salary.advanced.update');
+    //     Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
+    // });
 
     // Departments related route(n)
     Route::controller(DepartmentsController::class)->group(function () {
@@ -232,6 +240,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/employees-by-department/{department_id}', 'getEmployeesByDepartment');
         Route::post('convenience/store', 'convenienceStore')->name('convenience.store');
         Route::get('/convenience/view', 'convenienceView')->name('convenience.view');
+        Route::get('/convenience/view-details/{id}', 'convenienceViewDetails');
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
         Route::post('/update-status', 'updateStatus')->name('update-status');
     }); //End
@@ -239,6 +248,22 @@ Route::middleware('auth')->group(function () {
     // Payroll Dashboard related route(n)
     Route::controller(PayrollDashboardController::class)->group(function () {
         Route::get('/payroll/dashboard', 'payrollDashboard')->name('payroll.dashboard');
+        Route::get('/get-month-bonus-data', 'getMonthBonus');
+        Route::get('/get-festival-percentage-data', 'getFestivalPercentage');
+        Route::get('/get-performance-percentage-data', 'getperformancePercentage');
+        Route::get('/get-other-percentage-data', 'getOtherPercentage');
+        Route::get('/get-month-convenience-data', 'getConvenienceMonth');
+        Route::get('/get-pay-slips-month-data', 'getPaySlipsMonthData');
+        Route::get('/fetch-yearly-data', 'fetchYearlyAreaChart')->name('fetchYearlyData');
+
+    }); //End
+    // Expanse Dashboard related route(n)
+    Route::controller(ExpanseDashboardController::class)->group(function () {
+        Route::get('/expanse/dashboard', 'expanseDashboard')->name('expanse.dashboard');
+        Route::get('/expanse/activities/filter', 'expanseaAtivitiesFilter');
+        Route::get('/get-monthly-expanse-category-data', 'expanseaCategoryFilter');
+        Route::get('/expenses-chart-data-money-flow', 'moneyFlowExpanseChart');
+
     }); //End
 
     ////////////////////Role And Permission Route /////////////////
@@ -305,8 +330,13 @@ Route::middleware('auth')->group(function () {
     Route::controller(AssetTypesController::class)->group(function () {
         Route::post('/asset-type/store', 'store');
         Route::get('/asset-type/view', 'view');
-        // Route::get('/all-ledger/view/select-tag', 'view');
-        // Route::get('/sub-ledger/details/{id}', 'details');
+        Route::get('/asset-type/details/{id}', 'details');
+        Route::get('/asset-type/edit/{id}', 'edit');
+        Route::post('/asset-type/update/{id}', 'update');
+        Route::get('/asset-type/delete/{id}', 'delete');
+        Route::get('/asset-type/trash/delete/view', 'assetTypeDeleteView');
+        Route::get('/asset-type/trash/restore/{id}', 'assetTypeRestore');
+        Route::get('/asset-type/trash/delete/{id}', 'assetTypeDelete');
     });
     Route::controller(AssetController::class)->group(function () {
         Route::get('/asset-management', 'index')->name('asset.management');

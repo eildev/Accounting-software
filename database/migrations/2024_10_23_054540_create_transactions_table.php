@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cash_account_id')->nullable();  // For cash-based transactions
             $table->foreign('cash_account_id')->references('id')->on('cashes');
             $table->decimal('amount', 15, 2);
-            $table->enum('transaction_type', ['credit', 'debit']);  // Credit = incoming, Debit = outgoing
+            $table->enum('transaction_type', ['credit', 'debit', 'bl_transfer']);  // Credit = incoming, Debit = outgoing
             $table->text('description')->nullable();
             $table->string('transaction_id', 30)->nullable();
             $table->integer('transaction_by');

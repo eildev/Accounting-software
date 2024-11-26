@@ -27,6 +27,10 @@
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
                             aria-controls="profile" aria-selected="false">Asset Type</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="trash-tab" data-bs-toggle="tab" href="#trash" role="tab"
+                            aria-controls="trash" aria-selected="false">Asset Type Trashed Data</a>
+                    </li>
                 </ul>
                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -42,6 +46,13 @@
                         <div class="card">
                             <div class="card-body">
                                 @include('all_modules.assets.asset-type')
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="trash" role="tabpanel" aria-labelledby="trash-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                @include('all_modules.assets.asset-type-trashed')
                             </div>
                         </div>
                     </div>
@@ -61,6 +72,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="assetForm row">
+                        <input type="hidden" name="new_asset" class="new_asset" value="">
                         <div class="mb-3 col-md-6">
                             <label for="asset_name" class="form-label">Asset Name<span class="text-danger">*</span></label>
                             <input class="form-control asset_name" name="asset_name" type="text"
@@ -130,7 +142,6 @@
         </div>
     </div>
 
-
     <!-- Asset Type Modal -->
     <div class="modal fade" id="assetTypeModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
         aria-hidden="true">
@@ -175,10 +186,6 @@
                 $(element).css('border-color', 'green');
             }
         }
-
-
-
-
         // ready function
         $(document).ready(function() {
 
@@ -218,7 +225,6 @@
             selectAssetTypeView();
 
 
-
             // save Asset information
             const saveAsset = document.querySelector('.save_asset');
             saveAsset.addEventListener('click', function(e) {
@@ -239,15 +245,37 @@
                     success: function(res) {
                         if (res.status == 200) {
                             $('#assetModal').modal('hide');
-                            $('.assetForm')[0].reset();
-                            assetView();
-                            toastr.success(res.message);
+
+                            // Check if asset is new
+                            if ($('.new_asset').val() === 'new') {
+                                // Populate the Payment Modal fields
+                                $('#globalPaymentModal #data_id').val(res.data
+                                    .asset_id); // assuming res.data contains asset_id
+                                $('#globalPaymentModal #payment_balance').val(res.data
+                                    .acquisition_cost);
+                                $('#globalPaymentModal #purpose').val('Fixed Asset Purchase');
+                                $('#globalPaymentModal #transaction_type').val('withdraw');
+                                $('#globalPaymentModal #due-amount').text(res.data
+                                    .acquisition_cost);
+                                // Open the Payment Modal
+                                $('#globalPaymentModal').modal('show');
+
+                                $('.assetForm')[0].reset();
+                                assetView();
+                            } else {
+                                $('.assetForm')[0].reset();
+                                assetView();
+                                toastr.success(res.message);
+                            }
                         } else {
                             if (res.error.asset_name) {
                                 showError('.asset_name', res.error.asset_name);
                             }
                             if (res.error.asset_type_id) {
                                 showError('.asset_type_id', res.error.asset_type_id);
+                            }
+                            if (res.error.purchase_date) {
+                                showError('.purchase_date', res.error.purchase_date);
                             }
                             if (res.error.purchase_date) {
                                 showError('.purchase_date', res.error.purchase_date);
@@ -287,46 +315,60 @@
                         if (assets.length > 0) {
                             $.each(assets, function(index, asset) {
                                 const tr = document.createElement('tr');
+                                let statusBadge = ''; // Initialize status badge variable
+
+                                // Check loan status and assign the correct badge
+                                if (asset.status === 'purchased') {
+                                    statusBadge =
+                                        '<span class="badge bg-success">Purchased</span>';
+                                } else {
+                                    statusBadge =
+                                        '<span class="badge bg-warning">Purchasing</span>';
+                                }
                                 tr.innerHTML = `
-                                <td>
-                                    ${index+1}
-                                </td>
-                                <td>
-                                    <a href="#">
-                                        ${asset.asset_name ?? ""}
-                                    </a>
-                                </td>
-                                <td>${asset.asset_type.name ?? ""}</td>
-                                <td>${asset.purchase_date ?? ""}</td>
-                                <td>${asset.acquisition_cost ?? ""}</td>
-                                <td>${asset.useful_life ?? ""}</td>
-                                <td>${asset.salvage_value ?? ""}</td>
-                                <td>${asset.initial_depreciation_date ?? ""}</td>
-                                <td>
-                                    <a href="#" class="btn btn-icon btn-xs btn-primary">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-icon btn-xs btn-success">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-icon btn-xs btn-danger">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-                                </td>
+                                    <td>
+                                        ${index+1}
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            ${asset.asset_name ?? ""}
+                                        </a>
+                                    </td>
+                                    <td>${asset.asset_type.name ?? ""}</td>
+                                    <td>${asset.purchase_date ?? ""}</td>
+                                    <td>${asset.acquisition_cost ?? ""}</td>
+                                    <td>${asset.useful_life ?? ""}</td>
+                                    <td>${asset.salvage_value ?? ""}</td>
+                                    <td>${statusBadge}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-icon btn-xs btn-primary">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-icon btn-xs btn-success">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-icon btn-xs btn-danger ">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </td>
                             `;
                                 $('.asset_data').append(tr);
-
                             });
                         } else {
                             $('.asset_data').html(`
-                        <tr>
-                            <td colspan='9'>
-                                <div class="text-center text-warning mb-2">Data Not Found</div>
-                                <div class="text-center">
-                                    <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#assetModal">Add Asset<i data-feather="plus"></i></button>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <div class="text-center text-warning mb-2">Data Not Found</div>
+                                    <div class="text-center">
+                                        <button class="btn btn-xs btn-primary add-asset-btn" data-asset-type="old" data-bs-toggle="modal" data-bs-target="#assetModal">
+                                            Add Old Asset
+                                        </button>
+                                        <button class="btn btn-xs btn-primary add-asset-btn" data-asset-type="new" data-bs-toggle="modal" data-bs-target="#assetModal">
+                                            Add New Asset
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         `);
                         }
                         // Reinitialize DataTable
@@ -335,6 +377,12 @@
                 });
             }
             assetView();
+
+            // Set new_asset value based on which button is clicked using event delegation
+            $(document).on('click', '.add-asset-btn', function() {
+                const assetType = $(this).data('asset-type');
+                $('.new_asset').val(assetType === 'new' ? 'new' : '');
+            });
 
 
 
@@ -411,7 +459,7 @@
                                     <a href="#" class="btn btn-icon btn-xs btn-success">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <a href="#" class="btn btn-icon btn-xs btn-danger">
+                                    <a href="#" class="btn btn-icon btn-xs btn-danger asset_type_delete" data-id=${asset.id}>
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
@@ -422,7 +470,7 @@
                         } else {
                             $('.asset_type_data').html(`
                         <tr>
-                            <td colspan='9'>
+                            <td colspan='4'>
                                 <div class="text-center text-warning mb-2">Data Not Found</div>
                                 <div class="text-center">
                                     <button class="btn btn-xs btn-primary" data-bs-toggle="modal" data-bs-target="#assetTypeModal">Add Asset Type<i data-feather="plus"></i></button>
@@ -437,6 +485,189 @@
                 });
             }
             assetTypeView();
+
+
+
+            // Asset Type  Delete
+            $(document).on('click', '.asset_type_delete', function(e) {
+                e.preventDefault();
+                let id = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to Delete this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: `/asset-type/delete/${id}`,
+                            type: 'GET',
+                            success: function(data) {
+                                if (data.status == 200) {
+                                    toastr.success(data.message);
+                                    assetTypeView();
+                                    assetTrashView();
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: data.message,
+                                        footer: '<a href="#">Why do I have this issue?</a>'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+
+
+            function assetTrashView() {
+                $.ajax({
+                    url: '/asset-type/trash/delete/view',
+                    method: 'GET',
+                    success: function(res) {
+                        // console.log(res);
+                        const assetTypes = res.data;
+                        $('.asset_type_trash_data').empty();
+                        if ($.fn.DataTable.isDataTable('#assetTypeTrashTable')) {
+                            $('#assetTypeTrashTable').DataTable().clear().destroy();
+                        }
+                        if (assetTypes.length > 0) {
+                            $.each(assetTypes, function(index, asset) {
+                                const tr = document.createElement('tr');
+
+                                tr.innerHTML = `
+                                <td>
+                                    ${index+1}
+                                </td>
+                                <td>
+                                    <a href="#">
+                                        ${asset.name ?? ""}
+                                    </a>
+                                </td>
+                                <td>${asset.depreciation_rate ?? 0} %</td>
+                                <td>
+                                    <a href="#" class="btn btn-icon btn-xs btn-success asset_type_restore" data-id=${asset.id}>
+                                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-icon btn-xs btn-danger asset_type_permanent_delete" data-id=${asset.id}>
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            `;
+                                $('.asset_type_trash_data').append(tr);
+
+                            });
+                        } else {
+                            $('.asset_type_trash_data').html(`
+                            <tr>
+                                <td colspan='4'>
+                                    <div class="text-center text-warning mb-2">Data Not Found</div>
+                                </td>
+                            </tr>
+                        `);
+                        }
+                        // Reinitialize DataTable
+                        dynamicDataTableFunc('assetTypeTrashTable');
+                    }
+                });
+            }
+            assetTrashView();
+
+
+            // Asset Type Restore  Data
+            $(document).on('click', '.asset_type_restore', function(e) {
+                e.preventDefault();
+                let id = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to Restore this Data!",
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Restore"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: `/asset-type/trash/restore/${id}`,
+                            type: 'GET',
+                            success: function(data) {
+                                if (data.status == 200) {
+                                    toastr.success(data.message);
+                                    assetTypeView();
+                                    assetTrashView();
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: data.message,
+                                        footer: '<a href="#">Why do I have this issue?</a>'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            })
+
+
+            // Asset Type permanently Delete
+            $(document).on('click', '.asset_type_permanent_delete', function(e) {
+                e.preventDefault();
+                let id = this.getAttribute('data-id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to Delete this Permanently!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: `/asset-type/trash/delete/${id}`,
+                            type: 'GET',
+                            success: function(data) {
+                                if (data.status == 200) {
+                                    toastr.success(data.message);
+                                    assetTrashView();
+                                } else {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: data.message,
+                                        footer: '<a href="#">Why do I have this issue?</a>'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            })
 
         }); //
 
@@ -466,7 +697,8 @@
 
             // modal on off
             // Initialize modal with backdrop and keyboard options
-            modalShowHide('loanModal');
+            modalShowHide('assetModal');
+            modalShowHide('assetTypeModal');
         });
     </script>
 

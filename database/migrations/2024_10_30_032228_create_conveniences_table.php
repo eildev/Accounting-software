@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');;
             $table->string('entry_by')->nullable();
             $table->decimal('total_amount',15,2);
-            $table->string('status')->default(1);
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->unsignedBigInteger('group_id')->unsigned(); // Foreign key linking to primary_ledger_groups table.n.
             $table->foreign('group_id')->references('id')->on('primary_ledger_groups');
-            $table->unsignedBigInteger('account_id')->nullable(); // Foreign key linking to the ledger_accounts table.n
+            $table->unsignedBigInteger('account_id')->unsigned(); // Foreign key linking to the ledger_accounts table.n
             $table->foreign('account_id')->references('id')->on('ledger_accounts');
             $table->unsignedBigInteger('sub_ledger_id')->nullable(); // Foreign key linking to the sub_ledgers table.n
             $table->foreign('sub_ledger_id')->references('id')->on('sub_ledgers');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('transaction_date')->nullable();
             $table->unsignedBigInteger('transaction_by')->nullable(); // Foreign key linking to the users table.n
             $table->foreign('transaction_by')->references('id')->on('users');
+            $table->enum('transaction_type', ['credit', 'debit'])->nullable();
             $table->timestamps();
         });
     }
