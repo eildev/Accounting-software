@@ -158,37 +158,37 @@ $(function() {
 
 
   // Doughnut Chart
-  if($('#chartjsDoughnut').length) {
-    new Chart($('#chartjsDoughnut'), {
-      type: 'doughnut',
-      data: {
-        labels: ["Africa", "Asia", "Europe"],
-        datasets: [
-          {
-            label: "Population (millions)",
-            backgroundColor: [colors.primary, colors.danger, colors.info],
-            borderColor: colors.cardBg,
-            data: [2478,4267,1334],
-          }
-        ]
-      },
-      options: {
-        aspectRatio: 2,
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: colors.bodyColor,
-              font: {
-                size: '13px',
-                family: fontFamily
-              }
-            }
-          },
-        }
-      }
-    });
-  }
+//   if($('#chartjsDoughnut').length) {
+//     new Chart($('#chartjsDoughnut'), {
+//       type: 'doughnut',
+//       data: {
+//         labels: ["Africa", "Asia", "Europe"],
+//         datasets: [
+//           {
+//             label: "Population (millions)",
+//             backgroundColor: [colors.primary, colors.danger, colors.info],
+//             borderColor: colors.cardBg,
+//             data: [2478,4267,1334],
+//           }
+//         ]
+//       },
+//       options: {
+//         aspectRatio: 2,
+//         plugins: {
+//           legend: {
+//             display: true,
+//             labels: {
+//               color: colors.bodyColor,
+//               font: {
+//                 size: '13px',
+//                 family: fontFamily
+//               }
+//             }
+//           },
+//         }
+//       }
+//     });
+//   }
 
 
 

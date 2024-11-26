@@ -26,7 +26,7 @@ use App\Http\Controllers\Ledgers\SubLedger\SubLedgerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
 use App\Http\Controllers\EmployeePayroll\PaySlipController;
-
+use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -254,6 +254,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-other-percentage-data', 'getOtherPercentage');
         Route::get('/get-month-convenience-data', 'getConvenienceMonth');
         Route::get('/get-pay-slips-month-data', 'getPaySlipsMonthData');
+        Route::get('/fetch-yearly-data', 'fetchYearlyAreaChart')->name('fetchYearlyData');
+
+    }); //End
+    // Expanse Dashboard related route(n)
+    Route::controller(ExpanseDashboardController::class)->group(function () {
+        Route::get('/expanse/dashboard', 'expanseDashboard')->name('expanse.dashboard');
+        Route::get('/expanse/activities/filter', 'expanseaAtivitiesFilter');
+        Route::get('/get-monthly-expanse-category-data', 'expanseaCategoryFilter');
 
     }); //End
 

@@ -268,6 +268,15 @@
                     </a>
                 </li>
             @endif
+
+                <li class="nav-item">
+                    <a href="{{ route('expanse.dashboard') }}"
+                        class="nav-link {{ request()->routeIs('expanse.dashboard') ? 'nav_active' : '' }}">
+                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
+                        <span class="link-title">Expanse Dashboard</span>
+                    </a>
+                </li>
+
             @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
