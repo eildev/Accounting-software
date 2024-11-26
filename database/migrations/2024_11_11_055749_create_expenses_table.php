@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->date('expense_date')->nullable();
             $table->unsignedBigInteger('expense_category_id')->nullable();
-            $table->foreign('expense_category_id')->references('id')->on('ledger_accounts');
+            $table->foreign('expense_category_id')->references('id')->on('sub_ledgers');
             $table->string('purpose', 255);
             $table->decimal('amount');
             $table->string('image')->nullable();
