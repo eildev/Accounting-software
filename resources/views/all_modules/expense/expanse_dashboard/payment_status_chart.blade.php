@@ -1,35 +1,68 @@
 <div class="row">
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <h6 class="card-title">Payment Status</h6>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h6 class="card-title">Payment Status</h6>
+                </div>
+                <div id="apexPie1"></div>
             </div>
-            <div id="apexPie1"></div>
-        </div>
 
+        </div>
     </div>
-</div>
-<div class="col-md-12 mt-2">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3>This Month</h3>
-                    <h3  class="mt-2">{{$thisMonth}}</h3>
+    {{-- ///////////////////////////////////This Mont and Previous Month Comparison ///////////////////////////////// --}}
+    <div class="col-md-12 mt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>
+                            @if ($thisMonth > $lastMonth)
+                                <span><img src="{{ asset('uploads/expense/increase.png') }}" height="15px"
+                                        alt=""></span>
+                            @else
+                                <span><img src="{{ asset('uploads/expense/decrease.png') }}" height="15px"
+                                        alt=""></span>
+                            @endif
+                            This Month
+                        </h4>
+                        <h4 class="mt-2">
+                            @if ($thisMonth > $lastMonth)
+                                <span>+</span>
+                            @else
+                                <span>-</span>
+                            @endif
+                            {{ $thisMonth }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>
+                            @if ($thisMonth < $lastMonth)
+                                <span><img src="{{ asset('uploads/expense/increase.png') }}" height="15px"
+                                        alt=""></span>
+                            @else
+                                <span><img src="{{ asset('uploads/expense/decrease.png') }}" height="15px"
+                                        alt=""></span>
+                            @endif
+                            Previous Month
+                        </h4>
+                        <h4 class="mt-2">
+                            @if ($thisMonth < $lastMonth)
+                                <span>+</span>
+                            @else
+                                <span>-</span>
+                            @endif
+                            {{ $lastMonth }}
+                        </h4>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h3>Previous Month</h3>
-                    <h3 class="mt-2">{{$lastMonth}}</h3>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
 </div>
 
 <script>
