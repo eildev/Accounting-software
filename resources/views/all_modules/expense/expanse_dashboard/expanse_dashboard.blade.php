@@ -1,29 +1,28 @@
 @extends('master')
 @section('admin')
-@php
-$mode = App\models\PosSetting::all()->first();
-@endphp
+    @php
+        $mode = App\models\PosSetting::all()->first();
+    @endphp
 
-@if ($mode->dark_mode == 2)
-<style>
-    .custom-table th,
-    .custom-table td {
-        padding: 12px;
-        border: 1px solid #0d1525;
-    }
+    @if ($mode->dark_mode == 2)
+        <style>
+            .custom-table th,
+            .custom-table td {
+                padding: 12px;
+                border: 1px solid #0d1525;
+            }
 
-    .custom-table thead {
-        background-color: #0d1525;
-    }
+            .custom-table thead {
+                background-color: #0d1525;
+            }
 
-    .Payroll-border {
-        border: 1px solid #0d1525
-    }
-</style>
-@else
-<style>
-
-.card-color {
+            .Payroll-border {
+                border: 1px solid #0d1525
+            }
+        </style>
+    @else
+        <style>
+            .card-color {
                 background-color: #FAFAFA
             }
 
@@ -60,11 +59,9 @@ $mode = App\models\PosSetting::all()->first();
             .color-text-black {
                 color: #000
             }
-
-</style>
-@endif
-<style>
-
+        </style>
+    @endif
+    <style>
         /* General Table Styling */
         .table-container {
             width: 100%;
@@ -83,8 +80,9 @@ $mode = App\models\PosSetting::all()->first();
         .custom-table th {
             font-weight: bold;
         }
-    /* Pagination Styling */
-    .pagination {
+
+        /* Pagination Styling */
+        .pagination {
             display: flex;
             justify-content: center;
 
@@ -120,26 +118,77 @@ $mode = App\models\PosSetting::all()->first();
             color: #fff;
             border-color: #007bff;
         }
-</style>
+    </style>
 
-    <div class="d-flex mb-2">
-        <div class="card  ">
-            <div class="card-body">
-                <h3>This Month spend</h3>
-                <p>
-                <a href=""></a>
-                <a href=""></a>
-                <a href=""></a>
-                <a href=""></a>
-                <a href=""></a>
-                <a href=""></a>
-            </p>
+    <div class="row mb-2">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="mb-2">Total Catagory</p>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{ $expanseCatCount }}</h3> <span class="mt-2">10%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/catagory.png') }}" alt="Catagory">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h3>$22,149,00</h3>
-                <p class="mt-2">Total Spend</p>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="mb-2">Total Ledger</p>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{ $expanseledgerCount }}</h3> <span class="mt-2">+2.01%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/ledger.png') }}" alt="Catagory">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="mb-2">Total Sub-Ledger</p>
+                            <div class="d-flex">
+                                <h3 class="me-2">20</h3> <span class="mt-2">+2.01%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/sub-ledger.png') }}" alt="sub-ledger">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="mb-2">Total Invoices</p>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{$expanseInvoiceCount}}</h3> <span class="mt-2">+2.01%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/invoice.png') }}" alt="invoice">
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -149,8 +198,8 @@ $mode = App\models\PosSetting::all()->first();
             @include('all_modules.expense.expanse_dashboard.money_flow_chart')
         </div>
     </div>
-     {{-- //////////////////////Spend by category//////////////////////// --}}
-     <div class="row">
+    {{-- //////////////////////Spend by category//////////////////////// --}}
+    <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
             @include('all_modules.expense.expanse_dashboard.spend_category_chart')
         </div>
