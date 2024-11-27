@@ -30,6 +30,7 @@
                 <th>Transactions</th>
                 <th>Date</th>
                 <th>Amount</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -43,151 +44,161 @@
 </div>
 
 <script>
-$(document).ready(function () {
-    // Load all data on page load
-    fetchActivities();
+    $(document).ready(function() {
+        // Load all data on page load
+        fetchActivities();
 
-    // Fetch filtered data on month change
-    $('#monthSalaryActivity').change(function () {
-        const selectedMonth = $(this).val();
-        fetchActivities(selectedMonth);
-    });
-
-    function fetchActivities(month = '', page = 1) {
-        const perPage = 5; // Items per page
-        $.ajax({
-            url: '/expanse/activities/filter',
-            method: 'GET',
-            data: {
-                month: month,
-                page: page,
-                perPage: perPage
-            },
-            success: function (data) {
-                console.log("Current Page:", data.current_page);
-                populateTable(data);
-                setupPagination(data);
-            },
-            error: function () {
-                alert('Failed to fetch activities.');
-            },
+        // Fetch filtered data on month change
+        $('#monthSalaryActivity').change(function() {
+            const selectedMonth = $(this).val();
+            fetchActivities(selectedMonth);
         });
-    }
 
-    function populateTable(data) {
-        const tbody = $('#ExpansedashboardTable tbody');
-        tbody.empty();
+        function fetchActivities(month = '', page = 1) {
+            const perPage = 5; // Items per page
+            $.ajax({
+                url: '/expanse/activities/filter',
+                method: 'GET',
+                data: {
+                    month: month,
+                    page: page,
+                    perPage: perPage
+                },
+                success: function(data) {
+                    console.log("Current Page:", data.current_page);
+                    populateTable(data);
+                    setupPagination(data);
+                },
+                error: function() {
+                    alert('Failed to fetch activities.');
+                },
+            });
+        }
 
-        if (data.data.length === 0) {
-            tbody.append('<tr><td colspan="5">No activities found</td></tr>');
-        } else {
-            const perPage = data.per_page;
-            const currentPage = data.current_page;
-            data.data.forEach((activity, index) => {
-                const serialNumber = (currentPage - 1) * perPage + index + 1;
-                const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            }).format(new Date(activity.expense_date));
-                // console.log(activity)
-                tbody.append(`
+        function populateTable(data) {
+            const tbody = $('#ExpansedashboardTable tbody');
+            tbody.empty();
+
+            if (data.data.length === 0) {
+                tbody.append('<tr><td colspan="5">No activities found</td></tr>');
+            } else {
+                const perPage = data.per_page;
+                const currentPage = data.current_page;
+                data.data.forEach((activity, index) => {
+                    const serialNumber = (currentPage - 1) * perPage + index + 1;
+                    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                    }).format(new Date(activity.expense_date));
+                    // console.log(activity)
+                    tbody.append(`
                     <tr>
                         <td>${serialNumber}</td>
                         <td>${activity.expense_cat ? activity.expense_cat.sub_ledger_name : '-'}</td>
                         <td>${activity.bank_account_id ? activity.bank?.account_name  :  activity.cash?.cash_account_name ?? '-'}</td>
                         <td>${formattedDate}</td>
                         <td>${activity.amount}</td>
+                        <td>
+                            <span class="badge ${
+                                activity.status === 'paid' ? 'bg-success' :
+                                activity.status === 'processing' ? 'bg-warning' :
+                                activity.status === 'pending' ? 'bg-danger' :
+                                activity.status === 'approved' ? 'bg-info' : 
+                                'bg-secondary'
+                            }">
+                                ${activity.status}
+                            </span>
+                        </td>
                     </tr>
                 `);
-            })
+                })
+            }
         }
-    }
-/////////////////////Pagination///////////////
-    // function setupPagination(data) {
-    //     const pagination = $('.pagination');
-    //     const totalPages = data.last_page;
-    //     const currentPage = data.current_page;
+        /////////////////////Pagination///////////////
+        // function setupPagination(data) {
+        //     const pagination = $('.pagination');
+        //     const totalPages = data.last_page;
+        //     const currentPage = data.current_page;
 
-    //     // Update page numbers
-    //     const pageNumbers = $('.page-numbers');
-    //     pageNumbers.empty();
-    //     for (let i = 1; i <= totalPages; i++) {
-    //         pageNumbers.append(`<button class="page-btn" data-page="${i}">${i}</button>`);
-    //     }
+        //     // Update page numbers
+        //     const pageNumbers = $('.page-numbers');
+        //     pageNumbers.empty();
+        //     for (let i = 1; i <= totalPages; i++) {
+        //         pageNumbers.append(`<button class="page-btn" data-page="${i}">${i}</button>`);
+        //     }
 
-    //     // Highlight the active page
-    //     $('.page-btn').removeClass('active');
-    //     $(`.page-btn[data-page="${currentPage}"]`).addClass('active');
+        //     // Highlight the active page
+        //     $('.page-btn').removeClass('active');
+        //     $(`.page-btn[data-page="${currentPage}"]`).addClass('active');
 
-    //     // Bind click event to page buttons
-    //     $('.page-btn').click(function () {
-    //         const page = $(this).data('page');
-    //         fetchActivities($('#monthSalaryActivity').val(), page);
-    //     });
+        //     // Bind click event to page buttons
+        //     $('.page-btn').click(function () {
+        //         const page = $(this).data('page');
+        //         fetchActivities($('#monthSalaryActivity').val(), page);
+        //     });
 
-    //     // Handle next and prev buttons
-    //     $('.prev-btn').attr('disabled', currentPage === 1);
-    //     $('.next-btn').attr('disabled', currentPage === totalPages);
+        //     // Handle next and prev buttons
+        //     $('.prev-btn').attr('disabled', currentPage === 1);
+        //     $('.next-btn').attr('disabled', currentPage === totalPages);
 
-    //     // Handle next and previous button clicks
-    //     $('.prev-btn').click(function () {
-    //         if (currentPage > 1) {
-    //             fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
-    //         }
-    //     });
+        //     // Handle next and previous button clicks
+        //     $('.prev-btn').click(function () {
+        //         if (currentPage > 1) {
+        //             fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+        //         }
+        //     });
 
-    //     $('.next-btn').click(function () {
-    //         if (currentPage < totalPages) {
-    //             fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
-    //         }
-    //     });
-    // }
-    function setupPagination(data) {
-    const pagination = $('.pagination');
-    pagination.empty(); // Clear previous buttons
+        //     $('.next-btn').click(function () {
+        //         if (currentPage < totalPages) {
+        //             fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
+        //         }
+        //     });
+        // }
+        function setupPagination(data) {
+            const pagination = $('.pagination');
+            pagination.empty(); // Clear previous buttons
 
-    const totalPages = data.last_page; // Total pages
-    const currentPage = data.current_page; // Current page
+            const totalPages = data.last_page; // Total pages
+            const currentPage = data.current_page; // Current page
 
-    // Add "Previous" button
-    if (currentPage > 1) {
-        pagination.append(`<button class="prev-btn" data-page="${currentPage - 1}">Previous</button>`);
-    }
+            // Add "Previous" button
+            if (currentPage > 1) {
+                pagination.append(`<button class="prev-btn" data-page="${currentPage - 1}">Previous</button>`);
+            }
 
-    // Add page number buttons
-    for (let i = 1; i <= totalPages; i++) {
-        pagination.append(`
+            // Add page number buttons
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
             <button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">
                 ${i}
             </button>
         `);
-    }
+            }
 
-    // Add "Next" button
-    if (currentPage < totalPages) {
-        pagination.append(`<button class="next-btn" data-page="${currentPage + 1}">Next</button>`);
-    }
+            // Add "Next" button
+            if (currentPage < totalPages) {
+                pagination.append(`<button class="next-btn" data-page="${currentPage + 1}">Next</button>`);
+            }
 
-    // Bind events to buttons
-    $('.page-btn').click(function () {
-        const page = $(this).data('page');
-        fetchActivities($('#monthSalaryActivity').val(), page); // Fetch new page
-    });
+            // Bind events to buttons
+            $('.page-btn').click(function() {
+                const page = $(this).data('page');
+                fetchActivities($('#monthSalaryActivity').val(), page); // Fetch new page
+            });
 
-    $('.prev-btn').click(function () {
-        if (currentPage > 1) {
-            fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+            $('.prev-btn').click(function() {
+                if (currentPage > 1) {
+                    fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+                }
+            });
+
+            $('.next-btn').click(function() {
+                if (currentPage < totalPages) {
+                    fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
+                }
+            });
         }
+
     });
-
-    $('.next-btn').click(function () {
-        if (currentPage < totalPages) {
-            fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
-        }
-    });
-}
-
-});
-
 </script>
