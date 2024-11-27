@@ -12,6 +12,13 @@
                     {{ __("You're logged in!") }}
                     <h2>Welcome to Dashboard!</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, soluta.</p>
+                    <p>Lorem ipsum dolor sit aamet consectetur adipisicing elit. Tenetur, soluta.</p>
                 </div>
             </div>
         </div>
