@@ -96,16 +96,6 @@ class PayrollDashboardController extends Controller
         ];
         /////////////////////////Salary Area Chart ///////////////////////
 
-            // $paySlipsArea = PaySlip::selectRaw('MONTH(pay_period_date) as month, SUM(total_net_salary) as total_paid')
-            // ->where('status', 'paid')
-            // ->whereYear('pay_period_date', Carbon::now()->year)
-            // ->groupBy('month')
-            // ->orderBy('month', 'asc')
-            // ->get();
-
-
-
-
         /////////////////////////////////////////////// Convinience ////////////////////////////////////////////////////
         //all Convinience Bill
         $convenienceDataSum = Convenience::whereMonth('created_at', Carbon::now()->month)
@@ -378,6 +368,26 @@ class PayrollDashboardController extends Controller
         return response()->json([
             'months' => $months,
             'totals' => $totals
+        ]);
+    }
+
+    public function FilterSalariesTable(Request $request){
+        $perPage = $request->query('perPage', 5);                // Items per page
+        $page = $request->query('page', 1);
+        $month = $request->month;
+        $year = Carbon::now()->year;
+        $page = $request->query('page', 1);
+        // Fetch salaries filtered by month and year
+        $netSalarys = PaySlip::whereMonth('pay_period_date', $month)
+            ->whereYear('pay_period_date', $year)
+            ->with('employee') // Load employee data for display
+            ->paginate($perPage, ['*'], 'page', $page);
+        // Return JSON response
+        return response()->json([
+            'netSalarys' => $netSalarys,
+            'current_page' => $netSalarys->currentPage(),
+            'last_page' => $netSalarys->lastPage(),
+            'per_page' => $perPage,
         ]);
     }
 }//Main End

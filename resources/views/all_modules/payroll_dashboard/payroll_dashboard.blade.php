@@ -418,55 +418,7 @@
     <!-------------------------Salary Sheet----------------------------->
     <div class="row bg-color-white" style="margin: 0px 0px 20px 0px">
         <div class="col-md-12  p-3 Payroll-border">
-            <div class=" d-flex justify-content-between">
-                <h3>Salary Sheet</h3>
-                {{-- <button class="btn Payroll-border">See All</button> --}}
-            </div>
-            <div class="table-container table-responsive">
-                <table id="dashboardTable" class="custom-table">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Name</th>
-                            <th>Job Title</th>
-                            <th>Net Salary</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data['netSalarys'] as $key => $netSalary)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $netSalary->employee->full_name ?? '' }} </td>
-                                <td>{{ $netSalary->employee->designation ?? '-' }} </td>
-                                <td>{{ $netSalary->total_net_salary ?? '-' }} </td>
-                                <td>{{ Carbon\Carbon::parse($netSalary->pay_period_date)->format('d-F-Y') ?? '-' }}</td>
-                                <td>
-                                    @if ($netSalary->status === 'pending')
-                                        <span class="badge delayed">{{ $netSalary->status }}</span>
-                                    @elseif ($netSalary->status === 'approved')
-                                        <span class="badge bg-info">{{ $netSalary->status }}</span>
-                                    @elseif ($netSalary->status === 'paid')
-                                        <span class="badge bg-success">{{ $netSalary->status }}</span>
-                                    @elseif ($netSalary->status === 'processing')
-                                        <span class="badge bg-delayed">{{ $netSalary->status }}</span>
-                                    @else
-                                        <span class="badge bg-delayed">{{ $netSalary->status }}</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-                <div class="pagination">
-                    <button class="prev-btn mx-2">← Previous</button>
-                    <div class="page-numbers"></div>
-                    <button class="next-btn mx-2">Next →</button>
-                </div>
-            </div>
-
+            @include('all_modules.payroll_dashboard.salary_sheet_table')
         </div>
     </div>
     <!-------------------------Salary Sheet End----------------------------->
@@ -731,7 +683,7 @@
                     }
                 });
             });
-            // End Percentage bonus change
+              // End Percentage bonus change
             ////////////Convenience show month ways/////////////
             $('#conveniencemonthSelect').on('change', function() {
                 const selectedMonth = $(this).val();
