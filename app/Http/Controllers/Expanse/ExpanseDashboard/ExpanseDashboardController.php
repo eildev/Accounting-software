@@ -168,20 +168,39 @@ class ExpanseDashboardController extends Controller
     }
 
     public function expansePaymentPercentage(Request $request){
-        $month = $request->input('month');
+        $month = $request->input('month');  // Get the month (integer)
 
+        // Validate if the month is provided
+        if (!$month) {
+            return response()->json(['error' => 'Month parameter is required'], 400);
+        }
+        $year = now()->year;
 
+        $expanseBill = Expense::whereMonth('expense_date', $month)
+                              ->whereYear('expense_date', $year)
+                              ->get();
 
-        $data = [
-            'series' => [
-                rand(10, 100), // Random percentage for category 1
-                rand(10, 100), // Random percentage for category 2
-                rand(10, 100), // Random percentage for category 3
-                rand(10, 100), // Random percentage for category 4
-            ],
-            'month' => $month
+        // Total bonuses
+        $expanseBillCount = $expanseBill->count();
+        $expansePaid = $expanseBill->where('status', 'paid')->count();
+        $expansePending = $expanseBill->where('status', 'pending')->count();
+        $expanseUnpaid = $expanseBill->where('status', 'approved')->count();
+        $expanseProcess = $expanseBill->where('status', 'processing')->count();
+
+        // Calculate percentages
+        $expansePaidPercentage = $expanseBillCount > 0 ? ($expansePaid / $expanseBillCount) * 100 : 0;
+        $expansePendingPercentage = $expanseBillCount > 0 ? ($expansePending / $expanseBillCount) * 100 : 0;
+        $expanseUnpaidPercentage = $expanseBillCount > 0 ? ($expanseUnpaid / $expanseBillCount) * 100 : 0;
+        $expanseProcessPercentage = $expanseBillCount > 0 ? ($expanseProcess / $expanseBillCount) * 100 : 0;
+
+        // Prepare the result
+        $expansePercentage = [
+            'expansePaid' => round($expansePaidPercentage, 2),
+            'expansePending' => round($expansePendingPercentage, 2),
+            'expanseUnpaid' => round($expanseUnpaidPercentage, 2),
+            'expanseProcessing' => round($expanseProcessPercentage, 2),
         ];
 
-        return response()->json($data);
+        return response()->json($expansePercentage);
     }
 }

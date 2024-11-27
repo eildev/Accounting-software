@@ -1,3 +1,8 @@
+<style>
+    .form-control{
+width: 50%;
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -5,11 +10,11 @@
                 <div class="d-flex justify-content-between">
                     <!-- Dropdown for selecting the month -->
                     <div class="form-group primary-color-text mb-2">
-                        <h6 class="card-title">Payment Status</h6>
-                        <select class="form-control primary-color-text" id="paymentMonthSelect">
-                            <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('m') }}">
-                                <p class="selected-option">Month</p>
-                                <i class="fas fa-chevron-down"></i>
+                        <h6 class="card-title">Expanse Payment Status</h6>
+                        <select class="form-control primary-color-text  border-colro-red w-0" id="paymentMonthSelect">
+                            <option disabled selected  value="{{ Carbon\Carbon::now()->format('m') }}">
+                                <p class="selected-option">Month <i class="fas fa-chevron-down"></i></p>
+
                             </option>
                             <option value="1" data-month="1">January</option>
                             <option value="2" data-month="2">February</option>
@@ -27,7 +32,7 @@
                     </div>
                     <!-- Button to view all -->
                     <div>
-                        <button class="btn btn-primary">View All</button>
+                        <a href="{{route('expense.view')}}"><button class="btn " style="border: 1px solid #DFDFDF">View All</button></a>
                     </div>
                 </div>
                 <div id="paymentChart">
@@ -91,7 +96,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(function() {
         'use strict';
@@ -113,7 +117,7 @@
 
         var fontFamily = "'Roboto', Helvetica, sans-serif";
 
-        // Create the initial chart
+        // Initial chart options with empty data
         var options = {
             chart: {
                 height: 300,
@@ -153,10 +157,21 @@
                     fontSize: '14px',
                     fontFamily: fontFamily,
                     fontWeight: 'bold',
-                    colors: [colors.bodyColor]
+                    colors: ['#ffffff'] // White text for percentages
                 }
             },
-            series: [0, 0, 0, 0] // Default empty data
+            series: [0, 0, 0, 0], // Default empty data
+            labels: ['Paid', 'Pending', 'Unpaid', 'Processing'], // Labels for the pie chart
+            noData: {
+                text: 'No Data Available', // Message when no data is present
+                align: 'center',
+                verticalAlign: 'middle',
+                style: {
+                    color: colors.bodyColor,
+                    fontSize: '16px',
+                    fontFamily: fontFamily
+                }
+            }
         };
 
         var chart = new ApexCharts(document.querySelector("#paymentChart"), options);
@@ -165,13 +180,44 @@
         // Fetch data and update the chart
         function updateChart(month) {
             $.ajax({
-                url: '/get-expanse-payment-percentage-data', // Updated URL
+                url: '/get-expanse-payment-percentage-data', // Your controller URL
                 method: 'GET',
                 data: { month: month },
                 success: function(response) {
-                    chart.updateOptions({
-                        series: response.series
-                    });
+                    console.log(response);  // Check what the response looks like
+
+                    // Check if all the values are zero or data is unavailable
+                    const total = response.expansePaid + response.expansePending + response.expanseUnpaid + response.expanseProcessing;
+
+                    if (total === 0) {
+                        // Display "No Data" message
+                        chart.updateOptions({
+                            series: [],
+                            noData: {
+                                text: 'No Data Available',
+                                align: 'center',
+                                verticalAlign: 'middle',
+                                style: {
+                                    color: colors.bodyColor,
+                                    fontSize: '16px',
+                                    fontFamily: fontFamily
+                                }
+                            }
+                        });
+                    } else {
+                        // Update chart with actual data
+                        chart.updateOptions({
+                            series: [
+                                response.expansePaid,
+                                response.expansePending,
+                                response.expanseUnpaid,
+                                response.expanseProcessing
+                            ],
+                            noData: {
+                                text: '' // Clear "No Data" message when data is available
+                            }
+                        });
+                    }
                 },
                 error: function(xhr) {
                     console.error("Error fetching chart data:", xhr.responseText);
