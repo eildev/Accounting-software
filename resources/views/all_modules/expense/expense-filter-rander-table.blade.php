@@ -29,9 +29,9 @@
                             <td>{{ $expenses->expense_date->format('d M Y') ?? '' }}</td>
                             <td>
                                 @if ($expenses->status == 'purchased')
-                                    <span class="badge bg-primary">{{ $expenses->status }}</span>
+                                    <span class="badge bg-primary">Paid</span>
                                 @else
-                                    <span class="badge bg-warning">{{ $expenses->status }}</span>
+                                    <span class="badge bg-warning">Proccessing</span>
                                 @endif
                             </td>
                             <td>
