@@ -1,64 +1,194 @@
 @extends('master')
 @section('admin')
-    <nav class="page-breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Forms</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Advanced Elements</li>
-        </ol>
-    </nav>
+    @php
+        $mode = App\models\PosSetting::all()->first();
+    @endphp
 
-    <div class="row">
-        <div class="col-12 col-xl-12 stretch-card">
-            <div class="row flex-grow-1">
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">New Customers</h6>
-                                <div class="dropdown mb-2">
-                                    <a type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                                data-feather="eye" class="icon-sm me-2"></i> <span
-                                                class="">View</span></a>
-                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                                data-feather="edit-2" class="icon-sm me-2"></i> <span
-                                                class="">Edit</span></a>
-                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                                data-feather="trash" class="icon-sm me-2"></i> <span
-                                                class="">Delete</span></a>
-                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                                data-feather="printer" class="icon-sm me-2"></i> <span
-                                                class="">Print</span></a>
-                                        <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i
-                                                data-feather="download" class="icon-sm me-2"></i> <span
-                                                class="">Download</span></a>
-                                    </div>
-                                </div>
+    @if ($mode->dark_mode == 2)
+        <style>
+            .custom-table th,
+            .custom-table td {
+                padding: 12px;
+                border: 1px solid #0d1525;
+            }
+
+            .custom-table thead {
+                background-color: #0d1525;
+            }
+
+            .Payroll-border {
+                border: 1px solid #0d1525
+            }
+        </style>
+    @else
+        <style>
+            .card-color {
+                background-color: #FAFAFA
+            }
+
+            .secondary-color {
+                background-color: #FAFAFA;
+
+            }
+
+            .bg-color-white {
+                background-color: #fff;
+            }
+
+
+            /* //Salary Sheet table // */
+            .custom-table th,
+            .custom-table td {
+                padding: 12px;
+                border: 1px solid #ddd;
+            }
+
+            .custom-table thead {
+                background-color: #f5f5f5;
+            }
+
+            .Payroll-border {
+                border: 1px solid #EBEFEC
+            }
+
+            /* ///////////Progress///// */
+            .progress {
+                background-color: #f1f1f1;
+            }
+
+            .color-text-black {
+                color: #000
+            }
+        </style>
+    @endif
+    <style>
+        /* General Table Styling */
+        .table-container {
+            width: 100%;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .custom-table th {
+            font-weight: bold;
+        }
+
+        /* Pagination Styling */
+        .pagination {
+            display: flex;
+            justify-content: center;
+
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .pagination .prev-btn,
+        .pagination .next-btn {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .pagination .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+
+        .pagination .page-btn {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pagination .page-btn.active {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+    </style>
+    <div class="row mb-2">
+        <div class="col-md-3 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h6 class="mb-2">Assets</h6>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{ $assetValue }}</h3> <span class="mt-2">10%</span>
                             </div>
-                            <div class="row">
-                                <div class="col-6 col-md-12 col-xl-5">
-                                    <h3 class="mb-2">3,897</h3>
-                                    <div class="d-flex align-items-baseline">
-                                        <p class="text-success">
-                                            <span>+3.3%</span>
-                                            <i data-feather="arrow-up" class="icon-sm mb-1"></i>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-12 col-xl-7">
-                                    <div id="customersChart" class="mt-md-3 mt-xl-0"></div>
-                                </div>
-                            </div>
-                            <h2>This is blank page</h2>
-                            <h2>This is blank page</h2>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/catagory.png') }}" alt="Catagory">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <!-- row -->
+        <div class="col-md-3 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h6 class="mb-2">Liabilities</h6>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{ $liabilities }}</h3> <span class="mt-2">+2.01%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/ledger.png') }}" alt="Catagory">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h6 class="mb-2">Income</h6>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{ $income }}</h3> <span class="mt-2">+2.01%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/invoice.png') }}" alt="invoice">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8">
+                            <h6 class="mb-2">Expense</h6>
+                            <div class="d-flex">
+                                <h3 class="me-2">{{ $expanse }}</h3> <span class="mt-2">+2.01%</span>
+                            </div>
+                        </div>
+                        <div class="col-4 m-0 p-0  text-end">
+                            <img src="{{ asset('uploads/expense/invoice.png') }}" alt="invoice">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

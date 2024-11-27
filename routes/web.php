@@ -39,9 +39,9 @@ use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
 */
 
 
-Route::get('/', function () {
-    return view('dashboard.blank');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -255,7 +255,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-month-convenience-data', 'getConvenienceMonth');
         Route::get('/get-pay-slips-month-data', 'getPaySlipsMonthData');
         Route::get('/fetch-yearly-data', 'fetchYearlyAreaChart')->name('fetchYearlyData');
-
     }); //End
     // Expanse Dashboard related route(n)
     Route::controller(ExpanseDashboardController::class)->group(function () {
@@ -264,7 +263,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-monthly-expanse-category-data', 'expanseaCategoryFilter');
         Route::get('/expenses-chart-data-money-flow', 'moneyFlowExpanseChart');
         Route::get('/get-expanse-payment-percentage-data', 'expansePaymentPercentage');
-
     }); //End
 
     ////////////////////Role And Permission Route /////////////////

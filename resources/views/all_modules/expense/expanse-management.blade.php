@@ -232,58 +232,64 @@
             })
 
 
-            const saveExpanse = document.querySelector('.save_expanse');
-            saveExpanse.addEventListener('click', function(e) {
-                e.preventDefault();
-                let formData = new FormData($('.expanseForm')[0]);
+
+            // Function to handle AJAX requests and responses
+            function handleExpanseSubmission(url, formData, onSuccess) {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
                 $.ajax({
-                    url: '/expense/store',
+                    url: url,
                     type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        console.log(res);
                         if (res.status == 200) {
-                            // toastr.success(res.message);
-                            $('#globalPaymentModal #data_id').val(res.data
-                                .expanse_id); // assuming res.data contains asset_id
+                            onSuccess(res);
+                        } else {
+                            // Show validation errors
+                            const errorFields = ['purpose', 'amount', 'expense_category_id', 'spender',
+                                'expense_date', 'note'
+                            ];
+                            errorFields.forEach(field => {
+                                if (res.error && res.error[field]) {
+                                    showError(`.${field}`, res.error[field]);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Add event listeners
+            document.querySelectorAll('.save_expanse, .save_expanse_checkout').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData($('.expanseForm')[0]);
+                    const isCheckout = button.classList.contains('save_expanse_checkout');
+
+                    handleExpanseSubmission('/expense/store', formData, function(res) {
+                        if (isCheckout) {
+                            // Handle checkout-specific logic
+                            $('#globalPaymentModal #data_id').val(res.data.expanse_id);
                             $('#globalPaymentModal #payment_balance').val(res.data.amount);
                             $('#globalPaymentModal #purpose').val('Expanse');
                             $('#globalPaymentModal #transaction_type').val('withdraw');
                             $('#globalPaymentModal #due-amount').text(res.data.amount);
-                            $('#globalPaymentModal #subLedger_id').val(res.data.subLedger_id);
-                            // Open the Payment Modal
-                            $('#globalPaymentModal').modal('show');
+                            $('#globalPaymentModal #subLedger_id').val(res.data
+                                .subLedger_id);
+                            $('#globalPaymentModal').modal('show'); // Open Payment Modal
                         } else {
-                            if (res.error.purpose) {
-                                showError('.purpose', res.error.purpose);
-                            }
-                            if (res.error.amount) {
-                                showError('.amount', res.error.amount);
-                            }
-                            if (res.error.expense_category_id) {
-                                showError('.expense_category_id', res.error
-                                    .expense_category_id);
-                            }
-                            if (res.error.spender) {
-                                showError('.spender', res.error.spender);
-                            }
-                            if (res.error.expense_date) {
-                                showError('.expense_date', res.error.expense_date);
-                            }
-                            if (res.error.note) {
-                                showError('.note', res.error.note);
-                            }
+                            // Reload the page for standard submission
+                            window.location.reload();
                         }
-                    }
+                    });
                 });
-            })
+            });
 
 
 
