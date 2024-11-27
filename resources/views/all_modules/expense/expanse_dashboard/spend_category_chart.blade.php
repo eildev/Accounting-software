@@ -120,7 +120,7 @@
         const legendHTML = data.categoryPercentages.map(item => {
             const color = colors[item.category.toLowerCase()] || colors.primary; // Default to primary color
             return `
-                <div class=" col-md-2 align-items-center mb-2  ">
+                <div class=" col-md-3 align-items-center mb-2  ">
                     <div class="legend-color-box" style="background-color: ${color};"></div>
                     <span> <span style="font-weight:bold">৳${item.sum} </span></br>  ${item.category}</span>
                 </div>

@@ -262,6 +262,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/expanse/dashboard', 'expanseDashboard')->name('expanse.dashboard');
         Route::get('/expanse/activities/filter', 'expanseaAtivitiesFilter');
         Route::get('/get-monthly-expanse-category-data', 'expanseaCategoryFilter');
+        Route::get('/expenses-chart-data-money-flow', 'moneyFlowExpanseChart');
 
     }); //End
 

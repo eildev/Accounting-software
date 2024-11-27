@@ -15,8 +15,8 @@ class SubLedger extends Model
     {
         return $this->belongsTo(LedgerAccounts::class, 'account_id', 'id');
     }
-    public function expanses()
-    {
-        return $this->hasMany(Expense::class, 'expense_category_id', 'id');
-    }
+    // public function expanses()
+    // {
+    //     return $this->hasMany(Expense::class, 'expense_category_id', 'id');
+    // }
 }

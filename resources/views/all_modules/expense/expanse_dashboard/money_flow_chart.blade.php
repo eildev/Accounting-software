@@ -3,24 +3,8 @@
         <div class="d-flex justify-content-between">
             <h6 class="card-title">Money Flow</h6>
             <div class="d-flex justify-content-between">
-                {{-- ///Expanse/// --}}
-                <div>
-                    <div class="form-group primary-color-text mb-2">
-                        <select class="form-control primary-color-text" id="monthSelect2">
-                            <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('m') }}">
-                                <p class="selected-option">Expanses</p>
-                                <i class="fas fa-chevron-down"></i>
-                            </option>
-                            <option value="1" data-month="1">A</option>
-                            <option value="1" data-month="1">B</option>
-                            <option value="1" data-month="1">C</option>
-
-                        </select>
-                    </div>
-                </div>
-                {{-- ///Month /// --}}
                 <div class="form-group primary-color-text mb-2">
-                    <select class="form-control primary-color-text" id="monthSelect2">
+                    <select class="form-control primary-color-text" id="moneyFlowMonthSelect">
                         <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('m') }}">
                             <p class="selected-option">Month</p>
                             <i class="fas fa-chevron-down"></i>
@@ -46,145 +30,145 @@
     </div>
 </div>
 <script>
-    $(function() {
-        'use strict';
+// $(function() {
+//     'use strict';
 
-        var colors = {
-            primary: "#6571ff",
-            secondary: "#7987a1",
-            success: "#05a34a",
-            info: "#66d1d1",
-            warning: "#fbbc06",
-            danger: "#ff3366",
-            light: "#e9ecef",
-            dark: "#060c17",
-            muted: "#7987a1",
-            gridBorder: "rgba(77, 138, 240, .15)",
-            bodyColor: "#b8c3d9",
-            cardBg: "#0c1427",
-            gradient: "#0056FD"
+//     var chart = null;
 
-        }
+//     function initializeChart() {
+//         var options = {
+//             chart: {
+//                 type: "area",
+//                 height: 300,
+//             },
+//             series: [],
+//             xaxis: {
+//                 type: "datetime",
+//             },
+//             yaxis: {
+//                 title: {
+//                     text: "Expenses ($)",
+//                 },
+//                 min: 0,
+//             },
+//             colors: ["#0056FD"],
+//         };
 
-        var fontFamily = "'Roboto', Helvetica, sans-serif"
-        if ($('#apexArea').length) {
-            var options = {
-                chart: {
-                    type: "area",
-                    height: 300,
-                    parentHeightOffset: 0,
-                    foreColor: colors.bodyColor,
-                    background: colors.cardBg,
-                    toolbar: {
-                        show: false
-                    },
-                    stacked: true,
+//         chart = new ApexCharts(document.querySelector("#apexArea"), options);
+//         chart.render();
+//     }
+
+//     function loadMonthlyData(month, year) {
+//         $.ajax({
+//             url: '/expenses-chart-data-money-flow',
+//             method: 'GET',
+//             data: { month: month, year: year },
+//             success: function(response) {
+//                 var seriesData = response.map(item => {
+//                     return [new Date(item.date).getTime(), item.total_expense];
+//                 });
+
+//                 chart.updateSeries([{
+//                     name: 'Daily Expenses',
+//                     data: seriesData
+//                 }]);
+//             },
+//             error: function(error) {
+//                 console.error("Error fetching data:", error);
+//             }
+//         });
+//     }
+
+//     // Initialize chart
+//     initializeChart();
+
+//     // Load data for the current month on page load
+//     var currentMonth = new Date().getMonth() + 1; // JS months are 0-based
+//     var currentYear = new Date().getFullYear();
+//     loadMonthlyData(currentMonth, currentYear);
+
+//     // Update data when the user selects a different month/year
+//     $('#moneyFlowMonthSelect').on('change', function() {
+//         var selectedMonth = $(this).val();
+//         loadMonthlyData(selectedMonth, currentYear);
+//     });
+// });
+$(function() {
+    'use strict';
+
+    var chart = null;
+
+    // Initialize the chart
+    function initializeChart() {
+        var options = {
+            chart: {
+                type: "area",
+                height: 300,
+            },
+            series: [],
+            xaxis: {
+                categories: [], // This will hold the date values (1, 2, 3, ..., 30)
+            },
+            yaxis: {
+                title: {
+                    text: "Expenses ($)",
                 },
-                theme: {
-                    mode: 'dark'
-                },
-                tooltip: {
-                    theme: 'dark'
-                },
-                colors: [colors.gradient, colors.info],
-                stroke: {
-                    curve: "smooth",
-                    width: 3
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                series: [{
-                        name: 'Total Views',
-                        data: generateDayWiseTimeSeries(0, 18)
-                    },
-                    //   {
-                    //     name: 'Unique Views',
-                    //     data: generateDayWiseTimeSeries(1, 18)
-                    //   }
-                ],
-                // markers: {
-                //   size: 5,
-                //   strokeWidth: 3,
-                //   hover: {
-                //     size: 7
-                //   }
-                // },
-                xaxis: {
-                    type: "datetime",
-                    axisBorder: {
-                        color: colors.gridBorder,
-                    },
-                    axisTicks: {
-                        color: colors.gridBorder,
-                    },
-                },
-                yaxis: {
-                    opposite: false,
-                    title: {
-                        text: "Views",
-                        offsetX: -45,
-                    },
-                    labels: {
-                        align: 'left',
-                        offsetX: -10,
-                    },
-                    tickAmount: 4,
-                    min: 0,
-                    tooltip: {
-                        enabled: true
-                    }
-                },
-                grid: {
-                    padding: {
-                        bottom: -4
-                    },
-                    borderColor: colors.gridBorder,
+                min: 0,
+            },
+            colors: ["#0056FD"],
+        };
+
+        chart = new ApexCharts(document.querySelector("#apexArea"), options);
+        chart.render();
+    }
+
+    // Load monthly expenses data from backend
+    function loadMonthlyData(month, year) {
+        $.ajax({
+            url: '/expenses-chart-data-money-flow',
+            method: 'GET',
+            data: { month: month, year: year },
+            success: function(response) {
+                var categories = [];
+                var expensesData = [];
+
+                // Prepare data for chart
+                response.forEach(function(item) {
+                    categories.push(item.date);  // Day numbers (1, 2, 3, ...)
+                    expensesData.push(item.total_expense);  // Corresponding expenses
+                });
+
+                // Update chart with the fetched data
+                chart.updateOptions({
                     xaxis: {
-                        lines: {
-                            show: true
-                        }
+                        categories: categories
                     }
-                },
-                tooltip: {
-                    x: {
-                        format: "dd MMM yyyy"
-                    },
-                },
-                fill: {
-                    type: 'solid',
-                    opacity: [0.4, 0.25],
-                },
-                legend: {
-                    show: true,
-                    position: "top",
-                    horizontalAlign: 'center',
-                    fontFamily: fontFamily,
-                    itemMargin: {
-                        horizontal: 8,
-                        vertical: 0
-                    },
-                },
-            };
+                });
 
-            var chart = new ApexCharts(document.querySelector("#apexArea"), options);
-            chart.render();
-
-            function generateDayWiseTimeSeries(s, count) {
-                var values = [
-                    [4, 3, 10, 9, 29, 19, 25, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5],
-                    [2, 3, 8, 7, 22, 16, 23, 7, 11, 5, 12, 5, 10, 4, 15, 2, 6, 2]
-                ];
-                var i = 0;
-                var series = [];
-                var x = new Date("11 Nov 2012").getTime();
-                while (i < count) {
-                    series.push([x, values[s][i]]);
-                    x += 86400000;
-                    i++;
-                }
-                return series;
+                chart.updateSeries([{
+                    name: 'Daily Expenses',
+                    data: expensesData
+                }]);
+            },
+            error: function(error) {
+                console.error("Error fetching data:", error);
             }
-        }
+        });
+    }
+
+    // Initialize chart
+    initializeChart();
+
+    // Load data for the current month
+    var currentMonth = new Date().getMonth() + 1; // JS months are 0-based
+    var currentYear = new Date().getFullYear();
+    loadMonthlyData(currentMonth, currentYear);
+
+    // Update data when the user selects a different month/year
+    $('#moneyFlowMonthSelect').on('change', function() {
+        var selectedMonth = $(this).val();
+        loadMonthlyData(selectedMonth, currentYear);
     });
+});
+
 </script>
