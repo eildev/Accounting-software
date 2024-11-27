@@ -121,7 +121,7 @@
     </style>
 
     <div class="row mb-2">
-        <div class="col-md-3">
+        <div class="col-md-3 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -138,7 +138,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -155,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -173,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">

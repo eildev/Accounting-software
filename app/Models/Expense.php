@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Bank\BankAccounts;
 use App\Models\Bank\Cash;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
+use App\Models\Ledger\SubLedger\SubLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,7 +30,7 @@ class Expense extends Model
 
     public function expenseCat()
     {
-        return $this->belongsTo(LedgerAccounts::class, 'expense_category_id', 'id');
+        return $this->belongsTo(SubLedger::class, 'expense_category_id', 'id');
     } //
 
     public function bank()
