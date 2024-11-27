@@ -64,6 +64,7 @@ $(document).ready(function () {
                 perPage: perPage
             },
             success: function (data) {
+                console.log("Current Page:", data.current_page);
                 populateTable(data);
                 setupPagination(data);
             },
@@ -103,45 +104,90 @@ $(document).ready(function () {
         }
     }
 /////////////////////Pagination///////////////
+    // function setupPagination(data) {
+    //     const pagination = $('.pagination');
+    //     const totalPages = data.last_page;
+    //     const currentPage = data.current_page;
+
+    //     // Update page numbers
+    //     const pageNumbers = $('.page-numbers');
+    //     pageNumbers.empty();
+    //     for (let i = 1; i <= totalPages; i++) {
+    //         pageNumbers.append(`<button class="page-btn" data-page="${i}">${i}</button>`);
+    //     }
+
+    //     // Highlight the active page
+    //     $('.page-btn').removeClass('active');
+    //     $(`.page-btn[data-page="${currentPage}"]`).addClass('active');
+
+    //     // Bind click event to page buttons
+    //     $('.page-btn').click(function () {
+    //         const page = $(this).data('page');
+    //         fetchActivities($('#monthSalaryActivity').val(), page);
+    //     });
+
+    //     // Handle next and prev buttons
+    //     $('.prev-btn').attr('disabled', currentPage === 1);
+    //     $('.next-btn').attr('disabled', currentPage === totalPages);
+
+    //     // Handle next and previous button clicks
+    //     $('.prev-btn').click(function () {
+    //         if (currentPage > 1) {
+    //             fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+    //         }
+    //     });
+
+    //     $('.next-btn').click(function () {
+    //         if (currentPage < totalPages) {
+    //             fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
+    //         }
+    //     });
+    // }
     function setupPagination(data) {
-        const pagination = $('.pagination');
-        const totalPages = data.last_page;
-        const currentPage = data.current_page;
+    const pagination = $('.pagination');
+    pagination.empty(); // Clear previous buttons
 
-        // Update page numbers
-        const pageNumbers = $('.page-numbers');
-        pageNumbers.empty();
-        for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.append(`<button class="page-btn" data-page="${i}">${i}</button>`);
-        }
+    const totalPages = data.last_page; // Total pages
+    const currentPage = data.current_page; // Current page
 
-        // Highlight the active page
-        $('.page-btn').removeClass('active');
-        $(`.page-btn[data-page="${currentPage}"]`).addClass('active');
-
-        // Bind click event to page buttons
-        $('.page-btn').click(function () {
-            const page = $(this).data('page');
-            fetchActivities($('#monthSalaryActivity').val(), page);
-        });
-
-        // Handle next and prev buttons
-        $('.prev-btn').attr('disabled', currentPage === 1);
-        $('.next-btn').attr('disabled', currentPage === totalPages);
-
-        // Handle next and previous button clicks
-        $('.prev-btn').click(function () {
-            if (currentPage > 1) {
-                fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
-            }
-        });
-
-        $('.next-btn').click(function () {
-            if (currentPage < totalPages) {
-                fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
-            }
-        });
+    // Add "Previous" button
+    if (currentPage > 1) {
+        pagination.append(`<button class="prev-btn" data-page="${currentPage - 1}">Previous</button>`);
     }
+
+    // Add page number buttons
+    for (let i = 1; i <= totalPages; i++) {
+        pagination.append(`
+            <button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                ${i}
+            </button>
+        `);
+    }
+
+    // Add "Next" button
+    if (currentPage < totalPages) {
+        pagination.append(`<button class="next-btn" data-page="${currentPage + 1}">Next</button>`);
+    }
+
+    // Bind events to buttons
+    $('.page-btn').click(function () {
+        const page = $(this).data('page');
+        fetchActivities($('#monthSalaryActivity').val(), page); // Fetch new page
+    });
+
+    $('.prev-btn').click(function () {
+        if (currentPage > 1) {
+            fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+        }
+    });
+
+    $('.next-btn').click(function () {
+        if (currentPage < totalPages) {
+            fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
+        }
+    });
+}
+
 });
 
 </script>
