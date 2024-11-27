@@ -25,10 +25,10 @@
                             <td>{{ $expenses->spender ?? '' }}</td>
                             <td>{{ $expenses->bank_account_id ? $expenses->bank->bank_name : $expenses->cash->cash_account_name ?? '' }}
                             </td>
-                            <td>{{ $expenses->expenseCat->account_name ?? '' }}</td>
+                            <td>{{ $expenses->expenseCat->sub_ledger_name ?? '' }}</td>
                             <td>{{ $expenses->expense_date->format('d M Y') ?? '' }}</td>
                             <td>
-                                @if ($expenses->status == 'purchased')
+                                @if ($expenses->status == 'paid')
                                     <span class="badge bg-primary">Paid</span>
                                 @else
                                     <span class="badge bg-warning">Proccessing</span>

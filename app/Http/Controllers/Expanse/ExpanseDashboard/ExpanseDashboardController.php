@@ -85,38 +85,57 @@ class ExpanseDashboardController extends Controller
         $month = $request->month;
         $year = $request->query('year', Carbon::now()->year);
 
-        $thisMonthExpense = Expense::whereMonth('expense_date', $month)
+        $thisMonthExpense = Expense::where('status', 'paid')->whereMonth('expense_date', $month)
             ->whereYear('expense_date',  $year)
             ->get();
+
         $thisMonthExpenseTotalSum = $thisMonthExpense->sum('amount');
         $expanseCats = SubLedger::where('account_id', 4)->get();
 
         $categoryPercentages = [];
         foreach ($expanseCats as $expanseCat) {
             $expanseCategoryWaysSum = $thisMonthExpense->where('expense_category_id', $expanseCat->id)->sum('amount');
-            // dd($expanseCategoryWaysSum);
             $percentage = $thisMonthExpenseTotalSum > 0
                 ? ($expanseCategoryWaysSum / $thisMonthExpenseTotalSum) * 100
                 : 0;
-            // Store results
 
             $categoryPercentages[] = [
-                'category' => $expanseCat->sub_ledger_name, // Assuming `name` holds the category name
+                'category' => $expanseCat->sub_ledger_name,
                 'sum' => $expanseCategoryWaysSum,
-                'percentage' => round($percentage, 2) // Rounded to 2 decimal places
+                'percentage' => round($percentage, 2)
             ];
         }
+
         usort($categoryPercentages, function ($a, $b) {
             return $b['sum'] <=> $a['sum'];
         });
 
-        // Take the top 5 largest values
-        $top5Categories = array_slice($categoryPercentages, 0, 4);
+        // Take the top 4 largest categories
+        $topCategories = array_slice($categoryPercentages, 0, 3);
+
+        // Calculate "Others"
+        $othersSum = array_reduce(array_slice($categoryPercentages, 3), function ($carry, $item) {
+            return $carry + $item['sum'];
+        }, 0);
+        $othersPercentage = $thisMonthExpenseTotalSum > 0
+            ? ($othersSum / $thisMonthExpenseTotalSum) * 100
+            : 0;
+
+        // Add "Others" to the result if applicable
+        if ($othersSum > 0) {
+            $topCategories[] = [
+                'category' => 'Others',
+                'sum' => $othersSum,
+                'percentage' => round($othersPercentage, 2)
+            ];
+        }
+
         return response()->json([
             'totalExpense' => $thisMonthExpenseTotalSum,
-            'categoryPercentages' => $top5Categories
+            'categoryPercentages' => $topCategories
         ]);
     }
+
 
     public function moneyFlowExpanseChart(Request $request)
     {
