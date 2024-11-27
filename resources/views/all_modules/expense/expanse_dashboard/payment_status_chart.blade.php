@@ -11,7 +11,7 @@ width: 50%;
                     <!-- Dropdown for selecting the month -->
                     <div class="form-group primary-color-text mb-2">
                         <h6 class="card-title">Expanse Payment Status</h6>
-                        <select class="form-control primary-color-text  border-colro-red w-0" id="paymentMonthSelect">
+                        <select class="form-control custom-select   primary-color-text  border-colro-red w-0" id="paymentMonthSelect">
                             <option disabled selected  value="{{ Carbon\Carbon::now()->format('m') }}">
                                 <p class="selected-option">Month <i class="fas fa-chevron-down"></i></p>
 

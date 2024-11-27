@@ -181,7 +181,7 @@ class ExpanseDashboardController extends Controller
                               ->get();
 
         // Total bonuses
-        $expanseBillCount = $expanseBill->count();
+        $expanseBillCount = $expanseBill->where('status','!=', null)->count();
         $expansePaid = $expanseBill->where('status', 'paid')->count();
         $expansePending = $expanseBill->where('status', 'pending')->count();
         $expanseUnpaid = $expanseBill->where('status', 'approved')->count();

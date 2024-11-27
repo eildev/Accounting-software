@@ -120,7 +120,7 @@
             // Add page number buttons
             for (let i = 1; i <= totalPages; i++) {
                 pagination.append(`
-            <button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">
+            <button class="page-btn mx-1  ${i === currentPage ? 'active' : ''}" data-page="${i}">
                 ${i}
             </button>
         `);

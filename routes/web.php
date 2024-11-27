@@ -255,6 +255,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-month-convenience-data', 'getConvenienceMonth');
         Route::get('/get-pay-slips-month-data', 'getPaySlipsMonthData');
         Route::get('/fetch-yearly-data', 'fetchYearlyAreaChart')->name('fetchYearlyData');
+        Route::get('/get-salaries-filter-month', 'FilterSalariesTable');
     }); //End
     // Expanse Dashboard related route(n)
     Route::controller(ExpanseDashboardController::class)->group(function () {

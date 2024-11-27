@@ -64,13 +64,13 @@
                 const categories = data.categoryPercentages.map(item => item.category);
                 const values = data.categoryPercentages.map(item => parseFloat(item.sum));
                 const totalAmount = data.totalExpense;
-
+                const isDarkMode = true;
                 const options = {
                     chart: {
                         height: 300,
                         type: "donut",
-                        foreColor: colors.dark,
-                        background: colors.cardBg,
+                        foreColor: isDarkMode ? '#fff' : colors.dark, // White text for dark mode
+                        background: isDarkMode ? '#0C1427' : colors.cardBg,
                         toolbar: {
                             show: false
                         },
@@ -101,12 +101,7 @@
                                 size: '70%',
                                 labels: {
                                     show: true,
-                                    // value: {
-                                    //     show: true,
-                                    //     fontSize: '20px',
-                                    //     fontFamily: fontFamily,
-                                    //     formatter: () => `৳${totalAmount}`,
-                                    // },
+
                                     total: {
                                         show: true,
                                         label: 'Spend by category',
@@ -126,20 +121,6 @@
             }
         }
 
-        // Create a custom legend for the categories
-        // function createCustomLegend(data) {
-        //     const legendHTML = data.categoryPercentages.map(item => {
-        //         const color = colors[item.category.toLowerCase()] || colors.primary; // Default to primary color
-        //         return `
-        //             <div class=" col-md-3 align-items-center mb-2  ">
-        //                 <div class="legend-color-box" style="background-color: ${color};"></div>
-        //                 <span> <span style="font-weight:bold">৳${item.sum} </span></br>  ${item.category}</span>
-        //             </div>
-        //         `;
-        //     }).join('');
-
-        //     document.getElementById('chartLegend').innerHTML = legendHTML;
-        // }
         function createCustomLegend(data) {
             const legendHTML = data.categoryPercentages.map(item => {
                 const color = colors[item.category.toLowerCase()] || colors
