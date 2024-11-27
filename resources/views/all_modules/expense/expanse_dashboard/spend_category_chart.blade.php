@@ -25,7 +25,7 @@
             </div>
             <!-- Button to view all -->
             <div>
-                <button class="btn btn-primary">View All</button>
+                <a href="{{route('expense.view')}}"><button class="btn " style="border: 1px solid #DFDFDF">View All</button></a>
             </div>
         </div>
         <!-- Donut chart container -->

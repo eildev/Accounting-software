@@ -121,12 +121,12 @@
     </style>
 
     <div class="row mb-2">
-        <div class="col-md-3 mb-2">
+        <div class="col-md-4 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8">
-                            <p class="mb-2">Total Catagory</p>
+                            <h6 class="mb-2">Total Catagory</h6>
                             <div class="d-flex">
                                 <h3 class="me-2">{{ $expanseCatCount }}</h3> <span class="mt-2">10%</span>
                             </div>
@@ -138,12 +138,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-2">
+        <div class="col-md-4 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8">
-                            <p class="mb-2">Total Ledger</p>
+                            <h6 class="mb-2">Total Ledger</h6>
                             <div class="d-flex">
                                 <h3 class="me-2">{{ $expanseledgerCount }}</h3> <span class="mt-2">+2.01%</span>
                             </div>
@@ -155,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-2">
+        {{-- <div class="col-md-3 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -172,13 +172,13 @@
 
                 </div>
             </div>
-        </div>
-        <div class="col-md-3 mb-2">
+        </div> --}}
+        <div class="col-md-4 mb-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8">
-                            <p class="mb-2">Total Invoices</p>
+                            <h6 class="mb-2">Total Invoices</h6>
                             <div class="d-flex">
                                 <h3 class="me-2">{{$expanseInvoiceCount}}</h3> <span class="mt-2">+2.01%</span>
                             </div>
