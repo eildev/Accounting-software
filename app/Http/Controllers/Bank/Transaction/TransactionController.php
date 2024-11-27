@@ -312,7 +312,7 @@ class TransactionController extends Controller
                 $asset->save();
             } else if ($request->purpose == "Expanse") {
                 $expanse = Expense::findOrFail($request->data_id);
-                $expanse->status = 'purchased';
+                $expanse->status = 'paid';
                 if ($request->account_type === 'cash') {
                     $expanse->cash_account_id = $request->payment_account_id;
                 } else {

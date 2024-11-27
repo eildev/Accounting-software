@@ -43,55 +43,55 @@
 </div>
 
 <script>
-$(document).ready(function () {
-    // Load all data on page load
-    fetchActivities();
+    $(document).ready(function() {
+        // Load all data on page load
+        fetchActivities();
 
-    // Fetch filtered data on month change
-    $('#monthSalaryActivity').change(function () {
-        const selectedMonth = $(this).val();
-        fetchActivities(selectedMonth);
-    });
-
-    function fetchActivities(month = '', page = 1) {
-        const perPage = 5; // Items per page
-        $.ajax({
-            url: '/expanse/activities/filter',
-            method: 'GET',
-            data: {
-                month: month,
-                page: page,
-                perPage: perPage
-            },
-            success: function (data) {
-                console.log("Current Page:", data.current_page);
-                populateTable(data);
-                setupPagination(data);
-            },
-            error: function () {
-                alert('Failed to fetch activities.');
-            },
+        // Fetch filtered data on month change
+        $('#monthSalaryActivity').change(function() {
+            const selectedMonth = $(this).val();
+            fetchActivities(selectedMonth);
         });
-    }
 
-    function populateTable(data) {
-        const tbody = $('#ExpansedashboardTable tbody');
-        tbody.empty();
+        function fetchActivities(month = '', page = 1) {
+            const perPage = 5; // Items per page
+            $.ajax({
+                url: '/expanse/activities/filter',
+                method: 'GET',
+                data: {
+                    month: month,
+                    page: page,
+                    perPage: perPage
+                },
+                success: function(data) {
+                    console.log("Current Page:", data.current_page);
+                    populateTable(data);
+                    setupPagination(data);
+                },
+                error: function() {
+                    alert('Failed to fetch activities.');
+                },
+            });
+        }
 
-        if (data.data.length === 0) {
-            tbody.append('<tr><td colspan="5">No activities found</td></tr>');
-        } else {
-            const perPage = data.per_page;
-            const currentPage = data.current_page;
-            data.data.forEach((activity, index) => {
-                const serialNumber = (currentPage - 1) * perPage + index + 1;
-                const formattedDate = new Intl.DateTimeFormat('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            }).format(new Date(activity.expense_date));
-                // console.log(activity)
-                tbody.append(`
+        function populateTable(data) {
+            const tbody = $('#ExpansedashboardTable tbody');
+            tbody.empty();
+
+            if (data.data.length === 0) {
+                tbody.append('<tr><td colspan="5">No activities found</td></tr>');
+            } else {
+                const perPage = data.per_page;
+                const currentPage = data.current_page;
+                data.data.forEach((activity, index) => {
+                    const serialNumber = (currentPage - 1) * perPage + index + 1;
+                    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                    }).format(new Date(activity.expense_date));
+                    // console.log(activity)
+                    tbody.append(`
                     <tr>
                         <td>${serialNumber}</td>
                         <td>${activity.expense_cat ? activity.expense_cat.sub_ledger_name : '-'}</td>
@@ -100,56 +100,55 @@ $(document).ready(function () {
                         <td>${activity.amount}</td>
                     </tr>
                 `);
-            })
+                })
+            }
         }
-    }
-/////////////////////Pagination///////////////
+        /////////////////////Pagination///////////////
 
-    function setupPagination(data) {
-    const pagination = $('.pagination');
-    pagination.empty(); // Clear previous buttons
+        function setupPagination(data) {
+            const pagination = $('.pagination');
+            pagination.empty(); // Clear previous buttons
 
-    const totalPages = data.last_page; // Total pages
-    const currentPage = data.current_page; // Current page
+            const totalPages = data.last_page; // Total pages
+            const currentPage = data.current_page; // Current page
 
-    // Add "Previous" button
-    if (currentPage > 1) {
-        pagination.append(`<button class="prev-btn" data-page="${currentPage - 1}">Previous</button>`);
-    }
+            // Add "Previous" button
+            if (currentPage > 1) {
+                pagination.append(`<button class="prev-btn" data-page="${currentPage - 1}">Previous</button>`);
+            }
 
-    // Add page number buttons
-    for (let i = 1; i <= totalPages; i++) {
-        pagination.append(`
+            // Add page number buttons
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
             <button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">
                 ${i}
             </button>
         `);
-    }
+            }
 
-    // Add "Next" button
-    if (currentPage < totalPages) {
-        pagination.append(`<button class="next-btn" data-page="${currentPage + 1}">Next</button>`);
-    }
+            // Add "Next" button
+            if (currentPage < totalPages) {
+                pagination.append(`<button class="next-btn" data-page="${currentPage + 1}">Next</button>`);
+            }
 
-    // Bind events to buttons
-    $('.page-btn').click(function () {
-        const page = $(this).data('page');
-        fetchActivities($('#monthSalaryActivity').val(), page); // Fetch new page
-    });
+            // Bind events to buttons
+            $('.page-btn').click(function() {
+                const page = $(this).data('page');
+                fetchActivities($('#monthSalaryActivity').val(), page); // Fetch new page
+            });
 
-    $('.prev-btn').click(function () {
-        if (currentPage > 1) {
-            fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+            $('.prev-btn').click(function() {
+                if (currentPage > 1) {
+                    fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
+                }
+            });
+
+            $('.next-btn').click(function() {
+                if (currentPage < totalPages) {
+                    fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
+                }
+            });
         }
+
     });
-
-    $('.next-btn').click(function () {
-        if (currentPage < totalPages) {
-            fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
-        }
-    });
-}
-
-});
-
 </script>
