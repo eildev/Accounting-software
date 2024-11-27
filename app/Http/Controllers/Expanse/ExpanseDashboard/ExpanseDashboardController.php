@@ -17,7 +17,7 @@ class ExpanseDashboardController extends Controller
         $currentMonth = Carbon::now();
         $previousMonth = Carbon::now()->subMonth();
         ///////////////////////Expanse category Count////////////
-        $expanseCatCount =  SubLedger::whereMonth('created_at', $currentMonth->month)
+        $expanseCatCount =  SubLedger::whereMonth('created_at', $currentMonth->month)->where('account_id', 4)
             ->whereYear('created_at', $currentMonth->year)->count();
         /////////Percentage //////////
         // $currentMonth = Carbon::now();

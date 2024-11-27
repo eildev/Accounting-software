@@ -1,4 +1,3 @@
-
 <div class=" d-flex justify-content-between">
     <h4>Last Month Activities</h4>
     <div class="form-group primary-color-text mb-2">
@@ -81,7 +80,10 @@ $(document).ready(function () {
         if (data.data.length === 0) {
             tbody.append('<tr><td colspan="5">No activities found</td></tr>');
         } else {
+            const perPage = data.per_page;
+            const currentPage = data.current_page;
             data.data.forEach((activity, index) => {
+                const serialNumber = (currentPage - 1) * perPage + index + 1;
                 const formattedDate = new Intl.DateTimeFormat('en-GB', {
                 day: '2-digit',
                 month: '2-digit',
@@ -90,9 +92,9 @@ $(document).ready(function () {
                 // console.log(activity)
                 tbody.append(`
                     <tr>
-                        <td>${index + 1}</td>
-                        <td>${activity.expense_cat ? activity.expense_cat.account_name : '-'}</td>
-                        <td>${activity.bank_account_id ? activity.bank.account_name : activity.cash.cash_account_name}</td>
+                        <td>${serialNumber}</td>
+                        <td>${activity.expense_cat ? activity.expense_cat.sub_ledger_name : '-'}</td>
+                        <td>${activity.bank_account_id ? activity.bank?.account_name  :  activity.cash?.cash_account_name ?? '-'}</td>
                         <td>${formattedDate}</td>
                         <td>${activity.amount}</td>
                     </tr>
