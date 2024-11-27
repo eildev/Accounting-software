@@ -37,126 +37,153 @@
 </div>
 
 <script>
- $(document).ready(function () {
-    'use strict';
+    $(document).ready(function() {
+        'use strict';
 
-    const colors = {
-        primary: "#6571ff",
-        success: "#05a34a",
-        warning: "#fbbc06",
-        danger: "#ff3366",
-        info: "#66d1d1",
-        dark: "#060c17",
-        light: "#e9ecef",
-        cardBg: "#ffffff",
-    };
+        const colors = {
+            primary: "#6571ff",
+            success: "#05a34a",
+            warning: "#fbbc06",
+            danger: "#ff3366",
+            info: "#66d1d1",
+            dark: "#060c17",
+            light: "#e9ecef",
+            cardBg: "#ffffff",
+        };
 
-    const fontFamily = "'Roboto', Helvetica, sans-serif";
-    let chart = null;
+        const fontFamily = "'Roboto', Helvetica, sans-serif";
+        let chart = null;
 
-    // Render the donut chart with dynamic data
-    function renderDonutChart(data) {
-        if (chart) {
-            chart.destroy(); // Destroy existing chart
-        }
-        if ($('#categoryApexDonutChart').length) {
-            // Map the categories and sums to the chart data
-            const categories = data.categoryPercentages.map(item => item.category);
-            const values = data.categoryPercentages.map(item => parseFloat(item.sum));
-            const totalAmount = data.totalExpense;
+        // Render the donut chart with dynamic data
+        function renderDonutChart(data) {
+            if (chart) {
+                chart.destroy(); // Destroy existing chart
+            }
+            if ($('#categoryApexDonutChart').length) {
+                // Map the categories and sums to the chart data
+                const categories = data.categoryPercentages.map(item => item.category);
+                const values = data.categoryPercentages.map(item => parseFloat(item.sum));
+                const totalAmount = data.totalExpense;
 
-            const options = {
-                chart: {
-                    height: 300,
-                    type: "donut",
-                    foreColor: colors.dark,
-                    background: colors.cardBg,
-                    toolbar: { show: false },
-                },
-                theme: { mode: 'light' },
-                tooltip: { theme: 'light' },
-                colors: [colors.primary, colors.success, colors.warning, colors.danger, colors.info],
-                legend: { show: false },
-                dataLabels: {
-                    enabled: true,
-                    formatter: (val) => `${Math.round(val)}%`,
-                    style: { fontSize: '14px', fontFamily: fontFamily },
-                },
-                series: values, // Dynamic values for the donut chart
-                labels: categories, // Dynamic labels for the categories
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: '70%',
-                            labels: {
-                                show: true,
-                                // value: {
-                                //     show: true,
-                                //     fontSize: '20px',
-                                //     fontFamily: fontFamily,
-                                //     formatter: () => `৳${totalAmount}`,
-                                // },
-                                total: {
+                const options = {
+                    chart: {
+                        height: 300,
+                        type: "donut",
+                        foreColor: colors.dark,
+                        background: colors.cardBg,
+                        toolbar: {
+                            show: false
+                        },
+                    },
+                    theme: {
+                        mode: 'light'
+                    },
+                    tooltip: {
+                        theme: 'light'
+                    },
+                    colors: [colors.primary, colors.success, colors.warning, colors.danger, colors.info],
+                    legend: {
+                        show: false
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: (val) => `${Math.round(val)}%`,
+                        style: {
+                            fontSize: '14px',
+                            fontFamily: fontFamily
+                        },
+                    },
+                    series: values, // Dynamic values for the donut chart
+                    labels: categories, // Dynamic labels for the categories
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '70%',
+                                labels: {
                                     show: true,
-                                    label: 'Spend by category',
-                                    formatter: () => `৳${totalAmount}`,
+                                    // value: {
+                                    //     show: true,
+                                    //     fontSize: '20px',
+                                    //     fontFamily: fontFamily,
+                                    //     formatter: () => `৳${totalAmount}`,
+                                    // },
+                                    total: {
+                                        show: true,
+                                        label: 'Spend by category',
+                                        formatter: () => `৳${totalAmount}`,
+                                    },
                                 },
                             },
                         },
                     },
-                },
-            };
+                };
 
-            chart = new ApexCharts(document.querySelector("#categoryApexDonutChart"), options);
-            chart.render();
+                chart = new ApexCharts(document.querySelector("#categoryApexDonutChart"), options);
+                chart.render();
 
-            // Create a custom legend dynamically
-            createCustomLegend(data);
-        }
-    }
-
-    // Create a custom legend for the categories
-    function createCustomLegend(data) {
-        const legendHTML = data.categoryPercentages.map(item => {
-            const color = colors[item.category.toLowerCase()] || colors.primary; // Default to primary color
-            return `
-                <div class=" col-md-3 align-items-center mb-2  ">
-                    <div class="legend-color-box" style="background-color: ${color};"></div>
-                    <span> <span style="font-weight:bold">৳${item.sum} </span></br>  ${item.category}</span>
-                </div>
-            `;
-        }).join('');
-
-        document.getElementById('chartLegend').innerHTML = legendHTML;
-    }
-
-    // Fetch the data for the selected month
-    function fetchMonthlyData(month) {
-        $.ajax({
-            url: '/get-monthly-expanse-category-data', // Update this URL with your route
-            type: 'GET',
-            data: { month: month },
-            success: function (response) {
-                renderDonutChart(response); // Render the chart with the data
-            },
-            error: function (xhr) {
-                console.error('Error fetching data:', xhr);
+                // Create a custom legend dynamically
+                createCustomLegend(data);
             }
+        }
+
+        // Create a custom legend for the categories
+        // function createCustomLegend(data) {
+        //     const legendHTML = data.categoryPercentages.map(item => {
+        //         const color = colors[item.category.toLowerCase()] || colors.primary; // Default to primary color
+        //         return `
+        //             <div class=" col-md-3 align-items-center mb-2  ">
+        //                 <div class="legend-color-box" style="background-color: ${color};"></div>
+        //                 <span> <span style="font-weight:bold">৳${item.sum} </span></br>  ${item.category}</span>
+        //             </div>
+        //         `;
+        //     }).join('');
+
+        //     document.getElementById('chartLegend').innerHTML = legendHTML;
+        // }
+        function createCustomLegend(data) {
+            const legendHTML = data.categoryPercentages.map(item => {
+                const color = colors[item.category.toLowerCase()] || colors
+                    .info; // Use "info" for "Others" or default color
+                return `
+            <div class="col-md-3 align-items-center mb-2">
+                <div class="legend-color-box" style="background-color: ${color};"></div>
+                <span>
+                    <span style="font-weight:bold">৳${item.sum}</span><br>${item.category}
+                </span>
+            </div>
+        `;
+            }).join('');
+
+            document.getElementById('chartLegend').innerHTML = legendHTML;
+        }
+
+
+        // Fetch the data for the selected month
+        function fetchMonthlyData(month) {
+            $.ajax({
+                url: '/get-monthly-expanse-category-data', // Update this URL with your route
+                type: 'GET',
+                data: {
+                    month: month
+                },
+                success: function(response) {
+                    renderDonutChart(response); // Render the chart with the data
+                },
+                error: function(xhr) {
+                    console.error('Error fetching data:', xhr);
+                }
+            });
+        }
+
+        // Event listener for month selection
+        $('#categoryMonthSelect').on('change', function() {
+            const selectedMonth = $(this).val();
+            fetchMonthlyData(selectedMonth); // Fetch and render data for selected month
         });
-    }
 
-    // Event listener for month selection
-    $('#categoryMonthSelect').on('change', function () {
-        const selectedMonth = $(this).val();
-        fetchMonthlyData(selectedMonth); // Fetch and render data for selected month
+        // Initial load with the current month's data
+        const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
+        $('#categoryMonthSelect').val(currentMonth); // Set the current month in the dropdown
+        fetchMonthlyData(currentMonth); // Trigger data fetch for the current month
     });
-
-    // Initial load with the current month's data
-    const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
-    $('#categoryMonthSelect').val(currentMonth); // Set the current month in the dropdown
-    fetchMonthlyData(currentMonth); // Trigger data fetch for the current month
-});
-
-
-
 </script>
