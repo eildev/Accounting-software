@@ -263,6 +263,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/expanse/activities/filter', 'expanseaAtivitiesFilter');
         Route::get('/get-monthly-expanse-category-data', 'expanseaCategoryFilter');
         Route::get('/expenses-chart-data-money-flow', 'moneyFlowExpanseChart');
+        Route::get('/get-expanse-payment-percentage-data', 'expansePaymentPercentage');
 
     }); //End
 

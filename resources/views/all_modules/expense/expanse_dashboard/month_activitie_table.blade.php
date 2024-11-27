@@ -104,45 +104,7 @@ $(document).ready(function () {
         }
     }
 /////////////////////Pagination///////////////
-    // function setupPagination(data) {
-    //     const pagination = $('.pagination');
-    //     const totalPages = data.last_page;
-    //     const currentPage = data.current_page;
 
-    //     // Update page numbers
-    //     const pageNumbers = $('.page-numbers');
-    //     pageNumbers.empty();
-    //     for (let i = 1; i <= totalPages; i++) {
-    //         pageNumbers.append(`<button class="page-btn" data-page="${i}">${i}</button>`);
-    //     }
-
-    //     // Highlight the active page
-    //     $('.page-btn').removeClass('active');
-    //     $(`.page-btn[data-page="${currentPage}"]`).addClass('active');
-
-    //     // Bind click event to page buttons
-    //     $('.page-btn').click(function () {
-    //         const page = $(this).data('page');
-    //         fetchActivities($('#monthSalaryActivity').val(), page);
-    //     });
-
-    //     // Handle next and prev buttons
-    //     $('.prev-btn').attr('disabled', currentPage === 1);
-    //     $('.next-btn').attr('disabled', currentPage === totalPages);
-
-    //     // Handle next and previous button clicks
-    //     $('.prev-btn').click(function () {
-    //         if (currentPage > 1) {
-    //             fetchActivities($('#monthSalaryActivity').val(), currentPage - 1);
-    //         }
-    //     });
-
-    //     $('.next-btn').click(function () {
-    //         if (currentPage < totalPages) {
-    //             fetchActivities($('#monthSalaryActivity').val(), currentPage + 1);
-    //         }
-    //     });
-    // }
     function setupPagination(data) {
     const pagination = $('.pagination');
     pagination.empty(); // Clear previous buttons

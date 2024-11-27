@@ -3,14 +3,41 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <h6 class="card-title">Payment Status</h6>
+                    <!-- Dropdown for selecting the month -->
+                    <div class="form-group primary-color-text mb-2">
+                        <h6 class="card-title">Payment Status</h6>
+                        <select class="form-control primary-color-text" id="paymentMonthSelect">
+                            <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('m') }}">
+                                <p class="selected-option">Month</p>
+                                <i class="fas fa-chevron-down"></i>
+                            </option>
+                            <option value="1" data-month="1">January</option>
+                            <option value="2" data-month="2">February</option>
+                            <option value="3" data-month="3">March</option>
+                            <option value="4" data-month="4">April</option>
+                            <option value="5" data-month="5">May</option>
+                            <option value="6" data-month="6">June</option>
+                            <option value="7" data-month="7">July</option>
+                            <option value="8" data-month="8">August</option>
+                            <option value="9" data-month="9">September</option>
+                            <option value="10" data-month="10">October</option>
+                            <option value="11" data-month="11">November</option>
+                            <option value="12" data-month="12">December</option>
+                        </select>
+                    </div>
+                    <!-- Button to view all -->
+                    <div>
+                        <button class="btn btn-primary">View All</button>
+                    </div>
                 </div>
-                <div id="apexPie1"></div>
+                <div id="paymentChart">
+
+                </div>
             </div>
 
         </div>
     </div>
-    {{-- ///////////////////////////////////This Mont and Previous Month Comparison ///////////////////////////////// --}}
+    {{-- ///////////////////////////////////This Month and Previous Month Comparison ///////////////////////////////// --}}
     <div class="col-md-12 mt-2">
         <div class="row">
             <div class="col-md-6">
@@ -84,48 +111,84 @@
             cardBg: "#0c1427"
         }
 
-        var fontFamily = "'Roboto', Helvetica, sans-serif"
+        var fontFamily = "'Roboto', Helvetica, sans-serif";
 
-
-        if ($('#apexPie1').length) {
-            var options = {
-                chart: {
-                    height: 300,
-                    type: "pie",
-                    foreColor: colors.bodyColor,
-                    background: colors.cardBg,
-                    toolbar: {
-                        show: false
-                    },
+        // Create the initial chart
+        var options = {
+            chart: {
+                height: 300,
+                type: "pie",
+                foreColor: colors.bodyColor,
+                background: colors.cardBg,
+                toolbar: {
+                    show: false
                 },
-                theme: {
-                    mode: 'dark'
+            },
+            theme: {
+                mode: 'dark'
+            },
+            tooltip: {
+                theme: 'dark'
+            },
+            colors: [colors.primary, colors.warning, colors.danger, colors.info],
+            legend: {
+                show: true,
+                position: "top",
+                horizontalAlign: 'center',
+                fontFamily: fontFamily,
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 0
                 },
-                tooltip: {
-                    theme: 'dark'
+            },
+            stroke: {
+                colors: ['rgba(0,0,0,0)']
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function(val, opts) {
+                    return opts.w.config.series[opts.seriesIndex] + '%'; // Display the percentage
                 },
-                colors: [colors.primary, colors.warning, colors.danger, colors.info],
-                legend: {
-                    show: true,
-                    position: "top",
-                    horizontalAlign: 'center',
+                style: {
+                    fontSize: '14px',
                     fontFamily: fontFamily,
-                    itemMargin: {
-                        horizontal: 8,
-                        vertical: 0
-                    },
-                },
-                stroke: {
-                    colors: ['rgba(0,0,0,0)']
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                series: [20, 45, 60, 55]
-            };
+                    fontWeight: 'bold',
+                    colors: [colors.bodyColor]
+                }
+            },
+            series: [0, 0, 0, 0] // Default empty data
+        };
 
-            var chart = new ApexCharts(document.querySelector("#apexPie1"), options);
-            chart.render();
+        var chart = new ApexCharts(document.querySelector("#paymentChart"), options);
+        chart.render();
+
+        // Fetch data and update the chart
+        function updateChart(month) {
+            $.ajax({
+                url: '/get-expanse-payment-percentage-data', // Updated URL
+                method: 'GET',
+                data: { month: month },
+                success: function(response) {
+                    chart.updateOptions({
+                        series: response.series
+                    });
+                },
+                error: function(xhr) {
+                    console.error("Error fetching chart data:", xhr.responseText);
+                }
+            });
         }
+
+        // Handle month selection
+        $('#paymentMonthSelect').on('change', function() {
+            var selectedMonth = $(this).val();
+            updateChart(selectedMonth);
+        });
+
+        // Initial chart update for the current month
+        updateChart('{{ Carbon\Carbon::now()->format('m') }}');
     });
 </script>
+
+
+

@@ -147,4 +147,22 @@ class ExpanseDashboardController extends Controller
 
         return response()->json($dailyExpenses);
     }
+
+    public function expansePaymentPercentage(Request $request){
+        $month = $request->input('month');
+
+
+
+        $data = [
+            'series' => [
+                rand(10, 100), // Random percentage for category 1
+                rand(10, 100), // Random percentage for category 2
+                rand(10, 100), // Random percentage for category 3
+                rand(10, 100), // Random percentage for category 4
+            ],
+            'month' => $month
+        ];
+
+        return response()->json($data);
+    }
 }
