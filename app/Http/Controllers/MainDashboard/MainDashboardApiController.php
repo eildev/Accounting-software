@@ -42,37 +42,37 @@ class MainDashboardApiController extends Controller
             [
                 'id' => 1,
                 'name' => 'Asset',
-                'value' => $totalAsset,
+                'value' => number_format($totalAsset,2),
             ],
             [
                 'id' => 2,
                 'name' => 'Liabilities',
-                'value' => $totalLiabilities,
+                'value' => number_format($totalLiabilities,2),
             ],
             [
                 'id' => 3,
                 'name' => 'Income',
-                'value' => $totalIncome,
+                'value' => number_format($totalIncome,2),
             ],
             [
                 'id' => 4,
                 'name' => 'Expense',
-                'value' => $totalExpanse,
+                'value' => number_format($totalExpanse,2),
             ],
             [
                 'id' => 5,
                 'name' => 'Cash Balance',
-                'value' => $cashAsset,
+                'value' => number_format($cashAsset,2),
             ],
             [
                 'id' => 6,
                 'name' => 'Bank Balance',
-                'value' => $bankAsset,
+                'value' => number_format($bankAsset,2),
             ],
             [
                 'id' => 7,
                 'name' => 'Assets Purchase',
-                'value' => $assetPurchase,
+                'value' => number_format($assetPurchase,2),
             ],
         ]);
     }//Method End
