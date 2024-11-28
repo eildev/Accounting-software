@@ -34,7 +34,10 @@ class MainDashboardApiController extends Controller
         $salaryExpanse = PaySlip::sum('total_net_salary');
         $recurringExpanse = RecurringExpense::sum('amount');
         $totalExpanse = $expanseTableExpense + $convenienceExpanse + $salaryExpanse + $recurringExpanse;
-        //Top 4 card Data End//
+        //Top 4 Card Data End//
+        //Assets Purchase
+        $assetPurchase = Assets::where('status','purchased')->sum('acquisition_cost');
+
         return response()->json([
             [
                 'id' => 1,
@@ -55,6 +58,21 @@ class MainDashboardApiController extends Controller
                 'id' => 4,
                 'name' => 'Expense',
                 'value' => $totalExpanse,
+            ],
+            [
+                'id' => 5,
+                'name' => 'Cash Balance',
+                'value' => $cashAsset,
+            ],
+            [
+                'id' => 6,
+                'name' => 'Bank Balance',
+                'value' => $bankAsset,
+            ],
+            [
+                'id' => 7,
+                'name' => 'Assets Purchase',
+                'value' => $assetPurchase,
             ],
         ]);
     }//Method End
