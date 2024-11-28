@@ -4,7 +4,7 @@
             <!-- Dropdown for selecting the month -->
             <div class="form-group primary-color-text mb-2">
                 <h6 class="card-title">Spend by category</h6>
-                <select class="form-control primary-color-text" id="categoryMonthSelect">
+                <select class="form-control primary-color-text expanse-payment" id="categoryMonthSelect">
                     <option disabled selected class="bg-white" value="{{ Carbon\Carbon::now()->format('m') }}">
                         <p class="selected-option">Month</p>
                         <i class="fas fa-chevron-down"></i>

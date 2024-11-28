@@ -1,6 +1,6 @@
 <style>
-    .form-control{
-width: 50%;
+    .expanse-payment {
+width: 55%;
     }
 </style>
 <div class="row">
@@ -10,8 +10,8 @@ width: 50%;
                 <div class="d-flex justify-content-between">
                     <!-- Dropdown for selecting the month -->
                     <div class="form-group primary-color-text mb-2">
-                        <h6 class="card-title">Expanse Payment Status</h6>
-                        <select class="form-control custom-select   primary-color-text  border-colro-red w-0" id="paymentMonthSelect">
+                        <h6 class="card-title">Paid Expanse</h6>
+                        <select class="form-control expanse-payment custom-select   primary-color-text  border-colro-red w-0" id="paymentMonthSelect">
                             <option disabled selected  value="{{ Carbon\Carbon::now()->format('m') }}">
                                 <p class="selected-option">Month <i class="fas fa-chevron-down"></i></p>
 
@@ -161,7 +161,8 @@ width: 50%;
                 }
             },
             series: [0, 0, 0, 0], // Default empty data
-            labels: ['Paid', 'Pending', 'Unpaid', 'Processing'], // Labels for the pie chart
+            // labels: ['Paid', 'Pending', 'Unpaid', 'Processing'], // Labels for the pie chart
+            labels: ['Expanse ', ' Conveyance  ', 'Salary ', 'Recurring '], // Labels for the pie chart
             noData: {
                 text: 'No Data Available', // Message when no data is present
                 align: 'center',
@@ -187,7 +188,8 @@ width: 50%;
                     console.log(response);  // Check what the response looks like
 
                     // Check if all the values are zero or data is unavailable
-                    const total = response.expansePaid + response.expansePending + response.expanseUnpaid + response.expanseProcessing;
+                    // const total = response.expansePaid + response.expansePending + response.expanseUnpaid + response.expanseProcessing;
+                    const total = response.expansePaid + response.conviencePaid + response.salaryPaid + response.recurringPaid;
 
                     if (total === 0) {
                         // Display "No Data" message
@@ -207,11 +209,17 @@ width: 50%;
                     } else {
                         // Update chart with actual data
                         chart.updateOptions({
+                            // series: [
+                            //     response.expansePaid,
+                            //     response.expansePending,
+                            //     response.expanseUnpaid,
+                            //     response.expanseProcessing
+                            // ],
                             series: [
                                 response.expansePaid,
-                                response.expansePending,
-                                response.expanseUnpaid,
-                                response.expanseProcessing
+                                response.conviencePaid,
+                                response.salaryPaid,
+                                response.recurringPaid
                             ],
                             noData: {
                                 text: '' // Clear "No Data" message when data is available

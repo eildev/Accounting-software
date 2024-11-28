@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Expanse\ExpanseDashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConvenienceBill\Convenience;
+use App\Models\EmployeePayroll\PaySlip;
+use App\Models\Expanse\RecurringExpense\RecurringExpense;
 use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
 use App\Models\Ledger\SubLedger\SubLedger;
@@ -167,7 +170,9 @@ class ExpanseDashboardController extends Controller
         return response()->json($dailyExpenses);
     }
 
-    public function expansePaymentPercentage(Request $request){
+    ///Expanse Paid ///
+    public function expansePaymentPercentage(Request $request)
+    {
         $month = $request->input('month');  // Get the month (integer)
 
         // Validate if the month is provided
@@ -176,29 +181,66 @@ class ExpanseDashboardController extends Controller
         }
         $year = now()->year;
 
-        $expanseBill = Expense::whereMonth('expense_date', $month)
-                              ->whereYear('expense_date', $year)
-                              ->get();
+        // $expanseBill = Expense::whereMonth('expense_date', $month)
+        //     ->whereYear('expense_date', $year)
+        //     ->get();
 
-        // Total bonuses
-        $expanseBillCount = $expanseBill->where('status','!=', null)->count();
-        $expansePaid = $expanseBill->where('status', 'paid')->count();
-        $expansePending = $expanseBill->where('status', 'pending')->count();
-        $expanseUnpaid = $expanseBill->where('status', 'approved')->count();
-        $expanseProcess = $expanseBill->where('status', 'processing')->count();
+        // // Total bonuses
+        // $expanseBillCount = $expanseBill->where('status', '!=', null)->count();
+        // $expansePaid = $expanseBill->where('status', 'paid')->count();
+        // $expansePending = $expanseBill->where('status', 'pending')->count();
+        // $expanseUnpaid = $expanseBill->where('status', 'approved')->count();
+        // $expanseProcess = $expanseBill->where('status', 'processing')->count();
 
-        // Calculate percentages
-        $expansePaidPercentage = $expanseBillCount > 0 ? ($expansePaid / $expanseBillCount) * 100 : 0;
-        $expansePendingPercentage = $expanseBillCount > 0 ? ($expansePending / $expanseBillCount) * 100 : 0;
-        $expanseUnpaidPercentage = $expanseBillCount > 0 ? ($expanseUnpaid / $expanseBillCount) * 100 : 0;
-        $expanseProcessPercentage = $expanseBillCount > 0 ? ($expanseProcess / $expanseBillCount) * 100 : 0;
+        // // Calculate percentages
+        // $expansePaidPercentage = $expanseBillCount > 0 ? ($expansePaid / $expanseBillCount) * 100 : 0;
+        // $expansePendingPercentage = $expanseBillCount > 0 ? ($expansePending / $expanseBillCount) * 100 : 0;
+        // $expanseUnpaidPercentage = $expanseBillCount > 0 ? ($expanseUnpaid / $expanseBillCount) * 100 : 0;
+        // $expanseProcessPercentage = $expanseBillCount > 0 ? ($expanseProcess / $expanseBillCount) * 100 : 0;
 
         // Prepare the result
+        //////////////////////////////////////////////All Paid Expense percentage////////////////////////////
+
+        $expansePaidBill = Expense::whereMonth('expense_date', $month)
+            ->whereYear('expense_date', $year)
+            ->get();
+        $conviencePaidBill = Convenience::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+           ->get();
+        $salaryPaidBill = PaySlip::whereMonth('pay_period_date', $month)
+            ->whereYear('pay_period_date', $year)
+            ->get();
+        $recurringPaidBill = RecurringExpense::whereMonth('created_at', $month)
+            ->whereYear('created_at', $year)
+            ->get();
+
+            $allExpansePaidCount = $expansePaidBill->where('status', '!=', null)->count();
+            $allConviencePaidCount = $conviencePaidBill->where('status', '!=', null)->count();
+            $allSalaryPaidCount = $salaryPaidBill->where('status', '!=', null)->count();
+            $allRecurringPaidCount = $recurringPaidBill->where('status', '!=', null)->count();
+
+            $expansePaidCount = $expansePaidBill->where('status', 'paid')->count();
+            $conviencePaidCount = $conviencePaidBill->where('status', 'paid')->count();
+            $salaryPaidCount = $salaryPaidBill->where('status', 'paid')->count();
+            $recurringPaidCount = $recurringPaidBill->where('status', 'paid')->count();
+
+            $expansesPaidPercentage = $allExpansePaidCount > 0 ? ($expansePaidCount / $allExpansePaidCount) * 100 : 0;
+            $conviencePaidPercentage = $allConviencePaidCount > 0 ? ($conviencePaidCount / $allConviencePaidCount) * 100 : 0;
+            $salaryPaidPercentage = $allSalaryPaidCount > 0 ? ($salaryPaidCount / $allSalaryPaidCount) * 100 : 0;
+            $recurringPaidPercentage = $allRecurringPaidCount > 0 ? ($recurringPaidCount / $allRecurringPaidCount) * 100 : 0;
+
+        //////////////////////////////////////////////All Expense percentage////////////////////////////
+        // $expansePercentage = [
+        //     'expansePaid' => round($expansePaidPercentage, 2),
+        //     'expansePending' => round($expansePendingPercentage, 2),
+        //     'expanseUnpaid' => round($expanseUnpaidPercentage, 2),
+        //     'expanseProcessing' => round($expanseProcessPercentage, 2),
+        // ];
         $expansePercentage = [
-            'expansePaid' => round($expansePaidPercentage, 2),
-            'expansePending' => round($expansePendingPercentage, 2),
-            'expanseUnpaid' => round($expanseUnpaidPercentage, 2),
-            'expanseProcessing' => round($expanseProcessPercentage, 2),
+            'expansePaid' => round($expansesPaidPercentage, 2),
+            'conviencePaid' => round($conviencePaidPercentage, 2),
+            'salaryPaid' => round($salaryPaidPercentage, 2),
+            'recurringPaid' => round($recurringPaidPercentage, 2),
         ];
 
         return response()->json($expansePercentage);
