@@ -35,8 +35,7 @@ class MainDashboardApiController extends Controller
         $recurringExpanse = RecurringExpense::sum('amount');
         $totalExpanse = $expanseTableExpense + $convenienceExpanse + $salaryExpanse + $recurringExpanse;
         //Top 4 Card Data End//
-        //Assets Purchase
-        $assetPurchase = Assets::where('status','purchased')->sum('acquisition_cost');
+
 
         return response()->json([
             [
@@ -59,18 +58,32 @@ class MainDashboardApiController extends Controller
                 'name' => 'Expense',
                 'value' => number_format($totalExpanse,2),
             ],
+
+
+        ]);
+    }//Method End
+
+    //Dashboard Footer Left
+    public function DashboardFooterData(){
+        //Bank Balance
+        $bankBalance = BankAccounts::sum('current_balance');
+        //cash Balance
+        $cashBalance = Cash::sum('current_balance');
+        //Assets Purchase
+        $assetPurchase = Assets::where('status','purchased')->sum('acquisition_cost');
+         return response()->json([
             [
-                'id' => 5,
+                'id' => 1,
                 'name' => 'Cash Balance',
-                'value' => number_format($cashAsset,2),
+                'value' => number_format($bankBalance,2),
             ],
             [
-                'id' => 6,
+                'id' => 2,
                 'name' => 'Bank Balance',
-                'value' => number_format($bankAsset,2),
+                'value' => number_format($cashBalance,2),
             ],
             [
-                'id' => 7,
+                'id' => 3,
                 'name' => 'Assets Purchase',
                 'value' => number_format($assetPurchase,2),
             ],
