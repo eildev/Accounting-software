@@ -14,8 +14,8 @@ class DashboardController extends Controller
     {
         $assetValue = Assets::sum('acquisition_cost');
         $liabilities = Loan::sum('loan_balance');
-        $income = Assets::sum('acquisition_cost');
+        $income = 00;
         $expanse = Assets::sum('acquisition_cost');
-        return view('dashboard.blank', compact('assetValue', 'liabilities', 'expanse', 'income'));
+        return view('dashboard.main-dashboard', compact('assetValue', 'liabilities', 'expanse', 'income'));
     }
 }
