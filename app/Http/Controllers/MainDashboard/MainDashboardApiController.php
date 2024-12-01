@@ -13,13 +13,14 @@ use App\Models\Expanse\RecurringExpense\RecurringExpense;
 use App\Models\Expense;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Log;
 class MainDashboardApiController extends Controller
 {
     public function mainDashboardData()
     {
         //Top 4 card Data //
         //Asset
+        try {
         $assetTableAseet = Assets::sum('acquisition_cost');
         $bankAsset = BankAccounts::sum('current_balance');
         $cashAsset = Cash::sum('current_balance');
@@ -61,10 +62,20 @@ class MainDashboardApiController extends Controller
 
 
         ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            "status" => 500,
+            'error' => 'An error occurred while calculating the main Dashboard Data.',
+            'message' => $e->getMessage(),
+        ]);
+    }
     }//Method End
 
     //Dashboard Footer Left
     public function DashboardFooterData(){
+        try{
+
+
         //Bank Balance
         $bankBalance = BankAccounts::sum('current_balance');
         //cash Balance
@@ -88,5 +99,12 @@ class MainDashboardApiController extends Controller
                 'value' => number_format($assetPurchase,2),
             ],
         ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            "status" => 500,
+            'error' => 'An error occurred while calculating the Dashboard Footer Data.',
+            'message' => $e->getMessage(),
+        ]);
+    }
     }//Method End
 }//Main End
