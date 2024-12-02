@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\AccountPayable;
+use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\Branch;
 use App\Models\Supplier;
@@ -17,7 +17,7 @@ class SupplierController extends Controller
 {
     public function index()
     {
-        return view('pos.supplier.supplier');
+        return view('all_modules.account_payable.supplier.supplier');
     }
     public function store(Request $request)
     {
@@ -43,18 +43,6 @@ class SupplierController extends Controller
             $supplier->total_payable = 0;
             $supplier->save();
 
-            if ($request->opening_receivable > 0) {
-                $transaction = new Transaction;
-                $transaction->branch_id = Auth::user()->branch_id;
-                $transaction->date = Carbon::now();
-                $transaction->particulars = 'Opening Due';
-                $transaction->payment_type = 'receive';
-                $transaction->supplier_id = $supplier->id;
-                $transaction->credit = 0;
-                $transaction->debit = $request->opening_receivable ?? 0;
-                $transaction->balance = $request->opening_receivable ?? 0;
-                $transaction->save();
-            }
 
             return response()->json([
                 'status' => 200,
@@ -126,14 +114,14 @@ class SupplierController extends Controller
         ]);
     }
 
-    public function SupplierProfile($id)
-    {
-        $data = Supplier::findOrFail($id);
-        $transactions = Transaction::where('supplier_id', $data->id)->get();
-        $branch = Branch::findOrFail($data->branch_id);
-        $banks = Bank::latest()->get();
-        $isCustomer = false;
+    // public function SupplierProfile($id)
+    // {
+    //     $data = Supplier::findOrFail($id);
+    //     $transactions = Transaction::where('supplier_id', $data->id)->get();
+    //     $branch = Branch::findOrFail($data->branch_id);
+    //     $banks = Bank::latest()->get();
+    //     $isCustomer = false;
 
-        return view('pos.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
-    }
+    //     return view('pos.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
+    // }
 }
