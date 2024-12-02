@@ -19,6 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::controller(MainDashboardApiController::class)->group(function () {
-Route::get('/main/dashboard/data/','mainDashboardData');
-Route::get('/dashboard/footer/data/','DashboardFooterData');
+    Route::get('/main/dashboard/data/', 'mainDashboardData');
+    Route::get('/dashboard/footer/data/', 'DashboardFooterData');
 });
