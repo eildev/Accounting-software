@@ -10,7 +10,10 @@ use App\Http\Controllers\Bank\LoanManagement\LoanRepaymentsController;
 use App\Http\Controllers\Bank\Transaction\TransactionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BranchController;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AccountReceivable\CustomerController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\ProductsSizeController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\EmployeePayroll\EmployeeController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PosSettingsController;
@@ -27,6 +30,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
 use App\Http\Controllers\EmployeePayroll\PaySlipController;
 use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
+use App\Http\Controllers\AccountPayable\SupplierController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ServiceSale\ServiceSaleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -195,25 +204,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
     });
 
-    // // Employee Salary related route(n)
-    // Route::controller(EmployeeSalaryController::class)->group(function () {
-    //     Route::get('/employee/salary/add', 'EmployeeSalaryAdd')->name('employee.salary.add');
-    //     Route::get('/employee/salary/view', 'EmployeeSalaryView')->name('employee.salary.view');
-    //     Route::post('/employee/salary/store', 'EmployeeSalaryStore')->name('employee.salary.store');
-    //     Route::get('/employee/salary/edit/{id}', 'EmployeeSalaryEdit')->name('employee.salary.edit');
-    //     Route::post('/employee/salary/update/{id}', 'EmployeeSalaryUpdate')->name('employee.salary.update');
-    //     Route::get('/employee/salary/delete/{id}', 'EmployeeSalaryDelete')->name('employee.salary.delete');
-    //     Route::get('/employee/branch/{branch_id}', 'BranchAjax'); //dependency
-    //     Route::get('/employee/info/{employee_id}', 'getEmployeeInfo');
-    //     /////////////////Employ Salary Advanced ////////////
-    //     Route::get('/advanced/employee/salary/add', 'EmployeeSalaryAdvancedAdd')->name('advanced.employee.salary.add');
-    //     Route::post('/advanced/employee/salary/store', 'EmployeeSalaryAdvancedStore')->name('advanced.employee.salary.store');
-    //     Route::get('/advanced/employee/salary/view', 'EmployeeSalaryAdvancedView')->name('employee.salary.advanced.view');
-    //     Route::get('/advanced/employee/salary/edit/{id}', 'EmployeeSalaryAdvancedEdit')->name('employee.salary.advanced.edit');
-    //     Route::post('/advanced/employee/salary/update/{id}', 'EmployeeSalaryAdvancedUpdate')->name('employee.salary.advanced.update');
-    //     Route::get('/advanced/employee/salary/delete/{id}', 'EmployeeSalaryAdvancedDelete')->name('employee.salary.advanced.delete');
-    // });
-
     // Departments related route(n)
     Route::controller(DepartmentsController::class)->group(function () {
         Route::get('/departments', 'index')->name('departments');
@@ -345,12 +335,103 @@ Route::middleware('auth')->group(function () {
         // Route::get('/all-ledger/view/select-tag', 'view');
         // Route::get('/sub-ledger/details/{id}', 'details');
     });
+     // Supplier related route
+     Route::controller(SupplierController::class)->group(function () {
+        Route::get('/supplier', 'index')->name('supplier');
+        Route::post('/supplier/store', 'store')->name('supplier.store');
+        Route::get('/supplier/view', 'view')->name('supplier.view');
+        Route::get('/supplier/edit/{id}', 'edit')->name('supplier.edit');
+        Route::post('/supplier/update/{id}', 'update')->name('supplier.update');
+        Route::get('/supplier/destroy/{id}', 'destroy')->name('supplier.destroy');
+    });
+      // Unit related route
+      Route::controller(UnitController::class)->group(function () {
+        Route::get('/unit', 'index')->name('product.unit');
+        Route::post('/unit/store', 'store')->name('unit.store');
+        Route::get('/unit/view', 'view')->name('unit.view');
+        Route::get('/unit/edit/{id}', 'edit')->name('unit.edit');
+        Route::post('/unit/update/{id}', 'update')->name('unit.update');
+        Route::get('/unit/destroy/{id}', 'destroy')->name('unit.destroy');
+    });
+
+    // Product Size related route(n)
+    Route::controller(ProductsSizeController::class)->group(function () {
+        Route::get('/product/size/add', 'ProductSizeAdd')->name('product.size.add');
+        Route::post('/product/size/store', 'ProductSizeStore')->name('product.size.store');
+        Route::get('/product/size/view', 'ProductSizeView')->name('product.size.view');
+        Route::get('/product/size/edit/{id}', 'ProductSizeEdit')->name('product.size.edit');
+        Route::post('/product/size/update/{id}', 'ProductSizeUpdate')->name('product.size.update');
+        Route::get('/product/size/delete/{id}', 'ProductSizeDelete')->name('product.size.delete');
+    });
+
+    // Product  related route(n)
+    Route::controller(ProductsController::class)->group(function () {
+        Route::get('/product', 'index')->name('product');
+        Route::post('/product/store', 'store')->name('product.store');
+        Route::get('/product/view', 'view')->name('product.view');
+        Route::get('/product/edit/{id}', 'edit')->name('product.edit');
+        Route::post('/product/update/{id}', 'update')->name('product.update');
+        Route::get('/product/destroy/{id}', 'destroy')->name('product.destroy');
+        Route::get('/product/find/{id}', 'find')->name('product.find');
+        Route::get('/product/barcode/{id}', 'ProductBarcode')->name('product.barcode');
+        Route::get('/search/{value}', 'globalSearch');
+    });
+    // category related route
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/category', 'index')->name('product.category');
+        Route::post('/category/store', 'store')->name('category.store');
+        Route::get('/category/view', 'view')->name('category.view');
+        Route::get('/category/edit/{id}', 'edit')->name('category.edit');
+        Route::post('/category/update/{id}', 'update')->name('category.update');
+        Route::post('/category/status/{id}', 'status')->name('category.status');
+        Route::get('/category/destroy/{id}', 'destroy')->name('category.destroy');
+        // Route::get('/categories/all', 'categoryAll')->name('categories.all');
+    });
+
+    // subcategory related route(n)
+    Route::controller(SubCategoryController::class)->group(function () {
+        Route::get('/subcategory', 'index')->name('product.subcategory');
+        Route::post('/subcategory/store', 'store')->name('subcategory.store');
+        Route::get('/subcategory/view', 'view')->name('subcategory.view');
+        Route::get('/subcategory/edit/{id}', 'edit')->name('subcategory.edit');
+        Route::post('/subcategory/update/{id}', 'update')->name('subcategory.update');
+        Route::get('/subcategory/destroy/{id}', 'destroy')->name('subcategory.destroy');
+        Route::post('/subcategory/status/{id}', 'status')->name('subcategory.status');
+        Route::get('/subcategory/find/{id}', 'find')->name('subcategory.find');
+    });
+      // Brand related route
+      Route::controller(BrandController::class)->group(function () {
+        Route::get('/brand', 'index')->name('product.brand');
+        Route::post('/brand/store', 'store')->name('brand.store');
+        Route::get('/brand/view', 'view')->name('brand.view');
+        Route::get('/brand/edit/{id}', 'edit')->name('brand.edit');
+        Route::post('/brand/update/{id}', 'update')->name('brand.update');
+        Route::post('/brand/status/{id}', 'status')->name('brand.status');
+        Route::get('/brand/destroy/{id}', 'destroy')->name('brand.destroy');
+    });
+    Route::controller(PurchaseController::class)->group(function () {
+        Route::get('/purchase', 'index')->name('purchase');
+        Route::post('/purchase/store', 'store')->name('purchase.store');
+        Route::get('/purchase/view', 'view')->name('purchase.view');
+        Route::get('/purchase/supplier/{id}', 'supplierName')->name('purchase.supplier.name');
+        Route::get('/purchase/item/{id}', 'purchaseItem')->name('purchase.item');
+        Route::get('/purchase/edit/{id}', 'edit')->name('purchase.edit');
+        Route::post('/purchase/update/{id}', 'update')->name('purchase.update');
+        Route::get('/purchase/destroy/{id}', 'destroy')->name('purchase.destroy');
+        Route::get('/purchase/invoice/{id}', 'invoice')->name('purchase.invoice');
+        Route::get('/purchase/money-receipt/{id}', 'moneyReceipt')->name('purchase.money.receipt');
+        Route::get('/purchase/image/{id}', 'imageToPdf')->name('purchase.image');
+        Route::get('/purchase/filter', 'filter')->name('purchase.filter');
+    });
     Route::controller(AssetRevaluationController::class)->group(function () {
         Route::get('/asset-revaluation', 'index')->name('asset.revaluation');
         Route::post('/asset-revaluation/store', 'store');
         Route::get('/asset-revaluation/view', 'view');
         // Route::get('/all-ledger/view/select-tag', 'view');
         // Route::get('/sub-ledger/details/{id}', 'details');
+    });
+    Route::controller(ServiceSaleController::class)->group(function () {
+        Route::get('/service-sale', 'index')->name('service.sale');
     });
 });
 
