@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(MainDashboardApiController::class)->group(function () {
     Route::get('/main/dashboard/data/', 'mainDashboardData');
     Route::get('/dashboard/footer/data/', 'DashboardFooterData');
+    Route::get('/dashboard/profit-loss/data/', 'profitLoss');
 });

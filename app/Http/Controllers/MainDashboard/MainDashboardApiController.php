@@ -18,112 +18,97 @@ class MainDashboardApiController extends Controller
     public function mainDashboardData()
     {
         try {
-            // Top 4 card Data //
-            // Asset
-            $assetTableAsset = Assets::sum('acquisition_cost');
-            $bankAsset = BankAccounts::sum('current_balance');
-            $cashAsset = Cash::sum('current_balance');
-            $totalAsset = $assetTableAsset + $bankAsset + $cashAsset;
+            $totalAsset = Assets::sum('acquisition_cost')
+                + BankAccounts::sum('current_balance')
+                + Cash::sum('current_balance');
 
-            // Liabilities
             $totalLiabilities = Loan::sum('loan_balance');
+            $totalIncome = 0; // Update as needed
+            $totalExpense = Expense::sum('amount')
+                + Convenience::sum('total_amount')
+                + PaySlip::sum('total_net_salary')
+                + RecurringExpense::sum('amount');
 
-            // Income
-            $totalIncome = 0; // Update with logic if necessary
-
-            // Expense
-            $expanseTableExpense = Expense::sum('amount');
-            $convenienceExpense = Convenience::sum('total_amount');
-            $salaryExpense = PaySlip::sum('total_net_salary');
-            $recurringExpense = RecurringExpense::sum('amount');
-            $totalExpense = $expanseTableExpense + $convenienceExpense + $salaryExpense + $recurringExpense;
-
-            // Top 4 Card Data
             $data = [
-                [
-                    'id' => 1,
-                    'title' => 'Asset',
-                    'value' => number_format($totalAsset, 2),
-                ],
-                [
-                    'id' => 2,
-                    'title' => 'Liabilities',
-                    'value' => number_format($totalLiabilities, 2),
-                ],
-                [
-                    'id' => 3,
-                    'title' => 'Income',
-                    'value' => number_format($totalIncome, 2),
-                ],
-                [
-                    'id' => 4,
-                    'title' => 'Expense',
-                    'value' => number_format($totalExpense, 2),
-                ],
+                ['id' => 1, 'title' => 'Asset', 'value' => number_format($totalAsset, 2)],
+                ['id' => 2, 'title' => 'Liabilities', 'value' => number_format($totalLiabilities, 2)],
+                ['id' => 3, 'title' => 'Income', 'value' => number_format($totalIncome, 2)],
+                ['id' => 4, 'title' => 'Expense', 'value' => number_format($totalExpense, 2)],
             ];
 
-            return response()->json([
-                'status' => 200,
-                'data' => $data,
-            ]);
+            return response()->json(['status' => 200, 'data' => $data]);
         } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Error fetching dashboard data: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
-            ]);
+            Log::error('Dashboard error: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
-            // Return a JSON response with error information
             return response()->json([
                 'status' => 500,
                 'message' => 'An error occurred while fetching dashboard data.',
-                'error' => $e->getMessage(), // Optional: Include for debugging (avoid in production)
             ]);
         }
     }
+
 
 
     //Dashboard Footer Left
     public function DashboardFooterData()
     {
         try {
-            //Bank Balance
-            $bankBalance = BankAccounts::sum('current_balance');
-            $bankRevenue = 13.56;
-            //Cash Balance
-            $cashBalance = Cash::sum('current_balance');
-            $cashRevenue = -13.56;
-            //Assets Purchase
-            $assetPurchase = Assets::where('status', 'purchased')->sum('acquisition_cost');
-            $assetRevenue = 54.56;
-            // Marketing Cost
-            $marketingCost = 0;
-            $marketingRevenue = -54.56;
-
             $data = [
                 [
                     'id' => 1,
                     'title' => 'Cash Balance',
-                    'value' => number_format($bankBalance, 2),
-                    'revenue' => number_format($bankRevenue, 2),
+                    'value' => number_format(BankAccounts::sum('current_balance'), 2),
+                    'revenue' => number_format(13.56, 2),
                 ],
                 [
                     'id' => 2,
                     'title' => 'Bank Balance',
-                    'value' => number_format($cashBalance, 2),
-                    'revenue' => number_format($cashRevenue, 2),
+                    'value' => number_format(Cash::sum('current_balance'), 2),
+                    'revenue' => number_format(-13.56, 2),
                 ],
                 [
                     'id' => 3,
                     'title' => 'Assets Purchase',
-                    'value' => number_format($assetPurchase, 2),
-                    'revenue' => number_format($assetRevenue, 2),
+                    'value' => number_format(Assets::where('status', 'purchased')->sum('acquisition_cost'), 2),
+                    'revenue' => number_format(54.56, 2),
                 ],
                 [
                     'id' => 4,
                     'title' => 'Marketing Cost',
-                    'value' => number_format($marketingCost, 2),
-                    'revenue' => number_format($marketingRevenue, 2),
+                    'value' => number_format(0, 2),
+                    'revenue' => number_format(-54.56, 2),
                 ],
+            ];
+
+            return response()->json(['status' => 200, 'data' => $data]);
+        } catch (\Exception $e) {
+            Log::error('Dashboard Footer Data Error: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 500,
+                'message' => 'An error occurred while fetching the dashboard footer data.',
+            ]);
+        }
+    }
+
+
+
+    public function profitLoss()
+    {
+        try {
+            $data = [
+                ['name' => 'Jan', 'profit' => number_format(1200, 2), 'loss' => number_format(500, 2)],
+                ['name' => 'Feb', 'profit' => number_format(899, 2), 'loss' => number_format(100, 2)],
+                ['name' => 'Mar', 'profit' => number_format(1700, 2), 'loss' => number_format(300, 2)],
+                ['name' => 'Apr', 'profit' => number_format(400, 2), 'loss' => number_format(700, 2)],
+                ['name' => 'May', 'profit' => number_format(1500, 2), 'loss' => number_format(800, 2)],
+                ['name' => 'Jun', 'profit' => number_format(2000, 2), 'loss' => number_format(400, 2)],
+                ['name' => 'Jul', 'profit' => number_format(1300, 2), 'loss' => number_format(900, 2)],
+                ['name' => 'Aug', 'profit' => number_format(1800, 2), 'loss' => number_format(600, 2)],
+                ['name' => 'Sep', 'profit' => number_format(1100, 2), 'loss' => number_format(500, 2)],
+                ['name' => 'Oct', 'profit' => number_format(1400, 2), 'loss' => number_format(700, 2)],
+                ['name' => 'Nov', 'profit' => number_format(1700, 2), 'loss' => number_format(300, 2)],
+                ['name' => 'Dec', 'profit' => number_format(1900, 2), 'loss' => number_format(400, 2)],
             ];
 
             return response()->json([
@@ -137,10 +122,9 @@ class MainDashboardApiController extends Controller
             // Return a generic error response
             return response()->json([
                 'status' => 500,
-                'message' => 'An error occurred while fetching the dashboard footer data.',
+                'message' => 'An error occurred while fetching the dashboard profit Loss data.',
                 'error' => $e->getMessage(), // Optional: include this for debugging purposes
             ]);
         }
     }
-    //Method End
 }//Main End
