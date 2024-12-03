@@ -323,122 +323,119 @@ $(function() {
 //   }
   // Apex Area chart end
 
-
-
-
   // Apex Mixed chart start
-  if ($('#apexMixed').length) {
-    var options = {
-      chart: {
-        height: 300,
-        type: 'line',
-        stacked: false,
-        parentHeightOffset: 0,
-        foreColor: colors.bodyColor,
-        background: colors.cardBg,
-        toolbar: {
-          show: false
-        },
-      },
-      theme: {
-        mode: 'dark'
-      },
-      tooltip: {
-        theme: 'dark'
-      },
-      colors: [colors.danger, colors.info],
-      grid: {
-        borderColor: colors.gridBorder,
-        padding: {
-          bottom: -4
-        },
-        xaxis: {
-          lines: {
-            show: true
-          }
-        }
-      },
-      stroke: {
-        width: [0, 3],
-        curve: 'smooth'
-      },
-      plotOptions: {
-        bar: {
-          columnWidth: '50%'
-        }
-      },
-      series: [{
-        name: 'Team A',
-        type: 'column',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
-      }, {
-        name: 'Team B',
-        type: 'area',
-        data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
-      }],
-      legend: {
-        show: true,
-        position: "top",
-        horizontalAlign: 'center',
-        fontFamily: fontFamily,
-        itemMargin: {
-          horizontal: 8,
-          vertical: 0
-        },
-      },
-      fill: {
-        opacity: [.75,0.25],
-      },
-      labels: ['01/01/2003', '02/01/2003','03/01/2003','04/01/2003','05/01/2003','06/01/2003','07/01/2003','08/01/2003','09/01/2003','10/01/2003','11/01/2003'],
-      markers: {
-        size: 0
-      },
-      xaxis: {
-        type:'datetime',
-        axisBorder: {
-          color: colors.gridBorder,
-        },
-        axisTicks: {
-          color: colors.gridBorder,
-        },
-      },
-      yaxis: {
-        opposite: true,
-        title: {
-          text: "Points",
-          offsetX: -45,
-        },
-        labels: {
-          align: 'left',
-          offsetX: -10,
-        }
-      },
-      tooltip: {
-        shared: true,
-        intersect: false,
-        y: [{
-          formatter: function (y) {
-            if(typeof y !== "undefined") {
-              return  y.toFixed(0) + " points";
-            }
-            return y;
-          }
-        }, {
-          formatter: function (y) {
-            if(typeof y !== "undefined") {
-              return  y.toFixed(2) + " $";
-            }
-            return y;
-          }
-        }]
-      }
-    }
-    var chart = new ApexCharts(
-      document.querySelector("#apexMixed"),
-      options
-    );
-    chart.render();
-  }
+//   if ($('#apexMixed').length) {
+//     var options = {
+//       chart: {
+//         height: 300,
+//         type: 'line',
+//         stacked: false,
+//         parentHeightOffset: 0,
+//         foreColor: colors.bodyColor,
+//         background: colors.cardBg,
+//         toolbar: {
+//           show: false
+//         },
+//       },
+//       theme: {
+//         mode: 'dark'
+//       },
+//       tooltip: {
+//         theme: 'dark'
+//       },
+//       colors: [colors.danger, colors.info],
+//       grid: {
+//         borderColor: colors.gridBorder,
+//         padding: {
+//           bottom: -4
+//         },
+//         xaxis: {
+//           lines: {
+//             show: true
+//           }
+//         }
+//       },
+//       stroke: {
+//         width: [0, 3],
+//         curve: 'smooth'
+//       },
+//       plotOptions: {
+//         bar: {
+//           columnWidth: '50%'
+//         }
+//       },
+//       series: [{
+//         name: 'Team A',
+//         type: 'column',
+//         data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+//       }, {
+//         name: 'Team B',
+//         type: 'area',
+//         data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+//       }],
+//       legend: {
+//         show: true,
+//         position: "top",
+//         horizontalAlign: 'center',
+//         fontFamily: fontFamily,
+//         itemMargin: {
+//           horizontal: 8,
+//           vertical: 0
+//         },
+//       },
+//       fill: {
+//         opacity: [.75,0.25],
+//       },
+//       labels: ['01/01/2003', '02/01/2003','03/01/2003','04/01/2003','05/01/2003','06/01/2003','07/01/2003','08/01/2003','09/01/2003','10/01/2003','11/01/2003'],
+//       markers: {
+//         size: 0
+//       },
+//       xaxis: {
+//         type:'datetime',
+//         axisBorder: {
+//           color: colors.gridBorder,
+//         },
+//         axisTicks: {
+//           color: colors.gridBorder,
+//         },
+//       },
+//       yaxis: {
+//         opposite: true,
+//         title: {
+//           text: "Points",
+//           offsetX: -45,
+//         },
+//         labels: {
+//           align: 'left',
+//           offsetX: -10,
+//         }
+//       },
+//       tooltip: {
+//         shared: true,
+//         intersect: false,
+//         y: [{
+//           formatter: function (y) {
+//             if(typeof y !== "undefined") {
+//               return  y.toFixed(0) + " points";
+//             }
+//             return y;
+//           }
+//         }, {
+//           formatter: function (y) {
+//             if(typeof y !== "undefined") {
+//               return  y.toFixed(2) + " $";
+//             }
+//             return y;
+//           }
+//         }]
+//       }
+//     }
+//     var chart = new ApexCharts(
+//       document.querySelector("#apexMixed"),
+//       options
+//     );
+//     chart.render();
+//   }
   // Apex Mixed chart end
 
 
