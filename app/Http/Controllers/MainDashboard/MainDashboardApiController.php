@@ -47,8 +47,6 @@ class MainDashboardApiController extends Controller
         }
     }
 
-
-
     //Dashboard Footer Left
     public function DashboardFooterData()
     {
@@ -91,24 +89,23 @@ class MainDashboardApiController extends Controller
         }
     }
 
-
-
+    //Dashboard Profit Loss api controller 
     public function profitLoss()
     {
         try {
             $data = [
-                ['name' => 'Jan', 'profit' => number_format(1200, 2), 'loss' => number_format(500, 2)],
-                ['name' => 'Feb', 'profit' => number_format(899, 2), 'loss' => number_format(100, 2)],
-                ['name' => 'Mar', 'profit' => number_format(1700, 2), 'loss' => number_format(300, 2)],
-                ['name' => 'Apr', 'profit' => number_format(400, 2), 'loss' => number_format(700, 2)],
-                ['name' => 'May', 'profit' => number_format(1500, 2), 'loss' => number_format(800, 2)],
-                ['name' => 'Jun', 'profit' => number_format(2000, 2), 'loss' => number_format(400, 2)],
-                ['name' => 'Jul', 'profit' => number_format(1300, 2), 'loss' => number_format(900, 2)],
-                ['name' => 'Aug', 'profit' => number_format(1800, 2), 'loss' => number_format(600, 2)],
-                ['name' => 'Sep', 'profit' => number_format(1100, 2), 'loss' => number_format(500, 2)],
-                ['name' => 'Oct', 'profit' => number_format(1400, 2), 'loss' => number_format(700, 2)],
-                ['name' => 'Nov', 'profit' => number_format(1700, 2), 'loss' => number_format(300, 2)],
-                ['name' => 'Dec', 'profit' => number_format(1900, 2), 'loss' => number_format(400, 2)],
+                ['name' => 'Jan', 'profit' => 1200, 'loss' => 500],
+                ['name' => 'Feb', 'profit' => 899, 'loss' => 100],
+                ['name' => 'Mar', 'profit' => 1700, 'loss' => 300],
+                ['name' => 'Apr', 'profit' => 400, 'loss' => 700],
+                ['name' => 'May', 'profit' => 1500, 'loss' => 800],
+                ['name' => 'Jun', 'profit' => 2000, 'loss' => 400],
+                ['name' => 'Jul', 'profit' => 1300, 'loss' => 900],
+                ['name' => 'Aug', 'profit' => 1800, 'loss' => 600],
+                ['name' => 'Sep', 'profit' => 1100, 'loss' => 500],
+                ['name' => 'Oct', 'profit' => 1400, 'loss' => 700],
+                ['name' => 'Nov', 'profit' => 1700, 'loss' => 300],
+                ['name' => 'Dec', 'profit' => 1900, 'loss' => 400],
             ];
 
             return response()->json([
@@ -153,4 +150,37 @@ class MainDashboardApiController extends Controller
         }
     }
 
+<<<<<<< HEAD
 }//Main End
+=======
+    //Dashboard sale Analytics api controller 
+    public function saleAnalytics()
+    {
+        try {
+            $data = [
+                ['value' => 1200, 'label' => "Graphics"],
+                ['value' => 899, 'label' => "Website"],
+                ['value' => 1700, 'label' => 'E-commerce'],
+            ];
+
+            $total = number_format(3799, 2);
+
+            return response()->json([
+                'status' => 200,
+                'data' => $data,
+                'total' => $total,
+            ]);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Dashboard Footer Data Error: ' . $e->getMessage());
+
+            // Return a generic error response
+            return response()->json([
+                'status' => 500,
+                'message' => 'An error occurred while fetching the dashboard profit Loss data.',
+                'error' => $e->getMessage(), // Optional: include this for debugging purposes
+            ]);
+        }
+    }
+}//Main End
+>>>>>>> 278ddce75f7831afdb2d88142cee00b0f88fff69

@@ -23,4 +23,5 @@ Route::controller(MainDashboardApiController::class)->group(function () {
     Route::get('/dashboard/footer/data/', 'DashboardFooterData');
     Route::get('/dashboard/profit-loss/data/', 'profitLoss');
     Route::get('/dashboard/costin-and-out/data/', 'costInAndOut');
+    Route::get('/dashboard/sales-analytics/data/', 'saleAnalytics');
 });
