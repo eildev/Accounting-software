@@ -96,113 +96,112 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <form action="">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="card-title">Service Name Table</h6>
-                        {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    <form action="" id="serviceForm">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="card-title">Service Name Table</h6>
+                            {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                     data-bs-target="#exampleModalLongScollable">Add Departments</button> --}}
-                    </div>
-
-                    <div id="" class="table-responsive">
-                        <div class="bill-header">
-                            <div class="row no-gutters">
-                                <div class="col-md-2">
-                                    <strong>Customer Name:</strong>
-                                </div>
-                                @php
-                                    $customers = App\Models\Customer::get();
-                                @endphp
-                                <div class="col-md-4">
-                                    <select class="form-control js-example-basic-single " name="customer"
-                                        id="employee-select">
-                                        <option selected disabled>Select Name</option>
-                                        @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="ms-5">
-                                        <h3 class="grandTotal">Total Amount: <span id="grandTotalDisplay">0</span></h3>
+                        </div>
+                        <div id="" class="table-responsive">
+                            <div class="bill-header">
+                                <div class="row no-gutters">
+                                    <div class="col-md-2">
+                                        <strong>Customer Name:</strong>
                                     </div>
-                                </div>
-                                <div class="col-md-2 mt-2">
-                                    <strong>Date:</strong>
-                                </div>
-                                <div class="col-md-4 mb-4 mt-2">
-                                    <div class="input-group flatpickr me-2 mb-2 mb-md-0" id="dashboardDate">
-                                        <span class="input-group-text input-group-addon bg-transparent border-primary"
-                                            data-toggle><i data-feather="calendar" class="text-primary"></i></span>
-                                        <input type="text" name="date"
-                                            class="form-control bg-transparent border-primary" placeholder="Select date"
-                                            data-input>
+                                    @php
+                                        $customers = App\Models\Customer::get();
+                                    @endphp
+                                    <div class="col-md-4">
+                                        <select class="form-control js-example-basic-single " name="customer_id"
+                                            id="customer-select">
+                                            <option selected disabled>Select Name</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="ms-5">
+                                            <h3 class="grandTotal">Total Amount: <span id="grandTotalDisplay">0</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mt-2">
+                                        <strong>Date:</strong>
+                                    </div>
+                                    <div class="col-md-4 mb-4 mt-2">
+                                        <div class="input-group flatpickr me-2 mb-2 mb-md-0 date-select" id="dashboardDate">
+                                            <span class="input-group-text input-group-addon bg-transparent border-primary"
+                                                data-toggle><i data-feather="calendar" class="text-primary"></i></span>
+                                            <input type="text" name="date"
+                                                class="form-control bg-transparent border-primary" placeholder="Select date"
+                                                data-input>
+                                        </div>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- /////////Tabing Start//// -->
-                        <div class="row">
-                            <div class="col-md-12 grid-margin stretch-card">
-                                <div class="example w-100">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <!---First li--->
-                                        {{-- <li class="nav-item">
+                            <!-- /////////Tabing Start//// -->
+                            <div class="row">
+                                <div class="col-md-12 grid-margin stretch-card">
+                                    <div class="example w-100">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <!---First li--->
+                                            {{-- <li class="nav-item">
                                         <a class="nav-link active" id="serviceSale-tab" data-bs-toggle="tab"
                                             href="#serviceSale" role="tab" aria-controls="serviceSale"
                                             aria-selected="true">Movement Costs
                                         </a>
-                                    </li> --}}
+                                         </li> --}}
 
-                                    </ul>
-                                    <!--First Tab  Start-->
+                                        </ul>
+                                        <!--First Tab  Start-->
 
-                                    <div class="tab-content border border-top-0 p-3" id="myTabContent">
+                                        <div class="tab-content border border-top-0 p-3" id="myTabContent">
 
-                                        <div class="tab-pane fade show active" id="serviceSale" role="tabpanel"
-                                            aria-labelledby="serviceSale-tab">
-                                            <div class="col-md-12 serviceSale">
+                                            <div class="tab-pane fade show active" id="serviceSale" role="tabpanel"
+                                                aria-labelledby="serviceSale-tab">
+                                                <div class="col-md-12 serviceSale">
 
-                                                <table id="serviceTable">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><button type="button" class="form-control"
-                                                                    id="addServiceRowBtn">+
-                                                                </button></th>
-                                                            <th>Product/Service Name</th>
-                                                            <th>Volume</th>
-                                                            <th>Price</th>
-                                                            <th>Total</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                                    <table id="serviceTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><button type="button" class="form-control"
+                                                                        id="addServiceRowBtn">+
+                                                                    </button></th>
+                                                                <th>Product/Service Name</th>
+                                                                <th>Volume</th>
+                                                                <th>Price</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
 
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <td colspan="4" class="text-end"><strong>Total
-                                                                    Amount</strong>
-                                                            </td>
-                                                            <td><strong id="totalAmount">00</strong></td>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="4" class="text-end"><strong>Total
+                                                                        Amount</strong>
+                                                                </td>
+                                                                <td><strong id="totalAmount">00</strong></td>
 
-                                                        </tr>
+                                                            </tr>
 
-                                                    </tfoot>
-                                                </table>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                                <button type="submit" class="btn btn-md float-end serviceSaleAdd"
+                                                    style="border:1px solid #6587ff ">Submit</button>
+
                                             </div>
-                                            <a class="btn btn-md float-end serviceSaleAdd"
-                                                style="border:1px solid #6587ff ">Add</a>
-
+                                            <!--First Tab End -->
                                         </div>
-                                        <!--First Tab End -->
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
-                </form>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -269,6 +268,7 @@
         });
         //Validate
         const serviceSaleAdd = document.querySelector('.serviceSaleAdd');
+        const serviceForm = document.getElementById('serviceForm');
         serviceSaleAdd.addEventListener('click', function(e) {
             e.preventDefault();
             ///////////////Validation Start /////////////
@@ -315,6 +315,49 @@
                 return;
             }
             ///////////////Validation End /////////////
+            if(rows.length > 0){
+                if ($('#customer-select').val() === null || $('#customer-select').val() === '') {
+                    toastr.error("Please select a Customer ");
+                }
+            // AJAX Submission
+            let formData = new FormData(serviceForm);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ route('service.sale.store') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.status === 200) {
+                        serviceForm.reset();
+                        $('#serviceTable tbody').empty(); // Clear the table rows
+                        toastr.success(response.message);
+                        // Optionally reload the page
+                        window.location.reload();
+                    } else {
+                        toastr.error(response.error || 'Something went wrong.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 422) { // Validation error from server
+                        let errors = xhr.responseJSON.errors;
+                        let errorList = Object.values(errors).flat().join('<br>');
+                        toastr.error(errorList);
+                    } else {
+                        toastr.warning('An unexpected error occurred.');
+                    }
+                }
+            });
+        }else{
+            toastr.error('⚠️ Please Add a Service First.');
+        }
+
         });
     </script>
 @endsection

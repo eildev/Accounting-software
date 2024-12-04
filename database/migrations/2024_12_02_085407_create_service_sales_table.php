@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('date');
             $table->decimal('volume', 15, 2);
             $table->decimal('price', 15, 2);
-            $table->decimal('grand_total', 17, 2);
+            $table->decimal('total', 17, 2);
             $table->enum('status', ['pending', 'paid', 'approved','processing'])->default('pending');
             $table->timestamps();
         });

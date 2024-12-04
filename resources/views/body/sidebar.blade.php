@@ -72,7 +72,12 @@
                     <span class="link-title">Service Sale</span>
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a href="{{ route('sale.dashboard') }}" class="nav-link {{ request()->routeIs('sale.dashboard') ? 'nav_active' : '' }}">
+                    <i class="ms-2 link-icon" data-feather="shopping-cart"></i>
+                    <span class="link-title">Sale Dashboard</span>
+                </a>
+            </li>
             {{-- @if (Auth::user()->can('pos.menu'))
                 <li class="nav-item">
                     <a href="{{ route('sale') }}" class="nav-link {{ request()->routeIs('sale') ? 'nav_active' : '' }}">
