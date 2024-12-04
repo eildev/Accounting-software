@@ -123,15 +123,38 @@ class MainDashboardApiController extends Controller
                 'error' => $e->getMessage(), // Optional: include this for debugging purposes
             ]);
         }
-    }//End Method
-    public function costInAndOut(){
+    } //End Method
+    public function costInAndOut()
+    {
         try {
-             $receivableData = [
-                8000, 2000, 2780, 1890, 2390, 3490, 6778, 3490, 9283, 2347, 3490, 6778,
-              ];
+            $receivableData = [
+                8000,
+                2000,
+                2780,
+                1890,
+                2390,
+                3490,
+                6778,
+                3490,
+                9283,
+                2347,
+                3490,
+                6778,
+            ];
             $payableData = [
-                2400, 1398, 9800, 3908, 4800, 3800, 4300, 3490, 3763, 1247, 4589, 2346,
-              ];
+                2400,
+                1398,
+                9800,
+                3908,
+                4800,
+                3800,
+                4300,
+                3490,
+                3763,
+                1247,
+                4589,
+                2346,
+            ];
             return response()->json([
                 'status' => 200,
                 'receivableData' => $receivableData,
@@ -150,9 +173,6 @@ class MainDashboardApiController extends Controller
         }
     }
 
-<<<<<<< HEAD
-}//Main End
-=======
     //Dashboard sale Analytics api controller 
     public function saleAnalytics()
     {
@@ -183,4 +203,3 @@ class MainDashboardApiController extends Controller
         }
     }
 }//Main End
->>>>>>> 278ddce75f7831afdb2d88142cee00b0f88fff69
