@@ -37,6 +37,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ServiceSale\ServiceSaleController;
 use  App\Http\Controllers\CustomerPayableDashboard\CustomerPayableDashboardController;
+use App\Http\Controllers\SaleDashboard\SaleDashboardController ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -439,6 +440,9 @@ Route::middleware('auth')->group(function () {
     Route::controller(CustomerPayableDashboardController::class)->group(function () {
         Route::get('/customer-payable-dashboard', 'customerPayableDashboard')->name('customer.payable.dashboard');
 
+    });
+    Route::controller(SaleDashboardController::class)->group(function () {
+        Route::get('/sale-dashboard', 'SaleDashboard')->name('sale.dashboard');
     });
 });
 
