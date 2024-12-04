@@ -16,9 +16,7 @@
                         <button class="btn btn-rounded-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModalLongScollable"><i data-feather="plus"></i></button>
                     </div>
-                    @php
 
-                    @endphp
                     <div id="" class="table-responsive">
                         <table id="example" class="table">
                             <thead>
