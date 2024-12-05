@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\AccountReceivable;
+use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use App\Models\Customer;
@@ -9,11 +9,11 @@ use App\Models\Branch;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+
 use App\Repositories\RepositoryInterfaces\CustomerInterfaces;
 
 class CustomerController extends Controller
 {
-
     private $customer_repo;
     public function __construct(CustomerInterfaces $customer_interface)
     {
@@ -21,7 +21,7 @@ class CustomerController extends Controller
     }
     public function AddCustomer()
     {
-        return view('all_modules.customer.add_customer');
+        return view('all_modules.account_receivable.customer.add_customer');
     } //End Method
     public function CustomerStore(Request $request)
     {
@@ -37,19 +37,6 @@ class CustomerController extends Controller
         $customer->created_at = Carbon::now();
         $customer->save();
 
-        if ($request->wallet_balance > 0) {
-            $transaction = new Transaction;
-            $transaction->branch_id = Auth::user()->branch_id;
-            $transaction->date = Carbon::now();
-            $transaction->particulars = 'Opening Due';
-            $transaction->payment_type = 'receive';
-            $transaction->customer_id = $customer->id;
-            $transaction->credit = 0;
-            $transaction->debit = $request->wallet_balance;
-            $transaction->balance = $request->wallet_balance ?? 0;
-            $transaction->save();
-        }
-
 
         $notification = array(
             'message' => 'Customer Created Successfully',
@@ -61,12 +48,12 @@ class CustomerController extends Controller
     public function CustomerView()
     {
         $customers = $this->customer_repo->ViewAllCustomer();
-        return view('all_modules.customer.view_customer', compact('customers'));
+        return view('all_modules.account_receivable.customer.view_customer', compact('customers'));
     } //
     public function CustomerEdit($id)
     {
         $customer = $this->customer_repo->EditCustomer($id);
-        return view('all_modules.customer.edit_customer', compact('customer'));
+        return view('all_modules.account_receivable.customer.edit_customer', compact('customer'));
     } //
     public function CustomerUpdate(Request $request, $id)
     {
@@ -106,6 +93,6 @@ class CustomerController extends Controller
         $banks = Bank::latest()->get();
         $isCustomer = true;
 
-        return view('all_modules.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
+        return view('all_modules.account_receivable.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
     }
 }

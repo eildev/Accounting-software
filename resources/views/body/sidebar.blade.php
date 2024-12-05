@@ -65,6 +65,25 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('service.sale') }}"
+                    class="nav-link {{ request()->routeIs('service.sale') ? 'nav_active' : '' }}">
+                    <i class="ms-2 link-icon" data-feather="home"></i>
+                    <span class="link-title">Service Sale</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('sale.dashboard') }}" class="nav-link {{ request()->routeIs('sale.dashboard') ? 'nav_active' : '' }}">
+                    <i class="ms-2 link-icon" data-feather="shopping-cart"></i>
+                    <span class="link-title">Sale Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('customer.payable.dashboard') }}" class="nav-link {{ request()->routeIs('customer.payable.dashboard') ? 'nav_active' : '' }}">
+                    <i class="ms-2 link-icon" data-feather="shopping-cart"></i>
+                    <span class="link-title">Customer Dashboard</span>
+                </a>
+            </li>
             {{-- @if (Auth::user()->can('pos.menu'))
                 <li class="nav-item">
                     <a href="{{ route('sale') }}" class="nav-link {{ request()->routeIs('sale') ? 'nav_active' : '' }}">
@@ -81,7 +100,7 @@
                         <span class="link-title">POS Manage</span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
             @if (Auth::user()->can('products.menu'))
                 <li class="nav-item nav-category">Products</li>
                 <li class="nav-item">
@@ -140,17 +159,52 @@
                                         Size</a>
                                 </li>
                             @endif
-                            @if (Auth::user()->can('tax.menu'))
+                            {{-- @if (Auth::user()->can('tax.menu'))
                                 <li class="nav-item">
                                     <a href="{{ route('product.tax.add') }}"
                                         class="nav-link {{ request()->routeIs('product.tax.add') ? 'nav_active' : '' }}">Tax</a>
                                 </li>
-                            @endif
+                            @endif --}}
                         </ul>
                     </div>
                 </li>
-            @endif --}}
-
+            @endif
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('supplier') ? 'nav_active' : '' }}"
+                    href="{{ route('supplier') }}" role="button" aria-controls="general-pages">
+                    <i class="ms-2 fa-solid fa-handshake link-icon"></i>
+                    <span class="link-title">Supplier</span>
+                </a>
+            </li>
+            @if (Auth::user()->can('purchase.menu'))
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
+                    data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
+                    aria-controls="uiComponen">
+                    <i class="ms-2 fa-solid fa-cart-arrow-down link-icon"></i>
+                    <span class="link-title">Purchase</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('purchase*') ? 'show' : '' }}" id="uiComponen">
+                    <ul class="nav sub-menu">
+                        @if (Auth::user()->can('purchase.add'))
+                            <li class="nav-item">
+                                <a href="{{ route('purchase') }}"
+                                    class="nav-link {{ request()->routeIs('purchase') ? 'nav_active' : '' }}">Add
+                                    Purchase</a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->can('purchase.list'))
+                            <li class="nav-item">
+                                <a href="{{ route('purchase.view') }}"
+                                    class="nav-link {{ request()->routeIs('purchase.view') ? 'nav_active' : '' }}">Manage
+                                    Purchase</a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
+        @endif
             <li class="nav-item nav-category">Accounting</li>
 
             {{-- @if (Auth::user()->can('supplier.menu'))
@@ -162,35 +216,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->can('purchase.menu'))
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
-                        data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
-                        aria-controls="uiComponen">
-                        <i class="ms-2 fa-solid fa-cart-arrow-down link-icon"></i>
-                        <span class="link-title">Purchase</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('purchase*') ? 'show' : '' }}" id="uiComponen">
-                        <ul class="nav sub-menu">
-                            @if (Auth::user()->can('purchase.add'))
-                                <li class="nav-item">
-                                    <a href="{{ route('purchase') }}"
-                                        class="nav-link {{ request()->routeIs('purchase') ? 'nav_active' : '' }}">Add
-                                        Purchase</a>
-                                </li>
-                            @endif
-                            @if (Auth::user()->can('purchase.list'))
-                                <li class="nav-item">
-                                    <a href="{{ route('purchase.view') }}"
-                                        class="nav-link {{ request()->routeIs('purchase.view') ? 'nav_active' : '' }}">Manage
-                                        Purchase</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </li>
-            @endif
+
             <li class="nav-item">
                 <a href="{{ route('via.sale') }}"
                     class="nav-link {{ request()->routeIs('via.sale') ? 'nav_active' : '' }}">
@@ -268,6 +294,15 @@
                     </a>
                 </li>
             @endif
+
+                <li class="nav-item">
+                    <a href="{{ route('expanse.dashboard') }}"
+                        class="nav-link {{ request()->routeIs('expanse.dashboard') ? 'nav_active' : '' }}">
+                        <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
+                        <span class="link-title">Expanse Dashboard</span>
+                    </a>
+                </li>
+
             @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
@@ -368,14 +403,14 @@
                 <a href="{{ route('convenience') }}"
                     class="nav-link {{ request()->routeIs('convenience') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Convenience Bill</span>
+                    <span class="link-title">Conveyance Bill</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('convenience.view') }}"
                     class="nav-link {{ request()->routeIs('convenience.view') ? 'nav_active' : '' }}">
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Convenience Report</span>
+                    <span class="link-title">Conveyance Report</span>
                 </a>
             </li>
 

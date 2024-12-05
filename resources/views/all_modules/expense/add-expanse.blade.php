@@ -93,5 +93,6 @@
     </div><!-- Row -->
     <div>
         <button type="submit" class="btn btn-primary save_expanse">Save</button>
+        <button type="submit" class="btn btn-primary save_expanse_checkout">Checkout</button>
     </div>
 </form>

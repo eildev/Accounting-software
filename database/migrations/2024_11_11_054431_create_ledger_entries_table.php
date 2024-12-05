@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('transaction_date')->nullable();
             $table->unsignedBigInteger('transaction_by')->nullable(); // Foreign key linking to the users table.n
             $table->foreign('transaction_by')->references('id')->on('users');
+            $table->enum('transaction_type', ['credit', 'debit'])->nullable();
             $table->timestamps();
         });
     }

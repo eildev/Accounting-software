@@ -6,13 +6,13 @@
 <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
     <div class="">
 
-        <h4 class="text-right"><a href="{{route('customer.view')}}" class="btn btn-info">View All Customer</a></h4>
+        <h4 class="text-right"><a href="{{route('customer.view')}}" class="btn" style="background-color: #6571FF">View All Customer</a></h4>
     </div>
 </div>
 <div class="col-md-12 stretch-card">
 <div class="card">
 	<div class="card-body">
-		<h6 class="card-title text-info">Add Customer</h6>
+		<h6 class="card-title " style="color:#6571FF">Add Customer</h6>
 			<form id="myValidForm" action="{{route('customer.store')}}" method="post"  >
 				@csrf
 				<div class="row">
