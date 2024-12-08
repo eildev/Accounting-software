@@ -1,5 +1,5 @@
 <div class="row">
-    <div class=" col-md-7 col-lg-7  col-12 grid-margin primary-color-text stretch-card">
+    <div class=" col-md-7 col-12 grid-margin primary-color-text stretch-card">
         <div class="card ">
             <div class="card-body secondary-color">
                 <div class="d-flex justify-content-between">
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex gap-2 justify-content-around mt-3 mb-1  secondary-color">
+                <div class="m-2 mt-3 mb-1  secondary-color">
                     <div class="row ">
                         <div class="col-md-3 col-6 bg-color-white card-border mr-1">
                             <div class="card-body rounded-3" id="transportationClick">
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class=" col-md-5 col-lg-5 col-12 primary-color-text">
+    <div class=" col-md-5  col-12 primary-color-text">
         <div class="card">
             <div class="card-body secondary-color">
                 <div class="d-flex justify-content-between mb-2">
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </span>
-                <div class="row mt-4" style="padding-top: 24px;">
+                <div class="row mt-4" style="padding-top: =10px;">
                     <div class="col-md-12 d-flex justify-content-between">
 
                         <div class="fs-5 mt-1 ">

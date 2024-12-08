@@ -46,7 +46,11 @@
             .primary-color-text {
                 color: #1E62E4
             }
-
+            .card-border:hover {
+                background-color: #1E62E4;
+                color: #fff;
+                border-radius: 10px;
+            }
             /* //Salary Sheet table // */
             .custom-table th,
             .custom-table td {
@@ -327,5 +331,5 @@
     </div> <!-- row -->
 
     <!---------------------------------Convenience End------------------>
-    
+
 @endsection
