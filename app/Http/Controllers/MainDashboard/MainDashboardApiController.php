@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class MainDashboardApiController extends Controller
 {
+
     public function mainDashboardData()
     {
         try {
@@ -89,7 +90,7 @@ class MainDashboardApiController extends Controller
         }
     }
 
-    //Dashboard Profit Loss api controller 
+    //Dashboard Profit Loss api controller
     public function profitLoss()
     {
         try {
@@ -173,7 +174,7 @@ class MainDashboardApiController extends Controller
         }
     }
 
-    //Dashboard sale Analytics api controller 
+    //Dashboard sale Analytics api controller
     public function saleAnalytics()
     {
         try {

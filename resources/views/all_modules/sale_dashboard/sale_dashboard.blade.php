@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div>
-                <h3>Export Today’s Sales
+                <h3>Today’s Sales
                 </h3>
                 <h5 class="mt-2">Sales Summery
                 </h5>
@@ -22,7 +22,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-12 mt-3">
-                                    <h3 class="card-result-color mb-1">1K</h3>
+                                    <h3 class="card-result-color mb-1">{{ $data[0]['totalSalesAmount'] }}</h3>
                                     <P class="employe-name">Total Sales
                                     </P>
                                 </div>
@@ -38,11 +38,10 @@
                                 <img height="50px" width="50px"
                                     src="{{ asset('uploads/customer_payable_dashboard/TotalOrder.png') }}"
                                     alt="Total Order ">
-
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-12 mt-3">
-                                    <h3 class="card-result-color mb-1">1k</h3>
+                                    <h3 class="card-result-color mb-1">{{ $data[0]['totalOrderCount'] }}</h3>
                                     <P class="employe-name">Total Order </P>
                                 </div>
                             </div>
@@ -78,7 +77,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12 col-md-12 mt-3 ">
-                                    <h3 class="card-result-color mb-1">0</h3>
+                                    <h3 class="card-result-color mb-1">{{ $data[0]['todayCutomer'] }}</h3>
                                     <P class="employe-name">New Customers
                                     </P>
                                 </div>
