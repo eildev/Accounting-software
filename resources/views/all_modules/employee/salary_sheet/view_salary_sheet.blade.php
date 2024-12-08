@@ -71,20 +71,15 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
                                 <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending' , ${paySlips.employee_id})">Pending</a>
                                 <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
-                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'paid')">Paid</a>
+                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'processing')">Processing</a>
                             </div>
                         </div>
                         </td>
                         <td id="editButtonContainer${paySlips.id}">
-                             ${paySlips.status === 'pending' ? `
-                                                                                                                                                                                                                                                    <a href="/employee/profile/edit/${paySlips.employee_id}/${paySlips.id}" class="btn btn-sm btn-primary btn-icon payslip_edit" data-id="${paySlips.employee_id}">
-                                                                                                                                                                                                                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                                                                                                                                                                                                                    </a>` : ''
-                            }
-
-                                <a href="#" class="btn btn-sm btn-primary btn-icon payment_salary" data-id="${paySlips.id}">
-                                    <i class="fa-solid fa-money-check-dollar"></i>
-                                </a> 
+                            ${paySlips.status === 'pending'  ? `</a>` : ''}
+                            <a href="#" class="btn btn-sm btn-primary btn-icon payment_salary" data-id="${paySlips.id}">
+                                <i class="fa-solid fa-money-check-dollar"></i>
+                            </a>
                     </td>
                     </tr>
                 `);
@@ -159,6 +154,10 @@
         fetchPaySlips();
         ///Status Change
         function changeStatusPayslip(id, status, employee_id) {
+            if ($('#statusBadge' + id).text().trim().toLowerCase() === 'paid') {
+                toastr.warning("Status cannot be changed as it's already 'Paid'.");
+                return;
+            }
             $.ajax({
                 url: '/update-status-payslip',
                 type: 'POST',
@@ -173,13 +172,15 @@
                     badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
                     // Remove existing badge classes and add new one based on status
-                    badge.removeClass('bg-warning bg-success bg-primary');
+                    badge.removeClass('bg-warning bg-success bg-primary bg-info');
                     if (status === 'pending') {
                         badge.addClass('bg-warning');
                     } else if (status === 'approved') {
                         badge.addClass('bg-success');
                     } else if (status === 'paid') {
                         badge.addClass('bg-primary');
+                    } else if (status === 'processing') {
+                        badge.addClass('bg-info');
                     }
                     const editButtonContainer = $('#editButtonContainer' + id);
                     if (status === 'pending') {

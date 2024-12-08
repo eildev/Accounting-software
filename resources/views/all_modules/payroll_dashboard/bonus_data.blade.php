@@ -27,7 +27,6 @@
                                 <option value="12" data-month="12">December</option>
                             </select>
                         </div>
-
                     </div>
                 </div>
                 <div class="d-flex gap-2 justify-content-around mt-3 mb-1 secondary-color">
