@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-12 col-md-7 col-lg-7  grid-margin primary-color-text stretch-card">
-        <div class="card ">
+    <div class="col-12 col-md-7 mb-5 grid-margin primary-color-text stretch-card">
+        <div class="card pb-4" style="padding: 7px">
             <div class="card-body secondary-color">
                 <div class="d-flex justify-content-between">
                     <h4>All Bonus</h4>
@@ -88,6 +88,10 @@
                             <span id="paid">{{ $data['result']['Paid'] }}</span>
                         </div>
                         <div class="d-flex fs-5 mb-2 justify-content-between">
+                            <span>Processing</span>
+                            <span id="processing">{{ $data['result']['Processing'] }}</span>
+                        </div>
+                        <div class="d-flex fs-5 mb-2 justify-content-between">
                             <span>Pending</span>
                             <span id="pending">{{ $data['result']['Pending'] }}</span>
                         </div>
@@ -146,6 +150,7 @@
                     $('#paid').text(response.result.Paid);
                     $('#pending').text(response.result.Pending);
                     $('#unpaid').text(response.result.Unpaid);
+                    $('#processing').text(response.result.Processing);
                     $('#nameSelected').text("Festival Bonus");
                     $('#festivalClick').addClass('primary-color').removeClass(
                         'bg-color-white');
@@ -171,6 +176,7 @@
                     $('#paid').text(response.result.Paid);
                     $('#pending').text(response.result.Pending);
                     $('#unpaid').text(response.result.Unpaid);
+                    $('#processing').text(response.result.Processing);
                     $('#nameSelected').text("Performance Bonus");
                     $('#performanceClick').addClass('primary-color').removeClass(
                         'bg-color-white');
@@ -196,6 +202,7 @@
                     $('#paid').text(response.result.Paid);
                     $('#pending').text(response.result.Pending);
                     $('#unpaid').text(response.result.Unpaid);
+                    $('#processing').text(response.result.Processing);
                     $('#nameSelected').text("Other Bonus");
                     $('#festivalClick').removeClass('primary-color').addClass(
                         'bg-color-white');
