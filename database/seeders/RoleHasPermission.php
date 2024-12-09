@@ -63,7 +63,15 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 95, 'role_id' => 1], ['permission_id' => 96, 'role_id' => 1],
             ['permission_id' => 97, 'role_id' => 1], ['permission_id' => 98, 'role_id' => 1],
             ['permission_id' => 99, 'role_id' => 1],['permission_id' => 100, 'role_id' => 1],
-            ['permission_id' => 101, 'role_id' => 1],
+            ['permission_id' => 101, 'role_id' => 1],['permission_id' => 102, 'role_id' => 1],
+            ['permission_id' => 103, 'role_id' => 1],['permission_id' => 104, 'role_id' => 1],
+            ['permission_id' => 105, 'role_id' => 1],['permission_id' => 106, 'role_id' => 1],
+            ['permission_id' => 107, 'role_id' => 1],  ['permission_id' => 108, 'role_id' => 1],
+            ['permission_id' => 109, 'role_id' => 1], ['permission_id' => 110, 'role_id' => 1],
+            ['permission_id' => 111, 'role_id' => 1], ['permission_id' => 112, 'role_id' => 1],
+            ['permission_id' => 113, 'role_id' => 1],['permission_id' => 114, 'role_id' => 1],
+            ['permission_id' => 115, 'role_id' => 1],['permission_id' => 116, 'role_id' => 1],
+            //Role 2
             ['permission_id' => 1, 'role_id' => 2],
             ['permission_id' => 2, 'role_id' => 2], ['permission_id' => 3, 'role_id' => 2],
             ['permission_id' => 4, 'role_id' => 2], ['permission_id' => 5, 'role_id' => 2],
@@ -149,7 +157,10 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 90, 'role_id' => 3],
             ['permission_id' => 95, 'role_id' => 3], ['permission_id' => 96, 'role_id' => 3],
             ['permission_id' => 97, 'role_id' => 3], ['permission_id' => 98, 'role_id' => 3],
-            ['permission_id' => 99, 'role_id' => 3]
+            ['permission_id' => 99, 'role_id' => 3],
+
+            ['permission_id' => 67, 'role_id' => 4], ['permission_id' => 42, 'role_id' => 4],
+            ['permission_id' => 63, 'role_id' => 4],
         ];
 
         DB::table('role_has_permissions')->upsert(

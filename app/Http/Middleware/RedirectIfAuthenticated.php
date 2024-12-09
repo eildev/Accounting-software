@@ -21,6 +21,12 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+
+                $user = Auth::guard($guard)->user();
+                if ($user->role === 'employee') {
+                    return redirect('/employee/profile/' . $user->employee_id);
+                }
+
                 return redirect(RouteServiceProvider::HOME);
             }
         }

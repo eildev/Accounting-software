@@ -103,6 +103,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/employee/profile/{id}', 'profile')->name('employee.profile');
         Route::get('/employee/profile/edit/{id}/{payslip_id}', 'editProfile');
         Route::post('/employee/profile/payslip/update', 'updateProfilepaySlip');
+
         ///////////////////////Employee Bonuse////////////////////////
         Route::get('/employee/bonus', 'indexBonus')->name('employee.bonus');
         Route::post('/employee/bonus/store', 'bonusStore');
@@ -293,6 +294,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/manage/edit/{id}', 'AdminManageEdit')->name('admin.manage.edit');
         Route::get('/admin/manage/delete/{id}', 'AdminManageDelete')->name('admin.manage.delete');
         Route::post('/admin/manage/update/{id}', 'AdminManageUpdate')->name('update.admin.manage');
+        Route::get('/get-employee-data/{id}', 'EmployeedData');
     });
 
     // Ledger related route
