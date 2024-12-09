@@ -217,18 +217,19 @@ class RolePermissionController extends Controller
             'password' => 'required',
             'role_id' => 'required',
         ]);
+        // dd($request->employee_id);
 
-        $existingUser = User::where('employee_id', $request->employee_id)->first();
-        if ($existingUser) {
-            $notification = [
-                'warning' => 'This Employee ID already exists.',
-                'alert-type' => 'danger'
-            ];
-            return redirect()->back()->with($notification);
-        }
         $user = new User;
-        $user->employee_id = $request->employee_id;
-        if($user->employee_id){
+        if($request->employee_id){
+            $existingUser = User::where('employee_id', $request->employee_id)->first();
+            if ($existingUser) {
+                $notification = [
+                    'warning' => 'This Employee ID already exists.',
+                    'alert-type' => 'danger'
+                ];
+                return redirect()->back()->with($notification);
+            }
+            $user->employee_id = $request->employee_id;
             $user->role = 'employee';
         }
         $user->name = $request->name;
