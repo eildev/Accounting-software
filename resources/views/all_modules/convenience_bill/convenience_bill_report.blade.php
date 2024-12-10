@@ -52,7 +52,7 @@
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="changeStatus({{ $item->id }}, 'approved')">Approved</a>
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="changeStatus({{ $item->id }}, 'paid')">Paid</a>
+                                                                onclick="changeStatus({{ $item->id }}, 'processing')">Processing</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -88,6 +88,10 @@
 
     <script>
         function changeStatus(id, status) {
+            if ($('#statusBadge' + id).text().trim().toLowerCase() === 'paid') {
+                toastr.warning("Status cannot be changed as it's already 'Paid'.");
+                return;
+            }
             $.ajax({
                 url: '/update-status', // Adjust with your route URL
                 type: 'POST',
@@ -107,6 +111,9 @@
                         badge.removeClass('bg-warning bg-primary').addClass('bg-success');
                     } else if (status === 'paid') {
                         badge.removeClass('bg-warning bg-success').addClass('bg-primary');
+                    }
+                    else if (status === 'processing') {
+                        badge.removeClass('bg-warning bg-success bg-primary').addClass('bg-info');
                     }
                 },
                 error: function(error) {

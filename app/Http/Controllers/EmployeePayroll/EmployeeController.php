@@ -110,6 +110,7 @@ class EmployeeController extends Controller
         return redirect()->route('employee.view')->with($notification);
     }
     public function profile($id){
+        
         $employee = Employee::findOrFail($id);
         $salaryStructure = SalarySturcture::where('employee_id', $employee->id)->first();
         $conveniences = Convenience::where('employee_id', $employee->id)->get();
@@ -133,6 +134,7 @@ class EmployeeController extends Controller
         return view('all_modules.employee.employee_profile', compact('employee','salaryStructure','conveniences','bonuses','totalBonusAmount','conveniencesTotalAmount','conveniencesAmount','bonuses','paySlip'));
 
     }
+
     //Profile Edit
     public function editProfile($id,$payslips_id){
         $employee = Employee::findOrFail($id);

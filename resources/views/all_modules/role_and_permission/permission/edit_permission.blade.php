@@ -33,6 +33,11 @@
                                     data-width="100%"  >
                                         <option selected disabled>Select Group Name</option>
                                         <option value="dashboard" {{ $permissions->group_name == 'dashboard' ? 'selected': ''}}>Dashboard</option>
+                                        <option value="accounting" {{ $permissions->group_name == 'accounting' ? 'selected': ''}}>Accounting</option>
+                                        <option value="ledger" {{ $permissions->group_name == 'ledger' ? 'selected': ''}}>Ledgers</option>
+                                        <option value="assets" {{ $permissions->group_name == 'assets' ? 'selected': ''}}>Assets</option>
+                                        <option value="employee-payroll" {{ $permissions->group_name == 'employee-payroll' ? 'selected': ''}}>Employee Payroll</option>
+                                        <option value="service-sale" {{ $permissions->group_name == 'service-sale' ? 'selected': ''}}>Service Sale</option>
                                         <option value="sale" {{ $permissions->group_name == 'sale' ? 'selected': ''}}>Sale</option>
                                         <option value="products" {{ $permissions->group_name == 'products' ? 'selected': ''}}>Products</option>
                                         <option value="category" {{ $permissions->group_name == 'category' ? 'selected': ''}}>Category</option>
@@ -57,6 +62,7 @@
                                         <option value="report" {{ $permissions->group_name == 'report' ? 'selected': ''}}>Report</option>
                                         <option value="settings" {{ $permissions->group_name == 'settings' ? 'selected': ''}}>Settings</option>
                                         <option value="branch" {{ $permissions->group_name == 'branch' ? 'selected': ''}}>Branch</option>
+                                        <option value="other" {{ $permissions->group_name == 'other' ? 'selected': ''}}>Others</option>
                                 </select>
                                 @error('group_name')
                                     <div class="invalid-feedback">{{ $message }}</div>

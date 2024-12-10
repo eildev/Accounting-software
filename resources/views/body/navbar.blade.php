@@ -314,26 +314,30 @@
                         </div>
                     </div>
                     <ul class="list-unstyled p-1">
-                        <li class="dropdown-item py-2">
-                            <a href="{{ route('user.profile') }}" class="text-body ms-0">
+                        <a href="{{ route('user.profile') }}" class="text-body ms-0">
+                            <li class="dropdown-item py-2">
+
                                 <i class="me-2 icon-md" data-feather="user"></i>
                                 <span>Profile</span>
-                            </a>
-                        </li>
-                        <li class="dropdown-item py-2">
-                            <a href="{{ route('user.change.password') }}" class="text-body ms-0">
+
+                            </li>
+                        </a>
+                        <a href="{{ route('user.change.password') }}" class="text-body ms-0">
+                            <li class="dropdown-item py-2">
                                 <i class="me-2 icon-md" data-feather="repeat"></i>
                                 <span>Change Password</span>
-                            </a>
-                        </li>
+                            </li>
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <li class="dropdown-item py-2">
-                                <button class="text-body ms-0 btn">
+                            <button class="text-body btn ms-0">
+                                <li class="dropdown-item py-2">
+
                                     <i class="me-2 icon-md" data-feather="log-out"></i>
                                     <span class="">Log Out</span>
-                                </button>
-                            </li>
+
+                                </li>
+                            </button>
                         </form>
                     </ul>
                 </div>

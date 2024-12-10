@@ -55,17 +55,19 @@ class PayrollDashboardController extends Controller
         $successfullyPaid = $festivalBonuses->where('status', 'paid')->count();
         $pending = $festivalBonuses->where('status', 'pending')->count();
         $unpaid = $festivalBonuses->where('status', 'approved')->count();
-
+        $processing = $festivalBonuses->where('status', 'processing')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
+        $processingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
 
         // Prepare the result
         $result = [
             'Paid' => round($successfullyPaidPercentage, 2) . '%',
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
+            'Processing' => round($processingPercentage, 2) . '%',
         ];
         ////////////////////////////////////////////////Salary Donut Chart///////////////////////////////////////////////////////
 
@@ -215,17 +217,20 @@ class PayrollDashboardController extends Controller
         $successfullyPaid = $festivalBonuses->where('status', 'paid')->count();
         $pending = $festivalBonuses->where('status', 'pending')->count();
         $unpaid = $festivalBonuses->where('status', 'approved')->count();
+        $processing = $festivalBonuses->where('status', 'processing')->count();
 
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
+        $processsingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
 
         // Prepare the result
         $result = [
             'Paid' => round($successfullyPaidPercentage, 2) . '%',
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
+            'Processing' => round($processsingPercentage, 2) . '%',
         ];
 
         // Return the response
@@ -249,17 +254,18 @@ class PayrollDashboardController extends Controller
         $successfullyPaid = $performanceBonuses->where('status', 'paid')->count();
         $pending = $performanceBonuses->where('status', 'pending')->count();
         $unpaid = $performanceBonuses->where('status', 'approved')->count();
-
+        $processing = $performanceBonuses->where('status', 'processing')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
-
+        $processsingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
         // Prepare the result
         $result = [
             'Paid' => round($successfullyPaidPercentage, 2) . '%',
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
+            'Processing' => round($processsingPercentage, 2) . '%',
         ];
 
         // Return the response
@@ -283,17 +289,18 @@ class PayrollDashboardController extends Controller
         $successfullyPaid = $otherBonuses->where('status', 'paid')->count();
         $pending = $otherBonuses->where('status', 'pending')->count();
         $unpaid = $otherBonuses->where('status', 'approved')->count();
-
+        $processing = $otherBonuses->where('status', 'processing')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
-
+        $processsingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
         // Prepare the result
         $result = [
             'Paid' => round($successfullyPaidPercentage, 2) . '%',
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
+            'Processing' => round($processsingPercentage, 2) . '%',
         ];
 
         // Return the response

@@ -306,7 +306,7 @@
                                             <a href="#" onclick="previewPayslip()" class="btn btn-sm fs-5"
                                                 style="background-color: #6571FF;color:#fff">Genarate Slip</a>
                                         </div> --}}
-
+                                        @if (Auth::user()->can('genarate.payslip.single'))
                                         @if (Request::is('employee/profile/*') && !Request::is('employee/profile/edit/*'))
                                             <div class="col-md-12 text-center mt-2">
                                                 <a href="#" onclick="previewPayslip()" class="btn btn-sm fs-5"
@@ -315,7 +315,7 @@
                                                 </a>
                                             </div>
                                         @endif
-
+                                        @endif
                                         @if (Request::is('employee/profile/edit/*'))
                                             <div class="col-md-12 text-center mt-2">
                                                 <a href="#" class="btn btn-sm fs-5" onclick="updatePayslip()"

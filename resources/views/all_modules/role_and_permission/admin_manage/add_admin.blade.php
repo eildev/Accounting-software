@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
             <div class="">
-                <h4 class="text-right"><a href="{{ route('admin.all') }}" class="btn btn-info">All Admin</a></h4>
+                <h4 class="text-right"><a href="{{ route('admin.all') }}" class="btn" style="background-color:#5660D9">All Admin</a></h4>
             </div>
         </div>
         <div class="col-md-12 grid-margin stretch-card">
@@ -15,6 +15,23 @@
 
                     <form class="forms-sample" id="myValidForms" method="post" action="{{ route('admin.store') }}">
                         @csrf
+                        <div class="row mb-3 ">
+                            <label for="exampleInput1Username2" class="col-sm-3 col-form-label">Employee Select</label>
+                            <div class="col-md-7 form-valid-groupss">
+                                @php 
+                                     $employees = App\Models\EmployeePayroll\Employee::all();
+                                @endphp
+                                <select class="form-control js-example-basic-single"  name="employee_id" id="employeeSelect">
+                                    <option value="" selected disabled>Select Employee</option>
+                                    @foreach ($employees as $employee)
+                                    <option value="{{$employee->id}}" >{{$employee->full_name}}</option>
+                                    @endforeach
+                                </select>
+                             </div>
+                             <div class="col-md-2">
+                                <button type="button" id="unselectButton" class="btn" style="background-color:#5660D9">Unselect</button>
+                            </div>
+                        </div>
                         <div class="row mb-3 ">
                             <label for="exampleInput1Username2" class="col-sm-3 col-form-label">Name <span
                                     class="text-danger">*</span></label>
@@ -143,5 +160,51 @@
                 },
             });
         });
+
+        $(document).ready(function () {
+            $('#unselectButton').on('click', function () {
+            $('#employeeSelect').val('').trigger('change'); // Clear dropdown
+            clearForm(); // Clear all related fields
+        });
+
+        // Clear form fields function
+        function clearForm() {
+            $('input[name="name"]').val('');
+            $('input[name="email"]').val('');
+            $('input[name="phone"]').val('');
+            $('input[name="address"]').val('');
+            $('input[name="password"]').val('');
+        }
+        $('#employeeSelect').on('change', function () {
+            const employeeId = $(this).val();
+
+            if (employeeId) {
+                $.ajax({
+                    url: `/get-employee-data/${employeeId}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            // Populate form fields with employee data
+                            $('input[name="name"]').val(data.employee.name || '');
+                            $('input[name="email"]').val(data.employee.email || '');
+                            $('input[name="phone"]').val(data.employee.phone || '');
+                            $('input[name="address"]').val(data.employee.address || '');
+                        } else {
+                            alert('Employee data not found.');
+                            clearForm();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching employee data:', error);
+                        clearForm();
+                    }
+                });
+            } else {
+                clearForm();
+            }
+        });
+
+    });
     </script>
 @endsection

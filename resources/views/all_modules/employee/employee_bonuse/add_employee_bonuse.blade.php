@@ -250,7 +250,7 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${bonus.id}">
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'pending')">Pending</a>
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'approved')">Approved</a>
-                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'paid')">Paid</a>
+                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'processing')">Processing</a>
                                             </div>
                                         </div>
 
@@ -486,6 +486,10 @@
         });
         ////Status Change
         function changeStatusBonus(id, status) {
+            if ($('#statusBadge' + id).text().trim().toLowerCase() === 'paid') {
+                toastr.warning("Status cannot be changed as it's already 'Paid'.");
+                return;
+            }
     $.ajax({
         url: '/update-status-bonus',
         type: 'POST',
@@ -499,13 +503,16 @@
             badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
             // Remove existing badge classes and add new one based on status
-            badge.removeClass('bg-warning bg-success bg-primary');
+            badge.removeClass('bg-warning bg-success bg-primary bg-info');
             if (status === 'pending') {
                 badge.addClass('bg-warning');
             } else if (status === 'approved') {
                 badge.addClass('bg-success');
             } else if (status === 'paid') {
                 badge.addClass('bg-primary');
+            }
+            else if (status === 'processing') {
+                badge.addClass('bg-info');
             }
             // Show or hide the delete button based on the new status
             if (status === 'pending') {

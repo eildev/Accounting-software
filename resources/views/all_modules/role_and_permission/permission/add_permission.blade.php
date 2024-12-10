@@ -37,6 +37,11 @@
                                         name="group_name" data-width="100%">
                                         <option selected disabled>Select Group Name</option>
                                         <option value="dashboard">Dashboard</option>
+                                        <option value="accounting">Accounting</option>
+                                        <option value="ledger">Ledgers</option>
+                                        <option value="assets">Assets</option>
+                                        <option value="employee-payroll">Employee Payroll</option>
+                                        <option value="service-sale">Service Sale</option>
                                         <option value="pos">Pos</option>
                                         <option value="pos-manage">Pos Manage</option>
                                         <option value="products">Products</option>
@@ -52,7 +57,7 @@
                                         <option value="promotion-details">Promotion Details</option>
                                         <option value="damage">Damage</option>
                                         <option value="bank">Bank</option>
-                                        <option value="expense">Expense</option>
+                                        {{-- <option value="expense">Expense</option> --}}
                                         <option value="transaction">Transaction</option>
                                         <option value="customer">Customer</option>
                                         <option value="employee">Employee</option>
@@ -65,6 +70,7 @@
                                         <option value="settings">Settings</option>
                                         <option value="branch">Branch</option>
                                         <option value="return">Return</option>
+                                        <option value="other">Others</option>
                                     </select>
                                     @error('group_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
