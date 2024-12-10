@@ -158,6 +158,8 @@ class PermissionSeeder extends Seeder
             ['id' => 114, 'name' => 'asset.managment', 'guard_name' => 'web', 'group_name' => 'assets'],
             ['id' => 115, 'name' => 'asset.revaluation', 'guard_name' => 'web', 'group_name' => 'assets'],
             ['id' => 116, 'name' => 'setting.and.customize.menu', 'guard_name' => 'web', 'group_name' => 'settings'],
+            ['id' => 117, 'name' => 'genarate.payslip.single', 'guard_name' => 'web', 'group_name' => 'other'],
+            ['id' => 118, 'name' => 'genarate.payslip.all', 'guard_name' => 'web', 'group_name' => 'other'],
             // add more permissions as needed
         ];
 

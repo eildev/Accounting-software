@@ -28,10 +28,12 @@
                         <div class="">
                             <h6 class="card-title ">View Employee List</h6>
                         </div>
+                        @if (Auth::user()->can('  genarate.payslip.all'))
                         <div class="">
                             <a href="javascript:void(0)" class="btn" id="generate-slip"
                                 style="background: #5660D9">Generate Slip</a>
                         </div>
+                        @endif
                     </div>
                     <div id="" class="table-responsive">
                         <table id="example" class="table">
