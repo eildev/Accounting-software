@@ -160,8 +160,9 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 97, 'role_id' => 3], ['permission_id' => 98, 'role_id' => 3],
             ['permission_id' => 99, 'role_id' => 3],
 
-            // ['permission_id' => 67, 'role_id' => 4], ['permission_id' => 42, 'role_id' => 4],
-            // ['permission_id' => 63, 'role_id' => 4],
+            ['permission_id' => 67, 'role_id' => 4], ['permission_id' => 70, 'role_id' => 4],
+            ['permission_id' => 72, 'role_id' => 4], ['permission_id' => 102, 'role_id' => 4],
+            ['permission_id' => 107, 'role_id' => 4],
         ];
 
         DB::table('role_has_permissions')->upsert(
