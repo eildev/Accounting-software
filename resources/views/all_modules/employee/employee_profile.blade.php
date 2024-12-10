@@ -1,6 +1,12 @@
 @extends('master')
 @section('title', '| Employee Profile Employee')
 @section('admin')
+<style>
+    .nav-link:hover, .nav-link:focus {
+    color: #5660D9 !important;
+    /* background-color: var(--nav-hover-background-color); */
+}
+</style>
     <div class="row">
         <div class="col-12  grid-margin">
             <div class="card">
@@ -21,24 +27,28 @@
                 </div>
                 <div class="d-flex justify-content-center p-3 rounded-bottom">
                     <ul class="d-flex align-items-center m-0 p-0 nav nav-tabs" id="myTab" role="tablist">
+
                         <li class="d-flex align-items-center active">
                             <i class="me-1 icon-md" data-feather="credit-card"></i>
-                            <a class="pt-1px d-none d-md-block text-primary nav-link active" id="Home-tab"
+                            <a class="pt-1px d-md-block text-dark nav-link active" id="Home-tab"
                                 data-bs-toggle="tab" href="#home" role="tab" aria-controls="home"
                                 aria-selected="true">Salary Month Info</a>
                         </li>
+
                         <li class="ms-3 ps-3 border-start d-flex align-items-center">
                             <i class="me-1 icon-md" data-feather="dollar-sign"></i>
-                            <a class="pt-1px d-none d-md-block text-body nav-link" id="convenience-tab" data-bs-toggle="tab"
+                            <a class="pt-1px d-md-block text-body nav-link" id="convenience-tab" data-bs-toggle="tab"
                                 href="#convenience" role="tab" aria-controls="convenience"
                                 aria-selected="false">Convenience Bill</a>
                         </li>
+
                         <li class="ms-3 ps-3 border-start d-flex align-items-center">
                             <i class="me-1 icon-md" data-feather="file-text"></i>
-                            <a class="pt-1px d-none d-md-block text-body nav-link" id="payslip-tab" data-bs-toggle="tab"
+                            <a class="pt-1px d-md-block text-body nav-link" id="payslip-tab" data-bs-toggle="tab"
                                 href="#payslip" role="tab" aria-controls="payslip" aria-selected="false">PaySlip
                                 Genarator</a>
                         </li>
+
                     </ul>
                 </div>
             </div>
@@ -120,7 +130,7 @@
                                                 <th>Total Deductions</th>
                                                 <th>Total Net Salary</th>
                                                 <th>Total Bonus Amount</th>
-                                                <th>Total Convenience Amount</th>
+                                                <th>Total Conveyance Amount</th>
 
                                                 <th>Status</th>
                                             </tr>
@@ -135,7 +145,20 @@
                         <div class="tab-pane fade " id="convenience" role="tabpanel" aria-labelledby="convenience-tab">
                             <div class="card rounded">
                                 <div class="card-body">
-                                    <p class="mb-3 tx-14">Convenience Bill</p>
+
+                                    <div class="col-md-12 grid-margin stretch-card">
+
+                                        <div
+                                            class="col-md-12 grid-margin stretch-card d-flex  mb-0 justify-content-between">
+                                            <p class="mb-3 tx-14">Conveyance Bill</p>
+                                            <div class="">
+                                                <h5 class="text-right"><a href="{{ route('convenience') }}"
+                                                        class="btn btn-sm" style="background: #5660D9">Add Conveyance
+                                                        Bill</a></h5>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -189,7 +212,7 @@
                         <div class="tab-pane fade " id="payslip" role="tabpanel" aria-labelledby="payslip-tab">
                             <div class="card rounded">
                                 <div class="card-body">
-                                    <p class="mb-3 tx-14">PaySlip Genarator </p>
+                                    <p class="mb-3 tx-14">Current Month Salary</p>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -242,11 +265,11 @@
                                                     </tr>
                                                     <tr>
                                                         @if (Request::is('employee/profile/edit/*'))
-                                                            <td>Total Convenience Amount</td>
+                                                            <td>Total Conveyance Amount</td>
                                                             <td>{{ $conveniencesTotalAmount + $payslip_id->total_convenience_amount ?? 0 }}<span>.00</span>
                                                             </td>
                                                         @else
-                                                            <td>Total Convenience Amount</td>
+                                                            <td>Total Conveyance Amount</td>
                                                             <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
                                                         @endif
 
@@ -307,14 +330,14 @@
                                                 style="background-color: #6571FF;color:#fff">Genarate Slip</a>
                                         </div> --}}
                                         @if (Auth::user()->can('genarate.payslip.single'))
-                                        @if (Request::is('employee/profile/*') && !Request::is('employee/profile/edit/*'))
-                                            <div class="col-md-12 text-center mt-2">
-                                                <a href="#" onclick="previewPayslip()" class="btn btn-sm fs-5"
-                                                    style="background-color: #6571FF; color:#fff;">
-                                                    Generate Slip
-                                                </a>
-                                            </div>
-                                        @endif
+                                            @if (Request::is('employee/profile/*') && !Request::is('employee/profile/edit/*'))
+                                                <div class="col-md-12 text-center mt-2">
+                                                    <a href="#" onclick="previewPayslip()" class="btn btn-sm fs-5"
+                                                        style="background-color: #6571FF; color:#fff;">
+                                                        Generate Slip
+                                                    </a>
+                                                </div>
+                                            @endif
                                         @endif
                                         @if (Request::is('employee/profile/edit/*'))
                                             <div class="col-md-12 text-center mt-2">
@@ -494,7 +517,7 @@
                         <div style="text-align: center; margin-bottom: 20px;">
                             <h2 style="font-weight: bold; margin: 0;">Payslip</h2>
                             @if (Request::is('employee/profile/edit/*'))
-                            <p class="mt-2">Pay Date: {{ $payslip_id->pay_period_date }}</p>
+                                <p class="mt-2">Pay Date: {{ $payslip_id->pay_period_date }}</p>
                             @endif
                         </div>
 
@@ -545,11 +568,11 @@
                                     </tr>
                                     <tr>
                                         @if (Request::is('employee/profile/edit/*'))
-                                            <td>Total Convenience Amount</td>
+                                            <td>Total Conveyance Amount</td>
                                             <td>{{ $conveniencesTotalAmount + $payslip_id->total_convenience_amount ?? 0 }}<span>.00</span>
                                             </td>
                                         @else
-                                            <td>Total Convenience Amount</td>
+                                            <td>Total Conveyance Amount</td>
                                             <td>{{ $conveniencesTotalAmount ?? 0 }}<span>.00</span></td>
                                         @endif
                                     </tr>

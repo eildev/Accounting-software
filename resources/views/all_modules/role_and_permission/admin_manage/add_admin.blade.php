@@ -18,7 +18,7 @@
                         <div class="row mb-3 ">
                             <label for="exampleInput1Username2" class="col-sm-3 col-form-label">Employee Select</label>
                             <div class="col-md-7 form-valid-groupss">
-                                @php 
+                                @php
                                      $employees = App\Models\EmployeePayroll\Employee::all();
                                 @endphp
                                 <select class="form-control js-example-basic-single"  name="employee_id" id="employeeSelect">

@@ -196,7 +196,13 @@ class ConvenienceBillController extends Controller
     }
     public function convenienceView()
     {
-        $convenience = Convenience::all();
+        $user = Auth::user();
+         if($user->role === 'accountant'){
+            $convenience = Convenience::whereIn('status', ['approved', 'paid'])->get();
+        }else{
+            $convenience = Convenience::all();
+        }
+
         return view('all_modules.convenience_bill.convenience_bill_report', compact('convenience'));
     }
     public function convenienceInvoice($id)

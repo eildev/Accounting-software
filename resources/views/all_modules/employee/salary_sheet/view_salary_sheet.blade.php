@@ -37,7 +37,9 @@
         </div>
     </div>
     <script>
+         const userRole = @json(Auth::user()->role);
         function fetchPaySlips() {
+
             $.ajax({
                 url: '/employe/all/slip/view',
                 type: "GET",
@@ -61,6 +63,15 @@
                         <td>${paySlips.total_convenience_amount}</td>
                         <td>${paySlips.total_net_salary}</td>
                         <td>
+ ${
+                userRole === 'accountant'
+                    ? ` <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span id="statusBadge${paySlips.id}" class="badge text-dark
+                                    ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                    ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
+                                </span>
+                            </button>`
+                    : `
                           <div class="dropdown" id="statusChange${paySlips.id}">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span id="statusBadge${paySlips.id}" class="badge text-dark
@@ -74,7 +85,9 @@
                                 <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'processing')">Processing</a>
                             </div>
                         </div>
+                         `}
                         </td>
+
                         <td id="editButtonContainer${paySlips.id}">
                             ${paySlips.status === 'pending'  ? `</a>` : ''}
                             <a href="#" class="btn btn-sm btn-primary btn-icon payment_salary" data-id="${paySlips.id}">
