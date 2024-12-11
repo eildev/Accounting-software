@@ -405,6 +405,13 @@
                         <span class="link-title">Service Sale</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('service.sale.view') }}"
+                        class="nav-link {{ request()->routeIs('service.sale.view') ? 'nav_active' : '' }}">
+                        <i class="ms-2 link-icon" data-feather="home"></i>
+                        <span class="link-title">Service Sale Report</span>
+                    </a>
+                </li>
             @endif
             {{-- ledger related all routes  --}}
             {{-- @if (Auth::user()->can('ledger.menu'))
@@ -507,7 +514,15 @@
                     </a>
                 </li>
             @endif
-
+            @if (Auth::user()->can('salary.sheet.menu'))
+            <li class="nav-item">
+                <a href="{{ route('salary.sheet') }}"
+                    class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                    <span class="link-title">Salary Sheet</span>
+                </a>
+            </li>
+        @endif
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item nav-category">CRM</li>
                 <li class="nav-item">

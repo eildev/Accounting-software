@@ -94,6 +94,21 @@
     </style>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="col-md-12 grid-margin stretch-card d-flex  mb-0 justify-content-between">
+                        <div>
+
+                        </div>
+                        <div class="">
+                            <h4 class="text-right"><a href="{{ route('service.sale.view') }}" class="btn"
+                                    style="background: #5660D9">View Service Sale</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <form action="" id="serviceForm">
@@ -339,7 +354,7 @@
                         $('#serviceTable tbody').empty(); // Clear the table rows
                         toastr.success(response.message);
                         // Optionally reload the page
-                        window.location.reload();
+                        window.location.href = '/service/sale/view';
                     } else {
                         toastr.error(response.error || 'Something went wrong.');
                     }
