@@ -340,7 +340,7 @@
                     }
                 });
                 $.ajax({
-                    url: '/expense/category/store',
+                    url: '/recurring-expanse/category/store',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -380,7 +380,7 @@
                             $.each(categories, function(index, category) {
                                 // console.log(account);
                                 $('.expanse_category_id').append(
-                                    `<option value="${category.id}">${category.name ?? ""}</option>`
+                                    `<option value="${category.id}">${category.sub_ledger_name ?? ""}</option>`
                                 );
                             });
 

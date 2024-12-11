@@ -203,4 +203,35 @@ class MainDashboardApiController extends Controller
             ]);
         }
     }
+    public function purchaseReport()
+    {
+        try {
+            $data = [
+                ["name" => "Jan", "uv" => 4000, "pv" => 2400,],
+                ["name" => "Mar", "uv" => 3000, "pv" => 1398,],
+                ["name" => "May", "uv" => 2000, "pv" => 9800,],
+                ["name" => "Jul", "uv" => 2780, "pv" => 3908,],
+                ["name" => "Sep", "uv" => 1890, "pv" => 4800,],
+                ["name" => "Nov", "uv" => 2390, "pv" => 3800,],
+            ];
+
+            $total = number_format(3799, 2);
+
+            return response()->json([
+                'status' => 200,
+                'data' => $data,
+                'total' => $total,
+            ]);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Dashboard Footer Data Error: ' . $e->getMessage());
+
+            // Return a generic error response
+            return response()->json([
+                'status' => 500,
+                'message' => 'An error occurred while fetching the dashboard Purchase Report',
+                'error' => $e->getMessage(), // Optional: include this for debugging purposes
+            ]);
+        }
+    }
 }//Main End
