@@ -67,26 +67,26 @@
                 ${
                 userRole === 'accountant'
                     ? ` <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span id="statusBadge${paySlips.id}" class="badge text-dark
-                                        ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
-                                        ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
-                                    </span>
-                                </button>`
+                                                                <span id="statusBadge${paySlips.id}" class="badge text-dark
+                                                                    ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                                                    ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
+                                                                </span>
+                                                            </button>`
                     : `
-                              <div class="dropdown" id="statusChange${paySlips.id}">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span id="statusBadge${paySlips.id}" class="badge text-dark
-                                        ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
-                                        ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
-                                    </span>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
-                                    <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending' , ${paySlips.employee_id})">Pending</a>
-                                    <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
-                                    <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'processing')">Processing</a>
-                                </div>
-                            </div>
-                             `}
+                                                          <div class="dropdown" id="statusChange${paySlips.id}">
+                                                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <span id="statusBadge${paySlips.id}" class="badge text-dark
+                                                                    ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                                                    ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
+                                                                </span>
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
+                                                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending' , ${paySlips.employee_id})">Pending</a>
+                                                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
+                                                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'processing')">Processing</a>
+                                                            </div>
+                                                        </div>
+                                                         `}
                         </td>
 
                         <td id="editButtonContainer${paySlips.id}">
@@ -233,14 +233,27 @@
                 success: function(res) {
                     if (res.status == 200) {
                         const salary = res.paySlip;
-                        // console.log(salary);
-                        $('#globalPaymentModal #data_id').val(salary.id);
-                        $('#globalPaymentModal #payment_balance').val(salary.total_net_salary);
-                        $('#globalPaymentModal #purpose').val('Employee Salary');
-                        $('#globalPaymentModal #transaction_type').val('withdraw');
-                        $('#globalPaymentModal #due-amount').text(salary.total_net_salary);
-                        // Open the Payment Modal
-                        $('#globalPaymentModal').modal('show');
+                        if (salary.status != 'paid') {
+                            // console.log(salary);
+                            $('#globalPaymentModal #data_id').val(salary.id);
+                            $('#globalPaymentModal #payment_balance').val(salary.total_net_salary);
+                            $('#globalPaymentModal #purpose').val('Employee Salary');
+                            $('#globalPaymentModal #transaction_type').val('withdraw');
+                            $('#globalPaymentModal #due-amount').text(salary.total_net_salary);
+                            // Open the Payment Modal
+                            $('#globalPaymentModal').modal('show');
+                        } else {
+                            Swal.fire({
+                                title: "<strong>Already Paid</strong>",
+                                icon: "info",
+                                html: `
+                                    You can Pay Another Salary.
+                                    `,
+                                showCloseButton: true,
+                                showCancelButton: true,
+                                focusConfirm: false,
+                            });
+                        }
                     } else {
                         toastr.error("data Not Found");
                     }

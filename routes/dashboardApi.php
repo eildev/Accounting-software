@@ -25,4 +25,5 @@ Route::controller(MainDashboardApiController::class)->group(function () {
     Route::get('/dashboard/cost-in-and-out/data/', 'costInAndOut');
     Route::get('/dashboard/sales-analytics/data/', 'saleAnalytics');
     Route::get('/dashboard/purchase/report/', 'purchaseReport');
+    Route::get('/dashboard/revenue/report/', 'revenueReport');
 });
