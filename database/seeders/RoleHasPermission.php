@@ -72,6 +72,7 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 113, 'role_id' => 1],['permission_id' => 114, 'role_id' => 1],
             ['permission_id' => 115, 'role_id' => 1],['permission_id' => 116, 'role_id' => 1],
             ['permission_id' => 117, 'role_id' => 1],['permission_id' => 118, 'role_id' => 1],
+            ['permission_id' => 119, 'role_id' => 1],['permission_id' => 120, 'role_id' => 1],
             //Role 2 Admin
             ['permission_id' => 1, 'role_id' => 2], ['permission_id' => 2, 'role_id' => 2],
             ['permission_id' => 3, 'role_id' => 2], ['permission_id' => 4, 'role_id' => 2],
@@ -135,6 +136,7 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 113, 'role_id' => 2],['permission_id' => 114, 'role_id' => 2],
             ['permission_id' => 115, 'role_id' => 2],['permission_id' => 116, 'role_id' => 2],
             ['permission_id' => 117, 'role_id' => 2],['permission_id' => 118, 'role_id' => 2],
+            ['permission_id' => 119, 'role_id' => 2],['permission_id' => 120, 'role_id' => 2],
             //Role Demo
             ['permission_id' => 1, 'role_id' => 3], ['permission_id' => 2, 'role_id' => 3],
             ['permission_id' => 3, 'role_id' => 3], ['permission_id' => 4, 'role_id' => 3],
@@ -179,7 +181,7 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 97, 'role_id' => 3], ['permission_id' => 98, 'role_id' => 3],
             ['permission_id' => 99, 'role_id' => 3],
             //Role Employee
-            ['permission_id' => 67, 'role_id' => 4], ['permission_id' => 70, 'role_id' => 4],
+             ['permission_id' => 70, 'role_id' => 4],
             ['permission_id' => 72, 'role_id' => 4], ['permission_id' => 102, 'role_id' => 4],
             ['permission_id' => 107, 'role_id' => 4],
             //Role Accountant
@@ -207,7 +209,7 @@ class RoleHasPermission extends Seeder
 
              ['permission_id' => 42, 'role_id' => 5],
             ['permission_id' => 43, 'role_id' => 5], ['permission_id' => 44, 'role_id' => 5],
-
+            ['permission_id' => 119, 'role_id' => 5],
             // ['permission_id' => 45, 'role_id' => 5], ['permission_id' => 46, 'role_id' => 5],
             // ['permission_id' => 47, 'role_id' => 5], ['permission_id' => 48, 'role_id' => 5],
             // ['permission_id' => 49, 'role_id' => 5],
@@ -254,6 +256,15 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 115, 'role_id' => 5],
             // ['permission_id' => 116, 'role_id' => 5],
             ['permission_id' => 117, 'role_id' => 5],['permission_id' => 118, 'role_id' => 5],
+
+            //HR ROLE
+            ['permission_id' => 42, 'role_id' => 6],['permission_id' => 43, 'role_id' => 6],
+            ['permission_id' => 44, 'role_id' => 6],  ['permission_id' => 63, 'role_id' => 6],
+            ['permission_id' => 64, 'role_id' => 6], ['permission_id' => 65, 'role_id' => 6],
+            ['permission_id' => 66, 'role_id' => 6], ['permission_id' => 67, 'role_id' => 6],
+            ['permission_id' => 68, 'role_id' => 6],['permission_id' => 69, 'role_id' => 6],
+            ['permission_id' => 120, 'role_id' => 6],['permission_id' => 105, 'role_id' => 6],
+            ['permission_id' => 107, 'role_id' => 6],
         ];
 
         DB::table('role_has_permissions')->upsert(

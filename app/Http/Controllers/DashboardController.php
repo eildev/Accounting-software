@@ -18,6 +18,9 @@ class DashboardController extends Controller
         }else if($user->role === 'accountant'){
             return redirect('/expanse/dashboard');
         }
+        else if($user->role === 'hr'){
+            return redirect('/payroll/dashboard');
+        }
         else{
             $assetValue = Assets::sum('acquisition_cost');
             $liabilities = Loan::sum('loan_balance');

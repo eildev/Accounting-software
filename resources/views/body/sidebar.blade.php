@@ -340,6 +340,7 @@
             @endif
 
             @if (Auth::user()->can('salary.sheet.menu'))
+            @if (Auth::user()->can('salary.sheet1'))
                 <li class="nav-item">
                     <a href="{{ route('salary.sheet') }}"
                         class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
@@ -347,6 +348,7 @@
                         <span class="link-title">Salary Sheet</span>
                     </a>
                 </li>
+                @endif
             @endif
             @if (Auth::user()->can('assets.menu'))
                 <li class="nav-item nav-category">Assets</li>
@@ -515,14 +517,16 @@
                 </li>
             @endif
             @if (Auth::user()->can('salary.sheet.menu'))
-            <li class="nav-item">
-                <a href="{{ route('salary.sheet') }}"
-                    class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
-                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                    <span class="link-title">Salary Sheet</span>
-                </a>
-            </li>
-        @endif
+            @if (Auth::user()->can('salary.sheet2'))
+                <li class="nav-item">
+                    <a href="{{ route('salary.sheet') }}"
+                        class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                        <span class="link-title">Salary Sheet</span>
+                    </a>
+                </li>
+                @endif
+            @endif
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item nav-category">CRM</li>
                 <li class="nav-item">

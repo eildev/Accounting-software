@@ -160,6 +160,8 @@ class PermissionSeeder extends Seeder
             ['id' => 116, 'name' => 'setting.and.customize.menu', 'guard_name' => 'web', 'group_name' => 'settings'],
             ['id' => 117, 'name' => 'genarate.payslip.single', 'guard_name' => 'web', 'group_name' => 'other'],
             ['id' => 118, 'name' => 'genarate.payslip.all', 'guard_name' => 'web', 'group_name' => 'other'],
+            ['id' => 119, 'name' => 'salary.sheet1', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 120, 'name' => 'salary.sheet2', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
             // add more permissions as needed
         ];
 
