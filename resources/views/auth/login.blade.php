@@ -43,7 +43,7 @@
     }
 
     .input_design {
-        border-radius: 25px;
+        /* border-radius: 25px; */
         padding-right: 40px;
         /* background-color: #f26539 !important; */
         /* background-image: linear-gradient(to bottom right, #f26539, #f6921e); */
@@ -63,7 +63,7 @@
         outline: none;
         /* Remove the default outline */
         /* background-color: #444; */
-        border-color: #408dff;
+        border-color: #E2E2EA;
     }
 
     .input-wrapper {
