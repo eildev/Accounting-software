@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
             <div class="">
-                <h4 class="text-right"><a href="{{ route('all.permission') }}" class="btn btn-info">View Permission List</a></h4>
+                <h4 class="text-right"><a href="{{ route('all.permission') }}" class="btn " style="background-color: #6571FF">View Permission List</a></h4>
             </div>
         </div>
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-info">Edit Permission</h6>
+                    <h6 class="card-title " style="color: #6571FF">Edit Permission</h6>
                     <form id="myValidForm" action="{{ route('permission.update') }}" method="post">
                         <input type="hidden" name="permission_id" value="{{$permissions->id}}">
                         @csrf
