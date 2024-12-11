@@ -37,7 +37,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ServiceSale\ServiceSaleController;
 use  App\Http\Controllers\CustomerPayableDashboard\CustomerPayableDashboardController;
-use App\Http\Controllers\SaleDashboard\SaleDashboardController ;
+use App\Http\Controllers\SaleDashboard\SaleDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -159,11 +159,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/expense/filter/rander', 'ExpenseFilterView')->name('expense.filter.view');
     });
 
-    Route::prefix('expense')->controller(RecurringExpanseController::class)->group(function () {
-        Route::get('/recurring', 'index')->name('expense.recurring');
-        Route::post('/recurring/store', 'store');
-        Route::get('/recurring/view', 'view');
-        Route::get('/category/view', 'viewExpenseCategory');
+    Route::controller(RecurringExpanseController::class)->group(function () {
+        Route::get('/expense/recurring', 'index')->name('expense.recurring');
+        Route::post('/expense/recurring/store', 'store');
+        Route::get('/expense/recurring/view', 'view');
+        Route::get('/expense/category/view', 'viewExpenseCategory');
+        Route::post('/recurring-expanse/category/store', 'recurringExpenseCategoryStore');
     });
 
     // Transaction related route(n)
@@ -339,8 +340,8 @@ Route::middleware('auth')->group(function () {
         // Route::get('/all-ledger/view/select-tag', 'view');
         // Route::get('/sub-ledger/details/{id}', 'details');
     });
-     // Supplier related route
-     Route::controller(SupplierController::class)->group(function () {
+    // Supplier related route
+    Route::controller(SupplierController::class)->group(function () {
         Route::get('/supplier', 'index')->name('supplier');
         Route::post('/supplier/store', 'store')->name('supplier.store');
         Route::get('/supplier/view', 'view')->name('supplier.view');
@@ -348,8 +349,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/supplier/update/{id}', 'update')->name('supplier.update');
         Route::get('/supplier/destroy/{id}', 'destroy')->name('supplier.destroy');
     });
-      // Unit related route
-      Route::controller(UnitController::class)->group(function () {
+    // Unit related route
+    Route::controller(UnitController::class)->group(function () {
         Route::get('/unit', 'index')->name('product.unit');
         Route::post('/unit/store', 'store')->name('unit.store');
         Route::get('/unit/view', 'view')->name('unit.view');
@@ -403,8 +404,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/subcategory/status/{id}', 'status')->name('subcategory.status');
         Route::get('/subcategory/find/{id}', 'find')->name('subcategory.find');
     });
-      // Brand related route
-      Route::controller(BrandController::class)->group(function () {
+    // Brand related route
+    Route::controller(BrandController::class)->group(function () {
         Route::get('/brand', 'index')->name('product.brand');
         Route::post('/brand/store', 'store')->name('brand.store');
         Route::get('/brand/view', 'view')->name('brand.view');
@@ -442,7 +443,6 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(CustomerPayableDashboardController::class)->group(function () {
         Route::get('/customer-payable-dashboard', 'customerPayableDashboard')->name('customer.payable.dashboard');
-
     });
     Route::controller(SaleDashboardController::class)->group(function () {
         Route::get('/sale-dashboard', 'SaleDashboard')->name('sale.dashboard');
@@ -450,4 +450,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-
