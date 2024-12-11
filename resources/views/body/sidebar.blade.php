@@ -6,8 +6,8 @@
             @else
                 EIL<span>POS</span>
             @endif --}}
-        {{-- <img src="{{ asset('/Logo-2.png') }}" alt="" height="40"> --}}
-        <h3>Accounting</h3>
+        <img src="{{ asset('/accountant-logo.png') }}" alt="" height="40">
+        {{-- <h3>Accounting</h3> --}}
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>

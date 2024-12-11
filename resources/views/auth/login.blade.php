@@ -38,7 +38,8 @@
 </head>
 <style>
     .full-page {
-        background-image: url('../../../assets/images/log_in_bg.png') !important;
+        /* background-image: url('../../../assets/images/log_in_bg.png') !important; */
+        background-color: #f9f9f9 !important;
     }
 
     .input_design {
@@ -88,7 +89,7 @@
     .login_header {
         text-align: center;
         /* color: #fff; */
-        background-image: linear-gradient(to bottom right, #408dff, #0664f0);
+        /* background-image: linear-gradient(to bottom right, #408dff, #0664f0); */
     }
 
     .wd_160 {
@@ -131,10 +132,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="auth-form-wrapper ">
-                                        <div class="py-5 login_header">
+                                        <div class="pt-5 login_header">
                                             <a href="#" class="noble-ui-logo d-block mb-2">
-                                                <img class="wd_160" src="{{ 'assets/logo.png' }}" alt="">
+                                                <img class="wd_160" src="{{ 'accountant-logo.png' }}" alt="">
+
                                             </a>
+                                            <div style="width: 200px; margin: 0 auto; text-align: center ;  background-color: #2A85FF">
+                                                <hr style="height: 2px; background-color: #2A85FF!important;color: #2A85FF">
+                                            </div>
                                         </div>
                                         <form class="forms-sample px-5 py-5" method="POST"
                                             action="{{ route('login') }}">
