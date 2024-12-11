@@ -46,6 +46,12 @@
                                                                 {{ ucfirst($item->status) }}
                                                             </a>
                                                         </button>
+                                                        @php
+                                                             $user = Auth::user();
+                                                        @endphp
+                                                        @if($user->role === 'accountant')
+
+                                                        @else
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="changeStatus({{ $item->id }}, 'pending')">Pending</a>
@@ -54,6 +60,7 @@
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="changeStatus({{ $item->id }}, 'processing')">Processing</a>
                                                         </div>
+                                                        @endif
                                                     </div>
                                                 </td>
                                                 <td>
@@ -70,7 +77,7 @@
                                             <td colspan="12">
                                                 <div class="text-center text-warning mb-2">Data Not Found</div>
                                                 <div class="text-center">
-                                                    <a href="#" class="btn btn-primary">Add Conveyance<i
+                                                    <a href="{{route('convenience')}}" class="btn btn-primary">Add Conveyance<i
                                                             data-feather="plus"></i></a>
                                                 </div>
                                             </td>

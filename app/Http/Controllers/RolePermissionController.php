@@ -232,6 +232,9 @@ class RolePermissionController extends Controller
             $user->employee_id = $request->employee_id;
             $user->role = 'employee';
         }
+        $roleId = Role::find($request->role_id);
+
+        $user->role = $roleId->name;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password =  Hash::make($request->password);

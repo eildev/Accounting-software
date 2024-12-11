@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\ServiceSale;
+
 use App\Http\Controllers\Controller;
 use App\Models\ServiceSale\ServiceSale;
 use Carbon\Carbon;
@@ -9,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ServiceSaleController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('all_modules.service_sale.service_sale');
-    }//End Method
-    public function store(Request $request){
+    } //End Method
+    public function store(Request $request)
+    {
 
         $serviceNames = $request->input('serviceName', []);
         $volumes = $request->input('volume', []);
@@ -32,10 +35,13 @@ class ServiceSaleController extends Controller
                 'total' => $totals[$key],
             ]);
         }
-    return response()->json([
-        'status' => 200,
-        'message' => 'Services added successfully!',
-    ]);
-
-}
+        return response()->json([
+            'status' => 200,
+            'message' => 'Services added successfully!',
+        ]);
+    } //End Method
+    public function view() {
+        $serviceSales = ServiceSale::all();
+        return view('all_modules.service_sale.service_sale_view',compact('serviceSales'));
+    }//End Method
 }//Mian End

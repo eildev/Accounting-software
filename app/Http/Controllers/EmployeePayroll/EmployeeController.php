@@ -110,7 +110,7 @@ class EmployeeController extends Controller
         return redirect()->route('employee.view')->with($notification);
     }
     public function profile($id){
-        
+
         $employee = Employee::findOrFail($id);
         $salaryStructure = SalarySturcture::where('employee_id', $employee->id)->first();
         $conveniences = Convenience::where('employee_id', $employee->id)->get();
@@ -222,7 +222,14 @@ class EmployeeController extends Controller
         }
     }
     public function bonusView(){
+        $user = Auth::user();
+
+        if($user->role === 'accountant'){
+            $bonuses = EmployeeBonuse::with('employee')->whereIn('status', ['approved', 'paid'])->get();
+       }else{
         $bonuses = EmployeeBonuse::with('employee')->get();
+         }
+
         return response()->json([
             "status" => 200,
             "data" => $bonuses,
@@ -536,7 +543,13 @@ class EmployeeController extends Controller
         ]);
         }
         public function allPaySlipView(){
+            $user = Auth::user();
+            if($user->role === 'accountant'){
+                $paySlip = PaySlip::with('employee')->whereIn('status', ['approved', 'paid'])->get();
+           }else{
             $paySlip = PaySlip::with('employee')->get();
+           }
+
             return response()->json([
                 "status" => 200,
                 "paySlip" => $paySlip,
@@ -567,6 +580,7 @@ class EmployeeController extends Controller
             ]);
         }
         public function allSalarySheetiew(){
+
         return view('all_modules.employee.salary_sheet.view_salary_sheet');
         }
 }//
