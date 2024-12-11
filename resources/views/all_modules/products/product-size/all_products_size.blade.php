@@ -6,13 +6,13 @@
 
 <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
     <div class="">
-        <h4 class="text-right"><a href="{{route('product.size.add')}}" class="btn btn-info">Add New Product Size</a></h4>
+        <h4 class="text-right"><a href="{{route('product.size.add')}}" class="btn" style="background-color: #6571FF">Add New Product Size</a></h4>
     </div>
 </div>
 <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                <h6 class="card-title text-info">View P.Size List</h6>
+                <h6 class="card-title " style="color: #6571FF">View P.Size List</h6>
 
                     <div id="" class="table-responsive">
                         <table class="table">

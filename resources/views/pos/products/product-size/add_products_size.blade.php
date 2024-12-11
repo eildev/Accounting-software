@@ -5,7 +5,7 @@
 <div class="row">
 <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
     <div class="">
-        <h4 class="text-right"><a href="{{route('product.size.view')}}" class="btn btn-info">View All P. Size</a></h4>
+        <h4 class="text-right"><a href="{{route('product.size.view')}}" class="btn" style="background-color: #6571FF">View All P. Size</a></h4>
     </div>
 </div>
 <div class="col-md-12 grid-margin stretch-card">
@@ -13,7 +13,7 @@
 <div class="card">
 <div class="card-body">
 
-    <h6 class="card-title text-info">Add Product Size</h6>
+    <h6 class="card-title " style="color: #6571FF">Add Product Size</h6>
 
     <form class="forms-sample" id="myValidForm" action="{{route('product.size.store')}}" method="POST">
         @csrf

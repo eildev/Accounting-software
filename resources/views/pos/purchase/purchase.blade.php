@@ -26,7 +26,9 @@
                                 <label for="ageSelect" class="form-label">Supplier <span
                                         class="text-danger">*</span></label>
                                 <select class="js-example-basic-single form-select select-supplier supplier_id"
-                                    data-width="100%" onchange="errorRemove(this);" name="supplier_id">
+                                    data-width="100%"
+                                    {{-- onchange="errorRemove(this);" --}}
+                                     name="supplier_id">
                                 </select>
                                 <span class="text-danger supplier_id_error"></span>
                             </div>
