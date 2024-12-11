@@ -6,6 +6,9 @@
             border: none !important;
         }
     </style>
+     @php
+     $user = Auth::user();
+    @endphp
     <div class="row">
         <div id="filter-rander">
             <div class="col-md-12 grid-margin stretch-card">
@@ -19,6 +22,9 @@
                                         <th>SN</th>
                                         <th>Invoice No.</th>
                                         <th>Employee Name</th>
+                                        @if($user->role === 'superadmin' || $user->role === 'admin')
+                                        <th>Submitted By</th>
+                                        @endif
                                         <th>Amount</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -34,6 +40,9 @@
                                                         href="{{ route('convenience.invoice', $item->id) }}">{{ $item->bill_number }}</a>
                                                 </td>
                                                 <td>{{ $item->employee->full_name }}</td>
+                                                @if($user->role === 'superadmin' || $user->role === 'admin')
+                                                <td>{{$item->entry_by}}</td>
+                                                @endif
                                                 <td>{{ $item->total_amount }}</td>
                                                 <td>
                                                     <div class="dropdown" id="statusChange{{ $item->id }}">
@@ -46,9 +55,7 @@
                                                                 {{ ucfirst($item->status) }}
                                                             </a>
                                                         </button>
-                                                        @php
-                                                             $user = Auth::user();
-                                                        @endphp
+
                                                         @if($user->role === 'accountant')
 
                                                         @else
