@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ServiceSale;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\ServiceSale\ServiceSale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,5 +46,11 @@ class ServiceSaleController extends Controller
     {
         $serviceSales = ServiceSale::all();
         return view('all_modules.service_sale.service_sale_view', compact('serviceSales'));
+    } //End Method
+    public function invoice($id)
+    {
+        $sale = ServiceSale::findOrFail($id);
+        $customer = Customer::findOrFail($sale->customer_id);
+        return view('all_modules.service_sale.service-sale-invoice', compact('sale', 'customer'));
     } //End Method
 }//Mian End

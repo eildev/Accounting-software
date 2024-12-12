@@ -10,7 +10,7 @@
     <meta name="keywords"
         content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <title>Log In - EIL - Electro || Eclipse Intellitech LTD POS Software</title>
+    <title>Log In - Accountant || Eclipse Intellitech LTD Accounting Software</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -137,8 +137,10 @@
                                                 <img class="wd_160" src="{{ 'accountant-logo.png' }}" alt="">
 
                                             </a>
-                                            <div style="width: 200px; margin: 0 auto; text-align: center ;  background-color: #2A85FF">
-                                                <hr style="height: 2px; background-color: #2A85FF!important;color: #2A85FF">
+                                            <div
+                                                style="width: 200px; margin: 0 auto; text-align: center ;  background-color: #2A85FF">
+                                                <hr
+                                                    style="height: 2px; background-color: #2A85FF!important;color: #2A85FF">
                                             </div>
                                         </div>
                                         <form class="forms-sample px-5 py-5" method="POST"
@@ -199,8 +201,8 @@
     </div>
     <!-- Custom JS for this page -->
 
-<script>
-      const passwordInput = document.getElementById('userPassword');
+    <script>
+        const passwordInput = document.getElementById('userPassword');
         const togglePassword = document.getElementById('togglePassword');
         const icon = togglePassword.querySelector('i'); // Select the icon element inside the div
 
@@ -217,7 +219,7 @@
             feather.replace();
             console.log(icon);
         });
-</script>
+    </script>
     <!-- core:js -->
     <script src="../../../assets/vendors/core/core.js"></script>
     <!-- endinject -->
