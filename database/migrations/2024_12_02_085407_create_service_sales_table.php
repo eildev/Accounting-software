@@ -22,7 +22,8 @@ return new class extends Migration
             $table->decimal('volume', 15, 2);
             $table->decimal('price', 15, 2);
             $table->decimal('total', 17, 2);
-            $table->enum('status', ['pending', 'paid', 'approved','processing'])->default('pending');
+            $table->integer('invoice_number')->nullable();
+            $table->enum('status', ['pending', 'paid', 'approved', 'processing'])->default('pending');
             $table->timestamps();
         });
     }

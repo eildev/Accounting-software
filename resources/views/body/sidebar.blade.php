@@ -91,7 +91,7 @@
                         <a href="{{ route('expanse.dashboard') }}"
                             class="nav-link {{ request()->routeIs('expanse.dashboard') ? 'nav_active' : '' }}">
                             <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
-                            <span class="link-title">Expanse Dashboard</span>
+                            <span class="link-title">Expense Dashboard</span>
                         </a>
                     </li>
                 @endif
@@ -340,14 +340,14 @@
             @endif
 
             @if (Auth::user()->can('salary.sheet.menu'))
-            @if (Auth::user()->can('salary.sheet1'))
-                <li class="nav-item">
-                    <a href="{{ route('salary.sheet') }}"
-                        class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Salary Sheet</span>
-                    </a>
-                </li>
+                @if (Auth::user()->can('salary.sheet1'))
+                    <li class="nav-item">
+                        <a href="{{ route('salary.sheet') }}"
+                            class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Salary Sheet</span>
+                        </a>
+                    </li>
                 @endif
             @endif
             @if (Auth::user()->can('assets.menu'))
@@ -517,14 +517,14 @@
                 </li>
             @endif
             @if (Auth::user()->can('salary.sheet.menu'))
-            @if (Auth::user()->can('salary.sheet2'))
-                <li class="nav-item">
-                    <a href="{{ route('salary.sheet') }}"
-                        class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Salary Sheet</span>
-                    </a>
-                </li>
+                @if (Auth::user()->can('salary.sheet2'))
+                    <li class="nav-item">
+                        <a href="{{ route('salary.sheet') }}"
+                            class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Salary Sheet</span>
+                        </a>
+                    </li>
                 @endif
             @endif
             @if (Auth::user()->can('customer.menu'))
@@ -773,7 +773,8 @@
                             <span class="link-title">Setting Manage</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}" id="setting-manage">
+                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}"
+                            id="setting-manage">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
                                     <a href="{{ route('pos.settings.add') }}"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ledgers\SubLedger;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use App\Models\Ledger\PrimaryLedger\PrimaryLedgerGroup;
 use App\Models\Ledger\SubLedger\SubLedger;
 use Illuminate\Http\Request;
@@ -101,8 +102,9 @@ class SubLedgerController extends Controller
             $subLedger = SubLedger::findOrFail($id);
             $primaryLedger = PrimaryLedgerGroup::findOrFail($subLedger->ledger->group_id);
             $branch = Branch::findOrFail($subLedger->branch_id);
+            $totalAmount = LedgerEntries::where('sub_ledger_id', $subLedger->id)->sum('entry_amount');
             // Attempt to return the view
-            return view('all_modules.ledgers.sub-ledgers.details', compact('subLedger', 'branch', 'primaryLedger'));
+            return view('all_modules.ledgers.sub-ledgers.details', compact('subLedger', 'branch', 'primaryLedger', 'totalAmount'));
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error loading the bank view: ' . $e->getMessage());

@@ -439,6 +439,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/service-sale', 'index')->name('service.sale');
         Route::post('/service/sale/store', 'store')->name('service.sale.store');
         Route::get('/service/sale/view', 'view')->name('service.sale.view');
+        Route::get('/service/sale/invoice/{id}', 'invoice')->name('service.sale.invoice');
     });
 
     Route::controller(CustomerPayableDashboardController::class)->group(function () {

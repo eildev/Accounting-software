@@ -1,6 +1,6 @@
 <style>
     .expanse-payment {
-width: 55%;
+        width: 55%;
     }
 </style>
 <div class="row">
@@ -10,9 +10,11 @@ width: 55%;
                 <div class="d-flex justify-content-between">
                     <!-- Dropdown for selecting the month -->
                     <div class="form-group primary-color-text mb-2">
-                        <h6 class="card-title">Paid Expanse</h6>
-                        <select class="form-control expanse-payment custom-select   primary-color-text  border-colro-red w-0" id="paymentMonthSelect">
-                            <option disabled selected  value="{{ Carbon\Carbon::now()->format('m') }}">
+                        <h6 class="card-title">Paid Expense</h6>
+                        <select
+                            class="form-control expanse-payment custom-select   primary-color-text  border-colro-red w-0"
+                            id="paymentMonthSelect">
+                            <option disabled selected value="{{ Carbon\Carbon::now()->format('m') }}">
                                 <p class="selected-option">Month <i class="fas fa-chevron-down"></i></p>
 
                             </option>
@@ -32,7 +34,8 @@ width: 55%;
                     </div>
                     <!-- Button to view all -->
                     <div>
-                        <a href="{{route('expense.view')}}"><button class="btn " style="border: 1px solid #DFDFDF">View All</button></a>
+                        <a href="{{ route('expense.view') }}"><button class="btn "
+                                style="border: 1px solid #DFDFDF">View All</button></a>
                     </div>
                 </div>
                 <div id="paymentChart">
@@ -162,7 +165,7 @@ width: 55%;
             },
             series: [0, 0, 0, 0], // Default empty data
             // labels: ['Paid', 'Pending', 'Unpaid', 'Processing'], // Labels for the pie chart
-            labels: ['Expanse ', ' Conveyance  ', 'Salary ', 'Recurring '], // Labels for the pie chart
+            labels: ['Expense ', ' Conveyance  ', 'Salary ', 'Recurring '], // Labels for the pie chart
             noData: {
                 text: 'No Data Available', // Message when no data is present
                 align: 'center',
@@ -183,13 +186,16 @@ width: 55%;
             $.ajax({
                 url: '/get-expanse-payment-percentage-data', // Your controller URL
                 method: 'GET',
-                data: { month: month },
+                data: {
+                    month: month
+                },
                 success: function(response) {
-                    console.log(response);  // Check what the response looks like
+                    console.log(response); // Check what the response looks like
 
                     // Check if all the values are zero or data is unavailable
                     // const total = response.expansePaid + response.expansePending + response.expanseUnpaid + response.expanseProcessing;
-                    const total = response.expansePaid + response.conviencePaid + response.salaryPaid + response.recurringPaid;
+                    const total = response.expansePaid + response.conviencePaid + response
+                        .salaryPaid + response.recurringPaid;
 
                     if (total === 0) {
                         // Display "No Data" message
@@ -243,6 +249,3 @@ width: 55%;
         updateChart('{{ Carbon\Carbon::now()->format('m') }}');
     });
 </script>
-
-
-

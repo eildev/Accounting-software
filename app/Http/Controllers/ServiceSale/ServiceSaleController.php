@@ -33,6 +33,7 @@ class ServiceSaleController extends Controller
                 'volume' => $volumes[$key],
                 'price' => $prices[$key],
                 'total' => $totals[$key],
+                'invoice_number' => rand(000000, 999999)
             ]);
         }
         return response()->json([
@@ -40,8 +41,9 @@ class ServiceSaleController extends Controller
             'message' => 'Services added successfully!',
         ]);
     } //End Method
-    public function view() {
+    public function view()
+    {
         $serviceSales = ServiceSale::all();
-        return view('all_modules.service_sale.service_sale_view',compact('serviceSales'));
-    }//End Method
+        return view('all_modules.service_sale.service_sale_view', compact('serviceSales'));
+    } //End Method
 }//Mian End

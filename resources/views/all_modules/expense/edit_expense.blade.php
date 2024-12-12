@@ -1,5 +1,5 @@
 @extends('master')
-@section('title','| Edit Expense')
+@section('title', '| Edit Expense')
 @section('admin')
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
@@ -11,7 +11,7 @@
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-info">Edit Expanse</h6>
+                    <h6 class="card-title text-info">Edit Expense</h6>
                     <form id="myValidForm" action="{{ route('expense.update', $expense->id) }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
@@ -64,28 +64,23 @@
                                 <div class="mb-3 form-valid-groups">
                                     <label class="form-label">Date<span class="text-danger">*</span></label>
 
-                                        <div class="input-group flatpickr" id="flatpickr-date">
-                                            <input type="text"name="expense_date" value="{{ $expense->expense_date }}"
-                                                class="form-control @error('expense_date') is-invalid @enderror flatpickr-input"
-                                                data-input="" readonly="readonly"
-                                                placeholder="Select Expense Date">
-                                            <span class="input-group-text input-group-addon"
-                                                data-toggle=""><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="24" height="24" viewBox="0 0 24 24"
-                                                    fill="none" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-calendar">
-                                                    <rect x="3" y="4" width="18" height="18"
-                                                        rx="2" ry="2">
-                                                    </rect>
-                                                    <line x1="16" y1="2" x2="16"
-                                                        y2="6"></line>
-                                                    <line x1="8" y1="2" x2="8"
-                                                        y2="6"></line>
-                                                    <line x1="3" y1="10" x2="21"
-                                                        y2="10"></line>
-                                                </svg></span>
-                                        </div>
+                                    <div class="input-group flatpickr" id="flatpickr-date">
+                                        <input type="text"name="expense_date" value="{{ $expense->expense_date }}"
+                                            class="form-control @error('expense_date') is-invalid @enderror flatpickr-input"
+                                            data-input="" readonly="readonly" placeholder="Select Expense Date">
+                                        <span class="input-group-text input-group-addon" data-toggle=""><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-calendar">
+                                                <rect x="3" y="4" width="18" height="18" rx="2"
+                                                    ry="2">
+                                                </rect>
+                                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            </svg></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -111,7 +106,7 @@
                                             <button type="button" class="btn btn-info edit_upload_img" id="abc"
                                                 style="position: absolute;top:50%;left:50%;transform:translate(-50%,-50%)">Browse</button>
                                             <img class="img-fluid showEditImage"
-                                            src="{{ $expense->image ? asset('uploads/expense/' . $expense->image) : asset('dummy/image.jpg') }}"
+                                                src="{{ $expense->image ? asset('uploads/expense/' . $expense->image) : asset('dummy/image.jpg') }}"
                                                 style="height:100%; object-fit:cover">
                                         </div>
                                         <input hidden type="file" class="edit_image" name="image" />
@@ -201,8 +196,8 @@
         });
 
 
-$(document).ready(function(){
-    const edit_upload_img = document.querySelector('#abc');
+        $(document).ready(function() {
+            const edit_upload_img = document.querySelector('#abc');
             const edit_image = document.querySelector('.edit_image');
             edit_upload_img.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -216,6 +211,6 @@ $(document).ready(function(){
                     reader.readAsDataURL(this.files[0]);
                 });
             });
-});
+        });
     </script>
 @endsection

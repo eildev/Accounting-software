@@ -69,7 +69,7 @@
                         <div class="text-center">
                             <button class="btn btn-xs btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#expanseCategoryModal">
-                                Add Expanse Category
+                                Add Expense Category
                             </button>
                         </div>
                     </td>

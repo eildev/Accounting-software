@@ -70,6 +70,10 @@
                                                     <b><i>Total Ledger</i></b>
                                                 </td>
                                                 <td>{{ $ledgers->count() ?? 0 }}</td>
+                                                <td>
+                                                    <b><i>Total Ledger Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($totalAmount, 2) ?? 0 }}</td>
                                             </tr>
                                         </thead>
                                     </table>

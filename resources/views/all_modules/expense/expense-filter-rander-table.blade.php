@@ -35,18 +35,18 @@
                                 @endif
                             </td>
                             <td>
-                                @if (Auth::user()->can('expense.edit'))
+                                {{-- @if (Auth::user()->can('expense.edit'))
                                     <a href="{{ route('expense.edit', $expenses->id) }}" class="btn btn-sm btn-primary "
                                         title="Edit">
                                         Edit
                                     </a>
-                                @endif
-                                @if (Auth::user()->can('expense.delete'))
+                                @endif --}}
+                                {{-- @if (Auth::user()->can('expense.delete'))
                                     <a href="{{ route('expense.delete', $expenses->id) }}" id="delete"
                                         class="btn btn-sm btn-danger " title="Delete">
                                         Delete
                                     </a>
-                                @endif
+                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
@@ -62,7 +62,7 @@
         </table>
     </div>
 </div>
-<div class="col-md-12 grid-margin stretch-card">
+{{-- <div class="col-md-12 grid-margin stretch-card">
     <div id="tableContainer" class="table-responsive">
         <table id="example" class="table">
             <thead class="action">
@@ -77,7 +77,6 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- @dd($testData) --}}
                 @forelse ($testData as $key => $element)
                     <tr>
                         <td>{{ $key + 1 }}</td>
@@ -98,4 +97,4 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> --}}

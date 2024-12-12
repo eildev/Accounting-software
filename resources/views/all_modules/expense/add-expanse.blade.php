@@ -1,4 +1,4 @@
-<h6 class="card-title text-info">Add Expanse</h6>
+<h6 class="card-title text-info">Add Expense</h6>
 <form id="myValidForm" class="expanseForm" method="post" enctype="multipart/form-data">
     <div class="row">
         <!-- Col -->

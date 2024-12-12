@@ -236,6 +236,9 @@ class TransactionController extends Controller
         try {
             $transaction = Transaction::findOrFail($id);
             $branch = Branch::findOrFail($transaction->branch_id);
+            // if ($transaction->source_type == 'Fixed Asset Purchase') {
+            //     $purposeData = Assets::findOrFail($transaction->source_id);
+            // }
             return view('all_modules.transaction.view-details', compact('transaction', 'branch'));
         } catch (\Exception $e) {
             // Log the error message
