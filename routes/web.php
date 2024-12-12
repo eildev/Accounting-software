@@ -237,6 +237,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience/view-details/{id}', 'convenienceViewDetails');
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
         Route::post('/update-status', 'updateStatus')->name('update-status');
+        Route::get('/convenience/money/receipt/{type}/{id}', 'convenienceMoneyReceipt')->name('convenience.money.receipt');
+        // Route::get('/movement-cost/image/{id}', 'imageToPdf')->name('movementcost.image');
+        // Route::get('/fooding-cost/image//{id}', 'FoodingimageToPdf');
+       // web.php
+            Route::get('/{type}-cost/image/{id}', 'getImage');
+
+
     }); //End
 
     // Payroll Dashboard related route(n)

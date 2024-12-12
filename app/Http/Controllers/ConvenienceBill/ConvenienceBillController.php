@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Departments\Departments;
 use App\Models\EmployeePayroll\Employee;
-
+use PDF;
 class ConvenienceBillController extends Controller
 {
     //Audit
@@ -236,4 +236,120 @@ class ConvenienceBillController extends Controller
             'convenience' => $convenience,
         ]);
     }
+    // public function convenienceMoneyReceipt($id){
+    //     $movementCost  = MovementCost::findOrFail($id);
+    //     return view('all_modules.convenience_bill.receipt', compact('movementCost'));
+    // }
+    public function convenienceMoneyReceipt($type, $id)
+    {
+        $movementCost = null;
+
+        switch ($type) {
+            case 'movement':
+                $movementCost = MovementCost::findOrFail($id);
+                break;
+            case 'fooding':
+                $foodingCost = FoodingCost::findOrFail($id);
+                break;
+            case 'overnight':
+                $overnightCost = OvernightCost::findOrFail($id);
+                break;
+            case 'other':
+                $otherCost = OtherExpenseCost::findOrFail($id);
+                break;
+            default:
+                abort(404, 'Invalid cost type');
+        }
+        if ($type === 'movement') {
+            return view('all_modules.convenience_bill.receipt', compact('movementCost', 'type'));
+        } elseif ($type === 'fooding') {
+            return view('all_modules.convenience_bill.receipt', compact('foodingCost', 'type'));
+        }elseif ($type === 'overnight') {
+            return view('all_modules.convenience_bill.receipt', compact('overnightCost', 'type'));
+        }
+        elseif ($type === 'other') {
+            return view('all_modules.convenience_bill.receipt', compact('otherCost', 'type'));
+        }
+        return view('all_modules.convenience_bill.receipt', compact('overnightCost', 'otherCost','overnightCost','otherCost' ,'type'));
+
+    }
+
+    // public function imageToPdf($id){
+        // $movementCost = MovementCost::findOrFail($id);
+        // $documentPath = public_path('uploads/movement_costs/' . $movementCost->image);
+        // // Define the data to pass to the PDF generation
+        // $data = [
+        //     'imagePath' => $documentPath,  // Pass the moved document path
+        //     'title' => "$movementCost->image"
+        // ];
+
+        // $pdf = PDF::loadView('pdf.document', $data);
+        // // dd($pdf);
+
+        // // Return the generated PDF for download or streaming
+        // return response()->json([
+        //     "status" => 200,
+        //     "data" => $pdf
+        // ]);
+    // }
+    // public function FoodingimageToPdf($id){
+    //     $foodingCost = FoodingCost::findOrFail($id);
+    //     $documentPath = public_path('uploads/fooding_costs/' . $foodingCost->image);
+    //     // Define the data to pass to the PDF generation
+    //     $data = [
+    //         'imagePath' => $documentPath,  // Pass the moved document path
+    //         'title' => "$foodingCost->image"
+    //     ];
+
+    //     $pdf = PDF::loadView('pdf.document', $data);
+    //     // dd($pdf);
+
+    //     // Return the generated PDF for download or streaming
+    //     return response()->json([
+    //         "status" => 200,
+    //         "data" => $pdf
+    //     ]);
+    // }
+    public function imageToPdf($type, $id)
+    {
+        // Dynamically fetch the cost model based on the $type
+        switch ($type) {
+            case 'movement':
+                $cost = MovementCost::findOrFail($id);
+                $documentPath = public_path('uploads/movement_costs/' . $cost->image);
+                break;
+            case 'fooding':
+                $cost = FoodingCost::findOrFail($id);
+                $documentPath = public_path('uploads/fooding_costs/' . $cost->image);
+                break;
+                case 'fooding':
+                $cost = OvernightCost::findOrFail($id);
+                $documentPath = public_path('uploads/overnight_costs/' . $cost->image);
+                break;
+                case 'fooding':
+                $cost = OtherExpenseCost::findOrFail($id);
+                $documentPath = public_path('uploads/other_expense_costs/' . $cost->image);
+                break;
+            default:
+                return response()->json(['status' => 404, 'message' => 'Invalid type']);
+        }
+
+        // Prepare the data to pass to the PDF generation
+        $data = [
+            'imagePath' => $documentPath,
+            'title' => $cost->image,
+        ];
+
+        // Generate the PDF from the view
+             $pdf = PDF::loadView('pdf.document', $data);
+        // // dd($pdf);
+
+        // // Return the generated PDF for download or streaming
+     return response()->json([
+            "status" => 200,
+             "data" => $pdf
+         ]);
+    }
+
+
 }
