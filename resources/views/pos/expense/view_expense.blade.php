@@ -324,11 +324,11 @@
                                                                 data-bs-target="#exampleModalLongScollable1{{ $expensesCategory->id }}">
                                                                 Edit
                                                             </a>
-                                                            <a href="{{ route('expense.category.delete', $expensesCategory->id) }}"
+                                                            {{-- <a href="{{ route('expense.category.delete', $expensesCategory->id) }}"
                                                                 id="delete" class="btn btn-sm btn-danger "
                                                                 title="Delete">
                                                                 Delete
-                                                            </a>
+                                                            </a> --}}
                                                         </td>
                                                     </tr>
                                                     <div class="modal fade"

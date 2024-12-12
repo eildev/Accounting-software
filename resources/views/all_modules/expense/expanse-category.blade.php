@@ -23,10 +23,10 @@
                                 data-bs-toggle="modal" data-bs-target="#expanseCatUpModal{{ $ledgerAccount->id }}">
                                 Edit
                             </a>
-                            <a href="{{ route('expense.category.delete', $ledgerAccount->id) }}" id="delete"
+                            {{-- <a href="{{ route('expense.category.delete', $ledgerAccount->id) }}" id="delete"
                                 class="btn btn-sm btn-danger " title="Delete">
                                 Delete
-                            </a>
+                            </a> --}}
                         </td>
                     </tr>
                     <div class="modal fade" id="expanseCatUpModal{{ $ledgerAccount->id }}" tabindex="-1"
