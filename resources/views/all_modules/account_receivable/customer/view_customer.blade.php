@@ -34,7 +34,10 @@
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                                <a href="{{ route('customer.profile', $customer->id) }}">
+                                                {{-- <a href="{{ route('customer.profile', $customer->id) }}">
+                                                    {{ $customer->name ?? '' }}
+                                                </a> --}}
+                                                <a href="#">
                                                     {{ $customer->name ?? '' }}
                                                 </a>
                                             </td>
@@ -76,10 +79,10 @@
                                                     </a>
                                                 @endif
                                                 @if (Auth::user()->can('customer.delete'))
-                                                    <a href="{{ route('customer.delete', $customer->id) }}" id="delete"
+                                                    {{-- <a href="{{ route('customer.delete', $customer->id) }}" id="delete"
                                                         class="btn btn-sm btn-danger btn-icon">
                                                         <i data-feather="trash-2"></i>
-                                                    </a>
+                                                    </a> --}}
                                                 @endif
                                             </td>
                                         </tr>

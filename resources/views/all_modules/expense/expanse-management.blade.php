@@ -285,7 +285,9 @@
                             $('#globalPaymentModal').modal('show'); // Open Payment Modal
                         } else {
                             // Reload the page for standard submission
+                            toastr.success(res.message);
                             window.location.reload();
+
                         }
                     });
                 });
