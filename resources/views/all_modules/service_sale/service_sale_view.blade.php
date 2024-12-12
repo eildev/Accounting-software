@@ -43,7 +43,7 @@
                                         <tr>
 
                                             <td>
-                                                <a href="{{ route('') }}">
+                                                <a href="{{ route('service.sale.invoice', $serviceSale->id) }}">
                                                     #{{ $serviceSale->invoice_number ?? '' }}
                                                 </a>
                                             </td>
