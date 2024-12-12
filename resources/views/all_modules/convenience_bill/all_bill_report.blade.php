@@ -21,7 +21,7 @@
                     @if (
                         $movementCosts->isNotEmpty() &&
                             $movementCosts->some(fn($movementCost) => $movementCost->movementDetails->isNotEmpty()))
-                        <h4>Movement Bill</h4>
+                        <h4  class="mt-3">Movement Bill</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -34,6 +34,7 @@
                                         <th>Mode of Transport</th>
                                         <th>Amount (TK)</th>
                                         <th>Assigned</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="showData">
@@ -49,8 +50,16 @@
                                                     <td>{{ $detail->mode_of_transport ?? '' }}</td>
                                                     <td>{{ $detail->movement_amount ?? '' }}</td>
                                                     <td>{{ $detail->movement_assigned ?? '' }}</td>
+
                                                 </tr>
                                             @endforeach
+                                            <td>
+                                                @if ($movementCost->image)
+                                                <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'movement', 'id' => $movementCost->id]) }}">
+                                                    <i class="fa-solid fa-receipt me-2"></i>Receipt
+                                                </a>
+                                            @endif
+                                        </td>
                                         @endif
                                     @endforeach
                                 </tbody>
@@ -59,7 +68,7 @@
                     @endif
 
                     @if ($foodingCosts->isNotEmpty() && $foodingCosts->some(fn($foodingCost) => $foodingCost->foodingDetails->isNotEmpty()))
-                        <h4>Fooding Bill</h4>
+                        <h4  class="mt-3">Fooding Bill</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -87,6 +96,13 @@
                                                     <td>{{ $detail->fooding_assigned ?? '' }}</td>
                                                 </tr>
                                             @endforeach
+                                            <td>
+                                                @if ($foodingCost->image)
+                                                <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'fooding', 'id' => $foodingCost->id]) }}">
+                                                    <i class="fa-solid fa-receipt me-2"></i>Receipt
+                                                </a>
+                                               @endif
+                                        </td>
                                         @endif
                                     @endforeach
                                 </tbody>
@@ -97,7 +113,7 @@
                     @if (
                         $overnightCosts->isNotEmpty() &&
                             $overnightCosts->some(fn($overnightCost) => $overnightCost->overnightDetails->isNotEmpty()))
-                        <h4>Overnight Bill</h4>
+                        <h4 class="mt-3">Overnight Bill</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -125,6 +141,13 @@
                                                     <td>{{ $detail->overnight_assigned ?? '' }}</td>
                                                 </tr>
                                             @endforeach
+                                            <td>
+                                                @if ($overnightCost->image)
+                                                <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'overnight', 'id' => $overnightCost->id]) }}">
+                                                    <i class="fa-solid fa-receipt me-2"></i>Receipt
+                                                </a>
+                                            @endif
+                                        </td>
                                         @endif
                                     @endforeach
                                 </tbody>
@@ -135,7 +158,7 @@
                     @if (
                         $otherExpenseCosts->isNotEmpty() &&
                             $otherExpenseCosts->some(fn($otherExpenseCost) => $otherExpenseCost->otherExpensetDetails->isNotEmpty()))
-                        <h4>Other Expense Bill</h4>
+                        <h4  class="mt-3">Other Expense Bill</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -159,6 +182,13 @@
                                                     <td>{{ $detail->other_expense_assigned ?? '' }}</td>
                                                 </tr>
                                             @endforeach
+                                            <td>
+                                                @if ($otherExpenseCost->image)
+                                                <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'other', 'id' => $otherExpenseCost->id]) }}">
+                                                    <i class="fa-solid fa-receipt me-2"></i>Receipt
+                                                </a>
+                                            @endif
+                                            </td>
                                         @endif
                                     @endforeach
                                 </tbody>

@@ -78,13 +78,13 @@
                     </li>
                 @endif
                 @if (Auth::user()->can('customer.dashboard'))
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('customer.payable.dashboard') }}"
                             class="nav-link {{ request()->routeIs('customer.payable.dashboard') ? 'nav_active' : '' }}">
                             <i class="ms-2 link-icon" data-feather="shopping-cart"></i>
                             <span class="link-title">Customer Dashboard</span>
                         </a>
-                    </li>
+                    </li> --}}
                 @endif
                 @if (Auth::user()->can('expanse.dashboard'))
                     <li class="nav-item">
@@ -202,7 +202,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->can('purchase.menu'))
+            {{-- @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
                         data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
@@ -230,7 +230,7 @@
                         </ul>
                     </div>
                 </li>
-            @endif
+            @endif --}}
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('customer.view') ? 'nav_active' : '' }}"
@@ -389,11 +389,11 @@
                         class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
                         Expense Managment</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('expense.recurring') }}"
                         class="nav-link {{ request()->routeIs('expense.recurring') ? 'nav_active' : '' }}">Recurring
                         Expense</a>
-                </li>
+                </li> --}}
                 {{-- </ul>
     </div>
 </li> --}}
