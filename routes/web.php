@@ -240,8 +240,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience/money/receipt/{type}/{id}', 'convenienceMoneyReceipt')->name('convenience.money.receipt');
         // Route::get('/movement-cost/image/{id}', 'imageToPdf')->name('movementcost.image');
         // Route::get('/fooding-cost/image//{id}', 'FoodingimageToPdf');
-       // web.php
-            Route::get('/{type}-cost/image/{id}', 'getImage');
+        //  Route::get('/{type}-cost/image/{id}/pdf', 'imageToPdf');
+
 
 
     }); //End

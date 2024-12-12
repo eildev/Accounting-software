@@ -292,64 +292,47 @@ class ConvenienceBillController extends Controller
         //     "data" => $pdf
         // ]);
     // }
-    // public function FoodingimageToPdf($id){
-    //     $foodingCost = FoodingCost::findOrFail($id);
-    //     $documentPath = public_path('uploads/fooding_costs/' . $foodingCost->image);
-    //     // Define the data to pass to the PDF generation
-    //     $data = [
-    //         'imagePath' => $documentPath,  // Pass the moved document path
-    //         'title' => "$foodingCost->image"
-    //     ];
 
-    //     $pdf = PDF::loadView('pdf.document', $data);
-    //     // dd($pdf);
+//     public function imageToPdf($type, $id)
+// {
+//     // Dynamically fetch the cost model based on the $type
+//     switch ($type) {
+//         case 'movement':
+//             $cost = MovementCost::findOrFail($id);
+//             $documentPath = public_path('uploads/movement_costs/' . $cost->image);
+//             break;
+//         case 'fooding':
+//             $cost = FoodingCost::findOrFail($id);
+//             $documentPath = public_path('uploads/fooding_costs/' . $cost->image);
+//             break;
+//         case 'overnight':
+//             $cost = OvernightCost::findOrFail($id);
+//             $documentPath = public_path('uploads/overnight_costs/' . $cost->image);
+//             break;
+//         case 'other':
+//             $cost = OtherExpenseCost::findOrFail($id);
+//             $documentPath = public_path('uploads/other_expense_costs/' . $cost->image);
+//             break;
+//         default:
+//             return response()->json(['status' => 404, 'message' => 'Invalid type']);
+//     }
 
-    //     // Return the generated PDF for download or streaming
-    //     return response()->json([
-    //         "status" => 200,
-    //         "data" => $pdf
-    //     ]);
-    // }
-    public function imageToPdf($type, $id)
-    {
-        // Dynamically fetch the cost model based on the $type
-        switch ($type) {
-            case 'movement':
-                $cost = MovementCost::findOrFail($id);
-                $documentPath = public_path('uploads/movement_costs/' . $cost->image);
-                break;
-            case 'fooding':
-                $cost = FoodingCost::findOrFail($id);
-                $documentPath = public_path('uploads/fooding_costs/' . $cost->image);
-                break;
-                case 'fooding':
-                $cost = OvernightCost::findOrFail($id);
-                $documentPath = public_path('uploads/overnight_costs/' . $cost->image);
-                break;
-                case 'fooding':
-                $cost = OtherExpenseCost::findOrFail($id);
-                $documentPath = public_path('uploads/other_expense_costs/' . $cost->image);
-                break;
-            default:
-                return response()->json(['status' => 404, 'message' => 'Invalid type']);
-        }
+//     // Prepare the data to pass to the PDF generation
+//     $data = [
+//         'imagePath' => $documentPath,
+//         'title' => $cost->image,
+//     ];
 
-        // Prepare the data to pass to the PDF generation
-        $data = [
-            'imagePath' => $documentPath,
-            'title' => $cost->image,
-        ];
+//     // Generate the PDF from the view
+//     $pdf = PDF::loadView('pdf.document', $data);
 
-        // Generate the PDF from the view
-             $pdf = PDF::loadView('pdf.document', $data);
-        // // dd($pdf);
+//     // Return the generated PDF for download or streaming
+//     return response()->json([
+//         "status" => 200,
+//         "data" => $pdf->output() // Send PDF output as base64 or stream directly
+//     ]);
+// }
 
-        // // Return the generated PDF for download or streaming
-     return response()->json([
-            "status" => 200,
-             "data" => $pdf
-         ]);
-    }
 
 
 }

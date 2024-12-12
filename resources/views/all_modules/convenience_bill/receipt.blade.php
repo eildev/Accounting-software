@@ -16,9 +16,9 @@
                                     @if ($fileExtension !== 'pdf')
                                         <!-- If the document is an image -->
                                         <img id="printableImage" src="{{ asset('uploads/movement_costs/' . $movementCost->image) }}" width="100%" height="500px" alt="Image" />
-                                        <button class="btn btn-primary mt-3" id="printImageBtnMovement">
+                                        {{-- <button class="btn btn-primary mt-3" id="printImageBtnMovement">
                                             <i class="fa-solid fa-print"></i> Print
-                                        </button>
+                                        </button> --}}
                                     @else
                                         <!-- If the document is a PDF -->
                                         <iframe src="{{ asset('uploads/movement_costs/' . $movementCost->image) }}" width="100%" height="500px"></iframe>
@@ -37,9 +37,9 @@
                                     @if ($fileExtension !== 'pdf')
                                         <!-- If the document is an image -->
                                         <img id="printableImage2" src="{{ asset('uploads/fooding_costs/' . $foodingCost->image) }}" width="100%" height="500px" alt="Image" />
-                                        <button class="btn btn-primary mt-3" id="printImageBtnFooding">
+                                        {{-- <button class="btn btn-primary mt-3" id="printImageBtnFooding">
                                             <i class="fa-solid fa-print"></i> Print
-                                        </button>
+                                        </button> --}}
                                     @else
                                         <!-- If the document is a PDF -->
                                         <iframe src="{{ asset('uploads/fooding_costs/' . $foodingCost->image) }}" width="100%" height="500px"></iframe>
@@ -58,9 +58,9 @@
                                     @if ($fileExtension !== 'pdf')
                                         <!-- If the document is an image -->
                                         <img id="printableImage3" src="{{ asset('uploads/overnight_costs/' . $overnightCost->image) }}" width="100%" height="500px" alt="Image" />
-                                        <button class="btn btn-primary mt-3" id="printImageBtnOvernight">
+                                        {{-- <button class="btn btn-primary mt-3" id="printImageBtnOvernight">
                                             <i class="fa-solid fa-print"></i> Print
-                                        </button>
+                                        </button> --}}
                                     @else
                                         <!-- If the document is a PDF -->
                                         <iframe src="{{ asset('uploads/overnight_costs/' . $overnightCost->image) }}" width="100%" height="500px"></iframe>
@@ -79,9 +79,9 @@
                                     @if ($fileExtension !== 'pdf')
                                         <!-- If the document is an image -->
                                         <img id="printableImage4" src="{{ asset('uploads/other_expense_costs/' . $otherCost->image) }}" width="100%" height="500px" alt="Image" />
-                                        <button class="btn btn-primary mt-3" id="printImageBtnOther">
+                                        {{-- <button class="btn btn-primary mt-3" id="printImageBtnOther">
                                             <i class="fa-solid fa-print"></i> Print
-                                        </button>
+                                        </button> --}}
                                     @else
                                         <!-- If the document is a PDF -->
                                         <iframe src="{{ asset('uploads/other_expense_costs/' . $otherCost->image) }}" width="100%" height="500px"></iframe>
@@ -124,49 +124,49 @@
 
 <script>
    // Generic function to handle print
-function handlePrintButtonClick(type, id) {
-    $.ajax({
-        url: `/${type}-cost/image/` + id,
-        method: 'GET',
-        success: function(res) {
-            if (res.status == 200) {
-                // Open the PDF in a new tab using iframe
-                var newWindow = window.open();
-                newWindow.document.write('<iframe src="' + res.data + '" width="100%" height="100%"></iframe>');
-            } else {
-                toastr.warning('Something went wrong');
-            }
-        }
-    });
-}
+//    function handlePrintButtonClick(type, id) {
+//     $.ajax({
+//         url: `/${type}-cost/image/` + id + '/pdf', // Ensure this URL matches your route
+//         method: 'GET',
+//         success: function(res) {
+//             // Open the PDF in a new tab (it will be streamed automatically)
+//             // var newWindow = window.open();
+//             newWindow.location.href = res.data; // Directly link to the streamed file
+//         },
+//         error: function(err) {
+//             toastr.warning('Something went wrong');
+//         }
+//     });
+// }
 
-// Dynamic print button handling for movement, fooding, overnight, and other
-document.getElementById('printImageBtnMovement')?.addEventListener('click', function() {
-    let id = '{{ $movementCost->id ?? '' }}';
-    if (id) {
-        handlePrintButtonClick('movement', id);
-    }
-});
+// // Dynamic print button handling for movement, fooding, overnight, and other
+// document.getElementById('printImageBtnMovement')?.addEventListener('click', function() {
+//     let id = '{{ $movementCost->id ?? '' }}';
+//     if (id) {
+//         handlePrintButtonClick('movement', id);
+//     }
+// });
 
-document.getElementById('printImageBtnFooding')?.addEventListener('click', function() {
-    let id = '{{ $foodingCost->id ?? '' }}';
-    if (id) {
-        handlePrintButtonClick('fooding', id);
-    }
-});
+// document.getElementById('printImageBtnFooding')?.addEventListener('click', function() {
+//     let id = '{{ $foodingCost->id ?? '' }}';
+//     if (id) {
+//         handlePrintButtonClick('fooding', id);
+//     }
+// });
 
-document.getElementById('printImageBtnOvernight')?.addEventListener('click', function() {
-    let id = '{{ $overnightCost->id ?? '' }}';
-    if (id) {
-        handlePrintButtonClick('overnight', id);
-    }
-});
+// document.getElementById('printImageBtnOvernight')?.addEventListener('click', function() {
+//     let id = '{{ $overnightCost->id ?? '' }}';
+//     if (id) {
+//         handlePrintButtonClick('overnight', id);
+//     }
+// });
 
-document.getElementById('printImageBtnOther')?.addEventListener('click', function() {
-    let id = '{{ $otherCost->id ?? '' }}';
-    if (id) {
-        handlePrintButtonClick('other', id);
-    }
-});
+// document.getElementById('printImageBtnOther')?.addEventListener('click', function() {
+//     let id = '{{ $otherCost->id ?? '' }}';
+//     if (id) {
+//         handlePrintButtonClick('other', id);
+//     }
+// });
+
 </script>
 @endsection
