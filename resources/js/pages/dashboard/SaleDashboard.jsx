@@ -1,9 +1,10 @@
-import Breadcrumb from "../components/breadcrumb/Breadcrumb";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
+
 
 const SaleDashboard = () => {
     return (
         <>
-            <Breadcrumb title="Sale Dashboard" />
+            <Breadcrumb section="Dashboard" title="Sale Dashboard" />
             <h5>Sale Dashboard</h5>
         </>
     );
