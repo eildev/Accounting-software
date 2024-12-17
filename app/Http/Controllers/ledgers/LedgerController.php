@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ledgers;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Ledger\LedgerAccounts\LedgerAccounts;
+use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use App\Models\Ledger\PrimaryLedger\PrimaryLedgerGroup;
 use App\Models\Ledger\SubLedger\SubLedger;
 use Illuminate\Http\Request;
@@ -176,9 +177,10 @@ class LedgerController extends Controller
             $primaryLedger = PrimaryLedgerGroup::findOrFail($id);
             $ledgers = LedgerAccounts::where('group_id', $id)->get();
             $branch = Branch::findOrFail($primaryLedger->branch_id);
+            $totalAmount = LedgerEntries::where('group_id', $primaryLedger->id)->sum('entry_amount');
             // Return a successful response with data
             // Attempt to return the view
-            return view('all_modules.ledgers.primary-ledgers-details', compact('primaryLedger', 'branch', 'ledgers'));
+            return view('all_modules.ledgers.primary-ledgers-details', compact('primaryLedger', 'branch', 'ledgers', 'totalAmount'));
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error loading the Ledger details: ' . $e->getMessage());
@@ -217,9 +219,10 @@ class LedgerController extends Controller
             $ledger = LedgerAccounts::findOrFail($id);
             $branch = Branch::findOrFail($ledger->branch_id);
             $subLedgers = SubLedger::where('account_id', $id)->get();
+            $totalAmount = LedgerEntries::where('account_id', $ledger->id)->sum('entry_amount');
             // Return a successful response with data
             // Attempt to return the view
-            return view('all_modules.ledgers.ledger-details', compact('ledger', 'branch', 'subLedgers'));
+            return view('all_modules.ledgers.ledger-details', compact('ledger', 'branch', 'subLedgers', 'totalAmount'));
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error loading the Ledger details: ' . $e->getMessage());

@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\EmployeePayroll\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -203,7 +204,7 @@ class RolePermissionController extends Controller
     }
     public function AddAdmin()
     {
-        $role = Role::all();
+        $role = Role::where('name', '!=', 'Super Admin')->get();
         $branch = Branch::all();
         return view('all_modules.role_and_permission.admin_manage.add_admin', compact('role', 'branch'));
     }
@@ -216,8 +217,24 @@ class RolePermissionController extends Controller
             'password' => 'required',
             'role_id' => 'required',
         ]);
+        // dd($request->employee_id);
 
         $user = new User;
+        if($request->employee_id){
+            $existingUser = User::where('employee_id', $request->employee_id)->first();
+            if ($existingUser) {
+                $notification = [
+                    'warning' => 'This Employee ID already exists.',
+                    'alert-type' => 'danger'
+                ];
+                return redirect()->back()->with($notification);
+            }
+            $user->employee_id = $request->employee_id;
+            $user->role = 'employee';
+        }
+        $roleId = Role::find($request->role_id);
+
+        $user->role = $roleId->name;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password =  Hash::make($request->password);
@@ -277,5 +294,25 @@ class RolePermissionController extends Controller
             'alert-type' => 'info'
         ];
         return redirect()->route('admin.all')->with($notification);
+    }//End MEthod
+    public function EmployeedData($id){
+        $employee = Employee::findOrFail($id);
+        // dd($employee);
+        if ($employee) {
+            return response()->json([
+                'success' => true,
+                'employee' => [
+                    'name' => $employee->full_name,
+                    'email' => $employee->email,
+                    'phone' => $employee->phone,
+                    'address' => $employee->address,
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Employee not found.'
+            ]);
+        }
     }
 }

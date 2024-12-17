@@ -21,6 +21,7 @@ class UserSeed extends Seeder
                 'phone' => '12345656',
                 'branch_id' => 1,
                 'password' => Hash::make('111'),
+                'role' => 'superadmin',
             ],
             [
                 'id' => 2,
@@ -29,6 +30,7 @@ class UserSeed extends Seeder
                 'phone' => '1234567838',
                 'branch_id' => 1,
                 'password' => Hash::make('123'),
+                'role' => 'admin',
             ],
             [
                 'id' => 3,

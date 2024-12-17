@@ -19,7 +19,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="card-title">Recurring Expanse Table</h6>
+                        <h6 class="card-title">Recurring Expense Table</h6>
                         <button class="btn btn-rounded-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#recurringExpanse"><i data-feather="plus"></i></button>
                     </div>
@@ -27,8 +27,8 @@
                         <table id="myDataTable" class="table">
                             <thead>
                                 <tr>
-                                    <th>Expanse Name</th>
-                                    <th>Expanse Category</th>
+                                    <th>Expense Name</th>
+                                    <th>Expense Category</th>
                                     <th>Amount</th>
                                     <th>Start Date</th>
                                     <th>Recurrence Period</th>
@@ -53,13 +53,13 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Recurring Expanse</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Recurring Expense</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="recurringExpanseForm row">
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Expanse Name<span class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Expense Name<span class="text-danger">*</span></label>
                             <input class="form-control expanse_name" name="name" type="text"
                                 onkeyup="errorRemove(this);">
                             <span class="text-danger expanse_name_error"></span>
@@ -67,7 +67,7 @@
                         <div class="mb-3 col-md-6">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <label for="name" class="form-label">Expanse Category<span
+                                    <label for="name" class="form-label">Expense Category<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control expanse_category_id" name="expanse_category_id"
                                         onchange="errorRemove(this);">
@@ -137,13 +137,13 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Expanse Category</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Expense Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="expanseCategoryForm row">
                         <div class="mb-3 col-md-12">
-                            <label for="name" class="form-label">Expanse Category Name <span
+                            <label for="name" class="form-label">Expense Category Name <span
                                     class="text-danger">*</span></label>
                             <input class="form-control expanse_category_name" name="name" type="text"
                                 onkeyup="errorRemove(this);">
@@ -340,7 +340,7 @@
                     }
                 });
                 $.ajax({
-                    url: '/expense/category/store',
+                    url: '/recurring-expanse/category/store',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -375,12 +375,12 @@
                         // console.log(categories);
                         if (categories.length > 0) {
                             $('.expanse_category_id').html(
-                                `<option selected disabled>Select Expanse Category</option>`
+                                `<option selected disabled>Select Expense Category</option>`
                             ); // Clear and set default option
                             $.each(categories, function(index, category) {
                                 // console.log(account);
                                 $('.expanse_category_id').append(
-                                    `<option value="${category.id}">${category.name ?? ""}</option>`
+                                    `<option value="${category.id}">${category.sub_ledger_name ?? ""}</option>`
                                 );
                             });
 

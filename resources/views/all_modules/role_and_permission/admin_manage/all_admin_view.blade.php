@@ -6,7 +6,7 @@
 
         <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
             <div class="">
-                <h4 class="text-right"><a href="{{ route('admin.add') }}" class="btn btn-info">Add Admin</a></h4>
+                <h4 class="text-right"><a href="{{ route('admin.add') }}" class="btn" style="background-color: #6571FF">Add Admin</a></h4>
             </div>
         </div>
         <div class="col-md-12 grid-margin stretch-card">

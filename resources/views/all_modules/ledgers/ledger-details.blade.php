@@ -43,11 +43,11 @@
                             <p class="show_branch_phone">{{ $branch->phone ?? '' }}</p>
                         </div>
                         <div>
-                            @if ($ledger->account_name == 'Expanse')
+                            @if ($ledger->account_name == 'Expense')
                                 <a href="{{ route('expense.view') }}"
                                     class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                                     <i class="btn-icon-prepend" data-feather="dollar-sign"></i>
-                                    Expanse
+                                    Expense
                                 </a>
                             @endif
                             @if ($ledger->account_name == 'Convenience Bill')
@@ -57,11 +57,11 @@
                                     Convenience Bill
                                 </a>
                             @endif
-                            @if ($ledger->account_name == 'Recurring Expanse')
+                            @if ($ledger->account_name == 'Recurring Expense')
                                 <a href="{{ route('expense.recurring') }}"
                                     class="btn btn-outline-primary btn-icon-text me-2 mb-2 mb-md-0">
                                     <i class="btn-icon-prepend" data-feather="dollar-sign"></i>
-                                    Recurring Expanse
+                                    Recurring Expense
                                 </a>
                             @endif
 
@@ -125,6 +125,10 @@
                                                     <b><i>Total Sub Ledger</i></b>
                                                 </td>
                                                 <td>{{ $subLedgers->count() }}</td>
+                                                <td>
+                                                    <b><i>Total Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($totalAmount, 2) ?? 0 }}</td>
                                             </tr>
                                         </thead>
                                     </table>

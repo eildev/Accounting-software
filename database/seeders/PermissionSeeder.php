@@ -67,10 +67,7 @@ class PermissionSeeder extends Seeder
             ['id' => 40, 'name' => 'promotion.edit', 'guard_name' => 'web', 'group_name' => 'promotion'],
             ['id' => 41, 'name' => 'promotion.delete', 'guard_name' => 'web', 'group_name' => 'promotion'],
 
-            ['id' => 42, 'name' => 'promotion-details.menu', 'guard_name' => 'web', 'group_name' => 'promotion-details'],
-            ['id' => 43, 'name' => 'promotion-details.add', 'guard_name' => 'web', 'group_name' => 'promotion-details'],
-            ['id' => 44, 'name' => 'promotion-details.edit', 'guard_name' => 'web', 'group_name' => 'promotion-details'],
-            ['id' => 45, 'name' => 'promotion-details.delete', 'guard_name' => 'web', 'group_name' => 'promotion-details'],
+
 
             ['id' => 46, 'name' => 'damage.menu', 'guard_name' => 'web', 'group_name' => 'damage'],
             ['id' => 47, 'name' => 'damage.add', 'guard_name' => 'web', 'group_name' => 'damage'],
@@ -94,18 +91,22 @@ class PermissionSeeder extends Seeder
             ['id' => 61, 'name' => 'customer.edit', 'guard_name' => 'web', 'group_name' => 'customer'],
             ['id' => 62, 'name' => 'customer.delete', 'guard_name' => 'web', 'group_name' => 'customer'],
 
-            ['id' => 63, 'name' => 'employee.menu', 'guard_name' => 'web', 'group_name' => 'employee'],
-            ['id' => 64, 'name' => 'employee.add', 'guard_name' => 'web', 'group_name' => 'employee'],
-            ['id' => 65, 'name' => 'employee.edit', 'guard_name' => 'web', 'group_name' => 'employee'],
-            ['id' => 66, 'name' => 'employee.delete', 'guard_name' => 'web', 'group_name' => 'employee'],
+            ['id' => 63, 'name' => 'employee.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 64, 'name' => 'employee.add', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 65, 'name' => 'employee.edit', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 66, 'name' => 'employee.delete', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
 
-            ['id' => 67, 'name' => 'employee-salary.menu', 'guard_name' => 'web', 'group_name' => 'employee-salary'],
-            ['id' => 68, 'name' => 'employee-salary.add', 'guard_name' => 'web', 'group_name' => 'employee-salary'],
-            ['id' => 69, 'name' => 'employee-salary.edit', 'guard_name' => 'web', 'group_name' => 'employee-salary'],
-            ['id' => 70, 'name' => 'employee-salary.delete', 'guard_name' => 'web', 'group_name' => 'employee-salary'],
-            ['id' => 71, 'name' => 'employee-salary.list', 'guard_name' => 'web', 'group_name' => 'employee-salary'],
+            ['id' => 67, 'name' => 'employee.payroll.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 68, 'name' => 'departments.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 69, 'name' => 'salary.structure.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 70, 'name' => 'conveyance.bill.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 71, 'name' => 'conveyance.report', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 72, 'name' => 'conveyance.bill', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
 
-            ['id' => 72, 'name' => 'advanced-employee-salary.menu', 'guard_name' => 'web', 'group_name' => 'advanced-employee-salary'],
+            ['id' => 42, 'name' => 'employee.list', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 43, 'name' => 'employee.bonuses.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 44, 'name' => 'salary.sheet.menu', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 45, 'name' => 'service.sale.menu', 'guard_name' => 'web', 'group_name' => 'service-sale'],
 
             ['id' => 73, 'name' => 'crm.menu', 'guard_name' => 'web', 'group_name' => 'crm'],
             ['id' => 74, 'name' => 'crm.customize-customer', 'guard_name' => 'web', 'group_name' => 'crm'],
@@ -139,9 +140,28 @@ class PermissionSeeder extends Seeder
             ['id' => 98, 'name' => 'branch.edit', 'guard_name' => 'web', 'group_name' => 'branch'],
             ['id' => 99, 'name' => 'branch.delete', 'guard_name' => 'web', 'group_name' => 'branch'],
 
-            ['id' => 100, 'name' => 'report.menu', 'guard_name' => 'web', 'group_name' => '	report'],
-            ['id' => 101, 'name' => 'return.menu', 'guard_name' => 'web', 'group_name' => '	return'],
-
+            ['id' => 100, 'name' => 'report.menu', 'guard_name' => 'web', 'group_name' => 'report'],
+            ['id' => 101, 'name' => 'return.menu', 'guard_name' => 'web', 'group_name' => 'return'],
+            //Dashboard Permissison
+            ['id' => 102, 'name' => 'main.dashboard', 'guard_name' => 'web', 'group_name' => 'dashboard'],
+            ['id' => 103, 'name' => 'sale.dashboard', 'guard_name' => 'web', 'group_name' => 'dashboard'],
+            ['id' => 104, 'name' => 'customer.dashboard', 'guard_name' => 'web', 'group_name' => 'dashboard'],
+            ['id' => 105, 'name' => 'payroll.dashboard', 'guard_name' => 'web', 'group_name' => 'dashboard'],
+            ['id' => 106, 'name' => 'expanse.dashboard', 'guard_name' => 'web', 'group_name' => 'dashboard'],
+            ['id' => 107, 'name' => 'menu.dashboard', 'guard_name' => 'web', 'group_name' => 'dashboard'],
+            ['id' => 108, 'name' => 'accounting.menu', 'guard_name' => 'web', 'group_name' => 'accounting'],
+            ['id' => 109, 'name' => 'menu.loan.managment', 'guard_name' => 'web', 'group_name' => 'accounting'],
+            ['id' => 110, 'name' => 'ledger.menu', 'guard_name' => 'web', 'group_name' => 'ledger'],
+            ['id' => 111, 'name' => 'all.ledger', 'guard_name' => 'web', 'group_name' => 'ledger'],
+            ['id' => 112, 'name' => 'sub.ledger', 'guard_name' => 'web', 'group_name' => 'ledger'],
+            ['id' => 113, 'name' => 'assets.menu', 'guard_name' => 'web', 'group_name' => 'assets'],
+            ['id' => 114, 'name' => 'asset.managment', 'guard_name' => 'web', 'group_name' => 'assets'],
+            ['id' => 115, 'name' => 'asset.revaluation', 'guard_name' => 'web', 'group_name' => 'assets'],
+            ['id' => 116, 'name' => 'setting.and.customize.menu', 'guard_name' => 'web', 'group_name' => 'settings'],
+            ['id' => 117, 'name' => 'genarate.payslip.single', 'guard_name' => 'web', 'group_name' => 'other'],
+            ['id' => 118, 'name' => 'genarate.payslip.all', 'guard_name' => 'web', 'group_name' => 'other'],
+            ['id' => 119, 'name' => 'salary.sheet1', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 120, 'name' => 'salary.sheet2', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
             // add more permissions as needed
         ];
 

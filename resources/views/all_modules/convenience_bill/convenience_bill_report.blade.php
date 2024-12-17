@@ -6,12 +6,15 @@
             border: none !important;
         }
     </style>
+     @php
+     $user = Auth::user();
+    @endphp
     <div class="row">
         <div id="filter-rander">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title text-info">Conveyance Bill Report</h6>
+                        <h6 class="card-title ">Conveyance Bill Report</h6>
                         <div id="tableContainer" class="table-responsive">
                             <table id="example" class="table">
                                 <thead class="action">
@@ -19,6 +22,9 @@
                                         <th>SN</th>
                                         <th>Invoice No.</th>
                                         <th>Employee Name</th>
+                                        @if($user->role === 'superadmin' || $user->role === 'admin')
+                                        <th>Submitted By</th>
+                                        @endif
                                         <th>Amount</th>
                                         <th>Status</th>
                                         <th>Action</th>
@@ -34,6 +40,9 @@
                                                         href="{{ route('convenience.invoice', $item->id) }}">{{ $item->bill_number }}</a>
                                                 </td>
                                                 <td>{{ $item->employee->full_name }}</td>
+                                                @if($user->role === 'superadmin' || $user->role === 'admin')
+                                                <td>{{$item->entry_by}}</td>
+                                                @endif
                                                 <td>{{ $item->total_amount }}</td>
                                                 <td>
                                                     <div class="dropdown" id="statusChange{{ $item->id }}">
@@ -46,14 +55,19 @@
                                                                 {{ ucfirst($item->status) }}
                                                             </a>
                                                         </button>
+
+                                                        @if($user->role === 'accountant')
+
+                                                        @else
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="changeStatus({{ $item->id }}, 'pending')">Pending</a>
                                                             <a class="dropdown-item" href="#"
                                                                 onclick="changeStatus({{ $item->id }}, 'approved')">Approved</a>
                                                             <a class="dropdown-item" href="#"
-                                                                onclick="changeStatus({{ $item->id }}, 'paid')">Paid</a>
+                                                                onclick="changeStatus({{ $item->id }}, 'processing')">Processing</a>
                                                         </div>
+                                                        @endif
                                                     </div>
                                                 </td>
                                                 <td>
@@ -70,7 +84,7 @@
                                             <td colspan="12">
                                                 <div class="text-center text-warning mb-2">Data Not Found</div>
                                                 <div class="text-center">
-                                                    <a href="#" class="btn btn-primary">Add Conveyance<i
+                                                    <a href="{{route('convenience')}}" class="btn btn-primary">Add Conveyance<i
                                                             data-feather="plus"></i></a>
                                                 </div>
                                             </td>
@@ -88,6 +102,10 @@
 
     <script>
         function changeStatus(id, status) {
+            if ($('#statusBadge' + id).text().trim().toLowerCase() === 'paid') {
+                toastr.warning("Status cannot be changed as it's already 'Paid'.");
+                return;
+            }
             $.ajax({
                 url: '/update-status', // Adjust with your route URL
                 type: 'POST',
@@ -107,6 +125,9 @@
                         badge.removeClass('bg-warning bg-primary').addClass('bg-success');
                     } else if (status === 'paid') {
                         badge.removeClass('bg-warning bg-success').addClass('bg-primary');
+                    }
+                    else if (status === 'processing') {
+                        badge.removeClass('bg-warning bg-success bg-primary').addClass('bg-info');
                     }
                 },
                 error: function(error) {

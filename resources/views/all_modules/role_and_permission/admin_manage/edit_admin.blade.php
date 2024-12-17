@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
             <div class="">
-                <h4 class="text-right"><a href="{{ route('admin.all') }}" class="btn btn-info">All Admin</a></h4>
+                <h4 class="text-right"><a href="{{ route('admin.all') }}" class="btn" style="background-color: #6571FF">All Admin</a></h4>
             </div>
         </div>
         <div class="col-md-12 grid-margin stretch-card">
@@ -80,39 +80,6 @@
                         <button type="submit" class="btn btn-primary me-2">Update</button>
                     </form>
 
-                    <div class="row mb-3">
-                        <label for="exampleInputPassword2ss" class="col-sm-3 col-form-label">Asign Branch <span
-                                class="text-danger">*</span></label>
-                        <div class="col-sm-9 form-valid-groupss">
-                            <select class="js-example-basic-single form-select" id="exampleInputPassword2ss"
-                                name="branch_id" data-width="100%">
-                                <option selected disabled>Select Branch </option>
-                                @foreach ($branch as $branches)
-                                    <option value="{{ $branches->id }}"
-                                        {{ $branches->id == $user->branch_id ? 'selected' : '' }}>{{ $branches->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="exampleInputPassword2s" class="col-sm-3 col-form-label">Asign Role <span
-                                class="text-danger">*</span></label>
-                        <div class="col-sm-9 form-valid-groupss">
-                            <select class="js-example-basic-single form-select" id="exampleInputPassword2s" name="role_id"
-                                data-width="100%">
-                                <option selected disabled>Select Role</option>
-                                @foreach ($role as $roles)
-                                    <option value="{{ $roles->id }}"
-                                        {{ $user->hasRole($roles->name) ? 'selected' : '' }}>{{ $roles->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary me-2">Update</button>
-                    </form>
-
                 </div>
             </div>
         </div>
@@ -166,10 +133,7 @@
                     $(element).addClass('is-valid');
                 },
             });
-        }); <<
-        << << < HEAD
+        });
     </script>
-    =======
-    </script>
-    >>>>>>> 99cf0e10481cd157bab00f154f7d7ce96796b34f
+
 @endsection

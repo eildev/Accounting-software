@@ -4,6 +4,7 @@
             <thead class="action">
                 <tr>
                     <th>SN</th>
+                    <th>INV</th>
                     <th>purpose</th>
                     <th>Amount</th>
                     <th>Spender</th>
@@ -20,6 +21,8 @@
                     @foreach ($expense as $key => $expenses)
                         <tr>
                             <td>{{ $key + 1 }}</td>
+                            <td><a href="{{ route('expenses.invoice', $expenses->id) }}">{{ 'INV-' . now()->year . '-' . str_pad($expenses->id, 5, '0', STR_PAD_LEFT) }}</a></td>
+
                             <td>{{ $expenses->purpose ?? '' }}</td>
                             <td>{{ $expenses->amount ?? '' }}</td>
                             <td>{{ $expenses->spender ?? '' }}</td>
@@ -35,18 +38,23 @@
                                 @endif
                             </td>
                             <td>
-                                @if (Auth::user()->can('expense.edit'))
+                                {{-- @if (Auth::user()->can('expense.edit'))
                                     <a href="{{ route('expense.edit', $expenses->id) }}" class="btn btn-sm btn-primary "
                                         title="Edit">
                                         Edit
                                     </a>
-                                @endif
-                                @if (Auth::user()->can('expense.delete'))
+                                @endif --}}
+                                {{-- @if (Auth::user()->can('expense.delete'))
                                     <a href="{{ route('expense.delete', $expenses->id) }}" id="delete"
                                         class="btn btn-sm btn-danger " title="Delete">
                                         Delete
                                     </a>
-                                @endif
+                                @endif --}}
+                                <a href="#"
+                                class="btn-sm btn-outline-primary  float-end printExpanse"
+                                data-id="{{ $expenses->id }}" type="expanse">
+                                <i data-feather="printer" class="me-2 icon-md"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -62,7 +70,9 @@
         </table>
     </div>
 </div>
-<div class="col-md-12 grid-margin stretch-card">
+<iframe id="printFrame" style="display: none;"></iframe>
+
+{{-- <div class="col-md-12 grid-margin stretch-card">
     <div id="tableContainer" class="table-responsive">
         <table id="example" class="table">
             <thead class="action">
@@ -77,7 +87,6 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- @dd($testData) --}}
                 @forelse ($testData as $key => $element)
                     <tr>
                         <td>{{ $key + 1 }}</td>
@@ -98,4 +107,20 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> --}}
+<script>
+     $('.printExpanse').click(function(e) {
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let type = $(this).attr('type');
+            var printFrame = $('#printFrame')[0];
+
+              let printExpanseContentUrl = '/expanse/invoice/receipt/print/' + id;
+            // console.log(printExpanseContentUrl);
+            $('#printFrame').attr('src', printExpanseContentUrl);
+            printFrame.onload = function() {
+                printFrame.contentWindow.focus();
+                printFrame.contentWindow.print();
+            };
+        })
+</script>

@@ -25,7 +25,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $category = Category::where('slug', 'via-sell')->first();
-        $query = Product::orderBy('stock', 'asc');
+        $query = Product::get();
 
         if (Auth::user()->id != 1) {
             $query->where('branch_id', Auth::user()->branch_id);
@@ -35,12 +35,12 @@ class PurchaseController extends Controller
             $query->where('category_id', '!=', $category->id);
         }
 
-        $products = $query->get();
+        $products = Product::get();
 
-        return view('pos.purchase.purchase', compact('products'));
+        return view('all_modules.purchase.purchase', compact('products'));
     }
 
-    // store function 
+    // store function
     public function store(Request $request)
     {
         // dd($request->all());
@@ -141,7 +141,7 @@ class PurchaseController extends Controller
 
                 // Account Transaction Crud //
 
-                // Account Transaction 
+                // Account Transaction
                 $accountTransaction = new AccountTransaction;
                 $accountTransaction->branch_id =  Auth::user()->branch_id;
                 $accountTransaction->reference_id = $purchaseId;
@@ -218,7 +218,7 @@ class PurchaseController extends Controller
         }
     }
 
-    // invoice function 
+    // invoice function
     public function invoice($id)
     {
         $purchase = Purchase::findOrFail($id);
@@ -231,17 +231,17 @@ class PurchaseController extends Controller
             $authName = "Data not Found";
         }
 
-        return view('pos.purchase.invoice', compact('purchase', 'branch', 'supplier', 'products', 'authName'));
+        return view('all_modules.purchase.invoice', compact('purchase', 'branch', 'supplier', 'products', 'authName'));
     }
 
     // Money Receipt
     public function moneyReceipt($id)
     {
         $purchase = Purchase::findOrFail($id);
-        return view('pos.purchase.receipt', compact('purchase'));
+        return view('all_modules.purchase.receipt', compact('purchase'));
     }
 
-    // view Function 
+    // view Function
     public function view()
     {
         if (Auth::user()->id == 1) {
@@ -251,10 +251,10 @@ class PurchaseController extends Controller
         }
 
         // return view('pos.purchase.view');
-        return view('pos.purchase.view', compact('purchase'));
+        return view('all_modules.purchase.view', compact('purchase'));
     }
 
-    // supplierName function 
+    // supplierName function
     public function supplierName($id)
     {
         $supplier = Supplier::findOrFail($id);
@@ -264,7 +264,7 @@ class PurchaseController extends Controller
         ]);
     }
 
-    // edit function 
+    // edit function
     public function edit($id)
     {
         $purchase = Purchase::findOrFail($id);
@@ -278,10 +278,10 @@ class PurchaseController extends Controller
                 ->orderBy('stock', 'asc')
                 ->get();
         }
-        return view('pos.purchase.edit', compact('purchase', 'branch', 'selectedSupplier', 'suppliers', 'products'));
+        return view('all_modules.purchase.edit', compact('purchase', 'branch', 'selectedSupplier', 'suppliers', 'products'));
     }
 
-    // update function 
+    // update function
     public function update(Request $request, $id)
     {
         // dd($request->all());
@@ -312,7 +312,7 @@ class PurchaseController extends Controller
                     // dd($purchase);
 
 
-                    // purchase Item 
+                    // purchase Item
                     $existingItems = PurchaseItem::where('purchase_id', $id)->pluck('id')->toArray();
                     $requestItems = array_filter($request->purchaseItemId);
                     $itemsToDelete = array_diff($existingItems, $requestItems);
@@ -358,7 +358,7 @@ class PurchaseController extends Controller
                     $actualPayment->date =  $purchaseDate;
                     $actualPayment->save();
 
-                    // Account Transaction 
+                    // Account Transaction
                     $accountTransaction = new AccountTransaction;
                     $accountTransaction->branch_id =  Auth::user()->branch_id;
                     $accountTransaction->reference_id = $id;
@@ -419,7 +419,7 @@ class PurchaseController extends Controller
 
 
 
-                    // purchase table Crud 
+                    // purchase table Crud
                     $purchase->branch_id = Auth::user()->branch_id;
                     $purchase->supplier_id = $request->supplier_id;
                     $purchase->purchase_date =  $purchaseDate;
@@ -485,12 +485,12 @@ class PurchaseController extends Controller
     }
 
 
-    // destroy function 
+    // destroy function
     public function destroy($id)
     {
         $purchase = Purchase::findOrFail($id);
         $oldBalance = AccountTransaction::where('account_id', $purchase->payment_method)->latest('created_at')->first();
-        // Account Transaction 
+        // Account Transaction
         $accountTransaction = new AccountTransaction;
         $accountTransaction->branch_id =  Auth::user()->branch_id;
         $accountTransaction->reference_id = $id;
@@ -521,7 +521,7 @@ class PurchaseController extends Controller
         return back()->with('message', "Purchase successfully Deleted");
     }
 
-    // filter function 
+    // filter function
     public function filter(Request $request)
     {
         // dd($request->all());
@@ -546,10 +546,10 @@ class PurchaseController extends Controller
         // Execute the query
         $purchase = $purchaseQuery->get();
 
-        return view('pos.purchase.table', compact('purchase'))->render();
+        return view('all_modules.purchase.table', compact('purchase'))->render();
     }
 
-    // purchaseItem Function 
+    // purchaseItem Function
     public function purchaseItem($id)
     {
         // Fetch PurchaseItem records with associated Product using eager loading
@@ -573,14 +573,14 @@ class PurchaseController extends Controller
     }
 
 
-    // get supplier details 
+    // get supplier details
     public function getSupplierDetails($id)
     {
         $supplier = Supplier::findOrFail($id);
         return response()->json(['data' => $supplier], 200);
     }
 
-    // image to PDF 
+    // image to PDF
     public function imageToPdf($id)
     {
         $purchase = Purchase::findOrFail($id);

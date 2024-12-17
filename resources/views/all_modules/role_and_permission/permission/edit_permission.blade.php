@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card d-flex justify-content-end">
             <div class="">
-                <h4 class="text-right"><a href="{{ route('all.permission') }}" class="btn btn-info">View Permission List</a></h4>
+                <h4 class="text-right"><a href="{{ route('all.permission') }}" class="btn " style="background-color: #6571FF">View Permission List</a></h4>
             </div>
         </div>
         <div class="col-md-12 stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title text-info">Edit Permission</h6>
+                    <h6 class="card-title " style="color: #6571FF">Edit Permission</h6>
                     <form id="myValidForm" action="{{ route('permission.update') }}" method="post">
                         <input type="hidden" name="permission_id" value="{{$permissions->id}}">
                         @csrf
@@ -33,6 +33,11 @@
                                     data-width="100%"  >
                                         <option selected disabled>Select Group Name</option>
                                         <option value="dashboard" {{ $permissions->group_name == 'dashboard' ? 'selected': ''}}>Dashboard</option>
+                                        <option value="accounting" {{ $permissions->group_name == 'accounting' ? 'selected': ''}}>Accounting</option>
+                                        <option value="ledger" {{ $permissions->group_name == 'ledger' ? 'selected': ''}}>Ledgers</option>
+                                        <option value="assets" {{ $permissions->group_name == 'assets' ? 'selected': ''}}>Assets</option>
+                                        <option value="employee-payroll" {{ $permissions->group_name == 'employee-payroll' ? 'selected': ''}}>Employee Payroll</option>
+                                        <option value="service-sale" {{ $permissions->group_name == 'service-sale' ? 'selected': ''}}>Service Sale</option>
                                         <option value="sale" {{ $permissions->group_name == 'sale' ? 'selected': ''}}>Sale</option>
                                         <option value="products" {{ $permissions->group_name == 'products' ? 'selected': ''}}>Products</option>
                                         <option value="category" {{ $permissions->group_name == 'category' ? 'selected': ''}}>Category</option>
@@ -57,6 +62,7 @@
                                         <option value="report" {{ $permissions->group_name == 'report' ? 'selected': ''}}>Report</option>
                                         <option value="settings" {{ $permissions->group_name == 'settings' ? 'selected': ''}}>Settings</option>
                                         <option value="branch" {{ $permissions->group_name == 'branch' ? 'selected': ''}}>Branch</option>
+                                        <option value="other" {{ $permissions->group_name == 'other' ? 'selected': ''}}>Others</option>
                                 </select>
                                 @error('group_name')
                                     <div class="invalid-feedback">{{ $message }}</div>

@@ -23,8 +23,8 @@ class PrimaryLedgerSeed extends Seeder
             [
                 'id' => 2,
                 'branch_id' => 1,
-                'group_name' => 'Expanse',
-                'slug' => 'expanse',
+                'group_name' => 'Expense',
+                'slug' => 'expense',
             ],
             [
                 'id' => 3,

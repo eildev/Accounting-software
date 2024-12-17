@@ -10,6 +10,8 @@
         </ol>
     </nav>
 
+    {{-- @dd($purposeData) --}}
+
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card border-0 shadow-none">
@@ -69,7 +71,7 @@
                                                 <td>
                                                     <b><i>Transaction Account</i></b>
                                                 </td>
-                                                <td>{{ $transaction->bank->cash_account_name ?? ($transaction->cash->cash_account_name ?? '') }}
+                                                <td>{{ $transaction->bank->bank_name ?? ($transaction->cash->cash_account_name ?? '') }}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -104,6 +106,63 @@
                                     </table>
                                 </div>
                             </div>
+
+
+
+                            {{-- @if ($transaction->source_type == 'Fixed Asset Purchase')
+                                <div class="col-md-12">
+                                    <h5 class="text-center mt-4 mb-2">Fixed Asset Data</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td>
+                                                        <b><i>Asset Name</i></b>
+                                                    </td>
+                                                    <td>
+                                                        {{ $purposeData->asset_name ?? '' }}
+                                                    </td>
+                                                    <td><b><i>Asset Type</i></b></td>
+                                                    <td>{{ $purposeData->assetType->name ?? '' }}</td>
+                                                    <td>
+                                                        <b><i>Purchase Date</i></b>
+                                                    </td>
+                                                    <td>{{ $purposeData->purchase_date ?? '' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b><i>Acquisition Cost</i></b>
+                                                    </td>
+                                                    <td>{{ $purposeData->acquisition_cost ?? 0 }}</td>
+                                                    <td>
+                                                        <b><i>Useful Life</i></b>
+                                                    </td>
+                                                    <td>{{ $purposeData->useful_life ?? '' }} years</td>
+                                                    <td>
+                                                        <b><i>Salvage Value</i></b>
+                                                    </td>
+                                                    <td>{{ $purposeData->salvage_value ?? '' }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b><i>Initial Depreciation Ddate</i></b>
+                                                    </td>
+                                                    <td>{{ $purposeData->initial_depreciation_date ?? 0 }}</td>
+                                                    <td>
+                                                        <b><i>Status</i></b>
+                                                    </td>
+                                                    <td>
+                                                        {{ $purposeData->status ?? '' }}
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            @endif --}}
                         </div>
                     </div>
                 </div>

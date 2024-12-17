@@ -65,12 +65,16 @@
                                                     <b><i>Ledger Name</i></b>
                                                 </td>
                                                 <td>
-                                                    {{ $sub_ledger_name->ledger->account_name ?? '' }}
+                                                    {{ $subLedger->ledger->account_name ?? '' }}
                                                 </td>
                                                 <td>
                                                     <b><i>Primary Ledger</i></b>
                                                 </td>
                                                 <td>{{ $primaryLedger->group_name ?? '' }}</td>
+                                                <td>
+                                                    <b><i>Total Amount</i></b>
+                                                </td>
+                                                <td>{{ number_format($totalAmount, 2) ?? 0 }}</td>
                                             </tr>
                                         </thead>
                                     </table>

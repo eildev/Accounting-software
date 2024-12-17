@@ -44,9 +44,9 @@
     </div>
 </div>
 <script>
- $(document).ready(function () {
-    const currentMonth = new Date().getMonth() + 1; // Months are 0-based in JavaScript
-    const currentYear = new Date().getFullYear(); // Get current year
+$(document).ready(function () {
+    const currentYear = new Date().getFullYear(); // Get the current year
+    let currentMonth = new Date().getMonth() + 1; // Default to the current month (1-based)
     let currentPage = 1; // Set the initial page
 
     // Function to fetch salaries with pagination
@@ -61,14 +61,14 @@
                 perPage: 5 // Set how many results per page
             },
             success: function (response) {
-                const netSalarys = response.netSalarys.data; // The paginated data
+                const netSalaries = response.netSalarys.data; // The paginated data
                 let rows = '';
 
-                if (netSalarys.length > 0) {
-                    netSalarys.forEach((salary, index) => {
+                if (netSalaries.length > 0) {
+                    netSalaries.forEach((salary, index) => {
                         rows += `
                             <tr>
-                                <td>${index + 1}</td>
+                                <td>${(page - 1) * 5 + index + 1}</td>
                                 <td>${salary.employee?.full_name || ''}</td>
                                 <td>${salary.employee?.designation || '-'}</td>
                                 <td>${salary.total_net_salary || '-'}</td>
@@ -92,7 +92,7 @@
                 }
 
                 $('#dashboardTable tbody').html(rows);
-                setupPagination(response); // Set up pagination based on the response
+                setupPagination(response, month, year); // Set up pagination based on the response
             },
             error: function (error) {
                 console.error('Error fetching data:', error);
@@ -101,7 +101,7 @@
     }
 
     // Set up pagination controls
-    function setupPagination(data) {
+    function setupPagination(data, month, year) {
         const pagination = $('.pagination');
         pagination.empty(); // Clear previous pagination buttons
 
@@ -110,7 +110,7 @@
 
         // Add "Previous" button
         if (currentPage > 1) {
-            pagination.append(`<button class="prev-btn" data-page="${currentPage - 1}">Previous</button>`);
+            pagination.append(`<button class="prev-btn mx-2" data-page="${currentPage - 1}">← Previous</button>`);
         }
 
         // Add page number buttons
@@ -124,24 +124,24 @@
 
         // Add "Next" button
         if (currentPage < totalPages) {
-            pagination.append(`<button class="next-btn" data-page="${currentPage + 1}">Next</button>`);
+            pagination.append(`<button class="next-btn mx-2" data-page="${currentPage + 1}">Next →</button>`);
         }
 
         // Bind events to pagination buttons
         $('.page-btn').click(function () {
             const page = $(this).data('page');
-            fetchSalaries(currentMonth, currentYear, page); // Fetch data for the selected page
+            fetchSalaries(month, year, page); // Fetch data for the selected page
         });
 
         $('.prev-btn').click(function () {
             if (currentPage > 1) {
-                fetchSalaries(currentMonth, currentYear, currentPage - 1);
+                fetchSalaries(month, year, currentPage - 1);
             }
         });
 
         $('.next-btn').click(function () {
             if (currentPage < totalPages) {
-                fetchSalaries(currentMonth, currentYear, currentPage + 1);
+                fetchSalaries(month, year, currentPage + 1);
             }
         });
     }
@@ -151,10 +151,12 @@
 
     // Fetch salaries when month is changed
     $('#salaryMonthSelect').on('change', function () {
-        const selectedMonth = $(this).val();
-        fetchSalaries(selectedMonth, currentYear); // Fetch data for the selected month
+        currentMonth = $(this).val(); // Update the selected month
+        currentPage = 1; // Reset to the first page
+        fetchSalaries(currentMonth, currentYear, currentPage); // Fetch data for the selected month
     });
 });
+
 
 </script>
 

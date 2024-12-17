@@ -10,7 +10,7 @@
     <meta name="keywords"
         content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <title>Log In - EIL - Electro || Eclipse Intellitech LTD POS Software</title>
+    <title>Log In - Accountant || Eclipse Intellitech LTD Accounting Software</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,11 +38,12 @@
 </head>
 <style>
     .full-page {
-        background-image: url('../../../assets/images/log_in_bg.png') !important;
+        /* background-image: url('../../../assets/images/log_in_bg.png') !important; */
+        background-color: #f9f9f9 !important;
     }
 
     .input_design {
-        border-radius: 25px;
+        /* border-radius: 25px; */
         padding-right: 40px;
         /* background-color: #f26539 !important; */
         /* background-image: linear-gradient(to bottom right, #f26539, #f6921e); */
@@ -62,7 +63,7 @@
         outline: none;
         /* Remove the default outline */
         /* background-color: #444; */
-        border-color: #408dff;
+        border-color: #E2E2EA;
     }
 
     .input-wrapper {
@@ -88,7 +89,7 @@
     .login_header {
         text-align: center;
         /* color: #fff; */
-        background-image: linear-gradient(to bottom right, #408dff, #0664f0);
+        /* background-image: linear-gradient(to bottom right, #408dff, #0664f0); */
     }
 
     .wd_160 {
@@ -131,10 +132,16 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="auth-form-wrapper ">
-                                        <div class="py-5 login_header">
+                                        <div class="pt-5 login_header">
                                             <a href="#" class="noble-ui-logo d-block mb-2">
-                                                <img class="wd_160" src="{{ 'assets/logo.png' }}" alt="">
+                                                <img class="wd_160" src="{{ 'accountant-logo.png' }}" alt="">
+
                                             </a>
+                                            <div
+                                                style="width: 200px; margin: 0 auto; text-align: center ;  background-color: #2A85FF">
+                                                <hr
+                                                    style="height: 2px; background-color: #2A85FF!important;color: #2A85FF">
+                                            </div>
                                         </div>
                                         <form class="forms-sample px-5 py-5" method="POST"
                                             action="{{ route('login') }}">
@@ -194,8 +201,8 @@
     </div>
     <!-- Custom JS for this page -->
 
-<script>
-      const passwordInput = document.getElementById('userPassword');
+    <script>
+        const passwordInput = document.getElementById('userPassword');
         const togglePassword = document.getElementById('togglePassword');
         const icon = togglePassword.querySelector('i'); // Select the icon element inside the div
 
@@ -212,7 +219,7 @@
             feather.replace();
             console.log(icon);
         });
-</script>
+    </script>
     <!-- core:js -->
     <script src="../../../assets/vendors/core/core.js"></script>
     <!-- endinject -->

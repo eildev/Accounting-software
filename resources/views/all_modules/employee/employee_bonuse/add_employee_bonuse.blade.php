@@ -230,6 +230,8 @@
                             $('#example').DataTable().clear().destroy();
                         }
                         // Check if salaryStructure data is present
+                        const userRole = @json(Auth::user()->role);
+
                         if (bonuses.length > 0) {
                             $.each(bonuses, function(index, bonus) {
                                 const tr = document.createElement('tr');
@@ -239,7 +241,15 @@
                                         <td>${bonus.bonus_type  ?? ""}</td>
                                         <td>${bonus.bonus_amount  ?? ""}</td>
                                         <td>${bonus.bonus_reason  ?? ""}</td>
-
+                                       ${
+                                    userRole === 'accountant'
+                                        ?   ` <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${bonus.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span id="statusBadge${bonus.id}" class="badge text-dark
+                                                    ${bonus.status === 'pending' ? 'bg-warning' : (bonus.status === 'approved' ? 'bg-success' : (bonus.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                                    ${bonus.status ? bonus.status.charAt(0).toUpperCase() + bonus.status.slice(1) : 'Processing'}
+                                                </span>
+                                                </button> `
+                                        : `
                                        <div class="dropdown" id="statusChange${bonus.id}">
                                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${bonus.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span id="statusBadge${bonus.id}" class="badge text-dark
@@ -250,10 +260,10 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${bonus.id}">
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'pending')">Pending</a>
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'approved')">Approved</a>
-                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'paid')">Paid</a>
+                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'processing')">Processing</a>
                                             </div>
                                         </div>
-
+                                    `}
                                         <td>
                                             <a href="#" class="btn btn-primary btn-icon bonuses_edit" data-id="${bonus.id}" data-bs-toggle="modal" data-bs-target="#edit">
                                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -486,6 +496,10 @@
         });
         ////Status Change
         function changeStatusBonus(id, status) {
+            if ($('#statusBadge' + id).text().trim().toLowerCase() === 'paid') {
+                toastr.warning("Status cannot be changed as it's already 'Paid'.");
+                return;
+            }
     $.ajax({
         url: '/update-status-bonus',
         type: 'POST',
@@ -499,13 +513,16 @@
             badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
             // Remove existing badge classes and add new one based on status
-            badge.removeClass('bg-warning bg-success bg-primary');
+            badge.removeClass('bg-warning bg-success bg-primary bg-info');
             if (status === 'pending') {
                 badge.addClass('bg-warning');
             } else if (status === 'approved') {
                 badge.addClass('bg-success');
             } else if (status === 'paid') {
                 badge.addClass('bg-primary');
+            }
+            else if (status === 'processing') {
+                badge.addClass('bg-info');
             }
             // Show or hide the delete button based on the new status
             if (status === 'pending') {

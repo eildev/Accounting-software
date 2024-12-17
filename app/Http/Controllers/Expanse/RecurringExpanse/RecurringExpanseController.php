@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Bank\BankAccounts;
 use App\Models\Expanse\RecurringExpense\RecurringExpense;
 use App\Models\ExpenseCategory;
+use App\Models\Ledger\SubLedger\SubLedger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class RecurringExpanseController extends Controller
 {
@@ -106,7 +108,7 @@ class RecurringExpanseController extends Controller
     {
         try {
 
-            $data = ExpenseCategory::latest()->get();
+            $data = SubLedger::where('account_id', 7)->latest()->get();
 
             return response()->json([
                 'status' => 200,
@@ -117,6 +119,43 @@ class RecurringExpanseController extends Controller
                 "status" => 500,
                 "message" => 'An error occurred while fetching Expanse Category.',
                 "error" => $e->getMessage()  // Optional: include exception message
+            ]);
+        }
+    }
+    public function recurringExpenseCategoryStore(Request $request)
+    {
+
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:255',
+            ], [
+                'name.required' => 'Expense Category Name is required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400, // Unprocessable Entity
+                    'error' => $validator->messages()
+                ]);
+            }
+            $subLedger = new SubLedger();
+            $subLedger->branch_id = Auth::user()->branch_id;
+            $subLedger->account_id = 7;
+            $subLedger->sub_ledger_name = $request->name;
+            $subLedger->slug = Str::slug($request->name);
+            $subLedger->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => "Expense Category Added Successfully"
+            ]);
+        } catch (\Exception $e) {
+            // Handle unexpected errors
+            return response()->json([
+                'status' => 500,
+                'message' => 'An error occurred while adding the Expense Category',
+                'error' => $e->getMessage()
             ]);
         }
     }
