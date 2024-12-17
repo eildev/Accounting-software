@@ -41,52 +41,53 @@ class MainDashboardApiController extends Controller
             [
                 'id' => 1,
                 'name' => 'Asset',
-                'value' => number_format($totalAsset,2),
+                'value' => number_format($totalAsset, 2),
             ],
             [
                 'id' => 2,
                 'name' => 'Liabilities',
-                'value' => number_format($totalLiabilities,2),
+                'value' => number_format($totalLiabilities, 2),
             ],
             [
                 'id' => 3,
                 'name' => 'Income',
-                'value' => number_format($totalIncome,2),
+                'value' => number_format($totalIncome, 2),
             ],
             [
                 'id' => 4,
                 'name' => 'Expense',
-                'value' => number_format($totalExpanse,2),
+                'value' => number_format($totalExpanse, 2),
             ],
 
 
         ]);
-    }//Method End
+    } //Method End
 
     //Dashboard Footer Left
-    public function DashboardFooterData(){
+    public function DashboardFooterData()
+    {
         //Bank Balance
         $bankBalance = BankAccounts::sum('current_balance');
         //cash Balance
         $cashBalance = Cash::sum('current_balance');
         //Assets Purchase
-        $assetPurchase = Assets::where('status','purchased')->sum('acquisition_cost');
-         return response()->json([
+        $assetPurchase = Assets::where('status', 'purchased')->sum('acquisition_cost');
+        return response()->json([
             [
                 'id' => 1,
                 'name' => 'Cash Balance',
-                'value' => number_format($bankBalance,2),
+                'value' => number_format($bankBalance, 2),
             ],
             [
                 'id' => 2,
                 'name' => 'Bank Balance',
-                'value' => number_format($cashBalance,2),
+                'value' => number_format($cashBalance, 2),
             ],
             [
                 'id' => 3,
                 'name' => 'Assets Purchase',
-                'value' => number_format($assetPurchase,2),
+                'value' => number_format($assetPurchase, 2),
             ],
         ]);
-    }//Method End
+    } //Method End
 }//Main End
