@@ -4,6 +4,7 @@
             <thead class="action">
                 <tr>
                     <th>SN</th>
+                    <th>INV</th>
                     <th>purpose</th>
                     <th>Amount</th>
                     <th>Spender</th>
@@ -20,6 +21,8 @@
                     @foreach ($expense as $key => $expenses)
                         <tr>
                             <td>{{ $key + 1 }}</td>
+                            <td><a href="{{ route('expenses.invoice', $expenses->id) }}">{{ 'INV-' . now()->year . '-' . str_pad($expenses->id, 5, '0', STR_PAD_LEFT) }}</a></td>
+
                             <td>{{ $expenses->purpose ?? '' }}</td>
                             <td>{{ $expenses->amount ?? '' }}</td>
                             <td>{{ $expenses->spender ?? '' }}</td>
@@ -47,6 +50,11 @@
                                         Delete
                                     </a>
                                 @endif --}}
+                                <a href="#"
+                                class="btn-sm btn-outline-primary  float-end printExpanse"
+                                data-id="{{ $expenses->id }}" type="expanse">
+                                <i data-feather="printer" class="me-2 icon-md"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -62,6 +70,8 @@
         </table>
     </div>
 </div>
+<iframe id="printFrame" style="display: none;"></iframe>
+
 {{-- <div class="col-md-12 grid-margin stretch-card">
     <div id="tableContainer" class="table-responsive">
         <table id="example" class="table">
@@ -98,3 +108,19 @@
         </table>
     </div>
 </div> --}}
+<script>
+     $('.printExpanse').click(function(e) {
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let type = $(this).attr('type');
+            var printFrame = $('#printFrame')[0];
+
+              let printExpanseContentUrl = '/expanse/invoice/receipt/print/' + id;
+            // console.log(printExpanseContentUrl);
+            $('#printFrame').attr('src', printExpanseContentUrl);
+            printFrame.onload = function() {
+                printFrame.contentWindow.focus();
+                printFrame.contentWindow.print();
+            };
+        })
+</script>

@@ -1,15 +1,104 @@
 @extends('master')
 @section('title', '| Conveyance List')
 @section('admin')
+<style>
+    /* Print Styles */
+    @media print {
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .card, .table {
+            box-shadow: none !important;
+            border: none !important;
+        }
+        /* Hide Unnecessary Elements */
+        button, a, .dropdown-item, .navbar-content, .search-form, .navbar, #myfooter,.file  {
+            display: none !important;
+        }
+
+        /* Header and Titles */
+        h4, h6 {
+            font-weight: bold;
+            color: #000;
+            margin: 15px 0 10px 0;
+        }
+        .main-wrapper .page-wrapper .page-content{
+            margin-top: 0px;
+            padding-top: 0;
+
+        }
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: none !important; /* Remove any table shadow */
+        }
+        table, th, td, tr {
+            border: 1px solid #000; /* Solid borders for visibility */
+            box-shadow: none !important; /* Remove any shadow */
+            -webkit-box-shadow: none !important;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 12px;
+        }
+
+        /* Table Header */
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Table Alternating Row Colors */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Avoid Breaking Tables */
+        .table-responsive {
+            page-break-inside: avoid;
+        }
+
+        /* Prevent Elements From Splitting */
+        tr, td {
+            page-break-inside: avoid;
+        },
+        tfoot {
+        page-break-before: always; /* Forces the footer to appear on a new page */
+    }
+
+        /* Page Margins */
+        @page {
+            margin: 1.5cm;
+        }
+
+    }
+</style>
+
 
     <div class="row">
 
         <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
+            <div class="card" style="border: none!important;shadow: none    " >
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="card-title text-info">View Conveyance Bill Report List</h6>
+                        <h6 class="card-title ">View Conveyance Bill Report List</h6>
                         <div>
+                        <button class="btn btn-sm btn-primary convenience-print" onclick="window.print()">
+                            Print
+                        </button>
                             @if ($convenienceBill->status != 'paid')
                                 <button class="btn btn-sm btn-primary payment_conveience_bill"
                                     data-id="{{ $convenienceBill->id }}">
@@ -40,7 +129,7 @@
                                 <tbody class="showData">
                                     @foreach ($movementCosts as $key => $movementCost)
                                         @if ($movementCost->movementDetails->isNotEmpty())
-                                            @foreach ($movementCost->movementDetails as $detail)
+                                            @foreach ($movementCost->movementDetails as $key => $detail)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $detail->movement_date ?? '' }}</td>
@@ -53,7 +142,7 @@
 
                                                 </tr>
                                             @endforeach
-                                            <td>
+                                            <td class="file">
                                                 @if ($movementCost->image)
                                                 <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'movement', 'id' => $movementCost->id]) }}">
                                                     <i class="fa-solid fa-receipt me-2"></i>Receipt
@@ -85,7 +174,7 @@
                                 <tbody class="showData">
                                     @foreach ($foodingCosts as $key => $foodingCost)
                                         @if ($foodingCost->foodingDetails->isNotEmpty())
-                                            @foreach ($foodingCost->foodingDetails as $detail)
+                                            @foreach ($foodingCost->foodingDetails as $key =>  $detail)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $detail->fooding_date ?? '' }}</td>
@@ -96,7 +185,7 @@
                                                     <td>{{ $detail->fooding_assigned ?? '' }}</td>
                                                 </tr>
                                             @endforeach
-                                            <td>
+                                            <td class="file">
                                                 @if ($foodingCost->image)
                                                 <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'fooding', 'id' => $foodingCost->id]) }}">
                                                     <i class="fa-solid fa-receipt me-2"></i>Receipt
@@ -130,7 +219,7 @@
                                 <tbody class="showData">
                                     @foreach ($overnightCosts as $key => $overnightCost)
                                         @if ($overnightCost->overnightDetails->isNotEmpty())
-                                            @foreach ($overnightCost->overnightDetails as $detail)
+                                            @foreach ($overnightCost->overnightDetails as $key =>  $detail)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $detail->overnight_date ?? '' }}</td>
@@ -141,7 +230,7 @@
                                                     <td>{{ $detail->overnight_assigned ?? '' }}</td>
                                                 </tr>
                                             @endforeach
-                                            <td>
+                                            <td class="file">
                                                 @if ($overnightCost->image)
                                                 <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'overnight', 'id' => $overnightCost->id]) }}">
                                                     <i class="fa-solid fa-receipt me-2"></i>Receipt
@@ -173,7 +262,7 @@
                                 <tbody class="showData">
                                     @foreach ($otherExpenseCosts as $key => $otherExpenseCost)
                                         @if ($otherExpenseCost->otherExpensetDetails->isNotEmpty())
-                                            @foreach ($otherExpenseCost->otherExpensetDetails as $detail)
+                                            @foreach ($otherExpenseCost->otherExpensetDetails as $key =>  $detail)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $detail->other_expense_date ?? '' }}</td>
@@ -182,17 +271,33 @@
                                                     <td>{{ $detail->other_expense_assigned ?? '' }}</td>
                                                 </tr>
                                             @endforeach
-                                            <td>
+                                            <td class="file">
                                                 @if ($otherExpenseCost->image)
                                                 <a class="dropdown-item" href="{{ route('convenience.money.receipt', ['type' => 'other', 'id' => $otherExpenseCost->id]) }}">
                                                     <i class="fa-solid fa-receipt me-2"></i>Receipt
                                                 </a>
                                             @endif
                                             </td>
+
                                         @endif
                                     @endforeach
+
                                 </tbody>
+
+
                             </table>
+                           <div>
+                            <table  style="margin-top:20px; border:none">
+                                <tfoot>
+                                    <tr >
+                                        <td colspan="3" style="text-align: right; font-weight: bold;">Total Amount : </td>
+                                        <td style="font-weight: bold;">
+                                            {{ $convenienceBill->total_amount ?? '0.00' }}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                                </table>
+                           </div>
                         </div>
                     @endif
 
