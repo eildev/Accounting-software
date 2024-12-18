@@ -1,8 +1,5 @@
-// Importing necessary components
-import Breadcrumb from "../../components/breadcrumb/Breadcrumb"; // Breadcrumb component for navigation
-import DashboardCard from "../../components/card/DashboardCard"; // DashboardCard component to display individual stats
+import DashboardCard from "../../../../components/card/DashboardCard";
 
-// Data for dashboard cards, contains information for each card
 const data = [
     {
         id: 1, // Unique ID for the card
@@ -38,14 +35,10 @@ const data = [
     },
 ];
 
-// MainDashboard functional component
-const MainDashboard = () => {
+const TotalStats = () => {
     return (
-        <>
-            {/* Breadcrumb component to display page navigation */}
-            <Breadcrumb section="Dashboard" title="Main Dashboard" />
-            {/* Grid layout for displaying the dashboard cards */}
-            <div className="row row-cols-xxxl-5 row-cols-lg-4 row-cols-sm-2 row-cols-1 gy-4">
+        <div className="col-xl-7">
+            <div className="row gy-4">
                 {/* Filtering and mapping through the data array to display DashboardCard for each item */}
                 {data
                     .filter((element) => element) // Remove undefined/null items
@@ -54,9 +47,8 @@ const MainDashboard = () => {
                         <DashboardCard key={element.id} element={element} />
                     ))}
             </div>
-        </>
+        </div>
     );
 };
 
-// Exporting the MainDashboard component for use in other parts of the application
-export default MainDashboard;
+export default TotalStats;

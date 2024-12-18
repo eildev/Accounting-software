@@ -3,7 +3,6 @@ import { createBrowserRouter } from "react-router-dom";
 // Importing page components for different routes
 import AddProduct from "../pages/store-managment/AddProduct";
 import MainLayouts from "../layouts/MainLayouts";
-import MainDashboard from "../pages/dashboard/MainDashboard";
 import SaleDashboard from "../pages/dashboard/SaleDashboard";
 import AssetDashboard from "../pages/dashboard/AssetDashboard";
 import ExpenseDashboard from "../pages/dashboard/ExpenseDashboard";
@@ -25,6 +24,7 @@ import Transaction from "../pages/accounting/Transaction";
 import ConveyanceBill from "../pages/accounting/ConveyanceBill";
 import ConveyanceReport from "../pages/accounting/ConveyanceReport";
 import SalarySheet from "../pages/accounting/SalarySheet";
+import MainDashboard from "../pages/dashboard/main-dashboard/MainDashboard";
 
 // Creating the router configuration for the application
 export const router = createBrowserRouter([
