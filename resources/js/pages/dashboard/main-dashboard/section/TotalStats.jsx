@@ -3,7 +3,7 @@ import DashboardCard from "../../../../components/card/DashboardCard";
 const data = [
     {
         id: 1, // Unique ID for the card
-        name: "Assets", // Name of the card
+        title: "Assets", // Name of the card
         value: 9102, // Value associated with the card
         icon: "solar:wallet-money-bold", // Icon to be displayed in the card
         stats: 5000, // Stats representing positive change
@@ -11,7 +11,7 @@ const data = [
     },
     {
         id: 2,
-        name: "Liabilities",
+        title: "Liabilities",
         value: 27891,
         icon: "tabler:report-money",
         stats: -2000, // Stats representing negative change
@@ -19,7 +19,7 @@ const data = [
     },
     {
         id: 3,
-        name: "Income",
+        title: "Income",
         value: 46828,
         icon: "solar:money-bag-bold",
         stats: 7000,
@@ -27,7 +27,7 @@ const data = [
     },
     {
         id: 4,
-        name: "Expanse",
+        title: "Expanse",
         value: 34258,
         icon: "solar:card-recive-bold",
         stats: -400,
