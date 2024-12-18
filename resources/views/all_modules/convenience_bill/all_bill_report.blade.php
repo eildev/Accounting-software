@@ -283,8 +283,6 @@
                                     @endforeach
 
                                 </tbody>
-
-
                             </table>
                            <div>
                             <table  style="margin-top:20px; border:none">
