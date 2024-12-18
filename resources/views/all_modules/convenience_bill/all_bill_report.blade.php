@@ -292,7 +292,7 @@
                                         <td style="font-weight: bold;">
                                             {{ $convenienceBill->total_amount ?? '0.00' }}
                                         </td>
-                                    </tr>
+                                            </tr>
                                 </tfoot>
                                 </table>
                            </div>

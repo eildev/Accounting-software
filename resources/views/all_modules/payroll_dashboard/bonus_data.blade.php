@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row ">
     <div class="col-12 col-md-7 mb-5 grid-margin primary-color-text stretch-card">
         <div class="card pb-4" style="padding: 7px">
             <div class="card-body secondary-color">
@@ -29,49 +29,60 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex gap-2 justify-content-around mt-3 mb-1 secondary-color">
-                    <div class="card-body rounded-3 primary-color " id="festivalClick">
-                        <div class="d-flex align-items-center justify-content-between  mb-3">
-                            <span class="primary-color-text"><img
-                                    src="{{ asset('uploads/payroll_dashboard/bonus_icon/Group000003486.png') }}"
-                                    alt="Bonus Iocn" height="60px"></span>
-                            <span class="fs-5 me-2"><i class="fas fa-chevron-right"></i></span>
+                <div class="mt-3 mb-1 secondary-color">
+                <div class="row">
+                        <div class="col-md-4 col-sm-12 pt-2">
+                            <div class="card-body rounded-3 primary-color "  id="festivalClick">
+                                <div class="d-flex align-items-center justify-content-between  mb-3">
+                                    <span class="primary-color-text"><img
+                                            src="{{ asset('uploads/payroll_dashboard/bonus_icon/Group000003486.png') }}"
+                                            alt="Bonus Iocn" height="60px"></span>
+                                    <span class="fs-5 me-2"><i class="fas fa-chevron-right"></i></span>
+                                </div>
+                                <h6 class="mb-2 ">Festival Bonus</h6>
+                                <h4 id="festivalBonus">{{ $data['festivalBonusesSum'] }}</h4>
+                            </div>
                         </div>
-                        <h6 class="mb-2 ">Festival Bonus</h6>
-                        <h4 id="festivalBonus">{{ $data['festivalBonusesSum'] }}</h4>
-                    </div>
+                        <div class="col-md-4 col-sm-12 pt-2">
+                            <div class="card-body rounded-3 bg-color-white " id="performanceClick">
+                                <div class="d-flex justify-content-between align-items-center  mb-3">
+                                    <span><img src="{{ asset('uploads/payroll_dashboard/bonus_icon/performance.png') }}"
+                                            alt="Bonus Iocn" height="60px"></span>
+                                    <span class="fs-5 me-2"><i class="fas fa-chevron-right"></i></span>
+                                </div>
+                                <h6 class="mb-2 ">Performance Bonus</h6>
+                                <h4 id="performanceBonus">{{ $data['performanceBonusesSum'] }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 pt-2">
 
-                    <div class="card-body rounded-3 bg-color-white  " id="performanceClick">
-                        <div class="d-flex justify-content-between align-items-center  mb-3">
-                            <span><img src="{{ asset('uploads/payroll_dashboard/bonus_icon/performance.png') }}"
-                                    alt="Bonus Iocn" height="60px"></span>
-                            <span class="fs-5 me-2"><i class="fas fa-chevron-right"></i></span>
+                            <div class="card-body bg-color-white rounded-3 " id="otherClick">
+                                <div class="d-flex justify-content-between align-items-center   mb-3">
+                                    <span><img src="{{ asset('uploads/payroll_dashboard/bonus_icon/bonus-icon-2.png') }}"
+                                            alt="Bonus Iocn" height="60px"></span>
+                                    <span class="fs-5 me-2"><i class="fas fa-chevron-right"></i></span>
+                                </div>
+                                <h6 class="mb-2 ">Other Bonus</h6>
+                                <h4 id="otherBonus">{{ $data['otherBonusesSum'] }}</h4>
+                            </div>
                         </div>
-                        <h6 class="mb-2 ">Performance Bonus</h6>
-                        <h4 id="performanceBonus">{{ $data['performanceBonusesSum'] }}</h4>
-                    </div>
+                </div>
 
-                    <div class="card-body bg-color-white rounded-3 " id="otherClick">
-                        <div class="d-flex justify-content-between align-items-center   mb-3">
-                            <span><img src="{{ asset('uploads/payroll_dashboard/bonus_icon/bonus-icon-2.png') }}"
-                                    alt="Bonus Iocn" height="60px"></span>
-                            <span class="fs-5 me-2"><i class="fas fa-chevron-right"></i></span>
-                        </div>
-                        <h6 class="mb-2 ">Other Bonus</h6>
-                        <h4 id="otherBonus">{{ $data['otherBonusesSum'] }}</h4>
-                    </div>
+
+
+
 
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-5 col-lg-5 primary-color-text">
+    <div class="col-sm-12 col-md-5 col-lg-5 primary-color-text">
         <div class="card">
             <div class="card-body secondary-color">
                 <div class="d-flex justify-content-between ">
                     <h4 id="nameSelected">Festival Bonus</h4>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-4">
                     {{-- <div class="col-md-4 col-lg-4 text-lign-center">
                                     <span>
                                         <div class="card">

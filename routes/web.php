@@ -159,6 +159,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/expense/filter/rander', 'ExpenseFilterView')->name('expense.filter.view');
         Route::get('/expenses/invoice/{id}', 'expensesInvoice')->name('expenses.invoice');
         Route::get('/expanse/invoice/receipt/print/{id}', 'expensesPrintInvoice');
+        Route::get('/expanse/report-payment/{id}', 'expensesPaymentsReport');
     });
 
     Route::controller(RecurringExpanseController::class)->group(function () {
