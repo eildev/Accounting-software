@@ -189,7 +189,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/loan/view', 'view');
         Route::get('/loan/view/{id}', 'viewLoan');
         Route::get('/loan/instalment/invoice{id}', 'loanInstalmentInvoice')->name('loan.instalment.invoice');
-          ////////Single Print Invoice///////////
+        ////////Single Print Invoice///////////
         Route::get('/loan/invoice/receipt/print/{id}', 'loanInvoicePrint');
     });
 

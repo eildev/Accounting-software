@@ -5,17 +5,21 @@ import { RouterProvider } from "react-router-dom";
 // Importing router configuration
 import { router } from "./routes/router";
 // Styling imports for different libraries
-import 'react-quill/dist/quill.snow.css'; // React Quill editor style
+import "react-quill/dist/quill.snow.css"; // React Quill editor style
 import "jsvectormap/dist/css/jsvectormap.css"; // jsvectormap style
-import 'react-toastify/dist/ReactToastify.css'; // React Toastify notifications style
-import 'react-modal-video/css/modal-video.min.css'; // Modal video player style
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS bundle
+import "react-toastify/dist/ReactToastify.css"; // React Toastify notifications style
+import "react-modal-video/css/modal-video.min.css"; // Modal video player style
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Bootstrap JS bundle
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 function App() {
     return (
         <>
             {/* RouterProvider renders the main router configuration */}
-            <RouterProvider router={router} />
+            <Provider store={store}>
+                <RouterProvider router={router} />
+            </Provider>
         </>
     );
 }

@@ -5,16 +5,18 @@ const Footer = () => {
         <footer className="d-footer">
             {/* Row container with alignment for the footer content */}
             <div className="row align-items-center justify-content-between">
-
                 {/* Left side of the footer */}
                 <div className="col-auto">
                     {/* Copyright text with link to Accountant website */}
                     <p className="mb-0">
-                        Copyright © 2024
-                        {/* Link to Accountant website */}
-                        <a className="text-primary-600" href="https://accountant.eclipseintellitech.com/">
+                        Copyright © 2024 {/* Link to Accountant website */}
+                        <a
+                            className="text-primary-600"
+                            href="https://accountant.eclipseintellitech.com/"
+                        >
                             Accountant
-                        </a>.
+                        </a>
+                        .
                     </p>
                 </div>
 
@@ -23,10 +25,14 @@ const Footer = () => {
                     {/* Powered by text with link to Eclipse Intellitech website */}
                     <p className="mb-0">
                         Powered by
-                        {/* Link to Eclipse Intellitech website */}
-                        <a className="text-primary-600" href="https://eclipseintellitech.com/">
+                        {/* Link to Eclipse Intellitech website */}{" "}
+                        <a
+                            className="text-primary-600"
+                            href="https://eclipseintellitech.com/"
+                        >
                             Eclipse Intellitech Limited
-                        </a>.
+                        </a>
+                        .
                     </p>
                 </div>
             </div>
@@ -36,4 +42,3 @@ const Footer = () => {
 
 // Export the Footer component to be used in other parts of the app
 export default Footer;
-
