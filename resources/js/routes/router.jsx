@@ -4,7 +4,6 @@ import { createBrowserRouter } from "react-router-dom";
 import AddProduct from "../pages/store-managment/AddProduct";
 import MainLayouts from "../layouts/MainLayouts";
 import SaleDashboard from "../pages/dashboard/SaleDashboard";
-import AssetDashboard from "../pages/dashboard/AssetDashboard";
 import ExpenseDashboard from "../pages/dashboard/ExpenseDashboard";
 import PayrollDashboard from "../pages/dashboard/PayrollDashboard";
 import ProductManagement from "../pages/store-managment/ProductManagement";
@@ -25,6 +24,8 @@ import ConveyanceBill from "../pages/accounting/ConveyanceBill";
 import ConveyanceReport from "../pages/accounting/ConveyanceReport";
 import SalarySheet from "../pages/accounting/SalarySheet";
 import MainDashboard from "../pages/dashboard/main-dashboard/MainDashboard";
+import AssetDashboard from "../pages/dashboard/asset-dashboard/section/AssetDashboard";
+
 
 // Creating the router configuration for the application
 export const router = createBrowserRouter([
@@ -42,7 +43,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/asset-dashboard", // Asset Dashboard
-                element: <AssetDashboard />,
+                element: <AssetDashboard/>,
             },
             {
                 path: "/expense-dashboard", // Expense Dashboard
@@ -58,6 +59,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/manage-product", // Manage Product Page
+
                 element: <ProductManagement />,
             },
             {

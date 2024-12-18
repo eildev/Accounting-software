@@ -230,7 +230,7 @@
                     }
                 });
             })
- 
+
             // Function to handle AJAX requests and responses
             function handleExpanseSubmission(url, formData, onSuccess) {
                 $.ajaxSetup({
@@ -434,8 +434,6 @@
             // Restore the "Expense Report" tab after the page reloads
             // document.getElementById("profile-tab").click();
         }
-
-
         // // tab active on the page reload
         document.addEventListener("DOMContentLoaded", function() {
             // Get the last active tab from localStorage

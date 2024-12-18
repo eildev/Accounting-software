@@ -34,12 +34,12 @@
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                                {{-- <a href="{{ route('customer.profile', $customer->id) }}">
-                                                    {{ $customer->name ?? '' }}
-                                                </a> --}}
-                                                <a href="#">
+                                                <a href="{{ route('customer.profile', $customer->id) }}">
                                                     {{ $customer->name ?? '' }}
                                                 </a>
+                                                {{-- <a href="#">
+                                                    {{ $customer->name ?? '' }}
+                                                </a> --}}
                                             </td>
                                             <td>{{ $customer->phone ?? '' }}</td>
                                             <td>{{ $customer['branch']['name'] ?? '' }}</td>

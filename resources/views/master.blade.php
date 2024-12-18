@@ -101,7 +101,7 @@
     }
 
 
-    // global check payment func 
+    // global check payment func
     function checkPaymentAccount(element) {
         const paymentType = $(element).val(); // 'element' is passed in from the onclick event
         const paymentAccounts = $('.payment_account_id');
@@ -337,7 +337,7 @@
     });
 
 
-    ///////////////////////// Modal show and close function /////////////////// 
+    ///////////////////////// Modal show and close function ///////////////////
     // function modalShowHide(element) {
     //     var modalName = new bootstrap.Modal(document.getElementById(`${element}`), {
     //         backdrop: 'static', // Prevent closing by clicking outside
@@ -402,7 +402,7 @@
 
 
 
-    ///////////////////////// Data Table Function function /////////////////// 
+    ///////////////////////// Data Table Function function ///////////////////
     function dynamicDataTableFunc(table) {
         $(`#${table}`).DataTable({
             columnDefs: [{

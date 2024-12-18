@@ -29,7 +29,7 @@ const MainDashboard = () => {
             {/* Grid layout for displaying the dashboard cards */}
 
             <TotalTopStats />
-            <section className="row gy-4 mt-1">
+            <section className="row gy-4 mt-1" >
                 <ProfitLoss />
                 <SalesAnalytics />
                 <TotalCostInOut />

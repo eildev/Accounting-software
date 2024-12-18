@@ -129,7 +129,7 @@ const Sidebar = ({ sidebarActive, mobileMenuControl, mobileMenu }) => {
                     <li className="dropdown">
                         <Link to="#">
                             <Icon icon="mdi:storefront" className="menu-icon" />
-                            <span>Store Management</span>
+                            <span>Store </span>
                         </Link>
                         <ul className="sidebar-submenu">
                             <li>
