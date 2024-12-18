@@ -1,11 +1,12 @@
-import Breadcrumb from "../components/breadcrumb/Breadcrumb";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 
 const PayrollDashboard = () => {
     return (
         <>
-            <Breadcrumb title="Payroll Dashboard" />
+            <Breadcrumb section="Dashboard" title="Payroll Dashboard" />
             <h5>Payroll Dashboard</h5>
         </>
+
     );
 };
 
