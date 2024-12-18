@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 
 class LoanController extends Controller
 {
-    // index function 
+    // index function
     public function index()
     {
         try {
@@ -86,7 +86,7 @@ class LoanController extends Controller
             $loan->status = 'defaulted';
             $loan->save();
 
-            // create SubLedger 
+            // create SubLedger
             $subLedger = new SubLedger;
             $subLedger->branch_id = Auth::user()->branch_id;
             $subLedger->account_id = 3;
@@ -136,7 +136,7 @@ class LoanController extends Controller
         }
     }
 
-    // generate uniqid transaction Id Function 
+    // generate uniqid transaction Id Function
     private function generateUniqueTransactionId()
     {
         $allTransactionIds = Transaction::pluck('transaction_id')->toArray();
@@ -147,7 +147,7 @@ class LoanController extends Controller
         return $transactionId;
     }
 
-    // view function 
+    // view function
     public function view()
     {
         try {
@@ -170,7 +170,7 @@ class LoanController extends Controller
             ]);
         }
     }
-    // view Loan Function 
+    // view Loan Function
     public function viewLoan($id)
     {
         try {
@@ -188,5 +188,14 @@ class LoanController extends Controller
             // Optionally return a custom error view or a simple error message
             return response()->view('errors.custom', [], 500);
         }
+    }
+    public function loanInstalmentInvoice($id){
+        $loanRepayments = LoanRepayments::findOrFail($id);
+        return view('all_modules.bank.loan.loan-instalment-invoice', compact('loanRepayments'));
+    }
+    public function loanInvoicePrint($id){
+        $loanRepayments = LoanRepayments::findOrFail($id);
+        // dd($id);
+        return view('all_modules.bank.loan.loan-instalment-invoice', compact('loanRepayments'));
     }
 }

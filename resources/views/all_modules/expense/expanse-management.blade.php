@@ -230,9 +230,7 @@
                     }
                 });
             })
-
-
-
+ 
             // Function to handle AJAX requests and responses
             function handleExpanseSubmission(url, formData, onSuccess) {
                 $.ajaxSetup({

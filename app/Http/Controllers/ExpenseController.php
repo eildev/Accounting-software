@@ -259,5 +259,14 @@ class ExpenseController extends Controller
         })->get();
 
         return view('all_modules.expense.expense-filter-rander-table', compact('expense', 'expenseCat'))->render();
+    }//
+    public function expensesInvoice($id){
+        $expanses = Expense::findOrFail($id);
+        return view('all_modules.expense.expanse-invoice', compact('expanses'));
+    }
+    public function expensesPrintInvoice($id){
+        // dd($id);
+        $expanses = Expense::findOrFail($id);
+        return view('all_modules.expense.expanse-invoice', compact('expanses'));
     }
 }
