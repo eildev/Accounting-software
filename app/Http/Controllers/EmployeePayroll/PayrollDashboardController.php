@@ -56,11 +56,13 @@ class PayrollDashboardController extends Controller
         $pending = $festivalBonuses->where('status', 'pending')->count();
         $unpaid = $festivalBonuses->where('status', 'approved')->count();
         $processing = $festivalBonuses->where('status', 'processing')->count();
+        $canceled = $festivalBonuses->where('status', 'canceled')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
         $processingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
+        $canceledPercentage = $totalBonusesCount > 0 ? ($canceled / $totalBonusesCount) * 100 : 0;
 
         // Prepare the result
         $result = [
@@ -68,6 +70,7 @@ class PayrollDashboardController extends Controller
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
             'Processing' => round($processingPercentage, 2) . '%',
+            'Canceled' => round($canceledPercentage, 2) . '%',
         ];
         ////////////////////////////////////////////////Salary Donut Chart///////////////////////////////////////////////////////
 
@@ -131,12 +134,14 @@ class PayrollDashboardController extends Controller
         $conveniencePending = $convenienceBill->where('status', 'pending')->count();
         $convenienceUnpaid = $convenienceBill->where('status', 'approved')->count();
         $convenienceProcess = $convenienceBill->where('status', 'processing')->count();
+        $convenienceCanceled = $convenienceBill->where('status', 'canceled')->count();
 
         // Calculate percentages
         $conveniencePaidPercentage = $convenienceBillCount > 0 ? ($conveniencePaid / $convenienceBillCount) * 100 : 0;
         $conveniencePendingPercentage = $convenienceBillCount > 0 ? ($conveniencePending / $convenienceBillCount) * 100 : 0;
         $convenienceUnpaidPercentage = $convenienceBillCount > 0 ? ($convenienceUnpaid / $convenienceBillCount) * 100 : 0;
         $convenienceProcessPercentage = $convenienceBillCount > 0 ? ($convenienceProcess / $convenienceBillCount) * 100 : 0;
+        $convenienceCanceledPercentage = $convenienceBillCount > 0 ? ($convenienceCanceled / $convenienceBillCount) * 100 : 0;
 
         // Prepare the result
         $conveniencePercentage = [
@@ -144,6 +149,7 @@ class PayrollDashboardController extends Controller
             'conveniencePending' => round($conveniencePendingPercentage, 2) . '%',
             'convenienceUnpaid' => round($convenienceUnpaidPercentage, 2) . '%',
             'conveniencePrecessing' => round($convenienceProcessPercentage, 2) . '%',
+            'convenienceCanceled' => round($convenienceCanceledPercentage, 2) . '%',
         ];
         /////////////////////////////////////////////// Net Salary table (Payslip)  ////////////////////////////////////////////////////
         //All Net Salary
@@ -218,12 +224,13 @@ class PayrollDashboardController extends Controller
         $pending = $festivalBonuses->where('status', 'pending')->count();
         $unpaid = $festivalBonuses->where('status', 'approved')->count();
         $processing = $festivalBonuses->where('status', 'processing')->count();
-
+        $canceled = $festivalBonuses->where('status', 'canceled')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
         $processsingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
+        $canceledPercentage = $totalBonusesCount > 0 ? ($canceled / $totalBonusesCount) * 100 : 0;
 
         // Prepare the result
         $result = [
@@ -231,6 +238,7 @@ class PayrollDashboardController extends Controller
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
             'Processing' => round($processsingPercentage, 2) . '%',
+            'Canceled' => round($canceledPercentage, 2) . '%',
         ];
 
         // Return the response
@@ -255,17 +263,20 @@ class PayrollDashboardController extends Controller
         $pending = $performanceBonuses->where('status', 'pending')->count();
         $unpaid = $performanceBonuses->where('status', 'approved')->count();
         $processing = $performanceBonuses->where('status', 'processing')->count();
+        $canceled = $performanceBonuses->where('status', 'canceled')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
         $processsingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
+        $canceledPercentage = $totalBonusesCount > 0 ? ($canceled / $totalBonusesCount) * 100 : 0;
         // Prepare the result
         $result = [
             'Paid' => round($successfullyPaidPercentage, 2) . '%',
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
             'Processing' => round($processsingPercentage, 2) . '%',
+            'Canceled' => round($canceledPercentage, 2) . '%',
         ];
 
         // Return the response
@@ -290,17 +301,20 @@ class PayrollDashboardController extends Controller
         $pending = $otherBonuses->where('status', 'pending')->count();
         $unpaid = $otherBonuses->where('status', 'approved')->count();
         $processing = $otherBonuses->where('status', 'processing')->count();
+        $canceled = $otherBonuses->where('status', 'canceled')->count();
         // Calculate percentages
         $successfullyPaidPercentage = $totalBonusesCount > 0 ? ($successfullyPaid / $totalBonusesCount) * 100 : 0;
         $pendingPercentage = $totalBonusesCount > 0 ? ($pending / $totalBonusesCount) * 100 : 0;
         $unpaidPercentage = $totalBonusesCount > 0 ? ($unpaid / $totalBonusesCount) * 100 : 0;
         $processsingPercentage = $totalBonusesCount > 0 ? ($processing / $totalBonusesCount) * 100 : 0;
+        $canceledPercentage = $totalBonusesCount > 0 ? ($canceled / $totalBonusesCount) * 100 : 0;
         // Prepare the result
         $result = [
             'Paid' => round($successfullyPaidPercentage, 2) . '%',
             'Pending' => round($pendingPercentage, 2) . '%',
             'Unpaid' => round($unpaidPercentage, 2) . '%',
             'Processing' => round($processsingPercentage, 2) . '%',
+            'Canceled' => round($canceledPercentage, 2) . '%',
         ];
 
         // Return the response
@@ -334,6 +348,7 @@ class PayrollDashboardController extends Controller
             'otherCost' => $otherCost,
         ]);
     }
+    //donut chart
     public function getPaySlipsMonthData(Request $request)
     {
         $selectedMonth = $request->month ?? Carbon::now()->month;
@@ -347,11 +362,13 @@ class PayrollDashboardController extends Controller
         $paySlipPending = $paySlipAll->where('status', 'pending')->count();
         $paySlipUnpaid = $paySlipAll->where('status', 'approved')->count();
         $paySlipProcess = $paySlipAll->where('status', 'processing')->count();
+        $paySlipCanceled = $paySlipAll->where('status', 'canceled')->count();
         return response()->json([
             'paySlipPaid' => $paySlipBillCount > 0 ? round(($paySlipPaid / $paySlipBillCount) * 100, 2) : 0,
             'paySlipPending' => $paySlipBillCount > 0 ? round(($paySlipPending / $paySlipBillCount) * 100, 2) : 0,
             'paySlipUnpaid' => $paySlipBillCount > 0 ? round(($paySlipUnpaid / $paySlipBillCount) * 100, 2) : 0,
             'paySlipProcessing' => $paySlipBillCount > 0 ? round(($paySlipProcess / $paySlipBillCount) * 100, 2) : 0,
+            'paySlipCanceled' => $paySlipBillCount > 0 ? round(($paySlipCanceled / $paySlipBillCount) * 100, 2) : 0,
         ]);
     }
 

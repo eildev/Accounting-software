@@ -11,7 +11,7 @@ const Sidebar = ({ sidebarActive, mobileMenuControl, mobileMenu }) => {
                     ? "sidebar sidebar-open"
                     : "sidebar"
             }
-        >
+            >
             <button
                 onClick={mobileMenuControl}
                 type="button"

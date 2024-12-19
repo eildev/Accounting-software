@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
             $table->integer('bill_number');
             $table->unsignedBigInteger('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');;
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->string('entry_by')->nullable();
             $table->decimal('total_amount',15,2);
-            $table->string('status')->default('pending');
+            $table->enum('status', ['pending', 'approved', 'canceled', 'processing', 'paid'])->default('pending');
             $table->timestamps();
         });
     }

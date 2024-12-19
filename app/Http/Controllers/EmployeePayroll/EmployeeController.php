@@ -225,7 +225,7 @@ class EmployeeController extends Controller
         $user = Auth::user();
 
         if($user->role === 'accountant'){
-            $bonuses = EmployeeBonuse::with('employee')->whereIn('status', ['approved', 'paid'])->get();
+            $bonuses = EmployeeBonuse::with('employee')->whereIn('status', ['approved', 'paid','pending','processing','canceled'])->get();
        }else{
         $bonuses = EmployeeBonuse::with('employee')->get();
          }
@@ -545,9 +545,9 @@ class EmployeeController extends Controller
         public function allPaySlipView(){
             $user = Auth::user();
             if($user->role === 'accountant'){
-                $paySlip = PaySlip::with('employee')->whereIn('status', ['approved', 'paid'])->get();
+                $paySlip = PaySlip::with('employee')->whereIn('status', ['approved', 'paid','pending','processing','canceled'])->get();
            }else{
-            $paySlip = PaySlip::with('employee')->get();
+                $paySlip = PaySlip::with('employee')->get();
            }
 
             return response()->json([

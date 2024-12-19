@@ -93,6 +93,12 @@
                 <h4 class="mt-4">{{ $data['convenienceDataSum'] }}</h4>
                 <span class="">
                     <div class="progress mt-3 bg-white">
+                        <div class="progress-bar bg-danger" role="progressbar"
+                            style="width: {{ $data['conveniencePercentage']['convenienceCanceled'] }} ; border-top-left-radius: 20px;
+                            border-bottom-left-radius: 20px;"
+                            aria-valuenow="{{ $data['conveniencePercentage']['convenienceCanceled'] }}"
+                            aria-valuemin="0" aria-valuemax="100">
+                        </div>
                         <div class="progress-bar bg-warning" role="progressbar"
                             style="width: {{ $data['conveniencePercentage']['conveniencePending'] }} ; border-top-left-radius: 20px;
                             border-bottom-left-radius: 20px;"
@@ -106,8 +112,8 @@
                         </div>
                         <div class="progress-bar " role="progressbar"
                             style="width: {{ $data['conveniencePercentage']['convenienceUnpaid'] }}; background: #9566F2;"
-                            aria-valuenow="{{ $data['conveniencePercentage']['convenienceUnpaid'] }}" aria-valuemin="0"
-                            aria-valuemax="100">
+                            aria-valuenow="{{ $data['conveniencePercentage']['convenienceUnpaid'] }}"
+                            aria-valuemin="0" aria-valuemax="100">
                         </div>
                         <div class="progress-bar primary-color" role="progressbar"
                             style="width: {{ $data['conveniencePercentage']['conveniencePaid'] }} "
@@ -119,7 +125,14 @@
                 <div class="row mt-4" style="padding-top: =10px;">
                     <div class="col-md-12 d-flex justify-content-between">
 
-                        <div class="mt-1 " >
+                        <div class="mt-1 ">
+                            <span
+                                style="background-color: #FF3366;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
+                            <span id="pending"> {{ $data['conveniencePercentage']['convenienceCanceled'] }}</span>
+                            <p class="pt-3">Canceled</p>
+
+                        </div>
+                        <div class="mt-1 ">
                             <span
                                 style="background-color: #FBBC06;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
                             <span id="pending"> {{ $data['conveniencePercentage']['conveniencePending'] }}</span>
