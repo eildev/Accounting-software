@@ -30,7 +30,7 @@
 
                         <li class="d-flex align-items-center active">
                             <i class="me-1 icon-md" data-feather="credit-card"></i>
-                            <a class="pt-1px d-md-block text-dark nav-link active" id="Home-tab"
+                            <a class="pt-1px d-md-block text-secondary nav-link active" id="Home-tab"
                                 data-bs-toggle="tab" href="#home" role="tab" aria-controls="home"
                                 aria-selected="true">Salary Month Info</a>
                         </li>
@@ -113,7 +113,7 @@
         <!-- left wrapper end -->
         <!-- middle wrapper start -->
 
-        <div class="col-md-8 col-xl-9 middle-wrapper">
+        <div class="col-md-8 middle-wrapper">
             <div class="row">
                 <div class="col-md-12 grid-margin ">
                     <div class="tab-content">
@@ -122,7 +122,7 @@
                             <div class="card rounded">
                                 <div class="card-body table-responsive">
                                     <p class="mb-3 tx-14">Salary Month Info</p>
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered ">
                                         <thead>
                                             <tr>
                                                 <th>Pay Date</th>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="tab-pane fade " id="convenience" role="tabpanel" aria-labelledby="convenience-tab">
                             <div class="card rounded">
-                                <div class="card-body">
+                                <div class="card-body table-responsive">
 
                                     <div class="col-md-12 grid-margin stretch-card">
 
@@ -184,8 +184,11 @@
                                                             <p class="btn btn-sm badge bg-success">Approved</p>
                                                         @elseif($convenience->status == 'paid')
                                                             <p class="btn btn-sm badge bg-success">Paid</p>
-                                                        @else
-                                                            <p class="btn btn-sm badge bg-info color-black">Processing</p>
+                                                        @elseif($convenience->status == 'canceled')
+                                                            <p class="btn btn-sm badge bg-danger color-black">Canceled</p>
+                                                        @elseif($convenience->status == 'processing')
+                                                            <p class="btn btn-sm badge bg-primary color-black">Processing</p>
+                                                      @else
                                                         @endif
                                                     </td>
                                                 </tr>

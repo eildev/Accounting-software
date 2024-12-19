@@ -243,17 +243,30 @@
                                         <td>${bonus.bonus_reason  ?? ""}</td>
                                        ${
                                     userRole === 'accountant'
-                                        ?   ` <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${bonus.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span id="statusBadge${bonus.id}" class="badge text-dark
-                                                    ${bonus.status === 'pending' ? 'bg-warning' : (bonus.status === 'approved' ? 'bg-success' : (bonus.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
-                                                    ${bonus.status ? bonus.status.charAt(0).toUpperCase() + bonus.status.slice(1) : 'Processing'}
-                                                </span>
-                                                </button> `
+                                        ?   `  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${bonus.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span id="statusBadge${bonus.id}" class="badge text-dark
+                                            ${bonus.status === 'pending' ? 'bg-warning' :
+                                            bonus.status === 'approved' ? 'bg-success' :
+                                            bonus.status === 'paid' ? 'bg-primary' :
+                                            bonus.status === 'processing' ? 'bg-info' : 'bg-danger'}">
+                                            ${bonus.status ? bonus.status.charAt(0).toUpperCase() + bonus.status.slice(1) : 'Processing'}
+                                        </span>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${bonus.id}">
+                                        ${bonus.status === 'processing'
+                                            ? `<span class="dropdown-item text-muted">Status is Processing - Cannot change</span>`
+                                            : bonus.status === 'paid'
+                                            ? `<span class="dropdown-item text-muted">Status is Paid - Cannot change</span>`
+                                            : `
+                                                <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'approved')">Approved</a>
+                                                <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'canceled')">Cancel</a>
+                                            `}
+                                    </div> `
                                         : `
                                        <div class="dropdown" id="statusChange${bonus.id}">
                                         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${bonus.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span id="statusBadge${bonus.id}" class="badge text-dark
-                                                ${bonus.status === 'pending' ? 'bg-warning' : (bonus.status === 'approved' ? 'bg-success' : (bonus.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
+                                                ${bonus.status === 'pending' ? 'bg-warning' : (bonus.status === 'approved' ? 'bg-success' : (bonus.status === 'paid' ? 'bg-primary' : (bonus.status === 'canceled' ? 'bg-danger':(bonus.status === 'processing' ? 'bg-info' :''))))}">
                                                 ${bonus.status ? bonus.status.charAt(0).toUpperCase() + bonus.status.slice(1) : 'Processing'}
                                             </span>
                                         </button>
@@ -261,6 +274,7 @@
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'pending')">Pending</a>
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'approved')">Approved</a>
                                             <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'processing')">Processing</a>
+                                            <a class="dropdown-item" href="#" onclick="changeStatusBonus(${bonus.id}, 'canceled')">Cancel</a>
                                             </div>
                                         </div>
                                     `}
@@ -513,7 +527,7 @@
             badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
             // Remove existing badge classes and add new one based on status
-            badge.removeClass('bg-warning bg-success bg-primary bg-info');
+            badge.removeClass('bg-warning bg-success bg-primary bg-info bg-danger');
             if (status === 'pending') {
                 badge.addClass('bg-warning');
             } else if (status === 'approved') {
@@ -523,6 +537,9 @@
             }
             else if (status === 'processing') {
                 badge.addClass('bg-info');
+            }
+            else if (status === 'canceled') {
+                badge.addClass('bg-danger');
             }
             // Show or hide the delete button based on the new status
             if (status === 'pending') {

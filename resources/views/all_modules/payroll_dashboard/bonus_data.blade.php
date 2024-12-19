@@ -68,21 +68,17 @@
                         </div>
                 </div>
 
-
-
-
-
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-12 col-md-5 col-lg-5 primary-color-text">
+    <div class="col-sm-12 col-md-5  primary-color-text">
         <div class="card">
             <div class="card-body secondary-color">
-                <div class="d-flex justify-content-between ">
+                <div class="d-flex justify-content-between">
                     <h4 id="nameSelected">Festival Bonus</h4>
                 </div>
-                <div class="row mt-4">
+                <div class="row mt-2">
                     {{-- <div class="col-md-4 col-lg-4 text-lign-center">
                                     <span>
                                         <div class="card">
@@ -93,21 +89,25 @@
                                     </span>
                                 </div> --}}
                     <div class="col-md-12 col-lg-12 px-4">
-                        <div class="d-flex fs-5 mb-2 justify-content-between">
+                        <div class="d-flex  mb-2 justify-content-between">
                             <span>Successfully Paid</span>
                             <span id="paid">{{ $data['result']['Paid'] }}</span>
                         </div>
-                        <div class="d-flex fs-5 mb-2 justify-content-between">
+                        <div class="d-flex  mb-2 justify-content-between">
                             <span>Processing</span>
                             <span id="processing">{{ $data['result']['Processing'] }}</span>
                         </div>
-                        <div class="d-flex fs-5 mb-2 justify-content-between">
+                        <div class="d-flex  mb-2 justify-content-between">
                             <span>Pending</span>
                             <span id="pending">{{ $data['result']['Pending'] }}</span>
                         </div>
-                        <div class="d-flex fs-5 mb-2 justify-content-between">
+                        <div class="d-flex  mb-2 justify-content-between">
                             <span>Unpaid</span>
                             <span id="unpaid">{{ $data['result']['Unpaid'] }}</span>
+                        </div>
+                        <div class="d-flex  mb-2 justify-content-between">
+                            <span>Canceled</span>
+                            <span id="canceled">{{ $data['result']['Canceled'] }}</span>
                         </div>
                     </div>
                 </div>
@@ -161,6 +161,7 @@
                     $('#pending').text(response.result.Pending);
                     $('#unpaid').text(response.result.Unpaid);
                     $('#processing').text(response.result.Processing);
+                    $('#canceled').text(response.result.Canceled);
                     $('#nameSelected').text("Festival Bonus");
                     $('#festivalClick').addClass('primary-color').removeClass(
                         'bg-color-white');
