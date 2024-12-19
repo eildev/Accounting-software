@@ -59,7 +59,7 @@ const DashboardCard = ({ element = {} }) => {
                             />
                             {stats ?? 0}
                         </span>
-                        Last 30 days {title}
+                        Last 30 days {title ?? "N/A"}
                     </p>
                 </div>
             </div>

@@ -30,13 +30,13 @@ class Product extends Model
     {
         return $this->belongsTo(Psize::class, 'size_id', 'id');
     }
-    function damage()
-    {
-        return $this->hasMany(Damage::class);
-    }
     //
     public function purchaseItems()
     {
         return $this->hasMany(PurchaseItem::class, 'product_id');
+    }
+    public function stockQuantity()
+    {
+        return $this->hasMany(Stock::class, 'product_id');
     }
 }
