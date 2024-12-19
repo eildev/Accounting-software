@@ -10,41 +10,45 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
+import { useGetRevenueReportQuery } from "../../../../redux/features/api/mainDashboardApiSlice";
 
-const data = [
-    {
-        name: "Jan",
-        uv: 4000,
-        pv: 2400,
-    },
-    {
-        name: "Feb",
-        uv: 3000,
-        pv: 1398,
-    },
-    {
-        name: "Mar",
-        uv: 2000,
-        pv: 9800,
-    },
-    {
-        name: "Apr",
-        uv: 2780,
-        pv: 3908,
-    },
-    {
-        name: "May",
-        uv: 1890,
-        pv: 4800,
-    },
-    {
-        name: "Jun",
-        uv: 2390,
-        pv: 3800,
-    },
-];
+// const data = [
+//     {
+//         name: "Jan",
+//         uv: 4000,
+//         pv: 2400,
+//     },
+//     {
+//         name: "Feb",
+//         uv: 3000,
+//         pv: 1398,
+//     },
+//     {
+//         name: "Mar",
+//         uv: 2000,
+//         pv: 9800,
+//     },
+//     {
+//         name: "Apr",
+//         uv: 2780,
+//         pv: 3908,
+//     },
+//     {
+//         name: "May",
+//         uv: 1890,
+//         pv: 4800,
+//     },
+//     {
+//         name: "Jun",
+//         uv: 2390,
+//         pv: 3800,
+//     },
+// ];
 
 const Revenue = () => {
+    const { data, error, isLoading } = useGetRevenueReportQuery();
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>{error?.error ? error?.error : error?.message}</p>;
     return (
         <div className="col-xl-5">
             <div className="card h-100">
@@ -79,7 +83,7 @@ const Revenue = () => {
                     >
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart
-                                data={data || []}
+                                data={data?.data || []}
                                 margin={{
                                     top: 20,
                                     right: 20,

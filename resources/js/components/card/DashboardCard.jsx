@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 // DashboardCard component definition
 const DashboardCard = ({ element = {} }) => {
     // Destructuring the element object to extract necessary properties
-    const { name, value, icon, stats, id, color } = element || {};
+    const { title, value, icon, id, color, stats } = element || {};
 
     return (
         <div className="col-md-6">
@@ -21,7 +21,7 @@ const DashboardCard = ({ element = {} }) => {
                         <div>
                             {/* Display the name and value of the card */}
                             <p className="fw-medium text-primary-light mb-1">
-                                {name || "N/A"}{" "}
+                                {title || "N/A"}{" "}
                                 {/* Default to "N/A" if no name */}
                             </p>
                             <h6 className="mb-0">{value || 0}</h6>{" "}
@@ -49,7 +49,6 @@ const DashboardCard = ({ element = {} }) => {
                                     : "text-danger-main"
                             }`}
                         >
-                            {/* Arrow icon based on stats comparison */}
                             <Icon
                                 icon={
                                     stats > 0
@@ -58,9 +57,9 @@ const DashboardCard = ({ element = {} }) => {
                                 }
                                 className="text-xs"
                             />
-                            {stats ?? 0} {/* Display stats or 0 if no stats */}
+                            {stats ?? 0}
                         </span>
-                        Last 30 days {name} {/* Mention the time frame */}
+                        Last 30 days {title}
                     </p>
                 </div>
             </div>
