@@ -202,6 +202,14 @@
                     </a>
                 </li>
             @endif
+
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('purchase') ? 'nav_active' : '' }}"
+                    href="{{ route('purchase') }}" role="button" aria-controls="general-pages">
+                    <i class="ms-2 fa-solid fa-handshake link-icon"></i>
+                    <span class="link-title">Purchase</span>
+                </a>
+            </li>
             {{-- @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
@@ -791,8 +799,7 @@
                             <span class="link-title">Setting Manage</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}"
-                            id="setting-manage">
+                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}" id="setting-manage">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
                                     <a href="{{ route('pos.settings.add') }}"

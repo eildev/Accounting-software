@@ -146,33 +146,11 @@ class ProductsController extends Controller
     }
     public function find($id)
     {
-        $status = 'active';
-        $product = Product::findOrFail($id);
-        $promotionDetails = PromotionDetails::whereHas('promotion', function ($query) use ($status) {
-            return $query->where('status', '=', $status);
-        })->where('promotion_type', 'products')->where('logic', 'like', '%' . $id . "%")->latest()->first();
-        // dd($promotionDetails->promotion);
-        $discountCheck = PosSetting::where('discount', '=', 1)->first();
-
-        if ($promotionDetails) {
-            if ($discountCheck) {
-                return response()->json([
-                    'status' => '200',
-                    'data' => $product,
-                ]);
-            } else {
-                return response()->json([
-                    'status' => '200',
-                    'data' => $product,
-                    'promotion' => $promotionDetails->promotion,
-                ]);
-            }
-        } else {
-            return response()->json([
-                'status' => '200',
-                'data' => $product
-            ]);
-        }
+        $product = Product::with('unit')->findOrFail($id);
+        return response()->json([
+            'status' => '200',
+            'data' => $product
+        ]);
     }
     //
     public function ProductBarcode($id)
@@ -182,21 +160,26 @@ class ProductsController extends Controller
     }
     public function globalSearch($search_value)
     {
-        $product = Product::where('search_value');
+        // $product = Product::where('search_value');
 
-        $products = Product::where('name','LIKE','%'.$search_value.'%')
-        ->orWhere('details','LIKE','%'.$search_value.'%')
-        ->orWhere('price','LIKE','%'.$search_value.'%')
-        ->orWhereHas('category', function($query) use ($search_value) {  $query->where('name', 'LIKE','%'.$search_value.'%');})
-        ->orWhereHas('subcategory', function($query) use ($search_value) {  $query->where('name', 'LIKE','%'.$search_value.'%');})
-        ->orWhereHas('brand', function($query) use ($search_value) {  $query->where('name', 'LIKE','%'.$search_value.'%');})
+        $products = Product::where('name', 'LIKE', '%' . $search_value . '%')
+            ->orWhere('details', 'LIKE', '%' . $search_value . '%')
+            ->orWhere('price', 'LIKE', '%' . $search_value . '%')
+            ->orWhereHas('category', function ($query) use ($search_value) {
+                $query->where('name', 'LIKE', '%' . $search_value . '%');
+            })
+            ->orWhereHas('subcategory', function ($query) use ($search_value) {
+                $query->where('name', 'LIKE', '%' . $search_value . '%');
+            })
+            ->orWhereHas('brand', function ($query) use ($search_value) {
+                $query->where('name', 'LIKE', '%' . $search_value . '%');
+            })
 
-        ->get();
+            ->get();
 
         return response()->json([
             'products' => $products,
             'status' => 200
         ]);
     }
-
 }
