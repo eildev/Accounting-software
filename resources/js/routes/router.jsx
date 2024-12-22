@@ -24,7 +24,7 @@ import ConveyanceBill from "../pages/accounting/ConveyanceBill";
 import ConveyanceReport from "../pages/accounting/ConveyanceReport";
 import SalarySheet from "../pages/accounting/SalarySheet";
 import MainDashboard from "../pages/dashboard/main-dashboard/MainDashboard";
-import AssetDashboard from "../pages/dashboard/asset-dashboard/section/AssetDashboard";
+import AssetDashboard from "../pages/dashboard/asset-dashboard/AssetDashboard";
 
 
 // Creating the router configuration for the application

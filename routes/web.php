@@ -35,9 +35,9 @@ use App\Http\Controllers\AssetDashboard\AssetDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ServiceSale\ServiceSaleController;
 use  App\Http\Controllers\CustomerPayableDashboard\CustomerPayableDashboardController;
+use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\SaleDashboard\SaleDashboardController;
 /*
 |--------------------------------------------------------------------------
@@ -213,6 +213,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice2/settings', 'PosSettingsInvoice2')->name('invoice2.settings');
         Route::get('/invoice3/settings', 'PosSettingsInvoice3')->name('invoice3.settings');
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
+    });
+
+     // Purchase controller related route
+     Route::controller(PurchaseController::class)->group(function () {
+        Route::get('/purchase', 'index')->name('purchase');
+        Route::post('/purchase/store', 'store')->name('purchase.store');
+        Route::get('/purchase/view', 'view')->name('purchase.view');
+        Route::get('/purchase/supplier/{id}', 'supplierName')->name('purchase.supplier.name');
+        Route::get('/purchase/item/{id}', 'purchaseItem')->name('purchase.item');
+        Route::get('/purchase/edit/{id}', 'edit')->name('purchase.edit');
+        Route::post('/purchase/update/{id}', 'update')->name('purchase.update');
+        Route::get('/purchase/destroy/{id}', 'destroy')->name('purchase.destroy');
+        Route::get('/purchase/invoice/{id}', 'invoice')->name('purchase.invoice');
+        Route::get('/purchase/money-receipt/{id}', 'moneyReceipt')->name('purchase.money.receipt');
+        Route::get('/purchase/image/{id}', 'imageToPdf')->name('purchase.image');
+        Route::get('/purchase/filter', 'filter')->name('purchase.filter');
     });
 
     // Departments related route(n)
@@ -427,20 +443,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/brand/update/{id}', 'update')->name('brand.update');
         Route::post('/brand/status/{id}', 'status')->name('brand.status');
         Route::get('/brand/destroy/{id}', 'destroy')->name('brand.destroy');
-    });
-    Route::controller(PurchaseController::class)->group(function () {
-        Route::get('/purchase', 'index')->name('purchase');
-        Route::post('/purchase/store', 'store')->name('purchase.store');
-        Route::get('/purchase/view', 'view')->name('purchase.view');
-        Route::get('/purchase/supplier/{id}', 'supplierName')->name('purchase.supplier.name');
-        Route::get('/purchase/item/{id}', 'purchaseItem')->name('purchase.item');
-        Route::get('/purchase/edit/{id}', 'edit')->name('purchase.edit');
-        Route::post('/purchase/update/{id}', 'update')->name('purchase.update');
-        Route::get('/purchase/destroy/{id}', 'destroy')->name('purchase.destroy');
-        Route::get('/purchase/invoice/{id}', 'invoice')->name('purchase.invoice');
-        Route::get('/purchase/money-receipt/{id}', 'moneyReceipt')->name('purchase.money.receipt');
-        Route::get('/purchase/image/{id}', 'imageToPdf')->name('purchase.image');
-        Route::get('/purchase/filter', 'filter')->name('purchase.filter');
     });
     Route::controller(AssetRevaluationController::class)->group(function () {
         Route::get('/asset-revaluation', 'index')->name('asset.revaluation');

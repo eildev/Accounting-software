@@ -70,6 +70,13 @@ class LedgerSeed extends Seeder
                 'account_name' => 'Employee Salary',
                 'slug' => 'employee-salary',
             ],
+            [
+                'id' => 9,
+                'branch_id' => 1,
+                'group_id' => 1,
+                'account_name' => 'Stock Balance',
+                'slug' => 'stock-balance',
+            ],
         ];
 
         foreach ($ledgers as $ledger) {
