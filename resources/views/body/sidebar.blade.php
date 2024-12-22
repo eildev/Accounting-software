@@ -497,6 +497,24 @@
                 </div>
 
                 </li>
+                <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.type') }}"
+                            class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Type</span>
+                        </a>
+                    </li>
+                </li>
+                <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.limit') }}"
+                            class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Limits</span>
+                        </a>
+                    </li>
+                </li>
             @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">

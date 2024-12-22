@@ -38,6 +38,8 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ServiceSale\ServiceSaleController;
 use  App\Http\Controllers\CustomerPayableDashboard\CustomerPayableDashboardController;
 use App\Http\Controllers\SaleDashboard\SaleDashboardController;
+use App\Http\Controllers\leaveApplication\leaveTypeController;
+use App\Http\Controllers\LeaveApplication\LeaveLimitsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,7 +50,6 @@ use App\Http\Controllers\SaleDashboard\SaleDashboardController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::get('/', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -460,6 +461,23 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(SaleDashboardController::class)->group(function () {
         Route::get('/sale-dashboard', 'SaleDashboard')->name('sale.dashboard');
+    });
+    Route::controller(leaveTypeController::class)->group(function () {
+        Route::get('/leave-type', 'index')->name('leave.type');
+        Route::post('/leave/type/store', 'store');
+        Route::get('/leave/type/view', 'view');
+        Route::get('/leave/type/edit/{id}', 'edit');
+        Route::post('/edit/leave/Type/update/{id}', 'update');
+        Route::get('/leave/type/destroy/{id}', 'destroy');
+        Route::get('/leave/type/status/{id}', 'status');
+    });
+    Route::controller(LeaveLimitsController::class)->group(function () {
+        Route::get('/leave-limit', 'index')->name('leave.limit');
+        Route::post('/leave/limit/store', 'store');
+        Route::get('/leave/limit/view', 'view');
+        Route::get('/leave/limit/edit/{id}', 'edit');
+        Route::post('/edit/limit/limit/update/{id}', 'update');
+        Route::get('/leave/limit/destroy/{id}', 'destroy');
     });
 });
 

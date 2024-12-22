@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('bonus_reason', 255)->nullable();
             $table->boolean('is_recurring')->default(false);
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->string('status',20)->default('pending');
+            $table->enum('status', ['pending', 'approved', 'canceled', 'processing', 'paid'])->default('pending');
             $table->timestamps();
         });
     }
