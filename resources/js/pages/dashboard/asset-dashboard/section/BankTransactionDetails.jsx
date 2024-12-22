@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+
 const BankTransactionDetails = () => {
     const transactions = [
         {
@@ -28,38 +29,51 @@ const BankTransactionDetails = () => {
     ];
 
     return (
-        <div className='col-md-5 col-sm-12' >
-        <div>
-            <div className='card'>
-                <div className='card-body'>
-                    <h6 className='mb-3'>Bank Transaction Details</h6>
-                    <hr />
-                    <ul className="list-group list-group-flush" style={{backgroundColor: "#f5f5f5"}}>
-                        {transactions.map((transaction, index) => (
-                            <li
-                                key={index}
-                                className="list-group-item d-flex align-items-center justify-content-between"
-                                style={{ padding: "0.8rem 0" }}
-                            >
-                                <div className="d-flex align-items-center">
-                                    <img
-                                        src={transaction.logo}
-                                        alt={`${transaction.bankName} logo`}
-                                        style={{ width: "40px", height: "40px", marginRight: "10px" }}
-                                    />
-                                    <div>
-                                        <p className="mb-0">{transaction.bankName}</p>
-                                        <small className="text-muted">{transaction.date}</small>
+        <div className="col-md-5 col-sm-12">
+            <div>
+                <div className="card">
+                    <div className="card-body">
+                        <h6 className="mb-3">Bank Transaction Details</h6>
+                        <hr />
+                        <ul
+                            className="list-group list-group-flush"
+                            style={{ backgroundColor: "#f5f5f5" }}
+                        >
+                            {transactions.map((transaction, index) => (
+                                <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center justify-content-between"
+                                    style={{ padding: "0.8rem 0" }}
+                                >
+                                    <div className="d-flex align-items-center">
+                                        <img
+                                            src={transaction.logo}
+                                            alt={`${transaction.bankName} logo`}
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                marginRight: "10px",
+                                            }}
+                                        />
+                                        <div>
+                                            <p className="mb-0">
+                                                {transaction.bankName}
+                                            </p>
+                                            <small className="text-muted">
+                                                {transaction.date}
+                                            </small>
+                                        </div>
                                     </div>
-                                </div>
-                                <hp className="mb-0 text-primary">{transaction.amount}</hp>
-                            </li>
-                        ))}
-                    </ul>
+                                    <hp className="mb-0 text-primary">
+                                        {transaction.amount}
+                                    </hp>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     );
 };
 

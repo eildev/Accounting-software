@@ -31,6 +31,7 @@ use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
 use App\Http\Controllers\EmployeePayroll\PaySlipController;
 use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
 use App\Http\Controllers\AccountPayable\SupplierController;
+use App\Http\Controllers\AssetDashboard\AssetDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
@@ -478,6 +479,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/leave/limit/edit/{id}', 'edit');
         Route::post('/edit/limit/limit/update/{id}', 'update');
         Route::get('/leave/limit/destroy/{id}', 'destroy');
+    });
+    Route::controller(AssetDashboardController::class)->group(function () {
+        Route::get('/asset-dashboard/card-data', 'getTopData');
+        Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
+        Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
 });
 
