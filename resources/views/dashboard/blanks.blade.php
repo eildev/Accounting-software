@@ -178,7 +178,7 @@
                                             <tr>
                                                 <td>Add Balance</td>
                                                 <td class="text-end">{{ number_format($data['addBalance'], 2) }}</td>
-                                                <td>Expanse</td>
+                                                <td>Expense</td>
                                                 <td class="text-end">{{ number_format($data['todayExpanse'], 2) }}</td>
                                             </tr>
                                             <tr>
@@ -268,7 +268,7 @@
                                             <tr>
                                                 <td>Add Balance</td>
                                                 <td class="text-end">{{ number_format($todayTotalAddBalance, 2) }}</td>
-                                                <td>Expanse</td>
+                                                <td>Expense</td>
                                                 <td class="text-end">{{ number_format($todayTotalExpanse, 2) }}</td>
                                             </tr>
                                             <tr>
@@ -360,7 +360,7 @@
                                         <tr>
                                             <td>Add Balance</td>
                                             <td class="text-end">{{ number_format($addBalance->sum('credit'), 2) }}</td>
-                                            <td>Expanse</td>
+                                            <td>Expense</td>
                                             <td class="text-end">{{ number_format($todayExpanse->sum('amount'), 2) }}</td>
                                         </tr>
                                         <tr>

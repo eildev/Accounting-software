@@ -38,7 +38,9 @@
                                 <label for="ageSelect" class="form-label">Category <span
                                         class="text-danger">*</span></label>
                                 <select class="js-example-basic-single form-select category_id" id="category_name"
-                                    name="category_id" onchange="errorRemove(this);">
+                                    name="category_id"
+                                    {{-- onchange="errorRemove(this);" --}}
+                                    >
                                     @if ($categories->count() > 0)
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"
@@ -64,7 +66,8 @@
                                 @endphp
                                 <label for="ageSelect" class="form-label">Brand <span class="text-danger">*</span></label>
                                 <select class="js-example-basic-single form-select brand_id" name="brand_id"
-                                    onchange="errorRemove(this);">
+                                    {{-- onchange="errorRemove(this);" --}}
+                                    >
                                     @if ($brands->count() > 0)
                                         {{-- <option selected disabled>Select Brand</option> --}}
                                         @foreach ($brands as $brand)
@@ -132,7 +135,8 @@
                                 @endphp
                                 <label for="ageSelect" class="form-label">Unit <span class="text-danger">*</span></label>
                                 <select class="js-example-basic-single form-select unit_id" name="unit_id"
-                                    onchange="errorRemove(this);">
+                                    {{-- onchange="errorRemove(this);" --}}
+                                    >
                                     @if ($units->count() > 0)
                                         <option selected disabled>Select Unit</option>
                                         @foreach ($units as $unit)

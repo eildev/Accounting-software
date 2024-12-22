@@ -6,8 +6,8 @@
             @else
                 EIL<span>POS</span>
             @endif --}}
-        {{-- <img src="{{ asset('/Logo-2.png') }}" alt="" height="40"> --}}
-        <h3>Accounting</h3>
+        <img src="{{ asset('/accountant-logo.png') }}" alt="" height="40">
+        {{-- <h3>Accounting</h3> --}}
         </a>
         <div class="sidebar-toggler not-active">
             <span></span>
@@ -78,20 +78,20 @@
                     </li>
                 @endif
                 @if (Auth::user()->can('customer.dashboard'))
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route('customer.payable.dashboard') }}"
                             class="nav-link {{ request()->routeIs('customer.payable.dashboard') ? 'nav_active' : '' }}">
                             <i class="ms-2 link-icon" data-feather="shopping-cart"></i>
                             <span class="link-title">Customer Dashboard</span>
                         </a>
-                    </li>
+                    </li> --}}
                 @endif
                 @if (Auth::user()->can('expanse.dashboard'))
                     <li class="nav-item">
                         <a href="{{ route('expanse.dashboard') }}"
                             class="nav-link {{ request()->routeIs('expanse.dashboard') ? 'nav_active' : '' }}">
                             <i class="ms-2 fa-solid fa-money-bill-transfer link-icon"></i>
-                            <span class="link-title">Expanse Dashboard</span>
+                            <span class="link-title">Expense Dashboard</span>
                         </a>
                     </li>
                 @endif
@@ -202,7 +202,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->can('purchase.menu'))
+            {{-- @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
                         data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
@@ -230,7 +230,7 @@
                         </ul>
                     </div>
                 </li>
-            @endif
+            @endif --}}
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('customer.view') ? 'nav_active' : '' }}"
@@ -340,14 +340,14 @@
             @endif
 
             @if (Auth::user()->can('salary.sheet.menu'))
-            @if (Auth::user()->can('salary.sheet1'))
-                <li class="nav-item">
-                    <a href="{{ route('salary.sheet') }}"
-                        class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Salary Sheet</span>
-                    </a>
-                </li>
+                @if (Auth::user()->can('salary.sheet1'))
+                    <li class="nav-item">
+                        <a href="{{ route('salary.sheet') }}"
+                            class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Salary Sheet</span>
+                        </a>
+                    </li>
                 @endif
             @endif
             @if (Auth::user()->can('assets.menu'))
@@ -389,11 +389,11 @@
                         class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
                         Expense Managment</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('expense.recurring') }}"
                         class="nav-link {{ request()->routeIs('expense.recurring') ? 'nav_active' : '' }}">Recurring
                         Expense</a>
-                </li>
+                </li> --}}
                 {{-- </ul>
     </div>
 </li> --}}
@@ -517,14 +517,14 @@
                 </li>
             @endif
             @if (Auth::user()->can('salary.sheet.menu'))
-            @if (Auth::user()->can('salary.sheet2'))
-                <li class="nav-item">
-                    <a href="{{ route('salary.sheet') }}"
-                        class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Salary Sheet</span>
-                    </a>
-                </li>
+                @if (Auth::user()->can('salary.sheet2'))
+                    <li class="nav-item">
+                        <a href="{{ route('salary.sheet') }}"
+                            class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Salary Sheet</span>
+                        </a>
+                    </li>
                 @endif
             @endif
             @if (Auth::user()->can('customer.menu'))
@@ -773,7 +773,8 @@
                             <span class="link-title">Setting Manage</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}" id="setting-manage">
+                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}"
+                            id="setting-manage">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
                                     <a href="{{ route('pos.settings.add') }}"

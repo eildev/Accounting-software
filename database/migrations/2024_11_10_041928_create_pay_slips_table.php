@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('total_net_salary', 15, 2)->nullable();
             $table->decimal('total_employee_bonus', 15, 2)->nullable();
             $table->decimal('total_convenience_amount', 15, 2)->nullable();
-            $table->string('status',20)->default('pending');
+            $table->enum('status', ['pending', 'approved', 'canceled', 'processing', 'paid'])->default('pending');
             $table->timestamps();
         });
     }

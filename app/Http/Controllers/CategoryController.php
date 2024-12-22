@@ -17,7 +17,7 @@ class CategoryController extends Controller
     }
     public function index()
     {
-        return view('pos.products.category');
+        return view('all_modules.products.category');
     }
     public function store(Request $request)
     {

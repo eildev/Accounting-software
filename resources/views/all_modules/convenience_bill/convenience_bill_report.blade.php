@@ -6,15 +6,15 @@
             border: none !important;
         }
     </style>
-     @php
-     $user = Auth::user();
+    @php
+        $user = Auth::user();
     @endphp
     <div class="row">
         <div id="filter-rander">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title text-info">Conveyance Bill Report</h6>
+                        <h6 class="card-title ">Conveyance Bill Report</h6>
                         <div id="tableContainer" class="table-responsive">
                             <table id="example" class="table">
                                 <thead class="action">
@@ -22,8 +22,8 @@
                                         <th>SN</th>
                                         <th>Invoice No.</th>
                                         <th>Employee Name</th>
-                                        @if($user->role === 'superadmin' || $user->role === 'admin')
-                                        <th>Submitted By</th>
+                                        @if ($user->role === 'superadmin' || $user->role === 'admin')
+                                            <th>Submitted By</th>
                                         @endif
                                         <th>Amount</th>
                                         <th>Status</th>
@@ -40,8 +40,8 @@
                                                         href="{{ route('convenience.invoice', $item->id) }}">{{ $item->bill_number }}</a>
                                                 </td>
                                                 <td>{{ $item->employee->full_name }}</td>
-                                                @if($user->role === 'superadmin' || $user->role === 'admin')
-                                                <td>{{$item->entry_by}}</td>
+                                                @if ($user->role === 'superadmin' || $user->role === 'admin')
+                                                    <td>{{ $item->entry_by }}</td>
                                                 @endif
                                                 <td>{{ $item->total_amount }}</td>
                                                 <td>
@@ -51,31 +51,55 @@
                                                             aria-haspopup="true" aria-expanded="false">
                                                             <a href="#" id="statusBadge{{ $item->id }}"
                                                                 class="badge text-dark
-                                                    {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'approved' ? 'bg-success' : 'bg-primary') }}">
+                                                    {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'approved' ? 'bg-success' : ($item->status == 'processing' ? 'bg-info' : ($item->status == 'canceled' ? 'bg-danger' : 'bg-primary'))) }}">
                                                                 {{ ucfirst($item->status) }}
                                                             </a>
                                                         </button>
-
-                                                        @if($user->role === 'accountant')
-
-                                                        @else
+                                                        {{-- ///Accountant Status Change permission --}}
+                                                        @if ($user->role === 'accountant' )
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#"
-                                                                onclick="changeStatus({{ $item->id }}, 'pending')">Pending</a>
-                                                            <a class="dropdown-item" href="#"
-                                                                onclick="changeStatus({{ $item->id }}, 'approved')">Approved</a>
-                                                            <a class="dropdown-item" href="#"
-                                                                onclick="changeStatus({{ $item->id }}, 'processing')">Processing</a>
+                                                            @if ($item->status === 'processing')
+                                                            <span class="dropdown-item text-muted">Status is Processing - Cannot change</span>
+                                                            @elseif ($item->status === 'paid')
+                                                                <span class="dropdown-item text-muted">Status is Paid - Cannot change</span>
+                                                            @else
+                                                                <a class="dropdown-item" href="#"
+                                                                    onclick="changeStatus({{ $item->id }}, 'approved')">Approved</a>
+                                                                <a class="dropdown-item" href="#"
+                                                                    onclick="changeStatus({{ $item->id }}, 'canceled')">Cancel</a>
+                                                            @endif
                                                         </div>
+                                                        {{-- ///Status Change permission all --}}
+                                                        @else
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <a class="dropdown-item" href="#"
+                                                                    onclick="changeStatus({{ $item->id }}, 'pending')">Pending</a>
+                                                                <a class="dropdown-item" href="#"
+                                                                    onclick="changeStatus({{ $item->id }}, 'approved')">Approved</a>
+                                                                <a class="dropdown-item" href="#"
+                                                                    onclick="changeStatus({{ $item->id }}, 'processing')">Processing</a>
+                                                                <a class="dropdown-item" href="#"
+                                                                    onclick="changeStatus({{ $item->id }}, 'canceled')">cancel</a>
+                                                            </div>
                                                         @endif
                                                     </div>
                                                 </td>
                                                 <td>
+                                                    @if ($user->role === 'accountant' )
+                                                    @if ($item->status === 'processing')
+                                                    <a href="#"
+                                                       class="btn btn-icon btn-xs btn-primary payment_conveience_bill"
+                                                       data-id="{{ $item->id }}">
+                                                        <i class="fa-regular fa-credit-card"></i>
+                                                    </a>
+                                                    @endif
+                                                    @else
                                                     <a href="#"
                                                         class="btn btn-icon btn-xs btn-primary payment_conveience_bill"
                                                         data-id={{ $item->id }}>
                                                         <i class="fa-regular fa-credit-card"></i>
                                                     </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -84,8 +108,8 @@
                                             <td colspan="12">
                                                 <div class="text-center text-warning mb-2">Data Not Found</div>
                                                 <div class="text-center">
-                                                    <a href="{{route('convenience')}}" class="btn btn-primary">Add Conveyance<i
-                                                            data-feather="plus"></i></a>
+                                                    <a href="{{ route('convenience') }}" class="btn btn-primary">Add
+                                                        Conveyance<i data-feather="plus"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -120,14 +144,15 @@
                     badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
                     if (status === 'pending') {
-                        badge.removeClass('bg-success bg-primary').addClass('bg-warning');
+                        badge.removeClass('bg-success bg-primary bg-danger bg-info').addClass('bg-warning');
                     } else if (status === 'approved') {
-                        badge.removeClass('bg-warning bg-primary').addClass('bg-success');
+                        badge.removeClass('bg-warning bg-primary bg-danger bg-info').addClass('bg-success');
                     } else if (status === 'paid') {
-                        badge.removeClass('bg-warning bg-success').addClass('bg-primary');
-                    }
-                    else if (status === 'processing') {
-                        badge.removeClass('bg-warning bg-success bg-primary').addClass('bg-info');
+                        badge.removeClass('bg-warning bg-info bg-success bg-danger').addClass('bg-primary');
+                    } else if (status === 'processing') {
+                        badge.removeClass('bg-warning bg-success bg-primary bg-danger').addClass('bg-info');
+                    } else if (status === 'canceled') {
+                        badge.removeClass('bg-warning bg-success bg-primary').addClass('bg-danger');
                     }
                 },
                 error: function(error) {

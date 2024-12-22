@@ -29,10 +29,10 @@
                             <h6 class="card-title ">View Employee List</h6>
                         </div>
                         @if (Auth::user()->can('genarate.payslip.all'))
-                        <div class="">
-                            <a href="javascript:void(0)" class="btn" id="generate-slip"
-                                style="background: #5660D9">Generate Slip</a>
-                        </div>
+                            <div class="">
+                                <a href="javascript:void(0)" class="btn" id="generate-slip"
+                                    style="background: #5660D9">Generate Slip</a>
+                            </div>
                         @endif
                     </div>
                     <div id="" class="table-responsive">
@@ -46,6 +46,7 @@
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Salary</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -65,6 +66,13 @@
                                             <td>{{ $employe->email ?? '' }}</td>
                                             <td>{{ $employe->phone ?? '' }}</td>
                                             <td>{{ $employe->salary ?? '' }}</td>
+                                            <td>
+                                                @if ($employe->status > 0)
+                                                    <span class="badge bg-success">Active</span>
+                                                @else
+                                                    <span class="badge bg-danger">Inactive</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if (Auth::user()->can('employee.edit'))
                                                     <a href="{{ route('employee.edit', $employe->id) }}"
@@ -128,7 +136,7 @@
                     },
                     success: function(response) {
                         if ($.fn.DataTable.isDataTable('#showSlipTable')) {
-                        $('#showSlipTable').DataTable().clear().destroy();
+                            $('#showSlipTable').DataTable().clear().destroy();
                         }
                         if (response.status == 500) {
                             response.existing_employees.forEach(function(employee) {
@@ -139,10 +147,10 @@
                                 toastr.success(response.message); // Green color for success
                             } else if (response.message_type === 'warning') {
                                 toastr.info(response.message); // Yellow color for warning
-                            }else if(response.status == 200){
+                            } else if (response.status == 200) {
                                 toastr.success(response.message);
                             }
-                                //Success End
+                            //Success End
                             if (response.not_inserted.length > 0) {
                                 let errorReasons = [];
                                 let warningReasons = [];
@@ -153,26 +161,32 @@
                                 // toastr.warning(message.replace(/\n/g, '<br>')); // Replace newlines with HTML line breaks for better formatting
                                 response.not_inserted.forEach(item => {
                                     if (item.reason_type === 'error') {
-                                        errorReasons.push(`Employee Name: ${item.employee_name}, Reason: ${item.reason}`);
+                                        errorReasons.push(
+                                            `Employee Name: ${item.employee_name}, Reason: ${item.reason}`
+                                        );
                                     } else if (item.reason_type === 'warning') {
-                                        warningReasons.push(`Employee Name: ${item.employee_name}, Reason: ${item.reason}`);
+                                        warningReasons.push(
+                                            `Employee Name: ${item.employee_name}, Reason: ${item.reason}`
+                                        );
                                     }
                                 });
 
                                 // Show error messages
                                 if (errorReasons.length > 0) {
                                     let errorMessage = "Salary Structure:\n" + errorReasons.join("\n");
-                                    toastr.error(errorMessage.replace(/\n/g, '<br>')); // Red for critical errors
+                                    toastr.error(errorMessage.replace(/\n/g,
+                                        '<br>')); // Red for critical errors
                                 }
 
                                 // Show warning messages
                                 if (warningReasons.length > 0) {
                                     let warningMessage = "Warnings:\n" + warningReasons.join("\n");
-                                    toastr.warning(warningMessage.replace(/\n/g, '<br>')); // Yellow for warnings
+                                    toastr.warning(warningMessage.replace(/\n/g,
+                                        '<br>')); // Yellow for warnings
                                 }
                             }
 
-                        }else if(response.status == 400){
+                        } else if (response.status == 400) {
                             toastr.error(response.message);
                         }
                         //
@@ -187,7 +201,5 @@
                 toastr.error('Please select at least one employee to generate the slip.');
             }
         });
-
-
     </script>
 @endsection

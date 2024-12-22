@@ -98,7 +98,7 @@
                                 <div class="col-md-8 col-7 d-flex align-items-center">
                                     <div>
                                         <h4 class="responsive-text mar-1">{{ $expanse->sum('amount') }}</h4>
-                                        <h6 class="text-1 mb-0">Expanse</h6>
+                                        <h6 class="text-1 mb-0">Expense</h6>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@
                                 <div class="col-md-8 col-7 d-flex align-items-center">
                                     <div>
                                         <h4 class="responsive-text mar-1">{{ $todayExpanse->sum('amount') }}</h4>
-                                        <h6 class="text-1 mb-0">Expanse</h6>
+                                        <h6 class="text-1 mb-0">Expense</h6>
                                     </div>
                                 </div>
                             </div>

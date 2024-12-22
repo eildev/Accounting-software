@@ -62,7 +62,8 @@
                 const total = parseFloat(data.paySlipPaid) +
                     parseFloat(data.paySlipPending) +
                     parseFloat(data.paySlipUnpaid) +
-                    parseFloat(data.paySlipProcessing);
+                    parseFloat(data.paySlipProcessing)+
+                    parseFloat(data.paySlipCanceled);
 
                 const options = {
                     chart: {
@@ -83,7 +84,7 @@
                     stroke: {
                         colors: ['rgba(0,0,0,0)']
                     },
-                    colors: [colors.primary, colors.warning, colors.danger, colors.info],
+                    colors: [colors.primary, colors.warning, colors.danger, colors.info,colors.muted],
                     legend: {
                         show: true,
                         position: "top",
@@ -101,9 +102,10 @@
                         parseFloat(data.paySlipPaid),
                         parseFloat(data.paySlipPending),
                         parseFloat(data.paySlipUnpaid),
-                        parseFloat(data.paySlipProcessing)
+                        parseFloat(data.paySlipProcessing),
+                        parseFloat(data.paySlipCanceled)
                     ] : [1],
-                    labels: total > 0 ? ['Paid', 'Pending', 'Unpaid', 'Processing'] : ['No Data'],
+                    labels: total > 0 ? ['Paid', 'Pending', 'Unpaid', 'Processing','Canceled'] : ['No Data'],
                 };
 
                 chart = new ApexCharts(document.querySelector("#apexDonut"), options);

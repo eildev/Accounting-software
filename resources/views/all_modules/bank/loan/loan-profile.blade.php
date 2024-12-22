@@ -165,15 +165,18 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
+                                                <th>Invoice No.</th>
                                                 <th>Instalment No.</th>
                                                 <th>Date</th>
                                                 <th>Payment Method</th>
                                                 <th>Principal Paid</th>
                                                 <th>Interest Paid</th>
                                                 <th>Total Paid</th>
+                                                <th class="action">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+
                                             @if ($loan_repayments->count() > 0)
                                                 @php
                                                     function ordinal($number)
@@ -187,6 +190,7 @@
                                                 @endphp
                                                 @foreach ($loan_repayments as $index => $data)
                                                     <tr>
+                                                        <td><a href="{{ route('loan.instalment.invoice', $data->id) }}">{{ 'INV-' . now()->year . '-' . str_pad($data->id, 5, '0', STR_PAD_LEFT) }}</a></td>
                                                         <td>{{ ordinal($index + 1) }} Installment</td>
                                                         <td>{{ $data->repayment_date ?? '' }}</td>
                                                         <td>
@@ -205,6 +209,11 @@
                                                         <td>
                                                             {{ $data->total_paid ?? 0 }}
                                                         </td>
+                                                        <td class="action"><a href="#"
+                                                            class="btn-sm btn-outline-primary  float-end printLoan"
+                                                            data-id="{{ $data->id }}" type="loan">
+                                                            <i data-feather="printer" class="me-2 icon-md"></i>
+                                                        </a></td>
                                                     </tr>
                                                 @endforeach
                                             @else
@@ -335,7 +344,7 @@
             }
 
             button,
-            a,
+            .action,
             .filter_box,
             nav,
             .footer,
@@ -349,7 +358,7 @@
     </style>
 
     <script>
-        // Error Remove Function 
+        // Error Remove Function
         function errorRemove(element) {
             tag = element.tagName.toLowerCase();
             if (element.value != '') {
@@ -363,14 +372,14 @@
             }
         }
 
-        // Show Error Function 
+        // Show Error Function
         function showError(payment_balance, message) {
             $(payment_balance).css('border-color', 'red');
             $(payment_balance).focus();
             $(`${payment_balance}_error`).show().text(message);
         }
 
-        // due Show 
+        // due Show
         function dueShow() {
             let dueAmountText = document.getElementById('due-amount').innerText.trim();
             let dueAmount = parseFloat(dueAmountText.replace(/[^\d.-]/g, ''));
@@ -496,29 +505,19 @@
             modalShowHide('duePayment');
         });
 
-        // $('.print').click(function(e) {
-        //     e.preventDefault();
-        //     let id = $(this).attr('data-id');
-        //     let type = $(this).attr('type');
-        //     var printFrame = $('#printFrame')[0];
+        $('.printLoan').click(function(e) {
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let type = $(this).attr('type');
+            var printFrame = $('#printFrame')[0];
 
-
-
-        //     // if (type == 'sale') {
-        //     //     var printContentUrl = '/sale/invoice/' + id;
-        //     // } else if (type == 'return') {
-        //     //     var printContentUrl = '/return/products/invoice/' + id;
-        //     // } else if (type == 'purchase') {
-        //     //     var printContentUrl = '/purchase/invoice/' + id;
-        //     // } else {
-        //     //     var printContentUrl = '/transaction/invoice/receipt/' + id;
-        //     // }
-
-        //     $('#printFrame').attr('src', printContentUrl);
-        //     printFrame.onload = function() {
-        //         printFrame.contentWindow.focus();
-        //         printFrame.contentWindow.print();
-        //     };
-        // })
+              let printLoanContentUrl = '/loan/invoice/receipt/print/' + id;
+            console.log(printLoanContentUrl);
+            $('#printFrame').attr('src', printLoanContentUrl);
+            printFrame.onload = function() {
+                printFrame.contentWindow.focus();
+                printFrame.contentWindow.print();
+            };
+        })
     </script>
 @endsection

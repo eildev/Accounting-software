@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ServiceSale;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\ServiceSale\ServiceSale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class ServiceSaleController extends Controller
                 'volume' => $volumes[$key],
                 'price' => $prices[$key],
                 'total' => $totals[$key],
+                'invoice_number' => rand(000000, 999999)
             ]);
         }
         return response()->json([
@@ -40,8 +42,15 @@ class ServiceSaleController extends Controller
             'message' => 'Services added successfully!',
         ]);
     } //End Method
-    public function view() {
+    public function view()
+    {
         $serviceSales = ServiceSale::all();
-        return view('all_modules.service_sale.service_sale_view',compact('serviceSales'));
-    }//End Method
+        return view('all_modules.service_sale.service_sale_view', compact('serviceSales'));
+    } //End Method
+    public function invoice($id)
+    {
+        $sale = ServiceSale::findOrFail($id);
+        $customer = Customer::findOrFail($sale->customer_id);
+        return view('all_modules.service_sale.service-sale-invoice', compact('sale', 'customer'));
+    } //End Method
 }//Mian End

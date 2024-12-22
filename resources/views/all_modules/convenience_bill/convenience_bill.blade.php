@@ -158,7 +158,7 @@
                                             </a>
                                         </li>
                                         <!---Second li--->
-                                        <li class="nav-item">
+                                        <li class="nav-item ">
                                             <a class="nav-link" id="foodingcosts-tab" data-bs-toggle="tab"
                                                 href="#foodingcosts" role="tab" aria-controls="foodingcosts"
                                                 aria-selected="false">Fooding Costs
@@ -173,7 +173,7 @@
                                         </li>
                                         <!---Fourth li--->
                                         <li class="nav-item">
-                                            <a class="nav-link" id="otherExpensesCosts-tab" data-bs-toggle="tab"
+                                            <a class="nav-link " id="otherExpensesCosts-tab" data-bs-toggle="tab"
                                                 href="#otherExpensesCosts" role="tab" aria-controls="otherExpensesCosts"
                                                 aria-selected="false">Other Expenses Costs
                                             </a>

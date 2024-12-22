@@ -64,37 +64,73 @@
                         <td>${paySlips.total_convenience_amount}</td>
                         <td>${paySlips.total_net_salary}</td>
                         <td>
-                ${
-                userRole === 'accountant'
-                    ? ` <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span id="statusBadge${paySlips.id}" class="badge text-dark
-                                        ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
-                                        ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
-                                    </span>
-                                </button>`
-                    : `
-                              <div class="dropdown" id="statusChange${paySlips.id}">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span id="statusBadge${paySlips.id}" class="badge text-dark
-                                        ${paySlips.status === 'pending' ? 'bg-warning' : (paySlips.status === 'approved' ? 'bg-success' : (paySlips.status === 'paid' ? 'bg-primary' : 'bg-info'))}">
-                                        ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
-                                    </span>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
-                                    <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending' , ${paySlips.employee_id})">Pending</a>
-                                    <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
-                                    <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'processing')">Processing</a>
-                                </div>
+                       ${
+                      userRole === 'accountant'
+                    ? `
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="statusBadge${paySlips.id}" class="badge text-dark
+                            ${paySlips.status === 'pending' ? 'bg-warning' :
+                            paySlips.status === 'approved' ? 'bg-success' :
+                            paySlips.status === 'paid' ? 'bg-primary' :
+                            paySlips.status === 'processing' ? 'bg-info' : 'bg-danger'}">
+                            ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
+                        </span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
+                        ${paySlips.status === 'processing'
+                            ? `<span class="dropdown-item text-muted">Status is Processing - Cannot change</span>`
+                            : paySlips.status === 'paid'
+                            ? `<span class="dropdown-item text-muted">Status is Paid - Cannot change</span>`
+                            : `
+                            <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
+                            <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'canceled')">Cancel</a>
+                        `}
+                    </div>
+                            `
+                        : `
+                            <div class="dropdown" id="statusChange${paySlips.id}">
+                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${paySlips.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="statusBadge${paySlips.id}" class="badge text-dark
+                                ${paySlips.status === 'pending' ? 'bg-warning' :
+                                paySlips.status === 'approved' ? 'bg-success' :
+                                paySlips.status === 'paid' ? 'bg-primary' :
+                                paySlips.status === 'processing' ? 'bg-info' : 'bg-danger'}">
+                                ${paySlips.status ? paySlips.status.charAt(0).toUpperCase() + paySlips.status.slice(1) : 'Processing'}
+                            </span>
+                        </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${paySlips.id}">
+                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'pending' , ${paySlips.employee_id})">Pending</a>
+                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'approved')">Approved</a>
+                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'processing')">Processing</a>
+                                <a class="dropdown-item" href="#" onclick="changeStatusPayslip(${paySlips.id}, 'canceled')">Cancel</a>
                             </div>
-                             `}
+                            </div>
+                                `}
                         </td>
 
-                        <td id="editButtonContainer${paySlips.id}">
-                            ${paySlips.status === 'pending'  ? `</a>` : ''}
-                            <a href="#" class="btn btn-sm btn-primary btn-icon payment_salary" data-id="${paySlips.id}">
-                                <i class="fa-solid fa-money-check-dollar"></i>
+                        <td>
+                            <a id="editButtonContainer${paySlips.id}" data-id="${paySlips.id}">
+
+                              <a/>
+                             <a>
+                                ${userRole === 'accountant'
+                                ?
+                               ` ${ paySlips.status === 'processing' ?
+                                     `
+                                 <a href="#" class="btn btn-sm btn-primary btn-icon payment_salary" data-id="${paySlips.id}">
+                                    <i class="fa-solid fa-money-check-dollar"></i>
+                                    </a>` : ''
+
+                                    }`
+                                : `
+                                        <a href="#" class="btn btn-sm btn-primary btn-icon payment_salary" data-id="${paySlips.id}">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        </a>`
+                                }
                             </a>
-                    </td>
+                       </td>
+
+
                     </tr>
                 `);
                         });
@@ -186,7 +222,7 @@
                     badge.text(status.charAt(0).toUpperCase() + status.slice(1));
 
                     // Remove existing badge classes and add new one based on status
-                    badge.removeClass('bg-warning bg-success bg-primary bg-info');
+                    badge.removeClass('bg-warning bg-success bg-primary bg-info bg-danger');
                     if (status === 'pending') {
                         badge.addClass('bg-warning');
                     } else if (status === 'approved') {
@@ -195,7 +231,10 @@
                         badge.addClass('bg-primary');
                     } else if (status === 'processing') {
                         badge.addClass('bg-info');
+                    } else if (status === 'canceled') {
+                        badge.addClass('bg-danger');
                     }
+
                     const editButtonContainer = $('#editButtonContainer' + id);
                     if (status === 'pending') {
                         // Show or add the edit button if status is pending
@@ -205,8 +244,10 @@
                     </a>
                 `);
                     } else {
+                        const editIcon = $('#editicon');
                         // Remove the edit button if status is not pending
                         editButtonContainer.html('');
+
                     }
                 },
                 error: function(error) {
@@ -215,8 +256,6 @@
                 }
             });
         }
-
-
 
         $(document).on('click', '.payment_salary', function(e) {
             e.preventDefault();
@@ -233,14 +272,27 @@
                 success: function(res) {
                     if (res.status == 200) {
                         const salary = res.paySlip;
-                        // console.log(salary);
-                        $('#globalPaymentModal #data_id').val(salary.id);
-                        $('#globalPaymentModal #payment_balance').val(salary.total_net_salary);
-                        $('#globalPaymentModal #purpose').val('Employee Salary');
-                        $('#globalPaymentModal #transaction_type').val('withdraw');
-                        $('#globalPaymentModal #due-amount').text(salary.total_net_salary);
-                        // Open the Payment Modal
-                        $('#globalPaymentModal').modal('show');
+                        if (salary.status != 'paid') {
+                            // console.log(salary);
+                            $('#globalPaymentModal #data_id').val(salary.id);
+                            $('#globalPaymentModal #payment_balance').val(salary.total_net_salary);
+                            $('#globalPaymentModal #purpose').val('Employee Salary');
+                            $('#globalPaymentModal #transaction_type').val('withdraw');
+                            $('#globalPaymentModal #due-amount').text(salary.total_net_salary);
+                            // Open the Payment Modal
+                            $('#globalPaymentModal').modal('show');
+                        } else {
+                            Swal.fire({
+                                title: "<strong>Already Paid</strong>",
+                                icon: "info",
+                                html: `
+                                    You can Pay Another Salary.
+                                    `,
+                                showCloseButton: true,
+                                showCancelButton: true,
+                                focusConfirm: false,
+                            });
+                        }
                     } else {
                         toastr.error("data Not Found");
                     }
@@ -248,4 +300,11 @@
             });
         })
     </script>
+     {{-- <a id="editicon">
+        ${paySlips.status === 'pending' ?
+    `<a href="/employee/profile/edit/${paySlips.employee_id}/${paySlips.id}" class="btn btn-sm btn-primary btn-icon payslip_edit" data-id="${paySlips.id}">
+        <i class="fa-solid fa-pen-to-square"></i>
+    </a>`
+    : ''}
+    </a> --}}
 @endsection

@@ -16,7 +16,7 @@ class BrandController extends Controller
     }
     public function index()
     {
-        return view('pos.products.brand');
+        return view('all_modules.products.brand');
     }
     public function store(Request $request)
     {

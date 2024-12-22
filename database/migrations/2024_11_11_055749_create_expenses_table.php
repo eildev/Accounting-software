@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('expense_category_id')->nullable();
             $table->foreign('expense_category_id')->references('id')->on('sub_ledgers');
             $table->string('purpose', 255);
-            $table->decimal('amount');
+            $table->decimal('amount' ,15, 2);
             $table->string('image')->nullable();
             $table->string('spender')->nullable();
             $table->integer('bank_account_id')->nullable();

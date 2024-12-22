@@ -27,10 +27,10 @@
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
                             aria-controls="profile" aria-selected="false">Asset Type</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" id="trash-tab" data-bs-toggle="tab" href="#trash" role="tab"
                             aria-controls="trash" aria-selected="false">Asset Type Trashed Data</a>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -49,13 +49,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="trash" role="tabpanel" aria-labelledby="trash-tab">
+                    {{-- <div class="tab-pane fade" id="trash" role="tabpanel" aria-labelledby="trash-tab">
                         <div class="card">
                             <div class="card-body">
                                 @include('all_modules.assets.asset-type-trashed')
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -515,7 +515,7 @@
                                 if (data.status == 200) {
                                     toastr.success(data.message);
                                     assetTypeView();
-                                    assetTrashView();
+                                    // assetTrashView();
                                 } else {
                                     Swal.fire({
                                         icon: "error",
@@ -531,58 +531,58 @@
             })
 
 
-            function assetTrashView() {
-                $.ajax({
-                    url: '/asset-type/trash/delete/view',
-                    method: 'GET',
-                    success: function(res) {
-                        // console.log(res);
-                        const assetTypes = res.data;
-                        $('.asset_type_trash_data').empty();
-                        if ($.fn.DataTable.isDataTable('#assetTypeTrashTable')) {
-                            $('#assetTypeTrashTable').DataTable().clear().destroy();
-                        }
-                        if (assetTypes.length > 0) {
-                            $.each(assetTypes, function(index, asset) {
-                                const tr = document.createElement('tr');
+            // function assetTrashView() {
+            //     $.ajax({
+            //         url: '/asset-type/trash/delete/view',
+            //         method: 'GET',
+            //         success: function(res) {
+            //             // console.log(res);
+            //             const assetTypes = res.data;
+            //             $('.asset_type_trash_data').empty();
+            //             if ($.fn.DataTable.isDataTable('#assetTypeTrashTable')) {
+            //                 $('#assetTypeTrashTable').DataTable().clear().destroy();
+            //             }
+            //             if (assetTypes.length > 0) {
+            //                 $.each(assetTypes, function(index, asset) {
+            //                     const tr = document.createElement('tr');
 
-                                tr.innerHTML = `
-                                <td>
-                                    ${index+1}
-                                </td>
-                                <td>
-                                    <a href="#">
-                                        ${asset.name ?? ""}
-                                    </a>
-                                </td>
-                                <td>${asset.depreciation_rate ?? 0} %</td>
-                                <td>
-                                    <a href="#" class="btn btn-icon btn-xs btn-success asset_type_restore" data-id=${asset.id}>
-                                        <i class="fa-solid fa-arrow-rotate-left"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-icon btn-xs btn-danger asset_type_permanent_delete" data-id=${asset.id}>
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-                                </td>
-                            `;
-                                $('.asset_type_trash_data').append(tr);
+            //                     tr.innerHTML = `
+        //                     <td>
+        //                         ${index+1}
+        //                     </td>
+        //                     <td>
+        //                         <a href="#">
+        //                             ${asset.name ?? ""}
+        //                         </a>
+        //                     </td>
+        //                     <td>${asset.depreciation_rate ?? 0} %</td>
+        //                     <td>
+        //                         <a href="#" class="btn btn-icon btn-xs btn-success asset_type_restore" data-id=${asset.id}>
+        //                             <i class="fa-solid fa-arrow-rotate-left"></i>
+        //                         </a>
+        //                         <a href="#" class="btn btn-icon btn-xs btn-danger asset_type_permanent_delete" data-id=${asset.id}>
+        //                             <i class="fa-solid fa-trash-can"></i>
+        //                         </a>
+        //                     </td>
+        //                 `;
+            //                     $('.asset_type_trash_data').append(tr);
 
-                            });
-                        } else {
-                            $('.asset_type_trash_data').html(`
-                            <tr>
-                                <td colspan='4'>
-                                    <div class="text-center text-warning mb-2">Data Not Found</div>
-                                </td>
-                            </tr>
-                        `);
-                        }
-                        // Reinitialize DataTable
-                        dynamicDataTableFunc('assetTypeTrashTable');
-                    }
-                });
-            }
-            assetTrashView();
+            //                 });
+            //             } else {
+            //                 $('.asset_type_trash_data').html(`
+        //                 <tr>
+        //                     <td colspan='4'>
+        //                         <div class="text-center text-warning mb-2">Data Not Found</div>
+        //                     </td>
+        //                 </tr>
+        //             `);
+            //             }
+            //             // Reinitialize DataTable
+            //             dynamicDataTableFunc('assetTypeTrashTable');
+            //         }
+            //     });
+            // }
+            // assetTrashView();
 
 
             // Asset Type Restore  Data
@@ -612,7 +612,7 @@
                                 if (data.status == 200) {
                                     toastr.success(data.message);
                                     assetTypeView();
-                                    assetTrashView();
+                                    // assetTrashView();
                                 } else {
                                     Swal.fire({
                                         icon: "error",
@@ -654,7 +654,7 @@
                             success: function(data) {
                                 if (data.status == 200) {
                                     toastr.success(data.message);
-                                    assetTrashView();
+                                    // assetTrashView();
                                 } else {
                                     Swal.fire({
                                         icon: "error",

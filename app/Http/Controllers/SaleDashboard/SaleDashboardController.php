@@ -11,8 +11,9 @@ use Illuminate\Http\Request;
 class SaleDashboardController extends Controller
 {
  public function SaleDashboard(){
-    $totalSalesAmount = ServiceSale::whereDate('date', Carbon::today())->sum('total');
-    $totalOrderCount = ServiceSale::whereDate('date', Carbon::today())->count();
+    $totalSalesAmount = ServiceSale::whereDate('created_at', Carbon::today())->sum('total');
+
+    $totalOrderCount = ServiceSale::whereDate('created_at', Carbon::today())->count();
     $todayCutomer =  Customer::whereDate('created_at', Carbon::today())->count();
     $data = [
         [

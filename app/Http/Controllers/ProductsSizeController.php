@@ -9,15 +9,15 @@ class ProductsSizeController extends Controller
 {
     public function ProductSizeView(){
         $productSize = Psize::latest()->get();
-        return view('pos.products.product-size.all_products_size',compact('productSize'));
+        return view('all_modules.products.product-size.all_products_size',compact('productSize'));
     }//End Method
 
     public function ProductSizeAdd(){
         $productSize = Psize::latest()->get();
         $allCategory = Category::latest()->get();
-        return view('pos.products.product-size.add_products_size',compact('allCategory','productSize'));
+        return view('all_modules.products.product-size.add_products_size',compact('allCategory','productSize'));
     }//End Method
-   
+
     public function ProductSizeStore(Request $request) {
         $productSize = new Psize;
         $productSize->category_id = $request->category_id;
@@ -27,17 +27,17 @@ class ProductsSizeController extends Controller
             'message' => 'Product Size Added Successfully',
             'alert-type' => 'info'
         ];
-    
+
         return response()->json([
             'message' => $notification['message'],
            'redirect_url' => route('product.size.view')
         ]);
     }
-    
+
     public function ProductSizeEdit($id){
         $productSize = Psize::findOrFail($id);
         $allCategory = Category::latest()->get();
-        return view('pos.products.product-size.edit_products_size',compact('productSize','allCategory'));
+        return view('all_modules.products.product-size.edit_products_size',compact('productSize','allCategory'));
     }//
     public function ProductSizeUpdate(Request $request,$id){
         $productSize = Psize::findOrFail($id);
@@ -57,7 +57,7 @@ class ProductsSizeController extends Controller
             'message' =>'Product Size Deleted Successfully',
             'alert-type'=> 'info'
          );
-        return redirect()->route('product.size.view')->with($notification);
+        return redirect()->route('all_modules.product.size.view')->with($notification);
     }//End Method
 
 }

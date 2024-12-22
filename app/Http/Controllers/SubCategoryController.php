@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
     {
         $categories = Category::get();
         // return view('pos.products.category',compact('categories'));
-        return view('pos.products.subcategory', compact('categories'));
+        return view('all_modules.products.subcategory', compact('categories'));
     }
     public function store(Request $request)
     {

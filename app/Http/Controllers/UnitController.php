@@ -10,7 +10,7 @@ class UnitController extends Controller
 {
     public function index()
     {
-        return view('pos.products.unit');
+        return view('all_modules.products.unit');
     }
     public function store(Request $request)
     {

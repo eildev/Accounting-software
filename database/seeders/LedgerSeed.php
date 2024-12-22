@@ -60,7 +60,7 @@ class LedgerSeed extends Seeder
                 'id' => 7,
                 'branch_id' => 1,
                 'group_id' => 2,
-                'account_name' => 'Recurring Expanse',
+                'account_name' => 'Recurring Expense',
                 'slug' => 'recurring-expanse',
             ],
             [

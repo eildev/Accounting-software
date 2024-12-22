@@ -31,6 +31,7 @@ use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
 use App\Http\Controllers\EmployeePayroll\PaySlipController;
 use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
 use App\Http\Controllers\AccountPayable\SupplierController;
+use App\Http\Controllers\AssetDashboard\AssetDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
@@ -157,6 +158,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/expense/delete/{id}', 'ExpenseDelete')->name('expense.delete');
         ///expense Filter route//
         Route::get('/expense/filter/rander', 'ExpenseFilterView')->name('expense.filter.view');
+        Route::get('/expenses/invoice/{id}', 'expensesInvoice')->name('expenses.invoice');
+        Route::get('/expanse/invoice/receipt/print/{id}', 'expensesPrintInvoice');
+        Route::get('/expanse/report-payment/{id}', 'expensesPaymentsReport');
     });
 
     Route::controller(RecurringExpanseController::class)->group(function () {
@@ -185,6 +189,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/loan/store', 'store');
         Route::get('/loan/view', 'view');
         Route::get('/loan/view/{id}', 'viewLoan');
+        Route::get('/loan/instalment/invoice{id}', 'loanInstalmentInvoice')->name('loan.instalment.invoice');
+        ////////Single Print Invoice///////////
+        Route::get('/loan/invoice/receipt/print/{id}', 'loanInvoicePrint');
     });
 
 
@@ -237,6 +244,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/convenience/view-details/{id}', 'convenienceViewDetails');
         Route::get('/convenience/invoice/{id}', 'convenienceInvoice')->name('convenience.invoice');
         Route::post('/update-status', 'updateStatus')->name('update-status');
+        Route::get('/convenience/money/receipt/{type}/{id}', 'convenienceMoneyReceipt')->name('convenience.money.receipt');
+        // Route::get('/movement-cost/image/{id}', 'imageToPdf')->name('movementcost.image');
+        // Route::get('/fooding-cost/image//{id}', 'FoodingimageToPdf');
+        //  Route::get('/{type}-cost/image/{id}/pdf', 'imageToPdf');
+
+
+
     }); //End
 
     // Payroll Dashboard related route(n)
@@ -439,6 +453,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/service-sale', 'index')->name('service.sale');
         Route::post('/service/sale/store', 'store')->name('service.sale.store');
         Route::get('/service/sale/view', 'view')->name('service.sale.view');
+        Route::get('/service/sale/invoice/{id}', 'invoice')->name('service.sale.invoice');
     });
 
     Route::controller(CustomerPayableDashboardController::class)->group(function () {
@@ -446,6 +461,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(SaleDashboardController::class)->group(function () {
         Route::get('/sale-dashboard', 'SaleDashboard')->name('sale.dashboard');
+    });
+    Route::controller(AssetDashboardController::class)->group(function () {
+        Route::get('/asset-dashboard/card-data', 'getTopData');
+        Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
+        Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
 });
 

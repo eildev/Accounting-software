@@ -15,19 +15,17 @@ class DashboardController extends Controller
         $user = Auth::user();
         if ($user->role === 'employee') {
             return redirect('/employee/profile/' . $user->employee_id);
-        }else if($user->role === 'accountant'){
+        } else if ($user->role === 'accountant') {
             return redirect('/expanse/dashboard');
-        }
-        else if($user->role === 'hr'){
+        } else if ($user->role === 'hr') {
             return redirect('/payroll/dashboard');
+        } else {
+            // $assetValue = Assets::sum('acquisition_cost');
+            // $liabilities = Loan::sum('loan_balance');
+            // $income = 00;
+            // $expanse = Assets::sum('acquisition_cost');
+            // return view('dashboard.main-dashboard', compact('assetValue', 'liabilities', 'expanse', 'income'));
+            return view('dashboard.react-main-dashboard');
         }
-        else{
-            $assetValue = Assets::sum('acquisition_cost');
-            $liabilities = Loan::sum('loan_balance');
-            $income = 00;
-            $expanse = Assets::sum('acquisition_cost');
-            return view('dashboard.main-dashboard', compact('assetValue', 'liabilities', 'expanse', 'income'));
-        }
-
     }
 }

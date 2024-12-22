@@ -93,7 +93,7 @@ class ExpenseController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Expanse Saved Successfully',
+                'message' => 'Expense Saved Successfully',
                 'data' => [
                     'expanse_id' => $expense->id, // Retrieve actual saved asset id
                     'amount' => $expense->amount,
@@ -104,7 +104,7 @@ class ExpenseController extends Controller
             // Handle any exceptions that may occur
             return response()->json([
                 "status" => 500,
-                "message" => 'An error occurred while Save Expanse.',
+                "message" => 'An error occurred while Save Expense.',
                 "error" => $e->getMessage()  // Optional: include exception message
             ]);
         }
@@ -140,7 +140,7 @@ class ExpenseController extends Controller
                 $accountTransaction = new AccountTransaction;
                 $accountTransaction->branch_id =  Auth::user()->branch_id;
                 $accountTransaction->reference_id = $expense->id;
-                $accountTransaction->purpose =  'Expanse Update';
+                $accountTransaction->purpose =  'Expense Update';
                 $accountTransaction->account_id =  $request->bank_account_id;
                 if ($expense->amount > $request->amount) {
                     $accountTransaction->credit = $request->amount;
@@ -191,7 +191,7 @@ class ExpenseController extends Controller
                 unlink($previousImagePath);
             }
         }
-        $oldExpanse = AccountTransaction::where('reference_id', $id)->where('purpose', 'Expanse')->orWhere('purpose', 'Expanse Update')->first();
+        $oldExpanse = AccountTransaction::where('reference_id', $id)->where('purpose', 'Expense')->orWhere('purpose', 'Expanse Update')->first();
         $oldBalance = AccountTransaction::where('account_id', $oldExpanse->account_id)->latest('created_at')->first();
         // dd($oldBalance->balance + $expense->amount);
         $accountTransaction = new AccountTransaction;
@@ -259,5 +259,21 @@ class ExpenseController extends Controller
         })->get();
 
         return view('all_modules.expense.expense-filter-rander-table', compact('expense', 'expenseCat'))->render();
+    }//
+    public function expensesInvoice($id){
+        $expanses = Expense::findOrFail($id);
+        return view('all_modules.expense.expanse-invoice', compact('expanses'));
+    }
+    public function expensesPrintInvoice($id){
+        // dd($id);
+        $expanses = Expense::findOrFail($id);
+        return view('all_modules.expense.expanse-invoice', compact('expanses'));
+    }
+    public function expensesPaymentsReport($id){
+        $expanses = Expense::findOrFail($id);
+        return response()->json([
+            'status' => 200,
+            'expanses' => $expanses,
+        ]);
     }
 }

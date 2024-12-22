@@ -1,10 +1,10 @@
 @extends('master')
-@section('title', '| Expanse Management')
+@section('title', '| Expense Management')
 @section('admin')
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Expanse Managment</li>
+            <li class="breadcrumb-item active" aria-current="page">Expense Managment</li>
         </ol>
     </nav>
     <style>
@@ -20,15 +20,15 @@
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-                            aria-controls="home" aria-selected="true">Add Expanse</a>
+                            aria-controls="home" aria-selected="true">Add Expense</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-                            aria-controls="profile" aria-selected="false">Expanse Report</a>
+                            aria-controls="profile" aria-selected="false">Expense Report</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="expanse-category-tab" data-bs-toggle="tab" href="#expanse-category"
-                            role="tab" aria-controls="expanse-category" aria-selected="false">Expanse Category</a>
+                            role="tab" aria-controls="expanse-category" aria-selected="false">Expense Category</a>
                     </li>
                 </ul>
                 <div class="tab-content border border-top-0 p-3" id="myTabContent">
@@ -231,8 +231,6 @@
                 });
             })
 
-
-
             // Function to handle AJAX requests and responses
             function handleExpanseSubmission(url, formData, onSuccess) {
                 $.ajaxSetup({
@@ -285,7 +283,9 @@
                             $('#globalPaymentModal').modal('show'); // Open Payment Modal
                         } else {
                             // Reload the page for standard submission
+                            toastr.success(res.message);
                             window.location.reload();
+
                         }
                     });
                 });
@@ -434,8 +434,6 @@
             // Restore the "Expense Report" tab after the page reloads
             // document.getElementById("profile-tab").click();
         }
-
-
         // // tab active on the page reload
         document.addEventListener("DOMContentLoaded", function() {
             // Get the last active tab from localStorage
