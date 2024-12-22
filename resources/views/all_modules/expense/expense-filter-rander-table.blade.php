@@ -55,6 +55,15 @@
                                 data-id="{{ $expenses->id }}" type="expanse">
                                 <i data-feather="printer" class="me-2 icon-md"></i>
                                 </a>
+                                <!--payment-->
+                                @if ($expenses->status == 'processing')
+                                <a href="#"
+                                class="btn btn-icon btn-xs btn-primary save_expanse-payment"
+                                data-id={{ $expenses->id }}>
+                                <i class="fa-regular fa-credit-card"></i>
+                                </a>
+                                @else
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -123,4 +132,63 @@
                 printFrame.contentWindow.print();
             };
         })
+        // const buttons = document.querySelectorAll('.save_expanse-payment'); // Select all buttons
+
+        // buttons.forEach(button => {
+        //     button.addEventListener('click', function (e) {
+        //         e.preventDefault();
+        //         const expenseId = this.dataset.id;
+        //         alert(`Expense ID: ${expenseId}`);
+        //         $('#globalPaymentModal').modal('show');
+        //     });
+        // });
+
+        $(document).on('click', '.save_expanse-payment', function(e) {
+            e.preventDefault();
+            let id = this.getAttribute('data-id');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: `/expanse/report-payment/${id}`,
+                type: 'GET',
+                success: function(res) {
+                    if (res.status == 200) {
+                        const expanse = res.expanses;
+                        if (expanse.status != 'paid') {
+                            $('#globalPaymentModal #data_id').val(expanse
+                                .id); // assuming res.data contains asset_id
+                            $('#globalPaymentModal #payment_balance').val(expanse
+                                .amount);
+                            $('#globalPaymentModal #purpose').val('Expanse');
+                            $('#globalPaymentModal #transaction_type').val('withdraw');
+                            $('#globalPaymentModal #due-amount').text(expanse
+                                .amount);
+                            $('#globalPaymentModal #subLedger_id').val(expanse
+                                .subLedger_id);
+                            // Open the Payment Modal
+                            $('#globalPaymentModal').modal('show');
+                        } else {
+                            Swal.fire({
+                                title: "<strong>Already Paid</strong>",
+                                icon: "info",
+                                html: `
+                                    You can Paid Another Conveneience Bill.
+                                    `,
+                                showCloseButton: true,
+                                showCancelButton: true,
+                                focusConfirm: false,
+                            });
+                        }
+
+                    } else {
+                        toastr.error("data Not Found");
+                    }
+                }
+            });
+        })
+
 </script>

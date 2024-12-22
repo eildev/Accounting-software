@@ -283,8 +283,6 @@
                                     @endforeach
 
                                 </tbody>
-
-
                             </table>
                            <div>
                             <table  style="margin-top:20px; border:none">
@@ -294,7 +292,7 @@
                                         <td style="font-weight: bold;">
                                             {{ $convenienceBill->total_amount ?? '0.00' }}
                                         </td>
-                                    </tr>
+                                            </tr>
                                 </tfoot>
                                 </table>
                            </div>

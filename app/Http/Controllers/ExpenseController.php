@@ -269,4 +269,11 @@ class ExpenseController extends Controller
         $expanses = Expense::findOrFail($id);
         return view('all_modules.expense.expanse-invoice', compact('expanses'));
     }
+    public function expensesPaymentsReport($id){
+        $expanses = Expense::findOrFail($id);
+        return response()->json([
+            'status' => 200,
+            'expanses' => $expanses,
+        ]);
+    }
 }

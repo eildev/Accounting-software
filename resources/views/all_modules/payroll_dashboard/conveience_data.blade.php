@@ -30,9 +30,9 @@
                     </div>
                 </div>
                 <div class="m-2 mt-3 mb-1  secondary-color">
-                    <div class="row ">
-                        <div class="col-md-3 col-6 bg-color-white card-border mr-1">
-                            <div class="card-body rounded-3" id="transportationClick">
+                    <div class="row">
+                        <div class="col-md-3 col-6 bg-color-white card-border ">
+                            <div class="p-2 rounded-3" id="transportationClick">
                                 <div class="d-flex align-items-center justify-content-between  mb-3">
                                     <span class="primary-color-text"><img
                                             src="{{ asset('uploads/payroll_dashboard/convenience_icon/move.png') }}"
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-6 bg-color-white  card-border">
-                            <div class="card-body rounded-3 " id="overNightClick">
+                            <div class="p-2 rounded-3 " id="overNightClick">
                                 <div class="d-flex justify-content-between align-items-center  mb-3">
                                     <span><img src="{{ asset('uploads/payroll_dashboard/convenience_icon/time.png') }}"
                                             alt="Night Iocn" height="60px"></span>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-6 bg-color-white card-border">
-                            <div class="card-body  rounded-3 " id="foodClick">
+                            <div class="p-2 rounded-3 " id="foodClick">
                                 <div class="d-flex justify-content-between align-items-center   mb-3">
                                     <span><img src="{{ asset('uploads/payroll_dashboard/convenience_icon/food.png') }}"
                                             alt="Food Iocn" height="60px"></span>
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-6 bg-color-white card-border">
-                            <div class="card-body rounded-3 " id="foodClick">
+                            <div class="p-2 rounded-3 " id="foodClick">
                                 <div class="d-flex justify-content-between align-items-center   mb-3">
                                     <span><img
                                             src="{{ asset('uploads/payroll_dashboard/bonus_icon/bonus-icon-2.png') }}"
@@ -93,6 +93,12 @@
                 <h4 class="mt-4">{{ $data['convenienceDataSum'] }}</h4>
                 <span class="">
                     <div class="progress mt-3 bg-white">
+                        <div class="progress-bar bg-danger" role="progressbar"
+                            style="width: {{ $data['conveniencePercentage']['convenienceCanceled'] }} ; border-top-left-radius: 20px;
+                            border-bottom-left-radius: 20px;"
+                            aria-valuenow="{{ $data['conveniencePercentage']['convenienceCanceled'] }}"
+                            aria-valuemin="0" aria-valuemax="100">
+                        </div>
                         <div class="progress-bar bg-warning" role="progressbar"
                             style="width: {{ $data['conveniencePercentage']['conveniencePending'] }} ; border-top-left-radius: 20px;
                             border-bottom-left-radius: 20px;"
@@ -106,8 +112,8 @@
                         </div>
                         <div class="progress-bar " role="progressbar"
                             style="width: {{ $data['conveniencePercentage']['convenienceUnpaid'] }}; background: #9566F2;"
-                            aria-valuenow="{{ $data['conveniencePercentage']['convenienceUnpaid'] }}" aria-valuemin="0"
-                            aria-valuemax="100">
+                            aria-valuenow="{{ $data['conveniencePercentage']['convenienceUnpaid'] }}"
+                            aria-valuemin="0" aria-valuemax="100">
                         </div>
                         <div class="progress-bar primary-color" role="progressbar"
                             style="width: {{ $data['conveniencePercentage']['conveniencePaid'] }} "
@@ -119,30 +125,37 @@
                 <div class="row mt-4" style="padding-top: =10px;">
                     <div class="col-md-12 d-flex justify-content-between">
 
-                        <div class="fs-5 mt-1 ">
+                        <div class="mt-1 ">
+                            <span
+                                style="background-color: #FF3366;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
+                            <span id="pending"> {{ $data['conveniencePercentage']['convenienceCanceled'] }}</span>
+                            <p class="pt-3">Canceled</p>
+
+                        </div>
+                        <div class="mt-1 ">
                             <span
                                 style="background-color: #FBBC06;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
                             <span id="pending"> {{ $data['conveniencePercentage']['conveniencePending'] }}</span>
                             <p class="pt-3">Pending</p>
 
                         </div>
-                        <div class="fs-5 mt-1">
+                        <div class=" mt-1">
                             <span
                                 style="    background-color: #6571FF;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
                             <span id="pending">{{ $data['conveniencePercentage']['conveniencePrecessing'] }}</span>
                             <p class="pt-3">Processing</p>
                         </div>
-                        <div class="fs-5 mb-2 mt-1">
+                        <div class=" mb-2 mt-1">
                             <span
                                 style="    background-color: #9566F2;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
                             <span id="unpaid">{{ $data['conveniencePercentage']['convenienceUnpaid'] }}</span>
                             <p class="pt-3">Unpaid</p>
                         </div>
-                        <div class="fs-5 mt-1">
+                        <div class=" mt-1">
                             <span
                                 style="    background-color: #1E62E4;padding: 0px 6px 0px 13px;margin-right: 4px;border-radius: 6px;"></span>
                             <span id="paid">{{ $data['conveniencePercentage']['conveniencePaid'] }}</span>
-                            <p class="pt-3">Successfully Paid</p>
+                            <p class="pt-3">Paid</p>
                         </div>
                     </div>
                 </div>

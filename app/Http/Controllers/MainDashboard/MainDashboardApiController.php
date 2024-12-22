@@ -179,9 +179,9 @@ class MainDashboardApiController extends Controller
     {
         try {
             $data = [
-                ['value' => 1200, 'label' => "Graphics"],
-                ['value' => 899, 'label' => "Website"],
-                ['value' => 1700, 'label' => 'E-commerce'],
+                ['name' => "Graphics", 'value' => 1200,],
+                ['name' => "Website", 'value' => 899,],
+                ['name' => 'E-commerce', 'value' => 1700,],
             ];
 
             $total = number_format(3799, 2);

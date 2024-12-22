@@ -198,7 +198,7 @@ class ConvenienceBillController extends Controller
     {
         $user = Auth::user();
          if($user->role === 'accountant'){
-            $convenience = Convenience::whereIn('status', ['approved', 'paid'])->get();
+            $convenience = Convenience::whereIn('status', ['approved', 'paid','pending','processing','canceled'])->get();
         }else{
             $convenience = Convenience::all();
         }

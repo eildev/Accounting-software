@@ -31,6 +31,7 @@ use App\Http\Controllers\EmployeePayroll\PayrollDashboardController;
 use App\Http\Controllers\EmployeePayroll\PaySlipController;
 use App\Http\Controllers\Expanse\ExpanseDashboard\ExpanseDashboardController;
 use App\Http\Controllers\AccountPayable\SupplierController;
+use App\Http\Controllers\AssetDashboard\AssetDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
@@ -159,6 +160,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/expense/filter/rander', 'ExpenseFilterView')->name('expense.filter.view');
         Route::get('/expenses/invoice/{id}', 'expensesInvoice')->name('expenses.invoice');
         Route::get('/expanse/invoice/receipt/print/{id}', 'expensesPrintInvoice');
+        Route::get('/expanse/report-payment/{id}', 'expensesPaymentsReport');
     });
 
     Route::controller(RecurringExpanseController::class)->group(function () {
@@ -188,7 +190,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/loan/view', 'view');
         Route::get('/loan/view/{id}', 'viewLoan');
         Route::get('/loan/instalment/invoice{id}', 'loanInstalmentInvoice')->name('loan.instalment.invoice');
-          ////////Single Print Invoice///////////
+        ////////Single Print Invoice///////////
         Route::get('/loan/invoice/receipt/print/{id}', 'loanInvoicePrint');
     });
 
@@ -459,6 +461,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(SaleDashboardController::class)->group(function () {
         Route::get('/sale-dashboard', 'SaleDashboard')->name('sale.dashboard');
+    });
+    Route::controller(AssetDashboardController::class)->group(function () {
+        Route::get('/asset-dashboard/card-data', 'getTopData');
+        Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
+        Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
 });
 
