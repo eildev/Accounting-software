@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('recurring_expenses', function (Blueprint $table) {
             $table->id();
-            $table->integer('expanse_category_id')->nullable();
+            $table->unsignedBigInteger('expanse_category_id')->nullable()->index();
             $table->decimal('amount', 15, 2)->nullable();
             $table->string('name', 99)->nullable();
             $table->date('start_date')->nullable();
-            $table->enum('recurrence_period', ['monthly', 'quarterly', 'annually']);
-            $table->date('next_due_date')->nullable();
-            $table->enum('status', ['active', 'inactive']);
+            $table->enum('recurrence_period', ['monthly', 'quarterly', 'annually'])->index();
+            $table->date('next_due_date')->nullable()->index();
+            $table->enum('status', ['active', 'inactive'])->default('active')->index();
             $table->timestamps();
         });
     }

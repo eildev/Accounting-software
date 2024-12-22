@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 class RecurringExpanseController extends Controller
 {
-    // this is my index function 
+    // this is my index function
     public function index()
     {
         // tomader vai emon vab ze sobkicu jana thaka lagbe. na janle tumi ekta bokachoda.
@@ -24,58 +24,108 @@ class RecurringExpanseController extends Controller
             return view('all_modules.expense.recurring-expanse.index', compact('expenseCategory'));
         } catch (\Exception $e) {
             // Log the error
-            Log::error('Error loading the bank view: ' . $e->getMessage());
+            Log::error('Error loading the expense view: ' . $e->getMessage());
 
             // Optionally return a custom error view or a simple error message
             return response()->view('errors.500', [], 500);
         }
     }
 
-    // this is store function 
+    // this is store function
+    // public function store(Request $request)
+    // {
+    //     // dd($request->all());
+    //     // tomader vai emon vab ze sobkicu jana thaka lagbe. na janle tumi ekta bokachoda.
+    //     try {
+    //         // Validate the incoming request
+    //         $validator = Validator::make($request->all(), [
+    //             'expanse_category_id' => 'required|integer',
+    //             'amount' => 'required|numeric|between:0,999999999999.99',
+    //             'start_date' => 'required|date',
+    //             'next_due_date' => 'required|date',
+    //             // 'recurrence_period' => 'required|in:monthly,quarterly,annually',
+    //             'name' => 'required|string',
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return response()->json([
+    //                 'status' => '500',
+    //                 'error' => $validator->messages()
+    //             ]);
+    //         }
+
+
+    //         $expanse = new RecurringExpense;
+    //         $expanse->expanse_category_id = $request->expanse_category_id;
+    //         $expanse->amount = $request->amount;
+    //         $expanse->name = $request->name;
+    //         $expanse->start_date = $request->start_date;
+    //         $expanse->recurrence_period = $request->recurrence_period;
+    //         $expanse->next_due_date = $request->next_due_date;
+    //         $expanse->status = 'active';
+    //         $expanse->save();
+    //         return response()->json([
+    //             'status' => 200,
+    //             'message' => 'Recurring Expanse.',
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             "status" => 500,
+    //             "message" => 'An error occurred while fetching Recurring Expanse.',
+    //             "error" => $e->getMessage()  // Optional: include exception message
+    //         ]);
+    //     }
+    // }
+
     public function store(Request $request)
     {
-        // dd($request->all());
-        // tomader vai emon vab ze sobkicu jana thaka lagbe. na janle tumi ekta bokachoda.
         try {
-            // Validate the incoming request
             $validator = Validator::make($request->all(), [
                 'expanse_category_id' => 'required|integer',
                 'amount' => 'required|numeric|between:0,999999999999.99',
                 'start_date' => 'required|date',
-                'next_due_date' => 'required|date',
-                // 'recurrence_period' => 'required|in:monthly,quarterly,annually',
+                'recurrence_period' => 'required|in:monthly,quarterly,annually',
                 'name' => 'required|string',
             ]);
 
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => '500',
-                    'error' => $validator->messages()
+                    'status' => 500,
+                    'error' => $validator->messages(),
                 ]);
             }
 
+            // Calculate the next_due_date based on recurrence_period
+            $start_date = Carbon::parse($request->start_date);
+            $next_due_date = match ($request->recurrence_period) {
+                'monthly' => $start_date->addMonth(),
+                'quarterly' => $start_date->addMonths(3),
+                'annually' => $start_date->addYear(),
+            };
 
-            $expanse = new RecurringExpense;
-            $expanse->expanse_category_id = $request->expanse_category_id;
-            $expanse->amount = $request->amount;
-            $expanse->name = $request->name;
-            $expanse->start_date = $request->start_date;
-            $expanse->recurrence_period = $request->recurrence_period;
-            $expanse->next_due_date = $request->next_due_date;
-            $expanse->status = 'active';
-            $expanse->save();
+            $expanse = RecurringExpense::create([
+                'expanse_category_id' => $request->expanse_category_id,
+                'amount' => $request->amount,
+                'name' => $request->name,
+                'start_date' => $request->start_date,
+                'recurrence_period' => $request->recurrence_period,
+                'next_due_date' => $next_due_date,
+                'status' => 'active',
+            ]);
+
             return response()->json([
                 'status' => 200,
-                'message' => 'Recurring Expanse.',
+                'message' => 'Recurring Expense Added Successfully',
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                "status" => 500,
-                "message" => 'An error occurred while fetching Recurring Expanse.',
-                "error" => $e->getMessage()  // Optional: include exception message
+                'status' => 500,
+                'message' => 'An error occurred while saving Recurring Expense.',
+                'error' => $e->getMessage(),
             ]);
         }
     }
+
 
 
     public function view()

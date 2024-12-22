@@ -172,7 +172,7 @@
         }
 
 
-        // ready function 
+        // ready function
         $(document).ready(function() {
 
             ///////////////////////// Show Error Function //////////////////
@@ -244,7 +244,7 @@
                 });
             })
 
-            // recurring View Function 
+            // recurring View Function
             function viewFunc() {
                 $.ajax({
                     url: '/expense/recurring/view',
@@ -286,7 +286,7 @@
                                 tr.innerHTML = `
                                         <td>${expanse.name ?? ""}</td>
                                         <td>
-                                            ${expanse?.expense_category?.name ?? ""}  
+                                            ${expanse?.expense_category?.name ?? ""}
                                         </td>
                                         <td>${expanse.amount ?? 0}</td>
                                         <td>${formattedStartDate}</td>
@@ -365,7 +365,7 @@
                 });
             })
 
-            // recurring View Function 
+            // recurring View Function
             function expanseView() {
                 $.ajax({
                     url: '/expense/category/view',
@@ -401,7 +401,7 @@
 
         ///////////////////////// Tab Active/Inactive related code///////////////////
         document.addEventListener("DOMContentLoaded", function() {
-            // tab active on the page reload 
+            // tab active on the page reload
             // Get the last active tab from localStorage
             let activeTab = localStorage.getItem('activeTab');
 
@@ -423,7 +423,7 @@
 
 
 
-            ///////////////////////// Modal show and close related code /////////////////// 
+            ///////////////////////// Modal show and close related code ///////////////////
             // Initialize the Recurring Expense modal with backdrop and keyboard options
             var recurringExpanseModal = new bootstrap.Modal(document.getElementById('recurringExpanse'), {
                 backdrop: 'static', // Prevent closing by clicking outside
