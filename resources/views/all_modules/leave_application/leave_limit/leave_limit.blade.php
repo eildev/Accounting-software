@@ -25,7 +25,6 @@
                                     <th>Employee Name</th>
                                     <th>Leave Type</th>
                                     <th>Total Leave Limit</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="showlimitData">
@@ -38,8 +37,8 @@
     </div>
 
     @php
-    $employee =  App\Models\EmployeePayroll\Employee::all();
-    $LeaveType =  App\Models\LeaveApplication\LeaveType::all();
+        $employee = App\Models\EmployeePayroll\Employee::all();
+        $LeaveType = App\Models\LeaveApplication\LeaveType::where('status', 'active')->get();
     @endphp
 
     <!--  leave Limits Add Modal -->
@@ -56,31 +55,32 @@
                         <div class="mb-3 col-md-12">
                             <label for="name" class="form-label">Employee Name <span
                                     class="text-danger">*</span></label>
-                                    <select class="form-control " name="employee_name" onchange="errorRemove(this);">
-                                        <option value="" selected disabled>Select Employee</option>
-                                        @foreach ($employee as $item)
-                                        <option value="{{$item->id}}" >{{$item->full_name}}</option>
-                                        @endforeach
-                                    </select>
+                            <select class="form-control " name="employee_name" id="employeeIdDown"
+                                onchange="filterLeaveTypes(this);errorRemove(this);">
+                                <option value="" selected disabled>Select Employee</option>
+                                @foreach ($employee as $item)
+                                    <option value="{{ $item->id }}">{{ $item->full_name }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger employee_name_error"></span>
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="name" class="form-label">leave Type Name <span
                                     class="text-danger">*</span></label>
-                                    <select class="form-control " name="leaveType_name" onchange="errorRemove(this);">
-                                        <option value="" selected disabled>Select leave Type</option>
-                                            @foreach ($LeaveType as $item)
+                            <select class="form-control " name="leaveType_name" id="leaveTypeDropdown"
+                                onchange="errorRemove(this);">
+                                <option value="" selected disabled>Select leave Type</option>
+                                {{-- @foreach ($LeaveType as $item)
                                             <option value="{{$item->id}}" >{{$item->name}}</option>
-                                            @endforeach
+                                            @endforeach --}}
 
-                                    </select>
+                            </select>
                             <span class="text-danger leaveType_error"></span>
                         </div>
                         <div class="mb-3 col-md-12">
-                            <label for="name" class="form-label"> Limit Day <span
-                                    class="text-danger">*</span></label>
-                            <input id="defaultconfig" class="form-control leavelimit" name="leavelimit"
-                                type="number" onkeyup="errorRemove(this);" onblur="errorRemove(this);">
+                            <label for="name" class="form-label"> Limit Day <span class="text-danger">*</span></label>
+                            <input id="defaultconfig" class="form-control leavelimit" name="leavelimit" type="number"
+                                onkeyup="errorRemove(this);" onblur="errorRemove(this);">
                             <span class="text-danger leavelimit_error"></span>
                         </div>
                 </div>
@@ -94,7 +94,7 @@
     </div>
 
     <!-- leave limit Edit Modal -->
-    <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    {{-- <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,31 +106,32 @@
                         <div class="mb-3 col-md-12">
                             <label for="name" class="form-label">Employee Name <span
                                     class="text-danger">*</span></label>
-                                    <select class="form-control employee_name" name="employee_name" onchange="errorRemove(this);">
-                                        <option value="" selected disabled>Select Employee</option>
-                                        @foreach ($employee as $item)
-                                        <option value="{{$item->id}}" >{{$item->full_name}}</option>
-                                        @endforeach
-                                    </select>
+                            <select class="form-control employee_name" name="employee_name" onchange="errorRemove(this);">
+                                <option value="" selected disabled>Select Employee</option>
+                                @foreach ($employee as $item)
+                                    <option value="{{ $item->id }}">{{ $item->full_name }}</option>
+                                @endforeach
+                            </select>
                             <span class="text-danger employee_name_error"></span>
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="name" class="form-label">leave Type Name <span
                                     class="text-danger">*</span></label>
-                                    <select class="form-control leaveType_name" name="leaveType_name" onchange="errorRemove(this);">
-                                        <option value="" selected disabled>Select leave Type</option>
-                                            @foreach ($LeaveType as $item)
-                                            <option value="{{$item->id}}" >{{$item->name}}</option>
-                                            @endforeach
+                            <select class="form-control leaveType_name" name="leaveType_name"
+                                onchange="errorRemove(this);">
+                                <option value="" selected disabled>Select leave Type</option>
+                                @foreach ($LeaveType as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
 
-                                    </select>
+                            </select>
                             <span class="text-danger leaveType_error"></span>
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="name" class="form-label"> Limit Day <span
                                     class="text-danger">*</span></label>
-                            <input id="defaultconfig" class="form-control leavelimit" name="leavelimit"
-                                type="number" onkeyup="errorRemove(this);" onblur="errorRemove(this);">
+                            <input id="defaultconfig" class="form-control leavelimit" name="leavelimit" type="number"
+                                onkeyup="errorRemove(this);" onblur="errorRemove(this);">
                             <span class="text-danger leavelimit_error"></span>
                         </div>
 
@@ -142,7 +143,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         // error remove
@@ -216,26 +217,19 @@
                             $('#example').DataTable().clear().destroy();
                         }
                         // Check if leave Types data is present
-                            if (Leavelimits.length > 0) {
-                                $.each(Leavelimits, function(index,leavelimit) {
-                                    const tr = document.createElement('tr');
-                                    tr.innerHTML = `
+                        if (Leavelimits.length > 0) {
+                            $.each(Leavelimits, function(index, leavelimit) {
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
                                             <td>${index + 1}</td>
                                           <td>${leavelimit.employee?.full_name ?? ""}</td>
                                              <td>${leavelimit.leave_type?.name?? "N/A"}</td>
                                            <td>${leavelimit.leave_limits ?? ""}</td>
 
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-icon leavelimit_edit" data-id="${leavelimit.id}" data-bs-toggle="modal" data-bs-target="#edit">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger btn-icon leavelimit_delete" data-id="${leavelimit.id}">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </a>
-                                            </td>
+
                                         `;
-                                    $('.showlimitData').append(tr);
-                                });
+                                $('.showlimitData').append(tr);
+                            });
                         } else {
                             $('.showlimitData').html(`
                                     <tr>
@@ -262,74 +256,81 @@
                 });
             }
             LeavelimitView();
-
+            //     <td>
+            //     <a href="#" class="btn btn-primary btn-icon leavelimit_edit" data-id="${leavelimit.id}" data-bs-toggle="modal" data-bs-target="#edit">
+            //         <i class="fa-solid fa-pen-to-square"></i>
+            //     </a>
+            //     <a href="#" class="btn btn-danger btn-icon leavelimit_delete" data-id="${leavelimit.id}">
+            //         <i class="fa-solid fa-trash-can"></i>
+            //     </a>
+            // </td>
             // edit leave Limit
-            $(document).on('click', '.leavelimit_edit', function(e) {
-                e.preventDefault();
-                // console.log('0k');
-                let id = this.getAttribute('data-id');
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: `/leave/limit/edit/${id}`,
-                    type: 'GET',
-                    success: function(res) {
-                        if (res.status == 200) {
-                            $('.employee_name').val(res.leavelimits.employee_id);
-                            $('.leaveType_name').val(res.leavelimits.leave_types_id);
-                            $('.leavelimit').val(res.leavelimits.leave_limits);
-                            $('.update_leavelimits').val(res.leavelimits.id);
-                        } else {
-                            toastr.warning("No Data Found");
-                        }
-                    }
-                });
-            })
+            // $(document).on('click', '.leavelimit_edit', function(e) {
+            //     e.preventDefault();
+            //     // console.log('0k');
+            //     let id = this.getAttribute('data-id');
+            //     $.ajaxSetup({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         }
+            //     });
+            //     $.ajax({
+            //         url: `/leave/limit/edit/${id}`,
+            //         type: 'GET',
+            //         success: function(res) {
+            //             if (res.status == 200) {
+            //                 $('.employee_name').val(res.leavelimits.employee_id);
+            //                 $('.leaveType_name').val(res.leavelimits.leave_types_id);
+            //                 $('.leavelimit').val(res.leavelimits.leave_limits);
+            //                 $('.update_leavelimits').val(res.leavelimits.id);
+            //             } else {
+            //                 toastr.warning("No Data Found");
+            //             }
+            //         }
+            //     });
+            // })
 
-            // update edit leave Type Form
-            $('.update_leavelimits').click(function(e) {
-                e.preventDefault();
+            // // update edit leave Type Form
+            // $('.update_leavelimits').click(function(e) {
+            //     e.preventDefault();
 
-                let id = $(this).val();
+            //     let id = $(this).val();
 
-                // console.log(id);
-                // alert(id);
-                let formData = new FormData($('.editleavelimitsForm')[0]);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: `/edit/limit/limit/update/${id}`,
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if (res.status == 200) {
-                            $('#edit').modal('hide');
-                            $('.editleavelimitsForm')[0].reset();
-                            LeavelimitView();
+            //     // console.log(id);
+            //     // alert(id);
+            //     let formData = new FormData($('.editleavelimitsForm')[0]);
+            //     $.ajaxSetup({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         }
+            //     });
+            //     $.ajax({
+            //         url: `/edit/limit/limit/update/${id}`,
+            //         type: 'POST',
+            //         data: formData,
+            //         processData: false,
+            //         contentType: false,
+            //         success: function(res) {
+            //             if (res.status == 200) {
+            //                 $('#edit').modal('hide');
+            //                 $('.editleavelimitsForm')[0].reset();
+            //                 LeavelimitView();
 
-                            toastr.success(res.message);
-                        } else {
-                            if (res.error.employee_name) {
-                                showError('.employee_name', res.error.employee_name);
-                            }
-                            if (res.error.leaveType_name) {
-                                showError('.leaveType', res.error.leaveType_name);
-                            }
-                            if (res.error.leavelimit) {
-                                showError('.leavelimit', res.error.leavelimit);
-                            }
-                        }
-                    }
-                });
-            })
+            //                 toastr.success(res.message);
+            //             } else {
+            //                 if (res.error.employee_name) {
+            //                     showError('.employee_name', res.error.employee_name);
+            //                 }
+            //                 if (res.error.leaveType_name) {
+            //                     showError('.leaveType', res.error.leaveType_name);
+            //                 }
+            //                 if (res.error.leavelimit) {
+            //                     showError('.leavelimit', res.error.leavelimit);
+            //                 }
+            //             }
+            //         }
+            //     });
+            // })
 
             // leave limit Delete
             $(document).on('click', '.leavelimit_delete', function(e) {
@@ -378,5 +379,32 @@
             });
 
         });
+        ///////////////////////////Leave Type get if not inserted////////////////////////////
+        function filterLeaveTypes(select) {
+            const employeeId = select.value; // Get selected employee ID
+            const leaveTypeDropdown = document.getElementById('leaveTypeDropdown');
+
+            // Clear current options in leave type dropdown
+            leaveTypeDropdown.innerHTML = '<option value="" selected disabled>Select Leave Type</option>';
+
+            // Fetch available leave types for the selected employee
+            fetch(`/get-available-leave-types/${employeeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                    if (data.leaveTypes.length > 0) {
+                        data.leaveTypes.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.id;
+                            option.textContent = item.name;
+                            leaveTypeDropdown.appendChild(option);
+                        });
+                    } else {
+                        const option = document.createElement('option');
+                        option.textContent = 'No leave types available';
+                        leaveTypeDropdown.appendChild(option);
+                    }
+                })
+        }
     </script>
 @endsection

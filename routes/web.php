@@ -482,6 +482,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/leave/limit/edit/{id}', 'edit');
         Route::post('/edit/limit/limit/update/{id}', 'update');
         Route::get('/leave/limit/destroy/{id}', 'destroy');
+        Route::get('/get-available-leave-types/{employeeId}', 'getAvailableLeaveTypes');
     });
     Route::controller(leaveApplicationController::class)->group(function () {
         Route::get('/leave-application', 'index')->name('leave.application');
@@ -490,6 +491,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/leave/application/edit/{id}', 'edit');
         Route::post('/edit/application/limit/update/{id}', 'update');
         Route::get('/leave/application/destroy/{id}', 'destroy');
+        Route::post('/leave-application/update-status', 'leaveStatusUpdate');
     });
     Route::controller(AssetDashboardController::class)->group(function () {
         Route::get('/asset-dashboard/card-data', 'getTopData');

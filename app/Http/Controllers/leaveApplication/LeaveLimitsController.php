@@ -4,6 +4,7 @@ namespace App\Http\Controllers\LeaveApplication;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeaveApplication\LeaveLimits;
+use App\Models\LeaveApplication\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -95,4 +96,21 @@ class LeaveLimitsController extends Controller
             'message' => 'leave Limit Deleted Successfully',
         ]);
     }//Method End
+    public function getAvailableLeaveTypes($employeeId)
+{
+    // Get all leave types
+    $allLeaveTypes = LeaveType::where('status', 'active')->get();
+
+    // Get leave types already assigned to the employee
+
+    $assignedLeaveTypes = LeaveLimits::where('employee_id', $employeeId)->pluck('leave_types_id')->toArray();;
+
+    // Filter out assigned leave types
+    $availableLeaveTypes = $allLeaveTypes->whereNotIn('id', $assignedLeaveTypes);
+
+    return response()->json([
+        'leaveTypes' =>  $availableLeaveTypes->values()
+    ]);
+}
+
 }
