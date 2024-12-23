@@ -55,13 +55,13 @@ class MainDashboardApiController extends Controller
             $data = [
                 [
                     'id' => 1,
-                    'title' => 'Cash Balance',
+                    'title' => 'Bank Balance',
                     'value' => number_format(BankAccounts::sum('current_balance'), 2),
                     'revenue' => number_format(13.56, 2),
                 ],
                 [
                     'id' => 2,
-                    'title' => 'Bank Balance',
+                    'title' => 'Cash Balance',
                     'value' => number_format(Cash::sum('current_balance'), 2),
                     'revenue' => number_format(-13.56, 2),
                 ],

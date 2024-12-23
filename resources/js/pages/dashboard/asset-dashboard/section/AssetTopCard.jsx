@@ -1,4 +1,5 @@
 import DashboardCard from "../../../../components/card/DashboardCard";
+import { useGetAssetTopCardQuery } from "../../../../redux/features/api/assetDashboardApiSlice";
 
 const data = [
     {
@@ -41,6 +42,8 @@ const data = [
 
 
 const AssetTopCard = () => {
+    const { data, error, isLoading } = useGetAssetTopCardQuery();
+    console.log(data);
     return (
         <div className="row row-cols-lg-3 row-cols-sm-2 row-cols-1 gy-4">
             {data.map((item) => (
