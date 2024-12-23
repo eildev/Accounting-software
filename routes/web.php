@@ -41,6 +41,7 @@ use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\SaleDashboard\SaleDashboardController;
 use App\Http\Controllers\leaveApplication\leaveTypeController;
 use App\Http\Controllers\LeaveApplication\LeaveLimitsController;
+use App\Http\Controllers\leaveApplication\leaveApplicationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -481,6 +482,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/leave/limit/edit/{id}', 'edit');
         Route::post('/edit/limit/limit/update/{id}', 'update');
         Route::get('/leave/limit/destroy/{id}', 'destroy');
+    });
+    Route::controller(leaveApplicationController::class)->group(function () {
+        Route::get('/leave-application', 'index')->name('leave.application');
+        Route::post('/leave/application/store', 'store');
+        Route::get('/leave/application/view', 'view');
+        Route::get('/leave/application/edit/{id}', 'edit');
+        Route::post('/edit/application/limit/update/{id}', 'update');
+        Route::get('/leave/application/destroy/{id}', 'destroy');
     });
     Route::controller(AssetDashboardController::class)->group(function () {
         Route::get('/asset-dashboard/card-data', 'getTopData');
