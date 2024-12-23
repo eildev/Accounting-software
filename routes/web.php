@@ -493,11 +493,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/leave/application/destroy/{id}', 'destroy');
         Route::post('/leave-application/update-status', 'leaveStatusUpdate');
     });
+
     Route::controller(AssetDashboardController::class)->group(function () {
         Route::get('/asset-dashboard/card-data', 'getTopData');
         Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
         Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
+   
 });
 
 require __DIR__ . '/auth.php';

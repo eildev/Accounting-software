@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
+use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\User;
 use Carbon\Carbon;
@@ -28,7 +29,6 @@ class PurchaseController extends Controller
     // store function
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'supplier_id' => 'required',
             'date' => 'required',
@@ -63,25 +63,14 @@ class PurchaseController extends Controller
                 } while ($existingInvoice); // Keep generating until a unique invoice number is found
                 $purchase->invoice = $invoice;
             }
-            $purchase->discount_amount = $request->discount_amount;
             if ($request->carrying_cost > 0) {
-                $purchase->sub_total = $request->sub_total - $request->carrying_cost;
                 $purchase->grand_total = $request->grand_total - $request->carrying_cost;
-                $purchase->paid = $request->total_payable - $request->carrying_cost;
-                $due = ($request->grand_total - $request->carrying_cost) - ($request->total_payable - $request->carrying_cost);
             } else {
-                $purchase->sub_total = $request->sub_total;
                 $purchase->grand_total = $request->grand_total;
-                $purchase->paid = $request->total_payable;
-                $due = $request->grand_total - $request->total_payable;
             }
-            if ($due > 0) {
-                $purchase->due = $due;
-            } else {
-                $purchase->due = 0;
-            }
+            $purchase->paid = 0;
+            $purchase->due = 0;
             $purchase->carrying_cost = $request->carrying_cost;
-            $purchase->payment_method = $request->payment_method;
             $purchase->note = $request->note;
             if ($request->document) {
                 $docName = rand() . '.' . $request->document->getClientOriginalExtension();
@@ -104,7 +93,12 @@ class PurchaseController extends Controller
 
 
                 $product = Product::findOrFail($request->product_id[$i]);
-                $product->stock += $request->quantity[$i];
+                $newStock = new Stock;
+                $newStock->branch_id = Auth::user()->branch_id;
+                $newStock->product_id = $product->id;
+                $newStock->stock_quantity = $request->quantity[$i];
+                $newStock->save();
+
                 $product->cost = $request->unit_price[$i];
                 $product->price = $request->sell_price[$i];
                 $product->save();
