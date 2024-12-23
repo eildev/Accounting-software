@@ -185,9 +185,11 @@
 
         // Function to recalculate total and check sell price
         // Function to recalculate total, check sell price, and update total quantity
+        let totalQuantity = 0;
+
         function calculateTotal() {
             let total = 0;
-            let totalQuantity = 0;
+
 
             $('.quantity').each(function() {
                 let productId = $(this).attr('product-id');
@@ -262,20 +264,6 @@
             }
             supplierView();
 
-            // total quantity
-            let totalQuantity = 0;
-
-            // Function to update total quantity
-            function updateTotalQuantity() {
-                totalQuantity = 0;
-                $('.quantity').each(function() {
-                    let quantity = parseFloat($(this).val());
-                    if (!isNaN(quantity)) {
-                        totalQuantity += quantity;
-                    }
-                });
-                // console.log(totalQuantity);
-            }
             // Function to update SL numbers
             function updateSLNumbers() {
                 $('.showData > tr').each(function(index) {
@@ -356,20 +344,18 @@
                 // Recalculate grand total
                 calculateTotal();
                 updateSLNumbers();
-                updateTotalQuantity();
             });
 
             // payment button click event
             $('.payment_btn').click(function(e) {
                 e.preventDefault();
                 // alert('ok');
-                updateTotalQuantity();
-                let cumtomer_due = parseFloat($('.previous_due').text());
-                let subtotal = parseFloat($('.grand_total').val());
-                $('.subTotal').val(subtotal);
-                let grandTotal = cumtomer_due + subtotal;
-                $('.grandTotal').val(grandTotal);
-                $('.paying_items').text(totalQuantity);
+                // let cumtomer_due = parseFloat($('.previous_due').text());
+                // let subtotal = parseFloat($('.grand_total').val());
+                // $('.subTotal').val(subtotal);
+                // let grandTotal = cumtomer_due + subtotal;
+                // $('.grandTotal').val(grandTotal);
+                // $('.paying_items').text(totalQuantity);
 
                 var isValid = true;
                 //Quantity Message
