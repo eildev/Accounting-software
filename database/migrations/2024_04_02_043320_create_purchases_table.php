@@ -23,12 +23,13 @@ return new class extends Migration
             $table->decimal('total_amount', 12, 2);
             $table->string('invoice')->nullable();
             $table->integer('tax')->nullable();
-            $table->decimal('paid', 12, 2)->default(0);
-            $table->decimal('due', 12, 2)->default(0);
-            $table->decimal('grand_total', 12, 2)->default(0);
-            $table->decimal('carrying_cost', 10, 2)->default(0);
+            $table->decimal('paid', 12, 2)->default(0.00);
+            $table->decimal('due', 12, 2)->default(0.00);
+            $table->decimal('grand_total', 12, 2)->default(0.00);
+            $table->decimal('carrying_cost', 10, 2)->default(0.00);
             $table->string('note')->nullable();
             $table->string('document')->nullable();
+            $table->enum('status', ['processing', 'completed'])->default('processing');
             $table->timestamps();
         });
     }

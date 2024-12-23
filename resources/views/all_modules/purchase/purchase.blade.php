@@ -534,8 +534,6 @@
                                 $('#globalPaymentModal #due-amount').text(res.data.grand_total);
                                 // Open the Payment Modal
                                 $('#globalPaymentModal').modal('show');
-                                let id = res.data.id;
-                                window.location.href = '/purchase/invoice/' + id;
                             } else {
                                 if (res.error.supplier_id) {
                                     showError('.supplier_id', res.error.supplier_id);
