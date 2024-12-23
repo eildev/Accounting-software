@@ -491,11 +491,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/application/limit/update/{id}', 'update');
         Route::get('/leave/application/destroy/{id}', 'destroy');
     });
+
     Route::controller(AssetDashboardController::class)->group(function () {
         Route::get('/asset-dashboard/card-data', 'getTopData');
         Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
         Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
+   
 });
 
 require __DIR__ . '/auth.php';
