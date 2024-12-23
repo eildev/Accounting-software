@@ -7,21 +7,25 @@ const othersData = [
         icon: "solar:wallet-money-bold", // Icon to be displayed in the card
         stats: 5000, // Stats representing positive change
         color: "cyan", // Color for the card
+        url: 'asset-dashboard'
     },
     {
         icon: "tabler:report-money",
         stats: -2000, // Stats representing negative change
         color: "purple",
+        // url: 'asset-dashboard'
     },
     {
         icon: "solar:money-bag-bold",
         stats: 7000,
         color: "info",
+        // url: 'asset-dashboard'
     },
     {
         icon: "solar:card-recive-bold",
         stats: -400,
         color: "success-main",
+        url: 'expense-dashboard'
     },
 ];
 
@@ -37,6 +41,7 @@ const TotalTopStats = () => {
         icon: othersData[index]?.icon || "default:icon-name", // Add icon
         stats: othersData[index]?.stats || 0, // Add stats
         color: othersData[index]?.color || "default-color", // Add color
+        url: othersData[index]?.url || "#", // Add url
     }));
 
     return (
