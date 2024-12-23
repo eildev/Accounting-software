@@ -29,7 +29,6 @@ class PurchaseController extends Controller
     // store function
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'supplier_id' => 'required',
             'date' => 'required',
@@ -66,18 +65,11 @@ class PurchaseController extends Controller
             }
             if ($request->carrying_cost > 0) {
                 $purchase->grand_total = $request->grand_total - $request->carrying_cost;
-                $purchase->paid = $request->total_payable - $request->carrying_cost;
-                $due = ($request->grand_total - $request->carrying_cost) - ($request->total_payable - $request->carrying_cost);
             } else {
                 $purchase->grand_total = $request->grand_total;
-                $purchase->paid = $request->total_payable;
-                $due = $request->grand_total - $request->total_payable;
             }
-            if ($due > 0) {
-                $purchase->due = $due;
-            } else {
-                $purchase->due = 0;
-            }
+            $purchase->paid = 0;
+            $purchase->due = 0;
             $purchase->carrying_cost = $request->carrying_cost;
             $purchase->note = $request->note;
             if ($request->document) {
@@ -101,17 +93,12 @@ class PurchaseController extends Controller
 
 
                 $product = Product::findOrFail($request->product_id[$i]);
-                $stock = Stock::where('product_id', $product->id)->latest()->first();
-                if ($stock) {
-                    $stock->stock_quantity += $request->quantity[$i];
-                    $stock->save();
-                } else {
-                    $newStock = new Stock;
-                    $newStock->branch_id = Auth::user()->branch_id;
-                    $newStock->product_id = $product->id;
-                    $newStock->stock_quantity = $request->quantity[$i];
-                    $newStock->save();
-                }
+                $newStock = new Stock;
+                $newStock->branch_id = Auth::user()->branch_id;
+                $newStock->product_id = $product->id;
+                $newStock->stock_quantity = $request->quantity[$i];
+                $newStock->save();
+
                 $product->cost = $request->unit_price[$i];
                 $product->price = $request->sell_price[$i];
                 $product->save();
