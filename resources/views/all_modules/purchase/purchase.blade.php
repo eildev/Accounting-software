@@ -26,7 +26,7 @@
                                 <label for="ageSelect" class="form-label">Supplier <span
                                         class="text-danger">*</span></label>
                                 <select class="js-example-basic-single form-select select-supplier supplier_id"
-                                    data-width="100%" onchange="errorRemove(this);" name="supplier_id">
+                                    data-width="100%" name="supplier_id">
                                 </select>
                                 <span class="text-danger supplier_id_error"></span>
                             </div>
@@ -151,8 +151,8 @@
                         </div>
 
                         <div class="my-3">
-                            <button class="btn btn-primary payment_btn" data-bs-toggle="modal"
-                                data-bs-target="#paymentModal" disabled><i class="fa-solid fa-money-check-dollar"></i>
+                            <button type="submit" class="btn btn-primary payment_btn" disabled><i
+                                    class="fa-solid fa-money-check-dollar"></i>
                                 Payment</button>
                         </div>
                     </div>
@@ -249,7 +249,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i>
+                            <button class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i>
                                 Purchase</button>
                         </div>
                     </div>
@@ -416,6 +416,7 @@
                             type: 'GET',
                             dataType: 'JSON',
                             success: function(res) {
+                                // console.log(res.data.unit.name);
                                 if (res.status == 200) {
                                     const product = res.data;
                                     $('.showData').append(
@@ -437,7 +438,7 @@
                                         </td>
                                         <td class="text-satrt">
                                            <div class="d-flex justify-content-center align-items-center ">
-                                             <input type="number" product-id="${product.id}" class="form-control input-small quantity me-3" onkeyup="calculateTotal();" name="quantity[]"  value="1"   /> <span>${res.unit}</span>
+                                             <input type="number" product-id="${product.id}" class="form-control input-small quantity me-3" onkeyup="calculateTotal();" name="quantity[]"  value="1"   /> <span>${product?.unit?.name}</span>
                                             </div>
                                         </td>
                                         <td>
@@ -485,6 +486,7 @@
             // payment button click event
             $('.payment_btn').click(function(e) {
                 e.preventDefault();
+                // alert('ok');
                 updateTotalQuantity();
                 let cumtomer_due = parseFloat($('.previous_due').text());
                 let subtotal = parseFloat($('.grand_total').val());
@@ -507,7 +509,44 @@
                     event.preventDefault();
                     // alert('Please enter a quantity of at least 1 for all products.');
                     toastr.error('Please enter a quantity of at least 1.)');
-                    $('#paymentModal').modal('hide');
+                    // $('#paymentModal').modal('hide');
+                } else {
+                    let formData = new FormData($('#purchaseForm')[0]);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/purchase/store',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            if (res.status == 200) {
+                                $('#globalPaymentModal #data_id').val(res.data.id);
+                                $('#globalPaymentModal #payment_balance').val(res.data
+                                    .grand_total);
+                                $('#globalPaymentModal #purpose').val('Product Purchase');
+                                $('#globalPaymentModal #transaction_type').val('withdraw');
+                                $('#globalPaymentModal #due-amount').text(res.data.grand_total);
+                                // Open the Payment Modal
+                                $('#globalPaymentModal').modal('show');
+                            } else {
+                                if (res.error.supplier_id) {
+                                    showError('.supplier_id', res.error.supplier_id);
+                                }
+                                if (res.error.purchase_date) {
+                                    showError('.purchase_date', res.error.purchase_date);
+                                }
+                                if (res.error.document) {
+                                    showError('.document_file', res.error.document);
+                                }
+                            }
+                        }
+                    });
                 }
             })
 
@@ -521,57 +560,57 @@
             })
 
 
-            $('#purchaseForm').submit(function(event) {
-                event.preventDefault();
-                let formData = new FormData($('#purchaseForm')[0]);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+            // $('#purchaseForm').submit(function(event) {
+            //     event.preventDefault();
+            //     let formData = new FormData($('#purchaseForm')[0]);
+            //     $.ajaxSetup({
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         }
+            //     });
 
-                $.ajax({
-                    url: '/purchase/store',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        if (res.status == 200) {
-                            $('#paymentModal').modal('hide');
-                            toastr.success(res.message);
-                            let id = res.purchaseId;
-                            window.location.href = '/purchase/invoice/' + id;
+            //     $.ajax({
+            //         url: '/purchase/store',
+            //         type: 'POST',
+            //         data: formData,
+            //         processData: false,
+            //         contentType: false,
+            //         success: function(res) {
+            //             if (res.status == 200) {
+            //                 $('#paymentModal').modal('hide');
+            //                 toastr.success(res.message);
+            //                 let id = res.purchaseId;
+            //                 window.location.href = '/purchase/invoice/' + id;
 
-                        } else if (res.status == 400) {
-                            toastr.warning(res.message);
-                            showError('.payment_method',
-                                'please Select Another Payment Method');
-                        } else {
-                            console.log(res);
-                            if (res.error.payment_method || res.error.total_payable) {
-                                if (res.error.total_payable) {
-                                    showError('.total_payable', res.error.total_payable);
-                                }
-                                if (res.error.payment_method) {
-                                    showError('.payment_method', res.error.payment_method);
-                                }
-                            } else {
-                                $('#paymentModal').modal('hide');
-                                if (res.error.supplier_id) {
-                                    showError('.supplier_id', res.error.supplier_id);
-                                }
-                                if (res.error.purchase_date) {
-                                    showError('.purchase_date', res.error.purchase_date);
-                                }
-                                if (res.error.document) {
-                                    showError('.document_file', res.error.document);
-                                }
-                            }
-                        }
-                    }
-                });
-            });
+            //             } else if (res.status == 400) {
+            //                 toastr.warning(res.message);
+            //                 showError('.payment_method',
+            //                     'please Select Another Payment Method');
+            //             } else {
+            //                 console.log(res);
+            //                 if (res.error.payment_method || res.error.total_payable) {
+            //                     if (res.error.total_payable) {
+            //                         showError('.total_payable', res.error.total_payable);
+            //                     }
+            //                     if (res.error.payment_method) {
+            //                         showError('.payment_method', res.error.payment_method);
+            //                     }
+            //                 } else {
+            //                     $('#paymentModal').modal('hide');
+            //                     if (res.error.supplier_id) {
+            //                         showError('.supplier_id', res.error.supplier_id);
+            //                     }
+            //                     if (res.error.purchase_date) {
+            //                         showError('.purchase_date', res.error.purchase_date);
+            //                     }
+            //                     if (res.error.document) {
+            //                         showError('.document_file', res.error.document);
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     });
+            // });
         });
     </script>
 

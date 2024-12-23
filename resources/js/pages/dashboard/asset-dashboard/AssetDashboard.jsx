@@ -1,7 +1,8 @@
-import Breadcrumb from "../../../../components/breadcrumb/Breadcrumb";
-import AssetTopCard from "./AssetTopCard";
-import BankTransactionDetails from "./BankTransactionDetails";
-import TotalLeisure from "./TotalLeisure";
+import Breadcrumb from "../../../components/breadcrumb/Breadcrumb";
+import AssetTopCard from "./section/AssetTopCard";
+import BankTransactionDetails from "./section/BankTransactionDetails";
+import TotalLeisure from "./section/TotalLeisure";
+
 
 const AssetDashboard = () => {
     return (

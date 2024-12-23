@@ -26,7 +26,6 @@ const Breadcrumb = ({ title, section }) => {
                         {section}
                     </Link>
                 </li>
-
                 {/* Separator (hyphen) between section and title */}
                 <li> - </li>
 

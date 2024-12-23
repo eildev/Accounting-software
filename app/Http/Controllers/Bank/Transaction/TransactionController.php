@@ -349,32 +349,63 @@ class TransactionController extends Controller
                     }
                 }
                 $paySlip->save();
+            } else if ($request->purpose == "Product Purchase") {
             }
 
-            // Ledger Entry info save
-            $ledgerEntries = new LedgerEntries;
-            $ledgerEntries->branch_id = Auth::user()->branch_id;
-            $ledgerEntries->transaction_id = $transaction->id;
-            if ($request->purpose == "Fixed Asset Purchase") {
-                $ledgerEntries->group_id = 1;
-                $ledgerEntries->account_id = 6;
-            } else if ($request->purpose == "Expanse") {
-                $ledgerEntries->group_id = 2;
-                $ledgerEntries->account_id = 4;
-            } else if ($request->purpose == "Convenience Bill") {
-                $ledgerEntries->group_id = 2;
-                $ledgerEntries->account_id = 5;
-            } else if ($request->purpose == "Employee Salary") {
-                $ledgerEntries->group_id = 2;
-                $ledgerEntries->account_id = 8;
+            if ($request->purpose == "Product Purchase") {
+                $ledgerEntries = new LedgerEntries;
+                $ledgerEntries->branch_id = Auth::user()->branch_id;
+                $ledgerEntries->transaction_id = $transaction->id;
+                if ($request->purpose == "Product Purchase") {
+                    $ledgerEntries->group_id = 1;
+                    $ledgerEntries->account_id = 8;
+                }
+                $ledgerEntries->transaction_type = 'credit';
+                $ledgerEntries->entry_amount = $request->payment_balance;
+                $ledgerEntries->transaction_date = Carbon::now();
+                $ledgerEntries->transaction_by = Auth::user()->id;
+                $ledgerEntries->save();
+
+
+                $newledgerEntries = new LedgerEntries;
+                $newledgerEntries->branch_id = Auth::user()->branch_id;
+                $newledgerEntries->transaction_id = $transaction->id;
+                if ($request->purpose == "Product Purchase") {
+                    $newledgerEntries->group_id = 1;
+                    $newledgerEntries->account_id = ($request->account_type === 'cash') ? 2 : 1;
+                }
+                $newledgerEntries->transaction_type = 'debit';
+                $newledgerEntries->entry_amount = $request->payment_balance;
+                $newledgerEntries->transaction_date = Carbon::now();
+                $newledgerEntries->transaction_by = Auth::user()->id;
+                $newledgerEntries->save();
+            } else {
+                // Ledger Entry info save
+                $ledgerEntries = new LedgerEntries;
+                $ledgerEntries->branch_id = Auth::user()->branch_id;
+                $ledgerEntries->transaction_id = $transaction->id;
+                if ($request->purpose == "Fixed Asset Purchase") {
+                    $ledgerEntries->group_id = 1;
+                    $ledgerEntries->account_id = 6;
+                } else if ($request->purpose == "Expanse") {
+                    $ledgerEntries->group_id = 2;
+                    $ledgerEntries->account_id = 4;
+                } else if ($request->purpose == "Convenience Bill") {
+                    $ledgerEntries->group_id = 2;
+                    $ledgerEntries->account_id = 5;
+                } else if ($request->purpose == "Employee Salary") {
+                    $ledgerEntries->group_id = 2;
+                    $ledgerEntries->account_id = 8;
+                }
+                if ($request->subLedger_id) {
+                    $ledgerEntries->sub_ledger_id = $request->subLedger_id;
+                }
+                $ledgerEntries->transaction_type = $request->transaction_type === 'withdraw' ? 'debit' : 'credit';
+                $ledgerEntries->entry_amount = $request->payment_balance;
+                $ledgerEntries->transaction_date = Carbon::now();
+                $ledgerEntries->transaction_by = Auth::user()->id;
+                $ledgerEntries->save();
             }
-            if ($request->subLedger_id) {
-                $ledgerEntries->sub_ledger_id = $request->subLedger_id;
-            }
-            $ledgerEntries->entry_amount = $request->payment_balance;
-            $ledgerEntries->transaction_date = Carbon::now();
-            $ledgerEntries->transaction_by = Auth::user()->id;
-            $ledgerEntries->save();
 
             return response()->json([
                 'status' => 200,

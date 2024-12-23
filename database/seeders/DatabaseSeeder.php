@@ -24,13 +24,22 @@ class DatabaseSeeder extends Seeder
             ModelHasRolesSeeder::class,
             PrimaryLedgerSeed::class,
             LedgerSeed::class,
-            // SubLedgerSeed::class,
-            // BanksAccountSeed::class,
-            // CashSeed::class,
-            // CashTransactionSeed::class,
-            // TransactionSeed::class,
-            // LedgerEntriesSeed::class,
+            SubLedgerSeed::class,
+            BanksAccountSeed::class,
+            CashSeed::class,
+            CashTransactionSeed::class,
+            TransactionSeed::class,
+            LedgerEntriesSeed::class,
             DepartmentSeed::class,
+            CustomerSeed::class,
+            SupplierSeed::class,
+            EmployeeSeed::class,
+            CategorySeed::class,
+            SubcategorySeed::class,
+            BrandSeed::class,
+            UnitSeeder::class,
+            ProductSeeder::class,
+
         ]);
     }
 }

@@ -35,10 +35,13 @@ use App\Http\Controllers\AssetDashboard\AssetDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ServiceSale\ServiceSaleController;
 use  App\Http\Controllers\CustomerPayableDashboard\CustomerPayableDashboardController;
+use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\SaleDashboard\SaleDashboardController;
+use App\Http\Controllers\leaveApplication\leaveTypeController;
+use App\Http\Controllers\LeaveApplication\LeaveLimitsController;
+use App\Http\Controllers\leaveApplication\leaveApplicationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,7 +52,6 @@ use App\Http\Controllers\SaleDashboard\SaleDashboardController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::get('/', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -213,6 +215,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice2/settings', 'PosSettingsInvoice2')->name('invoice2.settings');
         Route::get('/invoice3/settings', 'PosSettingsInvoice3')->name('invoice3.settings');
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
+    });
+
+     // Purchase controller related route
+     Route::controller(PurchaseController::class)->group(function () {
+        Route::get('/purchase', 'index')->name('purchase');
+        Route::post('/purchase/store', 'store')->name('purchase.store');
+        Route::get('/purchase/view', 'view')->name('purchase.view');
+        Route::get('/purchase/supplier/{id}', 'supplierName')->name('purchase.supplier.name');
+        Route::get('/purchase/item/{id}', 'purchaseItem')->name('purchase.item');
+        Route::get('/purchase/edit/{id}', 'edit')->name('purchase.edit');
+        Route::post('/purchase/update/{id}', 'update')->name('purchase.update');
+        Route::get('/purchase/destroy/{id}', 'destroy')->name('purchase.destroy');
+        Route::get('/purchase/invoice/{id}', 'invoice')->name('purchase.invoice');
+        Route::get('/purchase/money-receipt/{id}', 'moneyReceipt')->name('purchase.money.receipt');
+        Route::get('/purchase/image/{id}', 'imageToPdf')->name('purchase.image');
+        Route::get('/purchase/filter', 'filter')->name('purchase.filter');
     });
 
     // Departments related route(n)
@@ -428,20 +446,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/brand/status/{id}', 'status')->name('brand.status');
         Route::get('/brand/destroy/{id}', 'destroy')->name('brand.destroy');
     });
-    Route::controller(PurchaseController::class)->group(function () {
-        Route::get('/purchase', 'index')->name('purchase');
-        Route::post('/purchase/store', 'store')->name('purchase.store');
-        Route::get('/purchase/view', 'view')->name('purchase.view');
-        Route::get('/purchase/supplier/{id}', 'supplierName')->name('purchase.supplier.name');
-        Route::get('/purchase/item/{id}', 'purchaseItem')->name('purchase.item');
-        Route::get('/purchase/edit/{id}', 'edit')->name('purchase.edit');
-        Route::post('/purchase/update/{id}', 'update')->name('purchase.update');
-        Route::get('/purchase/destroy/{id}', 'destroy')->name('purchase.destroy');
-        Route::get('/purchase/invoice/{id}', 'invoice')->name('purchase.invoice');
-        Route::get('/purchase/money-receipt/{id}', 'moneyReceipt')->name('purchase.money.receipt');
-        Route::get('/purchase/image/{id}', 'imageToPdf')->name('purchase.image');
-        Route::get('/purchase/filter', 'filter')->name('purchase.filter');
-    });
     Route::controller(AssetRevaluationController::class)->group(function () {
         Route::get('/asset-revaluation', 'index')->name('asset.revaluation');
         Route::post('/asset-revaluation/store', 'store');
@@ -461,6 +465,31 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(SaleDashboardController::class)->group(function () {
         Route::get('/sale-dashboard', 'SaleDashboard')->name('sale.dashboard');
+    });
+    Route::controller(leaveTypeController::class)->group(function () {
+        Route::get('/leave-type', 'index')->name('leave.type');
+        Route::post('/leave/type/store', 'store');
+        Route::get('/leave/type/view', 'view');
+        Route::get('/leave/type/edit/{id}', 'edit');
+        Route::post('/edit/leave/Type/update/{id}', 'update');
+        Route::get('/leave/type/destroy/{id}', 'destroy');
+        Route::get('/leave/type/status/{id}', 'status');
+    });
+    Route::controller(LeaveLimitsController::class)->group(function () {
+        Route::get('/leave-limit', 'index')->name('leave.limit');
+        Route::post('/leave/limit/store', 'store');
+        Route::get('/leave/limit/view', 'view');
+        Route::get('/leave/limit/edit/{id}', 'edit');
+        Route::post('/edit/limit/limit/update/{id}', 'update');
+        Route::get('/leave/limit/destroy/{id}', 'destroy');
+    });
+    Route::controller(leaveApplicationController::class)->group(function () {
+        Route::get('/leave-application', 'index')->name('leave.application');
+        Route::post('/leave/application/store', 'store');
+        Route::get('/leave/application/view', 'view');
+        Route::get('/leave/application/edit/{id}', 'edit');
+        Route::post('/edit/application/limit/update/{id}', 'update');
+        Route::get('/leave/application/destroy/{id}', 'destroy');
     });
     Route::controller(AssetDashboardController::class)->group(function () {
         Route::get('/asset-dashboard/card-data', 'getTopData');

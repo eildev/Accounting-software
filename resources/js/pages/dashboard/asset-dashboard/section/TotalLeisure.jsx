@@ -7,6 +7,7 @@ import {
     Tooltip,
 } from "recharts";
 
+
 const data = [
     {
         name: "Page A",

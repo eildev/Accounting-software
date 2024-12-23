@@ -489,28 +489,6 @@ class PurchaseController extends Controller
     public function destroy($id)
     {
         $purchase = Purchase::findOrFail($id);
-        $oldBalance = AccountTransaction::where('account_id', $purchase->payment_method)->latest('created_at')->first();
-        // Account Transaction
-        $accountTransaction = new AccountTransaction;
-        $accountTransaction->branch_id =  Auth::user()->branch_id;
-        $accountTransaction->reference_id = $id;
-        $accountTransaction->account_id =  $purchase->payment_method;
-        $accountTransaction->purpose =  'Purchase Delete';
-        $accountTransaction->credit =  $purchase->paid ?? 0;
-        $accountTransaction->balance = $oldBalance->balance + $purchase->paid ?? 0;
-        $accountTransaction->created_at = Carbon::now();
-        $accountTransaction->save();
-
-        if ($purchase->carrying_cost) {
-            $expense = Expense::where('purpose', 'Purchase' . $id)->first();
-            if ($expense) {
-                $expense->delete();
-            }
-        }
-
-        $transaction = Transaction::where('particulars', 'Purchase#' . $id)->first();
-        $transaction->delete();
-
         if ($purchase->document) {
             $previousDocumentPath = public_path('uploads/purchase/') . $purchase->document;
             if (file_exists($previousDocumentPath)) {

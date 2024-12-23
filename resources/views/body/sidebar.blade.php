@@ -202,6 +202,14 @@
                     </a>
                 </li>
             @endif
+
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('purchase') ? 'nav_active' : '' }}"
+                    href="{{ route('purchase') }}" role="button" aria-controls="general-pages">
+                    <i class="ms-2 fa-solid fa-handshake link-icon"></i>
+                    <span class="link-title">Purchase</span>
+                </a>
+            </li>
             {{-- @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
@@ -497,6 +505,33 @@
                 </div>
 
                 </li>
+                <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.type') }}"
+                            class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Type</span>
+                        </a>
+                    </li>
+                </li>
+                <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.limit') }}"
+                            class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Limits</span>
+                        </a>
+                    </li>
+                </li>
+                <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.application') }}"
+                            class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Application</span>
+                        </a>
+                    </li>
+                </li>
             @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">
@@ -773,8 +808,7 @@
                             <span class="link-title">Setting Manage</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}"
-                            id="setting-manage">
+                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}" id="setting-manage">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
                                     <a href="{{ route('pos.settings.add') }}"
