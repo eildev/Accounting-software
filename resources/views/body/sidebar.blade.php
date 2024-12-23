@@ -523,6 +523,15 @@
                         </a>
                     </li>
                 </li>
+                <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.application') }}"
+                            class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Application</span>
+                        </a>
+                    </li>
+                </li>
             @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">
