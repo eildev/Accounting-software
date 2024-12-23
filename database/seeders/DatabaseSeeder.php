@@ -31,6 +31,10 @@ class DatabaseSeeder extends Seeder
             TransactionSeed::class,
             LedgerEntriesSeed::class,
             DepartmentSeed::class,
+            CustomerSeed::class,
+            SupplierSeed::class,
+            EmployeeSeed::class,
+
         ]);
     }
 }
