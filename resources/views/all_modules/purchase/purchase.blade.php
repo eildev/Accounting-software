@@ -166,6 +166,63 @@
     </form>
 
 
+    <!-- Modal Payment -->
+    <div class="modal fade" id="purchasePaymentModal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentForm" class="addPaymentForm row" method="POST">
+                        <input type="hidden" name="data_id" id="data_id" value="">
+                        <input type="hidden" name="purpose" id="purpose" value="">
+                        <input type="hidden" name="transaction_type" id="transaction_type" value="">
+                        <input type="hidden" name="subLedger_id" id="subLedger_id" value="">
+                        <div class="col-md-12">
+                            <label for="name" class="form-label">Due Amount : <span id="due-amount"></span>
+                                ৳</label>
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="name" class="form-label">Payment Amount<span
+                                    class="text-danger">*</span></label>
+                            <input onclick="errorRemove(this);" onkeyup="dueShow(this);" type="number"
+                                name="payment_balance" id="payment_balance" class="form-control">
+                            <span class="text-danger account_type_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Account Type<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select account_type" name="account_type" onclick="errorRemove(this);"
+                                onchange="checkPaymentAccount(this);">
+                                <option value="">Select Account Type</option>
+                                <option value="cash">Cash</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                            <span class="text-danger account_type_error"></span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Payment Account<span
+                                    class="text-danger">*</span></label>
+                            <select class="form-control payment_account_id" name="payment_account_id"
+                                onchange="errorRemove(this);">
+                                <option value="">Select Payment Account</option>
+                            </select>
+                            <span class="text-danger payment_account_id_error"></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-primary" id="save_global_payment">Payment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <script>
@@ -182,6 +239,26 @@
                 }
             }
         }
+
+        function dueShow(inputElement) {
+            // Get the payment balance
+            let paymentBalance = parseFloat(inputElement.value) || 0;
+
+            // Get the total due amount
+            let dueAmountText = document.querySelector('.grand_total').value;
+            let dueAmount = parseFloat(dueAmountText.replace(/[^\d.-]/g, '')) || 0;
+
+            console.log("paymentBalance:", paymentBalance);
+            console.log("dueAmountText:", dueAmountText);
+            console.log("dueAmount:", dueAmount);
+
+            // Calculate the remaining due
+            let remainingDue = Math.max(0, dueAmount - paymentBalance);
+
+            // Update the UI with the remaining due amount
+            document.getElementById('due-amount').innerText = remainingDue.toFixed(2) + ' ৳';
+        }
+
 
         // Function to recalculate total and check sell price
         // Function to recalculate total, check sell price, and update total quantity
@@ -335,6 +412,7 @@
 
 
 
+
             // purchase Delete
             $(document).on('click', '.purchase_delete', function(e) {
                 // alert('ok');
@@ -349,14 +427,6 @@
             // payment button click event
             $('.payment_btn').click(function(e) {
                 e.preventDefault();
-                // alert('ok');
-                // let cumtomer_due = parseFloat($('.previous_due').text());
-                // let subtotal = parseFloat($('.grand_total').val());
-                // $('.subTotal').val(subtotal);
-                // let grandTotal = cumtomer_due + subtotal;
-                // $('.grandTotal').val(grandTotal);
-                // $('.paying_items').text(totalQuantity);
-
                 var isValid = true;
                 //Quantity Message
                 $('.quantity').each(function() {
@@ -387,14 +457,17 @@
                         contentType: false,
                         success: function(res) {
                             if (res.status == 200) {
-                                $('#globalPaymentModal #data_id').val(res.data.id);
-                                $('#globalPaymentModal #payment_balance').val(res.data
+                                $('#purchasePaymentModal #data_id').val(res.data.id);
+                                // $('#purchasePaymentModal #payment_balance').val(res.data
+                                //     .grand_total);
+                                $('#purchasePaymentModal #purpose').val('Product Purchase');
+                                $('#purchasePaymentModal #transaction_type').val('withdraw');
+                                $('#purchasePaymentModal #due-amount').text(res.data
                                     .grand_total);
-                                $('#globalPaymentModal #purpose').val('Product Purchase');
-                                $('#globalPaymentModal #transaction_type').val('withdraw');
-                                $('#globalPaymentModal #due-amount').text(res.data.grand_total);
                                 // Open the Payment Modal
-                                $('#globalPaymentModal').modal('show');
+                                $('#purchasePaymentModal').modal('show');
+                                $('.payment_btn').prop('disabled', true);
+
                             } else {
                                 if (res.error.supplier_id) {
                                     showError('.supplier_id', res.error.supplier_id);
