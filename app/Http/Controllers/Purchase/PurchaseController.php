@@ -29,6 +29,7 @@ class PurchaseController extends Controller
     // store function
     public function store(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'supplier_id' => 'required',
             'date' => 'required',
@@ -63,14 +64,10 @@ class PurchaseController extends Controller
                 } while ($existingInvoice); // Keep generating until a unique invoice number is found
                 $purchase->invoice = $invoice;
             }
-            if ($request->carrying_cost > 0) {
-                $purchase->grand_total = $request->grand_total - $request->carrying_cost;
-            } else {
-                $purchase->grand_total = $request->grand_total;
-            }
+            $purchase->grand_total = $request->sub_total;
             $purchase->paid = 0;
             $purchase->due = 0;
-            $purchase->carrying_cost = $request->carrying_cost;
+            $purchase->carrying_cost = $request->carrying_cost ?? 0;
             $purchase->note = $request->note;
             if ($request->document) {
                 $docName = rand() . '.' . $request->document->getClientOriginalExtension();
