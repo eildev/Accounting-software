@@ -13,8 +13,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="card-title">Leave Application Table</h6>
+                        @if (Auth::user()->can('leave.application.add'))
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModalLongScollable">Add Leave Application</button>
+                         @endif
                     </div>
 
                     <div id="" class="table-responsive">

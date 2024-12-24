@@ -162,6 +162,12 @@ class PermissionSeeder extends Seeder
             ['id' => 118, 'name' => 'genarate.payslip.all', 'guard_name' => 'web', 'group_name' => 'other'],
             ['id' => 119, 'name' => 'salary.sheet1', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
             ['id' => 120, 'name' => 'salary.sheet2', 'guard_name' => 'web', 'group_name' => 'employee-payroll'],
+            ['id' => 121, 'name' => 'leave.application.menu', 'guard_name' => 'web', 'group_name' => 'leave-application'],
+            ['id' => 122, 'name' => 'leave.application.add', 'guard_name' => 'web', 'group_name' => 'leave-application'],
+            ['id' => 123, 'name' => 'leave.application.view', 'guard_name' => 'web', 'group_name' => 'leave-application'],
+            ['id' => 124, 'name' => 'leave.application.status', 'guard_name' => 'web', 'group_name' => 'leave-application'],
+            ['id' => 125, 'name' => 'leave.limit', 'guard_name' => 'web', 'group_name' => 'leave-application'],
+            ['id' => 126, 'name' => 'leave.type', 'guard_name' => 'web', 'group_name' => 'leave-application'],
             // add more permissions as needed
         ];
 
