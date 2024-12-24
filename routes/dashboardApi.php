@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetDashboard\AssetDashboardController;
 use App\Http\Controllers\MainDashboard\MainDashboardApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,4 @@ Route::controller(MainDashboardApiController::class)->group(function () {
     Route::get('/dashboard/purchase/report/', 'purchaseReport');
     Route::get('/dashboard/revenue/report/', 'revenueReport');
 });
+

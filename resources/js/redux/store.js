@@ -8,7 +8,7 @@ const store = configureStore({
         [assetDashboardApiSlice.reducerPath]: assetDashboardApiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(mainDashboardApiSlice.middleware).concat(mainDashboardApiSlice.middleware),
+        getDefaultMiddleware().concat(mainDashboardApiSlice.middleware).concat(assetDashboardApiSlice.middleware),
 })
 
 export default store;
