@@ -248,9 +248,9 @@
             let dueAmountText = document.querySelector('.grand_total').value;
             let dueAmount = parseFloat(dueAmountText.replace(/[^\d.-]/g, '')) || 0;
 
-            console.log("paymentBalance:", paymentBalance);
-            console.log("dueAmountText:", dueAmountText);
-            console.log("dueAmount:", dueAmount);
+            // console.log("paymentBalance:", paymentBalance);
+            // console.log("dueAmountText:", dueAmountText);
+            // console.log("dueAmount:", dueAmount);
 
             // Calculate the remaining due
             let remainingDue = Math.max(0, dueAmount - paymentBalance);
