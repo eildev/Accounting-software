@@ -101,6 +101,12 @@ class PurchaseController extends Controller
                 ]);
             }
 
+
+            Supplier::where('id', $request->supplier_id)->update([
+                'cost' => $unitPrice,
+                'price' => $request->sell_price[$index],
+            ]);
+
             return response()->json([
                 'status' => 200,
                 'data' => $purchase,
