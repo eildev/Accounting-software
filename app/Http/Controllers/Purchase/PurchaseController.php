@@ -67,7 +67,7 @@ class PurchaseController extends Controller
                 'total_quantity' => $totalQty,
                 'total_amount' => $totalAmount,
                 'invoice' => $request->invoice ?: $this->generateUniqueInvoice(),
-                'grand_total' => $request->sub_total - ($request->carrying_cost ?? 0),
+                'grand_total' => $request->sub_total,
                 'paid' => 0,
                 'due' => 0,
                 'carrying_cost' => $request->carrying_cost,
@@ -102,9 +102,11 @@ class PurchaseController extends Controller
             }
 
 
-            Supplier::where('id', $request->supplier_id)->update([
-                'cost' => $unitPrice,
-                'price' => $request->sell_price[$index],
+            $supplier = Supplier::findOrFail($request->supplier_id);
+
+            $supplier->update([
+                'wallet_balance' =>  $supplier->wallet_balance + $totalAmount,
+                'total_receivable' => $supplier->total_receivable + $totalAmount,
             ]);
 
             return response()->json([
