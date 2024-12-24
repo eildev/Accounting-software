@@ -53,7 +53,7 @@ class leaveApplicationController extends Controller
                 'submited_date' => $submittedDate,
                 'subject' => $request->subject,
             ]);
-            // Create Leave Application Details
+            // Create Leave Application Details //
             LeaveApplicationDetails::create([
                 'leave_application_id' => $leaveApplication->id,
                 'total_day' => $request->total_day,
@@ -71,7 +71,7 @@ class leaveApplicationController extends Controller
                 'error' => $validator->messages()
             ]);
         }
-    }//end Method
+    }//End Method ||
     public function view()
     {
         if(Auth::user()->employee_id){

@@ -24,8 +24,8 @@
                             <thead>
                                 <tr>
                                     <th>SN</th>
-                                    <th>Subject</th>
                                     <th>Employee Name</th>
+                                    <th>Subject</th>
                                     <th>Leave Type</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
@@ -243,8 +243,8 @@
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
                                             <td>${index + 1}</td>
-                                             <td>${leaveApplication.subject ??''}</td>
                                             <td>${leaveApplication.employee?.full_name ?? ""}</td>
+                                             <td>${leaveApplication.subject ??''}</td>
                                              <td>${leaveApplication.leave_type?.name?? "N/A"}</td>
                                              <td>${leaveApplication.leave_application_details[0]?.start_date ?? "-"}</td>
                                             <td>${leaveApplication.leave_application_details[0]?.end_date ?? "-"}</td>
