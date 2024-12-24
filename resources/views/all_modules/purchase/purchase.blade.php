@@ -176,7 +176,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addPaymentForm" class="addPaymentForm row" method="POST">
+                    <form id="purchasePaymentForm" class="purchasePaymentForm row" method="POST">
                         <input type="hidden" name="data_id" id="data_id" value="">
                         <input type="hidden" name="purpose" id="purpose" value="">
                         <input type="hidden" name="transaction_type" id="transaction_type" value="">
@@ -216,7 +216,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary modal_close" data-bs-dismiss="modal">Close</button>
-                    <a type="button" class="btn btn-primary" id="save_global_payment">Payment</a>
+                    <a type="button" class="btn btn-primary" id="save_payment">Payment</a>
                 </div>
             </div>
         </div>
@@ -483,6 +483,83 @@
                     });
                 }
             })
+
+
+            // Modal close event for redirection
+            $('#purchasePaymentModal').on('hidden.bs.modal', function() {
+                if ($('#data_id').val()) {
+                    let id = $('#data_id').val();
+                    window.location.href = '/purchase/invoice/' + id;
+                }
+            });
+
+
+            const savePayment = document.getElementById('save_payment');
+            savePayment.addEventListener('click', function(e) {
+                // console.log('Working on payment')
+                e.preventDefault();
+
+                let formData = new FormData($('.purchasePaymentForm')[0]);
+
+                // CSRF Token setup
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                // // AJAX request
+                $.ajax({
+                    url: '/transaction/store/with-ledger',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        // console.log(res);
+                        if (res.status == 200) {
+                            // Hide the correct modal
+                            $('#purchasePaymentModal').modal('hide');
+                            // Reset the form
+                            $('.purchasePaymentForm')[0].reset();
+                            toastr.success(res.message);
+                            let id = res.data.id;
+                            window.location.href = '/purchase/invoice/' + id;
+                        } else if (res.status == 400) {
+                            toastr.warning(res.message);
+                        } else {
+                            // console.log(res.error);
+                            if (res.message) {
+                                toastr.error(res.error);
+                            }
+                            if (res.error.data_id) {
+                                toastr.error('Something went wrong with your Data ID');
+                            }
+                            if (res.error.account_type) {
+                                showError('.account_type', res.error.account_type);
+                            }
+                            if (res.error.payment_account_id) {
+                                showError('.payment_account_id', res.error.payment_account_id);
+                            }
+                            if (res.error.payment_balance) {
+                                toastr.error('Something went wrong with Payment Amount');
+                            }
+                            if (res.error.purpose) {
+                                toastr.error('Something went wrong with purpose');
+                            }
+                            if (res.error.transaction_type) {
+                                toastr.error('Something went wrong with Transaction Type');
+                            }
+                            if (res.error.subLedger_id) {
+                                toastr.error('Something went wrong with SubLedger Id');
+                            }
+                        }
+                    },
+                    error: function(err) {
+                        toastr.error('An error occurred, Something Went Wrong.');
+                    }
+                });
+            });
         });
     </script>
 

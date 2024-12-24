@@ -69,7 +69,7 @@ class PurchaseController extends Controller
                 'invoice' => $request->invoice ?: $this->generateUniqueInvoice(),
                 'grand_total' => $request->sub_total,
                 'paid' => 0,
-                'due' => 0,
+                'due' => $totalAmount,
                 'carrying_cost' => $request->carrying_cost,
                 'note' => $request->note,
                 'document' => $docName,
@@ -106,7 +106,6 @@ class PurchaseController extends Controller
 
             $supplier->update([
                 'wallet_balance' =>  $supplier->wallet_balance + $totalAmount,
-                'total_receivable' => $supplier->total_receivable + $totalAmount,
             ]);
 
             return response()->json([
