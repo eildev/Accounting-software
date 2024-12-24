@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\EmployeePayroll\Employee;
+use App\Models\LeaveApplication\LeaveType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -67,5 +70,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     } //
+
 
 }

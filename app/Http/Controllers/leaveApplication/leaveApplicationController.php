@@ -21,6 +21,7 @@ class leaveApplicationController extends Controller
     public function store(Request $request ){
         // dd($request->all());
         $validator = Validator::make($request->all(), [
+            'subject' => 'required',
             'employee_name' => 'required|exists:employees,id',
             'leaveType_name' => 'required|exists:leave_types,id',
             'start_date' => 'required',
@@ -73,8 +74,12 @@ class leaveApplicationController extends Controller
     }//end Method
     public function view()
     {
-        $LeaveApplication = LeaveApplication::with(['leaveType','employee','leaveApplicationDetails'])->get();
-
+        if(Auth::user()->employee_id){
+            $LeaveApplication = LeaveApplication::where('employee_id',Auth::user()->employee_id)->with(['leaveType','employee','leaveApplicationDetails'])->get();
+        }
+        else{
+            $LeaveApplication = LeaveApplication::with(['leaveType','employee','leaveApplicationDetails'])->get();
+        }
         return response()->json([
             "status" => 200,
             "data" => $LeaveApplication

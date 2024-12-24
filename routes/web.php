@@ -474,6 +474,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/leave/Type/update/{id}', 'update');
         Route::get('/leave/type/destroy/{id}', 'destroy');
         Route::get('/leave/type/status/{id}', 'status');
+        Route::get('/get-total-leave-data/{leaveTypeId}/{employeeId}','getlimitLeaveData');
     });
     Route::controller(LeaveLimitsController::class)->group(function () {
         Route::get('/leave-limit', 'index')->name('leave.limit');
@@ -499,7 +500,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
         Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
-   
+
 });
 
 require __DIR__ . '/auth.php';

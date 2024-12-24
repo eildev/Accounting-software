@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\leaveApplication;
 
 use App\Http\Controllers\Controller;
+use App\Models\LeaveApplication\LeaveLimits;
 use App\Models\LeaveApplication\LeaveType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -101,4 +102,25 @@ class leaveTypeController extends Controller
             "data" => $leaveTypes
         ]);
     }
+    public function getlimitLeaveData($leaveTypeId, $employeeId)
+    {
+        // dd($leaveTypeId, $employeeId);
+        $leaveLimit = LeaveLimits::with('leaveType')
+            ->where('leave_types_id', $leaveTypeId)
+            ->where('employee_id', $employeeId)
+            ->first();
+                // dd($leaveLimit);
+        if (!$leaveLimit) {
+            return response()->json(['success' => false, 'message' => 'Leave data not found.']);
+        }
+
+        return response()->json([
+            'success' => true,
+            'leaveType' => $leaveLimit->leaveType,
+            'limit' => $leaveLimit->leave_limits,
+            'remaining' => $leaveLimit->remaining,
+        ]);
+    }
+
+
 }//End Main

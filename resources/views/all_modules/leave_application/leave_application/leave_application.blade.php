@@ -58,20 +58,25 @@
                     <form id="signupForm" class="leaveAppliactionForm row">
                         <div class="mb-3 col-md-12">
                             <label for="name" class="form-label">Subject <span class="text-danger">*</span></label>
-                            <input id="defaultconfig" class="form-control leaveApplication" name="subject" type="text"
+                            <input id="defaultconfig" class="form-control subject" name="subject" type="text"
                                 onkeyup="errorRemove(this);" onblur="errorRemove(this);">
-                            <span class="text-danger employee_name_error"></span>
+                            <span class="text-danger subject_error"></span>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Employee Name <span
                                     class="text-danger">*</span></label>
-                                    @php
-                                       $id = Illuminate\Support\Facades\Auth::user()->employee_id;
 
+                                    @php
+                                    $id = Illuminate\Support\Facades\Auth::user()->employee_id;
+                                    $limits = App\Models\LeaveApplication\LeaveLimits::where('employee_id', $id)->get();
+                                    // dd($limits);
                                     @endphp
-                                    @if ($id)
-                                    <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
-                                    @else
+                            @if ($id)
+                            <select class="form-control " name="employee_name" onchange="errorRemove(this);">
+                                <option value="{{ Auth::user()->employee_id }}">{{ Auth::user()->name }}</option>
+                            </select>
+                                {{-- <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly> --}}
+                            @else
                                 <select class="form-control " name="employee_name" onchange="errorRemove(this);">
                                     <option value="" selected disabled>Select Employee</option>
                                     @foreach ($employee as $item)
@@ -81,23 +86,21 @@
                             @endif
                             <span class="text-danger employee_name_error"></span>
                         </div>
+
                         <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">leave Type Name <span
+                            <label for="name" class="form-label">leave Type Name <span id="totalLeave"></span> <span
                                     class="text-danger">*</span></label>
-                            <select class="form-control " name="leaveType_name" onchange="errorRemove(this);">
+                            <select class="form-control " name="leaveType_name"
+                                onchange="fetchTotalLeave(this.value, {{ $id }});errorRemove(this)">
                                 <option value="" selected disabled>Select leave Type</option>
-                                @php
-                                $id = Illuminate\Support\Facades\Auth::user()->employee_id;
-                                $limits =  App\Models\LeaveApplication\LeaveLimits::where('employee_id', $id)->get();
-                                @endphp
-                                @if( $limits )
-                                @foreach ($limits as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                               @endforeach
+                                @if ($limits)
+                                    @foreach ($limits as $limit)
+                                        <option value="{{ $limit->leaveType->id }}">{{ $limit->leaveType->name }}</option>
+                                    @endforeach
                                 @else
-                                @foreach ($LeaveType as $item)
+                                    @foreach ($LeaveType as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
+                                    @endforeach
                                 @endif
                             </select>
                             <span class="text-danger leaveType_error"></span>
@@ -120,8 +123,9 @@
                                 <span class="input-group-text input-group-addon bg-transparent border-primary"
                                     data-toggle><i data-feather="calendar" class="text-primary "></i></span>
                                 <input type="text" name="end_date" id="end_date" onkeyup="errorRemove(this);"
-                                    onblur="errorRemove(this);" class="form-control end_date bg-transparent border-primary"
-                                    placeholder="Select date" data-input>
+                                    onblur="errorRemove(this);"
+                                    class="form-control end_date bg-transparent border-primary" placeholder="Select date"
+                                    data-input>
                             </div>
                             <span class="text-danger end_date_error"></span>
                         </div>
@@ -193,6 +197,9 @@
                             LeaveApplicationView();
                             toastr.success(res.message);
                         } else {
+                            if (res.error.subject) {
+                                showError('.subject', res.error.subject);
+                            }
                             if (res.error.employee_name) {
                                 showError('.employee_name', res.error.employee_name);
                             }
@@ -219,20 +226,20 @@
 
             function LeaveApplicationView() {
                 $.ajax({
-                        url: '/leave/application/view',
-                        method: 'GET',
-                        success: function(res) {
-                            const leaveApplications = res.data;
-                            // console.log(leaveApplications);
-                            $('.showleaveData').empty();
-                            if ($.fn.DataTable.isDataTable('#example')) {
-                                $('#example').DataTable().clear().destroy();
-                            }
-                            // Check if leave Types data is present
-                            if (leaveApplications.length > 0) {
-                                $.each(leaveApplications, function(index, leaveApplication) {
-                                        const tr = document.createElement('tr');
-                                        tr.innerHTML = `
+                    url: '/leave/application/view',
+                    method: 'GET',
+                    success: function(res) {
+                        const leaveApplications = res.data;
+                        // console.log(leaveApplications);
+                        $('.showleaveData').empty();
+                        if ($.fn.DataTable.isDataTable('#example')) {
+                            $('#example').DataTable().clear().destroy();
+                        }
+                        // Check if leave Types data is present
+                        if (leaveApplications.length > 0) {
+                            $.each(leaveApplications, function(index, leaveApplication) {
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
                                             <td>${index + 1}</td>
                                              <td>${leaveApplication.subject ??''}</td>
                                             <td>${leaveApplication.employee?.full_name ?? ""}</td>
@@ -244,23 +251,6 @@
                                         ${
                                             userRole === 'hr'
                                             ? `
-                                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${leaveApplication.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span id="statusBadge${leaveApplication.id}" class="badge text-dark ${
-                                                    leaveApplication.status === 'pending' ? 'bg-warning' :
-                                                    leaveApplication.status === 'approved' ? 'bg-success' :
-                                                    leaveApplication.status === 'canceled' ? 'bg-danger' : 'bg-danger'
-                                                }">
-                                                    ${leaveApplication.status ? leaveApplication.status.charAt(0).toUpperCase() + leaveApplication.status.slice(1) : ''}
-                                                </span>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${leaveApplication.id}">
-                                                <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'pending')">Pending</a>
-                                                <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'approved')">Approved</a>
-                                                <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'canceled')">Cancel</a>
-                                            </div>
-                                            `
-                                            : `
-                                            <div class="dropdown" id="statusChange${leaveApplication.id}">
                                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${leaveApplication.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span id="statusBadge${leaveApplication.id}" class="badge text-dark ${
                                                         leaveApplication.status === 'pending' ? 'bg-warning' :
@@ -275,13 +265,41 @@
                                                     <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'approved')">Approved</a>
                                                     <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'canceled')">Cancel</a>
                                                 </div>
-                                            </div>
-                                            `
+                                                `
+                                                : userRole === 'employee'
+                                                ? `
+                                                    <span id="statusBadge${leaveApplication.id}" class="badge text-dark ${
+                                                        leaveApplication.status === 'pending' ? 'bg-warning' :
+                                                        leaveApplication.status === 'approved' ? 'bg-success' :
+                                                        leaveApplication.status === 'canceled' ? 'bg-danger' : 'bg-danger'
+                                                    }">
+                                                        ${leaveApplication.status ? leaveApplication.status.charAt(0).toUpperCase() + leaveApplication.status.slice(1) : ''}
+                                                    </span>
+                                                `
+                                            : `
+                                                <div class="dropdown" id="statusChange${leaveApplication.id}">
+                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton${leaveApplication.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span id="statusBadge${leaveApplication.id}" class="badge text-dark ${
+                                                            leaveApplication.status === 'pending' ? 'bg-warning' :
+                                                            leaveApplication.status === 'approved' ? 'bg-success' :
+                                                            leaveApplication.status === 'canceled' ? 'bg-danger' : 'bg-danger'
+                                                        }">
+                                                            ${leaveApplication.status ? leaveApplication.status.charAt(0).toUpperCase() + leaveApplication.status.slice(1) : ''}
+                                                        </span>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton${leaveApplication.id}">
+                                                        <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'pending')">Pending</a>
+                                                        <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'approved')">Approved</a>
+                                                        <a class="dropdown-item" href="#" onclick="changeStatusleave(${leaveApplication.id}, 'canceled')">Cancel</a>
+                                                    </div>
+                                                </div>
+                                                `
                                         }
                                     </td>
 
-                               `; $('.showleaveData').append(tr);
-                                });
+                               `;
+                                $('.showleaveData').append(tr);
+                            });
                         } else {
                             $('.showlimitData').html(`
                                     <tr>
@@ -306,46 +324,47 @@
                         });
                     }
                 });
-        }
-        LeaveApplicationView();
-
-
-        ////////////Date Calculate ////
-        function calculateTotalDays() {
-            const startDate = document.querySelector('.start_date').value;
-            const endDate = document.querySelector('.end_date').value;
-            const totalDaysInput = document.querySelector('#total_day');
-
-            if (startDate && endDate) {
-                const start = new Date(startDate);
-                const end = new Date(endDate);
-
-                // Calculate the difference in time
-                const timeDiff = end - start;
-
-                // Convert time difference to days
-                const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
-                // Set the total days
-                totalDaysInput.value = daysDiff >= 0 ? daysDiff + 1 : 0; // Include both start and end dates
-
-                const totalDaysInput2 = document.querySelector('#total_day').value;
-                console.log(totalDaysInput2)
-
-            } else {
-                totalDaysInput.value = ''; // Clear total days if either date is missing
             }
-        }
-        calculateTotalDays()
-        // Add event listeners to trigger calculation
-        document.querySelector('.start_date').addEventListener('change', calculateTotalDays); document
-        .querySelector('.end_date').addEventListener('change', calculateTotalDays);
+            LeaveApplicationView();
+
+
+            ////////////Date Calculate ////
+            function calculateTotalDays() {
+                const startDate = document.querySelector('.start_date').value;
+                const endDate = document.querySelector('.end_date').value;
+                const totalDaysInput = document.querySelector('#total_day');
+
+                if (startDate && endDate) {
+                    const start = new Date(startDate);
+                    const end = new Date(endDate);
+
+                    // Calculate the difference in time
+                    const timeDiff = end - start;
+
+                    // Convert time difference to days
+                    const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+                    // Set the total days
+                    totalDaysInput.value = daysDiff >= 0 ? daysDiff + 1 : 0; // Include both start and end dates
+
+                    const totalDaysInput2 = document.querySelector('#total_day').value;
+                    console.log(totalDaysInput2)
+
+                } else {
+                    totalDaysInput.value = ''; // Clear total days if either date is missing
+                }
+            }
+            calculateTotalDays()
+            // Add event listeners to trigger calculation
+            document.querySelector('.start_date').addEventListener('change', calculateTotalDays);
+            document
+                .querySelector('.end_date').addEventListener('change', calculateTotalDays);
         });
         ///////////////////Status Change ////////////
         function changeStatusleave(id, status) {
-                if ($('#statusBadge' + id).text().trim().toLowerCase() === 'approved') {
-                    toastr.warning("Status cannot be changed as it's already 'Approved'.");
-                    return;
-                }
+            if ($('#statusBadge' + id).text().trim().toLowerCase() === 'approved') {
+                toastr.warning("Status cannot be changed as it's already 'Approved'.");
+                return;
+            }
             $.ajax({
                 url: '/leave-application/update-status', // Adjust with your route URL
                 type: 'POST',
@@ -371,6 +390,32 @@
                     console.error("Error updating status", error);
                 }
             });
+        }
+        ///Show Total Leave
+        function fetchTotalLeave(leaveTypeId, employeeId) {
+
+            if (!leaveTypeId) return;
+
+            fetch(`/get-total-leave-data/${leaveTypeId}/${employeeId}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data);
+                        const leaveDataDiv = document.getElementById('totalLeave');
+                        leaveDataDiv.innerHTML = `
+
+                    <span><strong>Limit:</strong> ${data.limit}</span>
+                `;
+                    } else {
+                        alert(data.message || 'Failed to fetch leave data.');
+                    }
+                })
+                .catch(error => console.error('Error fetching leave data:', error));
         }
     </script>
 @endsection
