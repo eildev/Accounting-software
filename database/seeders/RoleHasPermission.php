@@ -73,6 +73,10 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 115, 'role_id' => 1],['permission_id' => 116, 'role_id' => 1],
             ['permission_id' => 117, 'role_id' => 1],['permission_id' => 118, 'role_id' => 1],
             ['permission_id' => 119, 'role_id' => 1],['permission_id' => 120, 'role_id' => 1],
+            ['permission_id' => 121, 'role_id' => 1],
+            // ['permission_id' => 122, 'role_id' => 1],
+            ['permission_id' => 123, 'role_id' => 1],['permission_id' => 124, 'role_id' => 1],
+            ['permission_id' => 125, 'role_id' => 1],['permission_id' => 126, 'role_id' => 1],
             //Role 2 Admin
             ['permission_id' => 1, 'role_id' => 2], ['permission_id' => 2, 'role_id' => 2],
             ['permission_id' => 3, 'role_id' => 2], ['permission_id' => 4, 'role_id' => 2],
@@ -183,7 +187,8 @@ class RoleHasPermission extends Seeder
             //Role Employee
              ['permission_id' => 70, 'role_id' => 4],
             ['permission_id' => 72, 'role_id' => 4], ['permission_id' => 102, 'role_id' => 4],
-            ['permission_id' => 107, 'role_id' => 4],
+            ['permission_id' => 107, 'role_id' => 4],   ['permission_id' => 121, 'role_id' => 4],
+            ['permission_id' => 122, 'role_id' => 4],['permission_id' => 123, 'role_id' => 4],
             //Role Accountant
             // ['permission_id' => 1, 'role_id' => 5], ['permission_id' => 2, 'role_id' => 5],
             // ['permission_id' => 3, 'role_id' => 5], ['permission_id' => 4, 'role_id' => 5],
@@ -264,7 +269,10 @@ class RoleHasPermission extends Seeder
             ['permission_id' => 66, 'role_id' => 6], ['permission_id' => 67, 'role_id' => 6],
             ['permission_id' => 68, 'role_id' => 6],['permission_id' => 69, 'role_id' => 6],
             ['permission_id' => 120, 'role_id' => 6],['permission_id' => 105, 'role_id' => 6],
-            ['permission_id' => 107, 'role_id' => 6],
+            ['permission_id' => 107, 'role_id' => 6],['permission_id' => 121, 'role_id' => 6],
+            ['permission_id' => 123, 'role_id' => 6],
+            ['permission_id' => 124, 'role_id' => 6],['permission_id' => 125, 'role_id' => 6],
+            ['permission_id' => 126, 'role_id' => 6],
         ];
 
         DB::table('role_has_permissions')->upsert(

@@ -507,6 +507,8 @@
                 </li>
 
             @endif
+            @if (Auth::user()->can('leave.application.menu'))
+            @if (Auth::user()->can('leave.type'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.type') }}"
@@ -516,6 +518,8 @@
                     </a>
                 </li>
             </li>
+            @endif
+            @if (Auth::user()->can('leave.limit'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.limit') }}"
@@ -525,6 +529,8 @@
                     </a>
                 </li>
             </li>
+            @endif
+            @if (Auth::user()->can('leave.application.view'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.application') }}"
@@ -534,6 +540,8 @@
                     </a>
                 </li>
             </li>
+            @endif
+        @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">
                     <a href="{{ route('salary.structure') }}"

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreign('leave_application_id')->references('id')->on('leave_applications');
             $table->unsignedBigInteger('leave_application_id');
-            $table->number('total_day');
+            $table->integer('total_day');
             $table->date('start_date');
             $table->date('end_date');
             $table->text('message')->nullable();
