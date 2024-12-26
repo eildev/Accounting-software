@@ -1,6 +1,5 @@
-@extends('master')
-@section('title', '| Leave Application ')
-@section('admin')
+
+
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
@@ -420,4 +419,3 @@
                 .catch(error => console.error('Error fetching leave data:', error));
         }
     </script>
-@endsection

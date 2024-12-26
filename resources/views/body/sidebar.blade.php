@@ -383,15 +383,15 @@
             @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item nav-category">Expense</li>
                 {{-- <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
-        data-bs-toggle="collapse" href="#expense" role="button" aria-expanded="false"
-        aria-controls="expense">
-        <i class="ms-2 fa-solid fa-coins link-icon"></i>
-        <span class="link-title">Expense</span>
-        <i class="link-arrow" data-feather="chevron-down"></i>
-    </a>
-    <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="expense">
-        <ul class="nav sub-menu"> --}}
+                <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
+                    data-bs-toggle="collapse" href="#expense" role="button" aria-expanded="false"
+                    aria-controls="expense">
+                    <i class="ms-2 fa-solid fa-coins link-icon"></i>
+                    <span class="link-title">Expense</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="expense">
+                    <ul class="nav sub-menu"> --}}
                 <li class="nav-item">
                     <a href="{{ route('expense.view') }}"
                         class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
@@ -403,8 +403,8 @@
                         Expense</a>
                 </li> --}}
                 {{-- </ul>
-    </div>
-</li> --}}
+                </div>
+            </li> --}}
             @endif
             @if (Auth::user()->can('service.sale.menu'))
                 <li class="nav-item nav-category">Income</li>
@@ -457,7 +457,7 @@
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                     <span class="link-title">Payroll Dashboard</span>
                 </a>
-            </li> --}}
+               </li> --}}
                 @if (Auth::user()->can('departments.menu'))
                     <li class="nav-item">
                         <a href="{{ route('departments') }}"
@@ -519,7 +519,7 @@
                 </li>
             </li>
             @endif
-            @if (Auth::user()->can('leave.limit'))
+            {{-- @if (Auth::user()->can('leave.limit'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.limit') }}"
@@ -529,12 +529,12 @@
                     </a>
                 </li>
             </li>
-            @endif
+            @endif --}}
             @if (Auth::user()->can('leave.application.view'))
             <li>
                 <li class="nav-item">
-                    <a href="{{ route('leave.application') }}"
-                        class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
+                    <a href="{{ route('employee') }}"
+                        class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
                         <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                         <span class="link-title">Leave Application</span>
                     </a>
