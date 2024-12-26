@@ -182,7 +182,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaction/view-details/{id}', 'viewDetails');
         Route::get('/check-account-type', 'checkAccountType');
         Route::post('/transaction/balance-transfer', 'balanceTransfer');
-        // Route::get('/transaction/balance-transfer/view', 'balanceTransferView');
     });
 
     // Transaction related route(n)

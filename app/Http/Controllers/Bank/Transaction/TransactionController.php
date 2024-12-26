@@ -17,6 +17,8 @@ use App\Models\EmployeePayroll\SalarySturcture;
 use App\Models\Expense;
 use App\Models\Ledger\LedgerAccounts\LedgerEntries;
 use App\Models\Ledger\SubLedger\SubLedger;
+use App\Models\Purchase;
+use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -350,15 +352,27 @@ class TransactionController extends Controller
                 }
                 $paySlip->save();
             } else if ($request->purpose == "Product Purchase") {
+                $purchase = Purchase::findOrFail($request->data_id);
+                $purchase->update([
+                    'due' => $purchase->grand_total - $request->payment_balance,
+                    'paid' => $request->payment_balance,
+                    'status' => $purchase->grand_total - $request->payment_balance <= 0 ? 'completed' : 'processing',
+                ]);
+
+                $supplier = Supplier::findOrFail($purchase->supplier_id);
+                $supplier->update([
+                    'wallet_balance' => $supplier->wallet_balance - $request->payment_balance
+                ]);
             }
 
             if ($request->purpose == "Product Purchase") {
                 $ledgerEntries = new LedgerEntries;
                 $ledgerEntries->branch_id = Auth::user()->branch_id;
                 $ledgerEntries->transaction_id = $transaction->id;
-                if ($request->purpose == "Product Purchase") {
-                    $ledgerEntries->group_id = 1;
-                    $ledgerEntries->account_id = 8;
+                $ledgerEntries->group_id = 1;
+                $ledgerEntries->account_id = 8;
+                if ($request->subLedger_id) {
+                    $ledgerEntries->sub_ledger_id = $request->subLedger_id;
                 }
                 $ledgerEntries->transaction_type = 'credit';
                 $ledgerEntries->entry_amount = $request->payment_balance;
@@ -370,9 +384,10 @@ class TransactionController extends Controller
                 $newledgerEntries = new LedgerEntries;
                 $newledgerEntries->branch_id = Auth::user()->branch_id;
                 $newledgerEntries->transaction_id = $transaction->id;
-                if ($request->purpose == "Product Purchase") {
-                    $newledgerEntries->group_id = 1;
-                    $newledgerEntries->account_id = ($request->account_type === 'cash') ? 2 : 1;
+                $newledgerEntries->group_id = 1;
+                $newledgerEntries->account_id = ($request->account_type === 'cash') ? 2 : 1;
+                if ($request->subLedger_id) {
+                    $newledgerEntries->sub_ledger_id = $request->subLedger_id;
                 }
                 $newledgerEntries->transaction_type = 'debit';
                 $newledgerEntries->entry_amount = $request->payment_balance;
@@ -409,7 +424,8 @@ class TransactionController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Payment Completed Successfully.'
+                'message' => 'Payment Completed Successfully.',
+                'data' => $request->data_id
             ]);
         } catch (\Exception $e) {
             return response()->json([
