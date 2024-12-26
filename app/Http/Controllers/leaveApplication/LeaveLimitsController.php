@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\LeaveApplication;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmployeePayroll\Employee;
 use App\Models\LeaveApplication\LeaveLimits;
 use App\Models\LeaveApplication\LeaveType;
 use Illuminate\Http\Request;
@@ -112,5 +113,12 @@ class LeaveLimitsController extends Controller
         'leaveTypes' =>  $availableLeaveTypes->values()
     ]);
 }
+
+public function getEmployees()
+{
+    $employees = Employee::latest()->get(['id', 'full_name']);
+    return response()->json($employees);
+}
+
 
 }

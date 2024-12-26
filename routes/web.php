@@ -485,6 +485,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/limit/limit/update/{id}', 'update');
         Route::get('/leave/limit/destroy/{id}', 'destroy');
         Route::get('/get-available-leave-types/{employeeId}', 'getAvailableLeaveTypes');
+        Route::get('/get-employees', 'getEmployees')->name('get.employees');
+
     });
     Route::controller(leaveApplicationController::class)->group(function () {
         Route::get('/leave-application', 'index')->name('leave.application');

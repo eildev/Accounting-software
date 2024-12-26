@@ -351,7 +351,8 @@
                     </li>
                 @endif
             @endif
-            @if (Auth::user()->can('assets.menu'))
+
+              @if (Auth::user()->can('assets.menu'))
                 <li class="nav-item nav-category">Assets</li>
                 @if (Auth::user()->can('asset.managment'))
                     <li class="nav-item">
@@ -362,6 +363,7 @@
                         </a>
                     </li>
                 @endif
+
                 @if (Auth::user()->can('asset.revaluation'))
                     <li class="nav-item">
                         <a href="{{ route('asset.revaluation') }}"
@@ -512,7 +514,7 @@
                 </li>
             </li>
             @endif
-            {{-- @if (Auth::user()->can('leave.limit'))
+            @if (Auth::user()->can('leave.limit'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.limit') }}"
@@ -522,19 +524,19 @@
                     </a>
                 </li>
             </li>
-            @endif --}}
-            @if (Auth::user()->can('leave.application.view'))
+       @endif
+         @if (Auth::user()->can('leave.application.view'))
             <li>
                 <li class="nav-item">
-                    <a href="{{ route('employee') }}"
-                        class="nav-link {{ request()->routeIs('employee') ? 'nav_active' : '' }}">
+                    <a href="{{ route('leave.application') }}"
+                        class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
                         <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                         <span class="link-title">Leave Application</span>
                     </a>
                 </li>
             </li>
             @endif
-        @endif
+          @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">
                     <a href="{{ route('salary.structure') }}"

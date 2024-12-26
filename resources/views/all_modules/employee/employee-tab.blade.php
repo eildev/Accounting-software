@@ -19,15 +19,7 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="example w-100">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                @php
-                    $check = Auth::user()->role ==='employee'
-                @endphp
-                @if( $check)
-                <li class="nav-item">
-                    <a class="nav-link active" id="balance-tab" data-bs-toggle="tab" href="#balance" role="tab"
-                        aria-controls="balance" aria-selected="false">Leave Application</a>
-                </li>
-                @else
+
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
                         aria-controls="home" aria-selected="true">Add Employee</a>
@@ -41,20 +33,12 @@
                     <a class="nav-link" id="balance-tab" data-bs-toggle="tab" href="#balance" role="tab"
                         aria-controls="balance" aria-selected="false">Leave Application</a>
                 </li>
-                @endif
+
 
 
             </ul>
             <div class="tab-content border border-top-0 p-3" id="myTabContent">
-                @if( $check)
-                <div class="tab-pane fade show active" id="balance" role="tabpanel" aria-labelledby="balance-tab">
-                    {{-- <div class="card">
-                        <div class="card-body"> --}}
-                            @include('all_modules.leave_application.leave_application.leave_application')
-                        {{-- </div>
-                    </div> --}}
-                </div>
-                @else
+
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="col-md-12">
                         {{-- <div class="card">
@@ -67,7 +51,7 @@
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     {{-- <div class="card">
                         <div class="card-body"> --}}
-                            @include('all_modules.leave_application.leave_limit.leave_limit')
+                            @include('all_modules.employee.leave_limit.leave_limit')
                         {{-- </div>
                     </div> --}}
                 </div>
@@ -75,11 +59,11 @@
                 <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance-tab">
                     {{-- <div class="card">
                         <div class="card-body"> --}}
-                            @include('all_modules.leave_application.leave_application.leave_application')
+                            {{-- @include('all_modules.leave_application.leave_application.leave_application') --}}
                         {{-- </div>
                     </div> --}}
                 </div>
-                @endif
+
             </div>
         </div>
     </div>
@@ -103,7 +87,7 @@ document.getElementById("employeeValidForm").addEventListener("submit", function
         if (data.success) {
             // Show success message
             toastr.success(data.message);
-
+            fetchEmployees();
             // Activate the 'Add Leave Limits' tab
             const profileTab = document.getElementById("profile-tab");
             const homeTab = document.getElementById("home-tab");
