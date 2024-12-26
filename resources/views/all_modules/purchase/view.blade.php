@@ -130,7 +130,7 @@
                                 </tr>
                             </thead>
                             <tbody id="showData">
-                                @include('pos.purchase.table')
+                                @include('all_modules.purchase.table')
                             </tbody>
                         </table>
                     </div>

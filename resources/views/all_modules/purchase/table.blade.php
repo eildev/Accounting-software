@@ -6,11 +6,11 @@
                 <a href="{{ route('purchase.invoice', $data->id) }}">#{{ $data->invoice ?? $data->id }}</a>
             </td>
             <td>
-                <a href="{{ route('supplier.profile', $data->supplier->id) }}">
+                <a href="#">
                     {{ $data->supplier->name ?? '' }}
                 </a>
             </td>
-            <td>{{ $data->purchse_date ?? 0 }}</td>
+            <td>{{ $data->purchase_date ?? 0 }}</td>
             <td>
                 @php
                     $totalItems = $data->purchaseItem->count();
@@ -21,7 +21,7 @@
                     @foreach ($displayItems as $items)
                         <li>
                             <a
-                                href="{{ route('product.ledger', $items->product->id) }}">{{ $items->product->name ?? '' }}</a>
+                                href="#">{{ $items->product->name ?? '' }}</a>
                         </li>
                     @endforeach
 

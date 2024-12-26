@@ -360,9 +360,15 @@ class TransactionController extends Controller
                 ]);
 
                 $supplier = Supplier::findOrFail($purchase->supplier_id);
-                $supplier->update([
-                    'wallet_balance' => $supplier->wallet_balance - $request->payment_balance
-                ]);
+                if ($purchase->carrying_cost > 0) {
+                    $supplier->update([
+                        'wallet_balance' => $supplier->wallet_balance - $request->payment_balance - $purchase->carrying_cost
+                    ]);
+                } else {
+                    $supplier->update([
+                        'wallet_balance' => $supplier->wallet_balance - $request->payment_balance
+                    ]);
+                }
             }
 
             if ($request->purpose == "Product Purchase") {

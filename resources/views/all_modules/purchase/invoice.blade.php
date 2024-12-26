@@ -67,8 +67,7 @@
                                             <tr class="text-end">
                                                 <td class="text-start">{{ $index + 1 }}</td>
                                                 <td class="text-start">
-                                                    <a
-                                                        href="{{ route('product.ledger', $product->product->id) }}">{{ $product->product->name ?? '' }}</a>
+                                                    <a href="#">{{ $product->product->name ?? '' }}</a>
                                                 </td>
                                                 <td>{{ $product->quantity }}</td>
                                                 <td>{{ number_format($product->unit_price, 2) }}</td>
@@ -106,13 +105,6 @@
                                                 <td>Sub Total</td>
                                                 <td class="text-end">৳ {{ number_format($purchase->total_amount, 2) }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Previous Due</td>
-                                                <td class="text-end">৳
-                                                    {{ number_format(max(0, $purchase->grand_total - $purchase->total_amount), 2) }}
-                                                </td>
-                                            </tr>
-
                                             @if ($purchase->carrying_cost > 0)
                                                 <tr>
                                                     <td>Carrying Cost</td>
@@ -124,23 +116,22 @@
                                             <tr>
                                                 <td class="text-bold-800">Grand Total</td>
                                                 <td class="text-bold-800 text-end">৳
-                                                    {{ number_format($purchase->grand_total + $purchase->carrying_cost, 2) }}
+                                                    {{ number_format($purchase->grand_total, 2) }}
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <td>Payment Made</td>
-                                                <td
-                                                    class="text-end {{ $purchase->grand_total <= $purchase->paid ? 'text-success' : 'text-danger' }}">
+                                                <td class="text-end text-success">
                                                     {{ $purchase->grand_total <= $purchase->paid ? '৳' : '(-) ৳' }}
-                                                    {{ number_format($purchase->paid + ($purchase->carrying_cost > 0 ? $purchase->carrying_cost : 0), 2) }}
+                                                    {{ number_format($purchase->paid, 2) }}
                                                 </td>
                                             </tr>
 
                                             @if ($purchase->due != 0)
-                                                <tr class="bg-dark">
+                                                <tr class="">
                                                     <td class="text-bold-800">Balance Due</td>
-                                                    <td class="text-bold-800 text-end">৳
+                                                    <td class="text-bold-800 text-end text-danger">৳
                                                         {{ number_format($purchase->due, 2) }}</td>
                                                 </tr>
                                             @endif

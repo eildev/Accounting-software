@@ -203,14 +203,7 @@
                 </li>
             @endif
 
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('purchase') ? 'nav_active' : '' }}"
-                    href="{{ route('purchase') }}" role="button" aria-controls="general-pages">
-                    <i class="ms-2 fa-solid fa-handshake link-icon"></i>
-                    <span class="link-title">Purchase</span>
-                </a>
-            </li>
-            {{-- @if (Auth::user()->can('purchase.menu'))
+            @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
                         data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
@@ -238,7 +231,7 @@
                         </ul>
                     </div>
                 </li>
-            @endif --}}
+            @endif
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('customer.view') ? 'nav_active' : '' }}"
