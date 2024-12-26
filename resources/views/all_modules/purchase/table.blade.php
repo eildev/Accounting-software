@@ -6,7 +6,7 @@
                 <a href="{{ route('purchase.invoice', $data->id) }}">#{{ $data->invoice ?? $data->id }}</a>
             </td>
             <td>
-                <a href="#">
+                <a href="{{ route('supplier.profile', $data->id) }}">
                     {{ $data->supplier->name ?? '' }}
                 </a>
             </td>
@@ -20,8 +20,7 @@
                 <ul>
                     @foreach ($displayItems as $items)
                         <li>
-                            <a
-                                href="#">{{ $items->product->name ?? '' }}</a>
+                            <a href="#">{{ $items->product->name ?? '' }}</a>
                         </li>
                     @endforeach
 
