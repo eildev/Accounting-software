@@ -111,4 +111,7 @@ class leaveApplicationController extends Controller
             'status' => $LeaveApplication->status,
         ]);
     }//Method End
+    public function leaveManage(){
+        return view('all_modules.leave_application.leave-manage.leave-manage-tab');
+    }
 }

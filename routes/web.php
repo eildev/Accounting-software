@@ -497,6 +497,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/application/limit/update/{id}', 'update');
         Route::get('/leave/application/destroy/{id}', 'destroy');
         Route::post('/leave-application/update-status', 'leaveStatusUpdate');
+        Route::get('/leave-manage', 'leaveManage')->name('leave.manage');
     });
 
     Route::controller(AssetDashboardController::class)->group(function () {

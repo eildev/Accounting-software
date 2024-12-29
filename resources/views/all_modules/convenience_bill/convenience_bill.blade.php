@@ -111,13 +111,16 @@
                                     <strong>Department:</strong>
                                 </div>
                                 <div class="col-md-4">
-                                    <select class="form-control js-example-basic-single" name="department"
-                                        id="department-select">
-                                        <option value="" selected disabled>Select Departments</option>
-                                        @foreach ($departments as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                        @endforeach
-                                    </select>
+
+                                <select class="form-control js-example-basic-single" name="department"
+                                    id="department-select">
+                                    <option value="" selected disabled>Select Departments</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                    @endforeach
+                                </select>
+
+
                                 </div>
                             </div>
                             <p>
@@ -126,13 +129,30 @@
                                     <strong>Name:</strong>
                                 </div>
                                 <div class="col-md-4">
+                                    {{-- @if (Auth::user()->role ==='employee')
                                     <select class="form-control js-example-basic-single  employee-selectid" name="empoyee"
-                                        id="employee-select">
-                                        <option selected disabled>Select Name</option>
+                                    id="employee-select">
+                                    <option selected disabled>Select Name</option>
                                         @foreach ($employees as $employee)
-                                            <option value="{{ $employee->id }}">{{ $employee->full_name }}</option>
-                                        @endforeach
+                                         <option value="{{ $employee->id }}"
+                                            @if ($employee->id === Auth::user()->employee_id) selected @endif>
+                                            {{ $employee->full_name }}
+                                        </option>
+                                       @endforeach
                                     </select>
+
+                                    @else --}}
+                                    <select class="form-control js-example-basic-single  employee-selectid" name="empoyee"
+                                    id="employee-select">
+                                    <option selected disabled>Select Name</option>
+                                        @foreach ($employees as $employee)
+
+                                        <option value="{{ $employee->id }}">{{ $employee->full_name }}</option>
+                                       @endforeach
+                                    </select>
+                                    {{-- @endif --}}
+
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="ms-5">
