@@ -106,23 +106,7 @@
                 @endif
             @endif
 
-            {{-- @if (Auth::user()->can('pos.menu'))
-                <li class="nav-item">
-                    <a href="{{ route('sale') }}" class="nav-link {{ request()->routeIs('sale') ? 'nav_active' : '' }}">
-                        <i class="ms-2 link-icon" data-feather="shopping-cart"></i>
-                        <span class="link-title">POS</span>
-                    </a>
-                </li>
-            @endif
-            @if (Auth::user()->can('pos-manage.menu'))
-                <li class="nav-item">
-                    <a href="{{ route('sale.view') }}"
-                        class="nav-link {{ request()->routeIs('sale.view') ? 'nav_active' : '' }}">
-                        <i class="ms-2 link-icon" data-feather="shopping-bag"></i>
-                        <span class="link-title">POS Manage</span>
-                    </a>
-                </li>
-            @endif --}}
+
             @if (Auth::user()->can('products.menu'))
                 <li class="nav-item nav-category">Store Management</li>
 
@@ -206,13 +190,13 @@
             @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
-                        data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
-                        aria-controls="uiComponen">
+                        data-bs-toggle="collapse" href="#purchase" role="button" aria-expanded="false"
+                        aria-controls="purchase">
                         <i class="ms-2 fa-solid fa-cart-arrow-down link-icon"></i>
                         <span class="link-title">Purchase</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
-                    <div class="collapse {{ request()->routeIs('purchase*') ? 'show' : '' }}" id="uiComponen">
+                    <div class="collapse {{ request()->routeIs('purchase*') ? 'show' : '' }}" id="purchase">
                         <ul class="nav sub-menu">
                             @if (Auth::user()->can('purchase.add'))
                                 <li class="nav-item">
@@ -232,6 +216,32 @@
                     </div>
                 </li>
             @endif
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('sale*') ? '' : 'collapsed' }}" data-bs-toggle="collapse"
+                    href="#sale" role="button" aria-expanded="false" aria-controls="sale">
+                    <i class="ms-2 fa-solid fa-cart-arrow-down link-icon"></i>
+                    <span class="link-title">Product Sale</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('sale*') ? 'show' : '' }}" id="sale">
+                    <ul class="nav sub-menu">
+                        @if (Auth::user()->can('pos.menu'))
+                            <li class="nav-item">
+                                <a href="{{ route('sale') }}"
+                                    class="nav-link {{ request()->routeIs('sale') ? 'nav_active' : '' }}">Sale</a>
+                            </li>
+                        @endif
+                        @if (Auth::user()->can('pos-manage.menu'))
+                            <li class="nav-item">
+                                <a href="{{ route('sale.view') }}"
+                                    class="nav-link {{ request()->routeIs('sale.view') ? 'nav_active' : '' }}">Sale
+                                    Manage</a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
+
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('customer.view') ? 'nav_active' : '' }}"
@@ -352,7 +362,7 @@
                 @endif
             @endif
 
-              @if (Auth::user()->can('assets.menu'))
+            @if (Auth::user()->can('assets.menu'))
                 <li class="nav-item nav-category">Assets</li>
                 @if (Auth::user()->can('asset.managment'))
                     <li class="nav-item">
@@ -503,40 +513,40 @@
 
             @endif
             @if (Auth::user()->can('leave.application.menu'))
-            @if (Auth::user()->can('leave.type'))
-            <li>
-                <li class="nav-item">
-                    <a href="{{ route('leave.type') }}"
-                        class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Leave Type</span>
-                    </a>
-                </li>
-            </li>
+                @if (Auth::user()->can('leave.type'))
+                    <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.type') }}"
+                            class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Type</span>
+                        </a>
+                    </li>
+                    </li>
+                @endif
+                @if (Auth::user()->can('leave.limit'))
+                    <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.limit') }}"
+                            class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Limits</span>
+                        </a>
+                    </li>
+                    </li>
+                @endif
+                @if (Auth::user()->can('leave.application.view'))
+                    <li>
+                    <li class="nav-item">
+                        <a href="{{ route('leave.application') }}"
+                            class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Leave Application</span>
+                        </a>
+                    </li>
+                    </li>
+                @endif
             @endif
-            @if (Auth::user()->can('leave.limit'))
-            <li>
-                <li class="nav-item">
-                    <a href="{{ route('leave.limit') }}"
-                        class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Leave Limits</span>
-                    </a>
-                </li>
-            </li>
-       @endif
-         @if (Auth::user()->can('leave.application.view'))
-            <li>
-                <li class="nav-item">
-                    <a href="{{ route('leave.application') }}"
-                        class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Leave Application</span>
-                    </a>
-                </li>
-            </li>
-            @endif
-          @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">
                     <a href="{{ route('salary.structure') }}"
@@ -812,7 +822,8 @@
                             <span class="link-title">Setting Manage</span>
                             <i class="link-arrow" data-feather="chevron-down"></i>
                         </a>
-                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}" id="setting-manage">
+                        <div class="collapse {{ request()->routeIs('setting*') ? 'show' : '' }}"
+                            id="setting-manage">
                             <ul class="nav sub-menu">
                                 <li class="nav-item">
                                     <a href="{{ route('pos.settings.add') }}"

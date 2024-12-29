@@ -16,18 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('sale_id')->unsigned();
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
             $table->integer('product_id');
-            $table->decimal('rate', 10, 2);
+            $table->decimal('price', 10, 2);
             $table->integer('discount')->nullable();
-            $table->enum('wa_status', ['yes', 'no'])->nullable();
-            $table->string('wa_duration')->nullable();
-            $table->date('wa_exp_date')->nullable();
-            $table->integer('main_unit_qty')->nullable();
-            $table->integer('sub_unit_qty')->nullable();
-            $table->integer('qty');
+            $table->integer('quantity');
             $table->decimal('sub_total', 12, 2);
-            $table->decimal('total_purchase_cost', 12, 2)->nullable();
-            $table->decimal('total_profit', 12, 2)->nullable();
-            $table->enum('sell_type', ['via sell', 'normal sell']);
+            $table->decimal('purchase_cost', 12, 2)->nullable();
+            $table->decimal('profit', 12, 2)->nullable();
             $table->timestamps();
         });
     }

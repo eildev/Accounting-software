@@ -42,6 +42,8 @@ use App\Http\Controllers\SaleDashboard\SaleDashboardController;
 use App\Http\Controllers\leaveApplication\leaveTypeController;
 use App\Http\Controllers\LeaveApplication\LeaveLimitsController;
 use App\Http\Controllers\leaveApplication\leaveApplicationController;
+use App\Http\Controllers\SaleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -230,6 +232,33 @@ Route::middleware('auth')->group(function () {
         Route::get('/purchase/money-receipt/{id}', 'moneyReceipt')->name('purchase.money.receipt');
         Route::get('/purchase/image/{id}', 'imageToPdf')->name('purchase.image');
         Route::get('/purchase/filter', 'filter')->name('purchase.filter');
+    });
+
+    // sale related routes
+    Route::controller(SaleController::class)->group(function () {
+        Route::get('/sale', 'index')->name('sale');
+        Route::post('/sale/store', 'store')->name('sale.store');
+        Route::get('/sale/view', 'view')->name('sale.view');
+        Route::get('/sale/view-all', 'viewAll')->name('sale.view.all');
+        Route::get('/sale/view/{id}', 'viewDetails')->name('sale.view.details');
+        Route::get('/sale/edit/{id}', 'edit')->name('sale.edit');
+        Route::post('/sale/update/{id}', 'update')->name('sale.update');
+        Route::get('/sale/destroy/{id}', 'destroy')->name('sale.destroy');
+        Route::get('/get/customer', 'getCustomer')->name('get.customer');
+        Route::post('/add/customer', 'addCustomer')->name('add.customer');
+        Route::get('/sale/invoice/{id}', 'invoice')->name('sale.invoice');
+        Route::get('/sale/print/{id}', 'print')->name('sale.print');
+        Route::get('/sale/filter', 'filter')->name('sale.filter');
+        Route::get('/sale/find/{id}', 'find')->name('sale.find');
+        Route::get('/product/find-qty/{id}', 'findQty')->name('product.find.qty');
+        Route::post('/sale/transaction/{id}', 'saleTransaction')->name('sale.transaction');
+        Route::get('/sale/customer/{id}', 'saleCustomer')->name('sale.customer');
+        Route::get('/sale/customer/due/{id}', 'saleCustomerDue')->name('sale.customer.due');
+        Route::get('/sale/promotions/{id}', 'salePromotions')->name('sale.promotions');
+        Route::get('/product/barcode/find/{id}', 'findProductWithBarcode')->name('product.barcode.find');
+        Route::get('/sale/product/find/{id}', 'saleProductFind')->name('sale.product.find');
+        Route::get('/product/view/sale', 'saleViewProduct');
+        Route::post('/via/product/add', 'saleViaProductAdd');
     });
 
     // Departments related route(n)
@@ -486,7 +515,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/leave/limit/destroy/{id}', 'destroy');
         Route::get('/get-available-leave-types/{employeeId}', 'getAvailableLeaveTypes');
         Route::get('/get-employees', 'getEmployees')->name('get.employees');
-
     });
     Route::controller(leaveApplicationController::class)->group(function () {
         Route::get('/leave-application', 'index')->name('leave.application');

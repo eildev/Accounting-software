@@ -29,8 +29,7 @@ class SaleController extends Controller
 {
     public function index()
     {
-        // $withoutPurchase = Product::whereDoesntHave('purchaseItems')->get();
-        return view('pos.sale.sale');
+        return view('all_modules.product-sale.sale');
     }
     public function getCustomer()
     {
@@ -756,15 +755,23 @@ class SaleController extends Controller
     public function saleViewProduct()
     {
         if (Auth::user()->id == 1) {
-            $products = Product::all();
+            $products = Product::with('stockQuantity')
+                ->whereHas('stockQuantity') // Ensures stockQuantity exists
+                ->latest()
+                ->get();
         } else {
-            $products = Product::where('branch_id', Auth::user()->branch_id)->latest()->get();
+            $products = Product::where('branch_id', Auth::user()->branch_id)
+                ->with('stockQuantity')
+                ->whereHas('stockQuantity') // Ensures stockQuantity exists
+                ->latest()
+                ->get();
         }
         return response()->json([
             'status' => '200',
             'products' => $products
         ]);
     }
+
     public function saleViaProductAdd(Request $request)
     {
         // dd($request->all());
