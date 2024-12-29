@@ -513,99 +513,59 @@
 
             @endif
             @if (Auth::user()->can('leave.application.menu'))
-<<<<<<< HEAD
-                @if (Auth::user()->can('leave.type'))
-                    <li>
-                    <li class="nav-item">
-                        <a href="{{ route('leave.type') }}"
-                            class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
-                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                            <span class="link-title">Leave Type</span>
-                        </a>
-                    </li>
-                    </li>
-                @endif
-                @if (Auth::user()->can('leave.limit'))
-                    <li>
-                    <li class="nav-item">
-                        <a href="{{ route('leave.limit') }}"
-                            class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
-                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                            <span class="link-title">Leave Limits</span>
-                        </a>
-                    </li>
-                    </li>
-                @endif
-                @if (Auth::user()->can('leave.application.view'))
-                    <li>
-                    <li class="nav-item">
-                        <a href="{{ route('leave.application') }}"
-                            class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
-                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                            <span class="link-title">Leave Application</span>
-                        </a>
-                    </li>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('leave.application*') ? '' : 'collapsed' }}"
+                        data-bs-toggle="collapse" href="#leave-manage" role="button" aria-expanded="false"
+                        aria-controls="emails">
+                        <i class="ms-2 fa-solid fa-users-gear link-icon"></i>
+                        <span class="link-title">Leave Manage</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('leave.application*') ? 'show' : '' }}"
+                        id="leave-manage">
+                        <ul class="nav sub-menu">
+                            @if (Auth::user()->can('leave.application.view'))
+                                <li class="nav-item">
+                                    <a href="{{ route('leave.application') }}"
+                                        class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
+                                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                        <span class="link-title">Leave Application</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->can('leave.type'))
+                                <li class="nav-item">
+                                    <a href="{{ route('leave.type') }}"
+                                        class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
+                                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                        <span class="link-title">Leave Type</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->can('leave.limit'))
+                                <li class="nav-item">
+                                    <a href="{{ route('leave.limit') }}"
+                                        class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
+                                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                        <span class="link-title">Leave Limits</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->can('salary.sheet.menu'))
+                                @if (Auth::user()->can('salary.sheet2'))
+                                    <li class="nav-item">
+                                        <a href="{{ route('salary.sheet') }}"
+                                            class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
+                                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                                            <span class="link-title">Salary Sheet</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endif
+                        </ul>
+                    </div>
+                </li>
             @endif
-=======
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('leave.application*') ? '' : 'collapsed' }}"
-                    data-bs-toggle="collapse" href="#leave-manage" role="button" aria-expanded="false"
-                    aria-controls="emails">
-                    <i class="ms-2 fa-solid fa-users-gear link-icon"></i>
-                    <span class="link-title">Leave Manage</span>
-                    <i class="link-arrow" data-feather="chevron-down"></i>
-                </a>
-                <div class="collapse {{ request()->routeIs('leave.application*') ? 'show' : '' }}" id="leave-manage">
-                    <ul class="nav sub-menu">
-                        @if (Auth::user()->can('leave.application.view'))
-                        <li>
-                            <li class="nav-item">
-                                <a href="{{ route('leave.application') }}"
-                                    class="nav-link {{ request()->routeIs('leave.application') ? 'nav_active' : '' }}">
-                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                    <span class="link-title">Leave Application</span>
-                                </a>
-                            </li>
-                        </li>
-                        @endif
-                        @if (Auth::user()->can('leave.type'))
-                        <li>
-                            <li class="nav-item">
-                                <a href="{{ route('leave.type') }}"
-                                    class="nav-link {{ request()->routeIs('leave.type') ? 'nav_active' : '' }}">
-                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                    <span class="link-title">Leave Type</span>
-                                </a>
-                            </li>
-                        </li>
-                        @endif
-                        @if (Auth::user()->can('leave.limit'))
-                        <li>
-                            <li class="nav-item">
-                                <a href="{{ route('leave.limit') }}"
-                                    class="nav-link {{ request()->routeIs('leave.limit') ? 'nav_active' : '' }}">
-                                    <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                                    <span class="link-title">Leave Limits</span>
-                                </a>
-                            </li>
-                        </li>
-                @endif
-                @if (Auth::user()->can('salary.sheet.menu'))
-                @if (Auth::user()->can('salary.sheet2'))
-                    <li class="nav-item">
-                        <a href="{{ route('salary.sheet') }}"
-                            class="nav-link {{ request()->routeIs('salary.sheet') ? 'nav_active' : '' }}">
-                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                            <span class="link-title">Salary Sheet</span>
-                        </a>
-                    </li>
-                @endif
-            @endif
-                    </ul>
-                </div>
-            </li>
             {{-- @if (Auth::user()->can('leave.type'))
             <li>
                 <li class="nav-item">
@@ -628,7 +588,7 @@
                 </li>
             </li>
        @endif --}}
-         {{-- @if (Auth::user()->can('leave.application.view'))
+            {{-- @if (Auth::user()->can('leave.application.view'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.application') }}"
@@ -638,28 +598,27 @@
                     </a>
                 </li>
             </li>
-            @endif --}}
-          @endif
->>>>>>> 4c3cb4d41693f4feeb88177b1b0298bebe1792aa
-            @if (Auth::user()->can('salary.structure.menu'))
-                <li class="nav-item">
-                    <a href="{{ route('salary.structure') }}"
-                        class="nav-link {{ request()->routeIs('salary.structure') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Salary Structure</span>
-                    </a>
-                </li>
-            @endif
-            @if (Auth::user()->can('employee.bonuses.menu'))
-                <li class="nav-item">
-                    <a href="{{ route('employee.bonus') }}"
-                        class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
-                        <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                        <span class="link-title">Employee Bonuses</span>
-                    </a>
-                </li>
-            @endif
-            {{-- @if (Auth::user()->can('salary.sheet.menu'))
+         
+
+                @if (Auth::user()->can('salary.structure.menu'))
+                    <li class="nav-item">
+                        <a href="{{ route('salary.structure') }}"
+                            class="nav-link {{ request()->routeIs('salary.structure') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Salary Structure</span>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->can('employee.bonuses.menu'))
+                    <li class="nav-item">
+                        <a href="{{ route('employee.bonus') }}"
+                            class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Employee Bonuses</span>
+                        </a>
+                    </li>
+                @endif
+                {{-- @if (Auth::user()->can('salary.sheet.menu'))
                 @if (Auth::user()->can('salary.sheet2'))
                     <li class="nav-item">
                         <a href="{{ route('salary.sheet') }}"
