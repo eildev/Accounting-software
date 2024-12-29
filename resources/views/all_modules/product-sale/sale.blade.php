@@ -410,7 +410,7 @@
                                     discountCheck == 0 ?
                                          `<span class="mt-2">00</span>`
                                     : `<input type="number" product-id="${product.id}" class="form-control product_discount${product.id} discountProduct" name="product_discount"  value="" /> 
-                                        <input type="hidden" product-id="${product.id}" class="form-control produt_cost${product.id} productCost" name="produt_cost"  value="${product.cost}" />`
+                                                                            <input type="hidden" product-id="${product.id}" class="form-control produt_cost${product.id} productCost" name="produt_cost"  value="${product.cost}" />`
                                 }
                             </td>
                             <td>
@@ -436,32 +436,10 @@
                     let productSubtotal = $('.product_subtotal' + productId);
                     let subtotal = quantity * price;
 
-                    // Apply discount if available
-                    $.ajax({
-                        url: '/product/find/' + productId,
-                        type: 'GET',
-                        dataType: 'JSON',
-                        success: function(res) {
-                            const promotion = res.promotion;
-                            if (promotion) {
-                                if (promotion.discount_type == 'percentage') {
-                                    let discountPercentage = promotion.discount_value;
-                                    subtotal = subtotal - (subtotal * discountPercentage / 100);
-
-                                } else {
-                                    let discountAmount = promotion.discount_value;
-                                    subtotal = subtotal - discountAmount;
-                                }
-                            }
-                            productSubtotal.val(subtotal.toFixed(2));
-                            calculateProductTotal();
-                            calculateCustomerDue();
-                        }
-                    });
+                    productSubtotal.val(subtotal.toFixed(2));
+                    calculateProductTotal();
                 });
             }
-
-
 
             // when product price is Edit
             $(document).on('change', '.unit_price', function() {
@@ -492,17 +470,17 @@
                                     if (result.isConfirmed) {
                                         productSubtotal.val(total);
                                         calculateProductTotal();
-                                        calculateCustomerDue();
+                                        // calculateCustomerDue();
                                     } else {
                                         productSubtotal.val(total);
                                         calculateProductTotal();
-                                        calculateCustomerDue();
+                                        // calculateCustomerDue();
                                     }
                                 })
                             } else {
                                 productSubtotal.val(total);
                                 calculateProductTotal();
-                                calculateCustomerDue();
+                                // calculateCustomerDue();
                             }
                         }
 
@@ -538,7 +516,7 @@
                         if (result.isConfirmed) {
                             $('.product_subtotal' + product_id).val(subTotal);
                             calculateProductTotal();
-                            calculateCustomerDue();
+                            // calculateCustomerDue();
                         } else {
                             $(this).val('');
                             $('.product_subtotal' + product_id).val(product_price);
@@ -547,7 +525,7 @@
                 } else {
                     $('.product_subtotal' + product_id).val(subTotal);
                     calculateProductTotal();
-                    calculateCustomerDue();
+                    // calculateCustomerDue();
                 }
             });
 
@@ -591,7 +569,7 @@
                             const promotion = res.promotion;
                             showAddProduct(product, 1, promotion);
                             updateGrandTotal();
-                            calculateCustomerDue();
+                            // calculateCustomerDue();
                             $('.barcode_input').val('');
                         } else {
                             toastr.warning(res.error);
@@ -616,7 +594,7 @@
                                 const promotion = res.promotion;
                                 showAddProduct(product, 1, promotion);
                                 updateGrandTotal();
-                                calculateCustomerDue();
+                                // calculateCustomerDue();
                             }
                         });
                     }
@@ -633,39 +611,39 @@
                 dataRow.remove();
                 updateGrandTotal();
                 updateTotalQuantity();
-                calculateCustomerDue();
+                // calculateCustomerDue();
             });
 
             // Customer Due Calculation
-            function calculateCustomerDue() {
-                let id = $('.select-customer').val();
-                $.ajax({
-                    url: `/sale/customer/due/${id}`,
-                    type: 'GET',
-                    dataType: 'JSON',
-                    success: function(res) {
-                        // console.log(res)
-                        const customer = res.customer;
-                        const grand_total = parseFloat($('.grand_total').val());
-                        // const grandTotal = $('.grandTotal').val();
-                        const customerDue = parseFloat(customer.wallet_balance);
-                        // console.log(customer.wallet_balance);
+            // function calculateCustomerDue() {
+            //     let id = $('.select-customer').val();
+            //     $.ajax({
+            //         url: `/sale/customer/due/${id}`,
+            //         type: 'GET',
+            //         dataType: 'JSON',
+            //         success: function(res) {
+            //             // console.log(res)
+            //             const customer = res.customer;
+            //             const grand_total = parseFloat($('.grand_total').val());
+            //             // const grandTotal = $('.grandTotal').val();
+            //             const customerDue = parseFloat(customer.wallet_balance);
+            //             // console.log(customer.wallet_balance);
 
-                        if (customerDue > 0) {
-                            // console.log(`customerDue > 0 : ${customer.wallet_balance}`);
-                            $('.previous_due').val(customerDue);
-                            let amount = grand_total + (customerDue);
-                            $('.grandTotal').val(amount);
-                        } else {
-                            // console.log(customer.wallet_balance);
-                            $('.grandTotal').val(grand_total);
-                            $('.previous_due').val(0);
-                        }
-                    }
-                })
+            //             if (customerDue > 0) {
+            //                 // console.log(`customerDue > 0 : ${customer.wallet_balance}`);
+            //                 $('.previous_due').val(customerDue);
+            //                 let amount = grand_total + (customerDue);
+            //                 $('.grandTotal').val(amount);
+            //             } else {
+            //                 // console.log(customer.wallet_balance);
+            //                 $('.grandTotal').val(grand_total);
+            //                 $('.previous_due').val(0);
+            //             }
+            //         }
+            //     })
 
-            }
-            calculateCustomerDue();
+            // }
+            // calculateCustomerDue();
 
 
             // handson discount calculation
@@ -686,7 +664,7 @@
                 } else {
                     $('.grand_total').val(grandTotalAmount);
                     $('.grandTotal').val(grandTotalAmount);
-                    calculateCustomerDue();
+                    // calculateCustomerDue();
                 }
             })
 
@@ -711,13 +689,13 @@
                             let productPrice = res.product.price;
                             if (quantity > stock) {
                                 updateGrandTotal();
-                                calculateCustomerDue();
+                                // calculateCustomerDue();
                                 toastr.success(
                                     `Your Product Quantity is ${stock}. You are selling additional products through Via Sell`
                                 )
                             } else {
                                 updateGrandTotal();
-                                calculateCustomerDue();
+                                // calculateCustomerDue();
                             }
                         }
                     })
@@ -727,7 +705,7 @@
 
             // Customer Due
             $(document).on('change', '.select-customer', function() {
-                calculateCustomerDue();
+                // calculateCustomerDue();
             })
 
             // total_payable
