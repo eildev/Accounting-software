@@ -598,17 +598,9 @@
                     </a>
                 </li>
             </li>
-         
 
-                @if (Auth::user()->can('salary.structure.menu'))
-                    <li class="nav-item">
-                        <a href="{{ route('salary.structure') }}"
-                            class="nav-link {{ request()->routeIs('salary.structure') ? 'nav_active' : '' }}">
-                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                            <span class="link-title">Salary Structure</span>
-                        </a>
-                    </li>
-                @endif
+
+
                 @if (Auth::user()->can('employee.bonuses.menu'))
                     <li class="nav-item">
                         <a href="{{ route('employee.bonus') }}"
@@ -629,6 +621,15 @@
                     </li>
                 @endif
             @endif --}}
+            @if (Auth::user()->can('salary.structure.menu'))
+                    <li class="nav-item">
+                        <a href="{{ route('salary.structure') }}"
+                            class="nav-link {{ request()->routeIs('salary.structure') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Salary Structure</span>
+                        </a>
+                    </li>
+                @endif
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item nav-category">CRM</li>
                 <li class="nav-item">
