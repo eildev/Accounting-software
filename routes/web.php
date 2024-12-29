@@ -327,6 +327,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/manage/delete/{id}', 'AdminManageDelete')->name('admin.manage.delete');
         Route::post('/admin/manage/update/{id}', 'AdminManageUpdate')->name('update.admin.manage');
         Route::get('/get-employee-data/{id}', 'EmployeedData');
+        Route::get('/get-employees-admin', 'getEmployeesAdmin')->name('get.employees.admin');
     });
 
     // Ledger related route

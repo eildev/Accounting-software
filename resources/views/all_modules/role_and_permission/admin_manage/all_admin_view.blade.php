@@ -50,12 +50,12 @@
                                                         <i data-feather="edit"></i>
                                                     </a>
                                                 @endif
-                                                @if (Auth::user()->can('admin-manage.delete'))
+                                                {{-- @if (Auth::user()->can('admin-manage.delete'))
                                                     <a href="{{ route('admin.manage.delete', $data->id) }}" id="delete"
                                                         class="btn btn-sm btn-danger btn-icon" title="Delete">
                                                         <i data-feather="trash-2"></i>
                                                     </a>
-                                                @endif
+                                                @endif --}}
                                             </td>
                                         </tr>
                                     @endforeach
