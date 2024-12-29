@@ -271,6 +271,8 @@ class RolePermissionController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $user->password = Hash::make($request->password);
+
         $user->branch_id = $request->branch_id;
         $user->save();
         $user->roles()->detach();
@@ -315,4 +317,10 @@ class RolePermissionController extends Controller
             ]);
         }
     }
+
+    public function getEmployeesAdmin()
+{
+    $employees = Employee::latest()->get(['id', 'full_name']);
+    return response()->json($employees);
+}
 }

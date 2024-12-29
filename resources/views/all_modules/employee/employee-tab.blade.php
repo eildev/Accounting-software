@@ -31,10 +31,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link" id="balance-tab" data-bs-toggle="tab" href="#balance" role="tab"
-                        aria-controls="balance" aria-selected="false">Leave Application</a>
+                        aria-controls="balance" aria-selected="false">Salary Structure</a>
                 </li>
-
-
+                <li class="nav-item">
+                    <a class="nav-link" id="IDandPass-tab" data-bs-toggle="tab" href="#IDandPass" role="tab"
+                        aria-controls="IDandPass" aria-selected="false">Employee ID and Pass</a>
+                </li>
 
             </ul>
             <div class="tab-content border border-top-0 p-3" id="myTabContent">
@@ -49,19 +51,20 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    {{-- <div class="card">
-                        <div class="card-body"> --}}
+
                             @include('all_modules.employee.leave_limit.leave_limit')
-                        {{-- </div>
-                    </div> --}}
+
                 </div>
 
                 <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance-tab">
-                    {{-- <div class="card">
-                        <div class="card-body"> --}}
-                            {{-- @include('all_modules.leave_application.leave_application.leave_application') --}}
-                        {{-- </div>
-                    </div> --}}
+
+                            @include('all_modules.employee.salary_structure.salary_structure')
+
+                </div>
+                <div class="tab-pane fade" id="IDandPass" role="tabpanel" aria-labelledby="IDandPass-tab">
+
+                            @include('all_modules.employee.Id-and-pass.Id-and-pass')
+
                 </div>
 
             </div>
@@ -87,7 +90,9 @@ document.getElementById("employeeValidForm").addEventListener("submit", function
         if (data.success) {
             // Show success message
             toastr.success(data.message);
+
             fetchEmployees();
+            fetchEmployeesAdmin()
             // Activate the 'Add Leave Limits' tab
             const profileTab = document.getElementById("profile-tab");
             const homeTab = document.getElementById("home-tab");
@@ -112,7 +117,35 @@ document.getElementById("employeeValidForm").addEventListener("submit", function
     })
 
 });
+function fetchEmployeesAdmin() {
+        $.ajax({
+            url: '{{ route('get.employees.admin') }}',
+            method: 'GET',
+            success: function(data) {
 
+                const employeeDropdown = $('#employeeSelect');
+                employeeDropdown.empty(); // Clear existing options
+                employeeDropdown.append('<option value="" selected disabled>Select Employee</option>');
+
+                data.forEach(function(employee, index) {
+                    const isSelected = index === 0 ? 'selected' : '';
+                    employeeDropdown.append(`<option value="${employee.id}" ${isSelected}>${employee.full_name}</option>`);
+                });
+
+                $('.js-example-basic-single').select2();
+
+                 const latestEmployee = data[0];
+                if (latestEmployee) {
+                    employeeDropdown.val(latestEmployee.id).trigger('change');
+                    filterLeaveTypes2(); // Refresh leave types for the latest employee
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching employees:', error);
+            }
+        });
+    }
+    fetchEmployeesAdmin()
 </script>
 {{-- ///////////////////////////////////////////////////////////////////////// --}}
 

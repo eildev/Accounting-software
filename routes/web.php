@@ -356,6 +356,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/manage/delete/{id}', 'AdminManageDelete')->name('admin.manage.delete');
         Route::post('/admin/manage/update/{id}', 'AdminManageUpdate')->name('update.admin.manage');
         Route::get('/get-employee-data/{id}', 'EmployeedData');
+        Route::get('/get-employees-admin', 'getEmployeesAdmin')->name('get.employees.admin');
     });
 
     // Ledger related route
@@ -524,6 +525,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/application/limit/update/{id}', 'update');
         Route::get('/leave/application/destroy/{id}', 'destroy');
         Route::post('/leave-application/update-status', 'leaveStatusUpdate');
+        Route::get('/leave-manage', 'leaveManage')->name('leave.manage');
     });
 
     Route::controller(AssetDashboardController::class)->group(function () {

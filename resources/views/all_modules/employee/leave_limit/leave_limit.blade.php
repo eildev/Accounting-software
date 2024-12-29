@@ -13,16 +13,13 @@
                     // $employee = App\Models\EmployeePayroll\Employee::all();
                     $LeaveType = App\Models\LeaveApplication\LeaveType::where('status', 'active')->get();
                 @endphp
-                <form id="signupForm" class="leavelimitForm row">
+                <form id="limitValidForm" class="leavelimitForm row">
                     <div class="mb-3 col-md-6">
                         <label for="name" class="form-label">Employee Name <span
                                 class="text-danger">*</span></label> <br>
                         <select class="js-example-basic-single form-control " name="employee_name" id="employeeIdDown"
                             onchange="filterLeaveTypes2(this)" style="width: 100%">
-                            {{-- <option value="" selected disabled>Select Employee</option> --}}
-                            {{-- @foreach ($employee as $item)
-                                <option value="{{ $item->id }}">{{ $item->full_name }}</option>
-                            @endforeach --}}
+
                         </select>
                         <span class="text-danger employee_name_error"></span>
                     </div>
@@ -91,11 +88,34 @@
                 processData: false,
                 contentType: false,
                 success: function(res) {
+                    const employeeDropdown = document.getElementById('employeeIdDown');
+                        const selectedEmployeeId = employeeDropdown.value;
+
+                        // Check if an employee is selected and update leave types
+                        if (selectedEmployeeId) {
+                            filterLeaveTypes2({ value: selectedEmployeeId }); // Call filterLeaveTypes2 with the selected employee ID
+                        }
                     if (res.status == 200) {
                         $('#exampleModalLongScollable').modal('hide');
                         $('.leavelimitForm')[0].reset();
 
                         toastr.success(res.message);
+                        const profileTab = document.getElementById("profile-tab");
+                        const balanceTab = document.getElementById("balance-tab");
+
+                      // Remove active class from current tab
+                        profileTab.classList.remove("active");
+                        profileTab.setAttribute("aria-selected", "false");
+
+                        // Add active class to 'Add Leave Limits' tab
+                        balanceTab.classList.add("active");
+                        balanceTab.setAttribute("aria-selected", "true");
+
+                        // Show the corresponding tab pane
+
+                        document.getElementById("balance").classList.add("show", "active");
+                        document.getElementById("profile").classList.remove("show", "active");
+
                     } else {
                         if (res.error.employee_name) {
                             showError('.employee_name', res.error.employee_name);
@@ -164,10 +184,10 @@
                 //         filterLeaveTypes2({ value: firstEmployee.id }); // Simulate a select element with the first employee's ID
                 //}
                  const latestEmployee = data[0];
-            if (latestEmployee) {
-                employeeDropdown.val(latestEmployee.id).trigger('change');
-                filterLeaveTypes2(); // Refresh leave types for the latest employee
-            }
+                if (latestEmployee) {
+                    employeeDropdown.val(latestEmployee.id).trigger('change');
+                    filterLeaveTypes2(); // Refresh leave types for the latest employee
+                }
             },
             error: function(xhr, status, error) {
                 console.error('Error fetching employees:', error);
@@ -178,5 +198,48 @@
         fetchEmployees();
         filterLeaveTypes2();
     });
+
+//     document.getElementById("limitValidForm").addEventListener("submit", function (e) {
+//     e.preventDefault(); // Prevent the default form submission
+
+//     const formData = new FormData(this);
+
+//     fetch(this.action, {
+//         method: "POST",
+//         headers: {
+//             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+//         },
+//         body: formData,
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//             // Show success message
+//             toastr.success(data.message);
+//             // Activate the 'Add Leave Limits' tab
+//             const profileTab = document.getElementById("profile-tab");
+//             const balanceTab = document.getElementById("balance-tab");
+
+//             // Remove active class from current tab
+//             profileTab.classList.remove("active");
+//             profileTab.setAttribute("aria-selected", "false");
+
+//             // Add active class to 'Add Leave Limits' tab
+//             balanceTab.classList.add("active");
+//             balanceTab.setAttribute("aria-selected", "true");
+
+//             // Show the corresponding tab pane
+
+//             document.getElementById("balance").classList.add("show", "active");
+//             document.getElementById("home").classList.remove("show", "active");
+
+//             // Optionally reset the form
+//             document.getElementById("limitValidForm").reset();
+//         } else {
+//             toastr.error('Something Went Wrong'); // Show error message
+//         }
+//     })
+
+// });
 
 </script>

@@ -63,6 +63,13 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <label for="exampleInputPassword2s" class="col-sm-3 col-form-label">Password </label>
+                                    <div class="col-sm-9 form-valid-groupss">
+                                    <input type="password" name="password" class="form-control">
+                                   </div>
+                            </div>
+
+                        <div class="row mb-3">
                             <label for="exampleInputPassword2s" class="col-sm-3 col-form-label">Asign Role <span
                                     class="text-danger">*</span></label>
                             <div class="col-sm-9 form-valid-groupss">
@@ -77,7 +84,10 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                        <div class="text-left m-2">
+                            <button type="submit" class="btn btn-primary me-2">Update</button>
+                        </div>
+
                     </form>
 
                 </div>
