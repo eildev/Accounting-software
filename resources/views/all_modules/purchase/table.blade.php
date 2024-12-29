@@ -6,7 +6,7 @@
                 <a href="{{ route('purchase.invoice', $data->id) }}">#{{ $data->invoice ?? $data->id }}</a>
             </td>
             <td>
-                <a href="{{ route('supplier.profile', $data->id) }}">
+                <a href="{{ route('supplier.profile', $data->supplier->id) }}">
                     {{ $data->supplier->name ?? '' }}
                 </a>
             </td>

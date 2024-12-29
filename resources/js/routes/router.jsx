@@ -25,6 +25,8 @@ import ConveyanceReport from "../pages/accounting/ConveyanceReport";
 import SalarySheet from "../pages/accounting/SalarySheet";
 import MainDashboard from "../pages/dashboard/main-dashboard/MainDashboard";
 import AssetDashboard from "../pages/dashboard/asset-dashboard/AssetDashboard";
+import Purchase from "../pages/store-managment/purchase/Purchase";
+import ManagePurchase from "../pages/store-managment/purchase/ManagePurchase";
 
 
 // Creating the router configuration for the application
@@ -125,6 +127,14 @@ export const router = createBrowserRouter([
             {
                 path: "/salary-sheet", // Salary Sheet Page
                 element: <SalarySheet />,
+            },
+            {
+                path: "/product-purchase", // Salary Sheet Page
+                element: <Purchase />,
+            },
+            {
+                path: "/manage-purchase", // Salary Sheet Page
+                element: <ManagePurchase />,
             },
         ],
     },

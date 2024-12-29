@@ -232,6 +232,42 @@ const Sidebar = ({ sidebarActive, mobileMenuControl, mobileMenu }) => {
                             </li>
                         </ul>
                     </li>
+                    <li className="dropdown">
+                        <Link to="#">
+                            <Icon icon="mdi:storefront" className="menu-icon" />
+                            <span>Purchase </span>
+                        </Link>
+                        <ul className="sidebar-submenu">
+                            <li>
+                                <NavLink
+                                    to="/product-purchase"
+                                    className={(navData) =>
+                                        navData.isActive ? "active-page" : ""
+                                    }
+                                >
+                                    <Icon
+                                        icon="fa:plus-circle"
+                                        className="text-primary-600 w-auto"
+                                    />{" "}
+                                    Product Purchase
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/manage-purchase"
+                                    className={(navData) =>
+                                        navData.isActive ? "active-page" : ""
+                                    }
+                                >
+                                    <Icon
+                                        icon="fa:cogs"
+                                        className="text-primary-600 w-auto"
+                                    />
+                                    Manage Purchase
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <NavLink
                             to="/supplier"
