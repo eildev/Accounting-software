@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\AccountPayable;
+
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\Branch;
+use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\User;
@@ -35,12 +37,9 @@ class SupplierController extends Controller
             $supplier->email = $request->email;
             $supplier->phone = $request->phone;
             $supplier->address = $request->address;
-            $supplier->opening_receivable = 0;
-            $opening_receivable = $request->opening_receivable ?? 0;
-            $supplier->total_receivable = $opening_receivable;
-            $supplier->wallet_balance = $opening_receivable;
-            $supplier->opening_payable = $opening_receivable;
-            $supplier->total_payable = 0;
+            $supplier->receivable = $request->opening_receivable ?? 0;
+            $supplier->wallet_balance = $request->opening_receivable ?? 0;
+            $supplier->payable = 0;
             $supplier->save();
 
 
@@ -114,14 +113,12 @@ class SupplierController extends Controller
         ]);
     }
 
-    // public function SupplierProfile($id)
-    // {
-    //     $data = Supplier::findOrFail($id);
-    //     $transactions = Transaction::where('supplier_id', $data->id)->get();
-    //     $branch = Branch::findOrFail($data->branch_id);
-    //     $banks = Bank::latest()->get();
-    //     $isCustomer = false;
+    public function SupplierProfile($id)
+    {
+        $data = Supplier::findOrFail($id);
+        $purchaseReport = Purchase::where('supplier_id', $data->id)->get();
+        $branch = Branch::findOrFail($data->branch_id);
 
-    //     return view('pos.profiling.profiling', compact('data', 'transactions', 'branch', 'isCustomer', 'banks'));
-    // }
+        return view('all_modules.account_payable.supplier.profile', compact('data', 'purchaseReport', 'branch'));
+    }
 }

@@ -182,7 +182,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaction/view-details/{id}', 'viewDetails');
         Route::get('/check-account-type', 'checkAccountType');
         Route::post('/transaction/balance-transfer', 'balanceTransfer');
-        // Route::get('/transaction/balance-transfer/view', 'balanceTransferView');
     });
 
     // Transaction related route(n)
@@ -217,8 +216,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/invoice4/settings', 'PosSettingsInvoice4')->name('invoice4.settings');
     });
 
-     // Purchase controller related route
-     Route::controller(PurchaseController::class)->group(function () {
+    // Purchase controller related route
+    Route::controller(PurchaseController::class)->group(function () {
         Route::get('/purchase', 'index')->name('purchase');
         Route::post('/purchase/store', 'store')->name('purchase.store');
         Route::get('/purchase/view', 'view')->name('purchase.view');
@@ -380,6 +379,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/supplier/edit/{id}', 'edit')->name('supplier.edit');
         Route::post('/supplier/update/{id}', 'update')->name('supplier.update');
         Route::get('/supplier/destroy/{id}', 'destroy')->name('supplier.destroy');
+        // Supplier Profiling
+        Route::get('/supplier/profile/{id}', 'SupplierProfile')->name('supplier.profile');
     });
     // Unit related route
     Route::controller(UnitController::class)->group(function () {
@@ -474,7 +475,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/leave/Type/update/{id}', 'update');
         Route::get('/leave/type/destroy/{id}', 'destroy');
         Route::get('/leave/type/status/{id}', 'status');
-        Route::get('/get-total-leave-data/{leaveTypeId}/{employeeId}','getlimitLeaveData');
+        Route::get('/get-total-leave-data/{leaveTypeId}/{employeeId}', 'getlimitLeaveData');
     });
     Route::controller(LeaveLimitsController::class)->group(function () {
         Route::get('/leave-limit', 'index')->name('leave.limit');
@@ -484,6 +485,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit/limit/limit/update/{id}', 'update');
         Route::get('/leave/limit/destroy/{id}', 'destroy');
         Route::get('/get-available-leave-types/{employeeId}', 'getAvailableLeaveTypes');
+        Route::get('/get-employees', 'getEmployees')->name('get.employees');
+
     });
     Route::controller(leaveApplicationController::class)->group(function () {
         Route::get('/leave-application', 'index')->name('leave.application');
@@ -500,7 +503,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/asset-dashboard/total-leisure', 'totalLeisure');
         Route::get('/asset-dashboard/bank-transaction', 'bankTransaction');
     });
-
 });
 
 require __DIR__ . '/auth.php';

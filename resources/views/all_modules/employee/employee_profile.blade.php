@@ -45,8 +45,7 @@
                         <li class="ms-3 ps-3 border-start d-flex align-items-center">
                             <i class="me-1 icon-md" data-feather="file-text"></i>
                             <a class="pt-1px d-md-block text-body nav-link" id="payslip-tab" data-bs-toggle="tab"
-                                href="#payslip" role="tab" aria-controls="payslip" aria-selected="false">PaySlip
-                                Genarator</a>
+                                href="#payslip" role="tab" aria-controls="payslip" aria-selected="false">Current Month Salary</a>
                         </li>
 
                     </ul>
@@ -212,6 +211,7 @@
                             $deductions = $salaryStructure->deductions ?? 0;
                             $netPay = $totalEarnings - $deductions;
                         @endphp
+
                         <div class="tab-pane fade " id="payslip" role="tabpanel" aria-labelledby="payslip-tab">
                             <div class="card rounded">
                                 <div class="card-body">
@@ -284,9 +284,12 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="col-md-4">
+
+                                        <div class="col-md-4 table-responsive">
                                             <p class="mb-3 tx-14">Total Amount </p>
-                                            <table class="table "
+
+
+                                                    <table class="table "
                                                 style="font-size: 15px; font-weignt:bold ;margin-right: 10px">
                                                 <thead>
                                                     <tr>
@@ -321,6 +324,8 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+
+
                                         </div>
                                         <hr>
                                         <div class="col-md-12 text-end mt-2" style="">

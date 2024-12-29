@@ -10,7 +10,7 @@
                     {{ $data->supplier->name ?? '' }}
                 </a>
             </td>
-            <td>{{ $data->purchse_date ?? 0 }}</td>
+            <td>{{ $data->purchase_date ?? 0 }}</td>
             <td>
                 @php
                     $totalItems = $data->purchaseItem->count();
@@ -20,8 +20,7 @@
                 <ul>
                     @foreach ($displayItems as $items)
                         <li>
-                            <a
-                                href="{{ route('product.ledger', $items->product->id) }}">{{ $items->product->name ?? '' }}</a>
+                            <a href="#">{{ $items->product->name ?? '' }}</a>
                         </li>
                     @endforeach
 

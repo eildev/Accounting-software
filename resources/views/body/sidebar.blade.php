@@ -203,14 +203,7 @@
                 </li>
             @endif
 
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('purchase') ? 'nav_active' : '' }}"
-                    href="{{ route('purchase') }}" role="button" aria-controls="general-pages">
-                    <i class="ms-2 fa-solid fa-handshake link-icon"></i>
-                    <span class="link-title">Purchase</span>
-                </a>
-            </li>
-            {{-- @if (Auth::user()->can('purchase.menu'))
+            @if (Auth::user()->can('purchase.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('purchase*') ? '' : 'collapsed' }}"
                         data-bs-toggle="collapse" href="#uiComponen" role="button" aria-expanded="false"
@@ -238,7 +231,7 @@
                         </ul>
                     </div>
                 </li>
-            @endif --}}
+            @endif
             @if (Auth::user()->can('customer.menu'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('customer.view') ? 'nav_active' : '' }}"
@@ -358,7 +351,8 @@
                     </li>
                 @endif
             @endif
-            @if (Auth::user()->can('assets.menu'))
+
+              @if (Auth::user()->can('assets.menu'))
                 <li class="nav-item nav-category">Assets</li>
                 @if (Auth::user()->can('asset.managment'))
                     <li class="nav-item">
@@ -369,6 +363,7 @@
                         </a>
                     </li>
                 @endif
+
                 @if (Auth::user()->can('asset.revaluation'))
                     <li class="nav-item">
                         <a href="{{ route('asset.revaluation') }}"
@@ -383,15 +378,15 @@
             @if (Auth::user()->can('expense.menu'))
                 <li class="nav-item nav-category">Expense</li>
                 {{-- <li class="nav-item">
-    <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
-        data-bs-toggle="collapse" href="#expense" role="button" aria-expanded="false"
-        aria-controls="expense">
-        <i class="ms-2 fa-solid fa-coins link-icon"></i>
-        <span class="link-title">Expense</span>
-        <i class="link-arrow" data-feather="chevron-down"></i>
-    </a>
-    <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="expense">
-        <ul class="nav sub-menu"> --}}
+                <a class="nav-link {{ request()->routeIs('expense*') ? '' : 'collapsed' }}"
+                    data-bs-toggle="collapse" href="#expense" role="button" aria-expanded="false"
+                    aria-controls="expense">
+                    <i class="ms-2 fa-solid fa-coins link-icon"></i>
+                    <span class="link-title">Expense</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('expense*') ? 'show' : '' }}" id="expense">
+                    <ul class="nav sub-menu"> --}}
                 <li class="nav-item">
                     <a href="{{ route('expense.view') }}"
                         class="nav-link {{ request()->routeIs('expense.view') ? 'nav_active' : '' }}">
@@ -403,8 +398,8 @@
                         Expense</a>
                 </li> --}}
                 {{-- </ul>
-    </div>
-</li> --}}
+                </div>
+            </li> --}}
             @endif
             @if (Auth::user()->can('service.sale.menu'))
                 <li class="nav-item nav-category">Income</li>
@@ -457,7 +452,7 @@
                     <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
                     <span class="link-title">Payroll Dashboard</span>
                 </a>
-            </li> --}}
+               </li> --}}
                 @if (Auth::user()->can('departments.menu'))
                     <li class="nav-item">
                         <a href="{{ route('departments') }}"
@@ -507,6 +502,8 @@
                 </li>
 
             @endif
+            @if (Auth::user()->can('leave.application.menu'))
+            @if (Auth::user()->can('leave.type'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.type') }}"
@@ -516,6 +513,8 @@
                     </a>
                 </li>
             </li>
+            @endif
+            @if (Auth::user()->can('leave.limit'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.limit') }}"
@@ -525,6 +524,8 @@
                     </a>
                 </li>
             </li>
+       @endif
+         @if (Auth::user()->can('leave.application.view'))
             <li>
                 <li class="nav-item">
                     <a href="{{ route('leave.application') }}"
@@ -534,6 +535,8 @@
                     </a>
                 </li>
             </li>
+            @endif
+          @endif
             @if (Auth::user()->can('salary.structure.menu'))
                 <li class="nav-item">
                     <a href="{{ route('salary.structure') }}"

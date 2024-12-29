@@ -1,3 +1,4 @@
+
 @extends('master')
 @section('title', '| Leave Application ')
 @section('admin')
@@ -13,8 +14,10 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h6 class="card-title">Leave Application Table</h6>
+                        @if (Auth::user()->can('leave.application.add'))
                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModalLongScollable">Add Leave Application</button>
+                         @endif
                     </div>
 
                     <div id="" class="table-responsive">
@@ -22,8 +25,8 @@
                             <thead>
                                 <tr>
                                     <th>SN</th>
-                                    <th>Subject</th>
                                     <th>Employee Name</th>
+                                    <th>Subject</th>
                                     <th>Leave Type</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
@@ -241,8 +244,8 @@
                                 const tr = document.createElement('tr');
                                 tr.innerHTML = `
                                             <td>${index + 1}</td>
-                                             <td>${leaveApplication.subject ??''}</td>
                                             <td>${leaveApplication.employee?.full_name ?? ""}</td>
+                                             <td>${leaveApplication.subject ??''}</td>
                                              <td>${leaveApplication.leave_type?.name?? "N/A"}</td>
                                              <td>${leaveApplication.leave_application_details[0]?.start_date ?? "-"}</td>
                                             <td>${leaveApplication.leave_application_details[0]?.end_date ?? "-"}</td>

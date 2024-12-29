@@ -70,6 +70,7 @@
                                         <option value="settings">Settings</option>
                                         <option value="branch">Branch</option>
                                         <option value="return">Return</option>
+                                        <option value="leave-application">Leave Application</option>
                                         <option value="other">Others</option>
                                     </select>
                                     @error('group_name')

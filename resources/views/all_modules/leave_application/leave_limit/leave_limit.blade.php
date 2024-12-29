@@ -205,7 +205,7 @@
                     }
                 });
             });
-
+            LeavelimitView();
             function LeavelimitView() {
                 $.ajax({
                     url: '/leave/limit/view',
@@ -256,6 +256,7 @@
                 });
             }
             LeavelimitView();
+
             //     <td>
             //     <a href="#" class="btn btn-primary btn-icon leavelimit_edit" data-id="${leavelimit.id}" data-bs-toggle="modal" data-bs-target="#edit">
             //         <i class="fa-solid fa-pen-to-square"></i>

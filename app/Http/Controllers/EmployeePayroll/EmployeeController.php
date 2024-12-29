@@ -24,7 +24,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $departments = Departments::all();
-        return view('all_modules.employee.add_employee',compact('departments'));
+        return view('all_modules.employee.employee-tab',compact('departments'));
     } //
     public function store(Request $request)
     {
@@ -56,12 +56,13 @@ class EmployeeController extends Controller
         $employee->pic = $imageName ?? '';
         $employee->created_at = Carbon::now();
         $employee->save();
-        $notification = array(
-            'message' => 'Employee Added Successfully',
-            'alert-type' => 'info'
-        );
+        // $notification = array(
+        //     'message' => 'Employee Added Successfully',
+        //     'alert-type' => 'info'
+        // );
 
-        return redirect()->route('employee.view')->with($notification);
+        // return redirect()->back()->with($notification);
+        return response()->json(['success' => true, 'message' => 'Employee added successfully']);
     } //
     public function edit($id)
     {
