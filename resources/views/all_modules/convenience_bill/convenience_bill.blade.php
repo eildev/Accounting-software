@@ -91,6 +91,7 @@
             @endif
 
         }
+
     </style>
 
     <div class="row">
@@ -106,6 +107,9 @@
 
                     <div id="" class="table-responsive">
                         <div class="bill-header">
+                            @if (Auth::user()->role ==='employee')
+                            @else
+
                             <div class="row no-gutters">
                                 <div class="col-md-2">
                                     <strong>Department:</strong>
@@ -119,19 +123,18 @@
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                                     @endforeach
                                 </select>
-
-
                                 </div>
                             </div>
+                            @endif
                             <p>
                             <div class="row no-gutters">
                                 <div class="col-md-2">
                                     <strong>Name:</strong>
                                 </div>
                                 <div class="col-md-4">
-                                    {{-- @if (Auth::user()->role ==='employee')
-                                    <select class="form-control js-example-basic-single  employee-selectid" name="empoyee"
-                                    id="employee-select">
+                                    @if (Auth::user()->role ==='employee')
+                                    {{-- <select class="form-control js-example-basic-single  employee-selectid color-input" name="empoyee" disabled
+                                    id="employee-select" readonly>
                                     <option selected disabled>Select Name</option>
                                         @foreach ($employees as $employee)
                                          <option value="{{ $employee->id }}"
@@ -139,18 +142,17 @@
                                             {{ $employee->full_name }}
                                         </option>
                                        @endforeach
-                                    </select>
-
-                                    @else --}}
+                                    </select> --}}
+                                    <input type="text" class="form-control" readonly value="{{Auth::user()->employee->full_name}}" >
+                                    @else
                                     <select class="form-control js-example-basic-single  employee-selectid" name="empoyee"
                                     id="employee-select">
                                     <option selected disabled>Select Name</option>
                                         @foreach ($employees as $employee)
-
                                         <option value="{{ $employee->id }}">{{ $employee->full_name }}</option>
                                        @endforeach
                                     </select>
-                                    {{-- @endif --}}
+                                    @endif
 
 
                                 </div>
@@ -494,7 +496,11 @@
                         <!-- /////////Tabing End//// -->
 
                         <form id="convenienceForm" method="POST" enctype="multipart/form-data">
+                            @if (Auth::user()->role ==='employee')
+                            <input class="d-none" type="number" name="employee_id" value="{{Auth::user()->employee_id}}">
+                            @else
                             <input class="d-none" type="number" name="employee_id" id="selected_employee_id">
+                            @endif
                             <!---MOVEMENT list 1 --->
                             <div class="col-md-12" id="movementCostData">
                                 <h4> </h4>

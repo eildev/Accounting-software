@@ -601,15 +601,6 @@
 
 
 
-                @if (Auth::user()->can('employee.bonuses.menu'))
-                    <li class="nav-item">
-                        <a href="{{ route('employee.bonus') }}"
-                            class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
-                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
-                            <span class="link-title">Employee Bonuses</span>
-                        </a>
-                    </li>
-                @endif
                 {{-- @if (Auth::user()->can('salary.sheet.menu'))
                 @if (Auth::user()->can('salary.sheet2'))
                     <li class="nav-item">
@@ -621,6 +612,15 @@
                     </li>
                 @endif
             @endif --}}
+            @if (Auth::user()->can('employee.bonuses.menu'))
+                    <li class="nav-item">
+                        <a href="{{ route('employee.bonus') }}"
+                            class="nav-link {{ request()->routeIs('employee.bonus') ? 'nav_active' : '' }}">
+                            <i class="ms-2 fa-solid fa-building-columns link-icon"></i>
+                            <span class="link-title">Employee Bonuses</span>
+                        </a>
+                    </li>
+                @endif
             @if (Auth::user()->can('salary.structure.menu'))
                     <li class="nav-item">
                         <a href="{{ route('salary.structure') }}"

@@ -202,7 +202,6 @@ class ConvenienceBillController extends Controller
         }else{
             $convenience = Convenience::all();
         }
-
         return view('all_modules.convenience_bill.convenience_bill_report', compact('convenience'));
     }
     public function convenienceInvoice($id)

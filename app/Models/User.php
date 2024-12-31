@@ -70,6 +70,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'id');
     } //
-
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id', 'id');
+    } //
 
 }
